@@ -1,0 +1,17 @@
+.classics {
+  margin: 0;
+  height: 100vh;
+}
+
+.cl-btn {
+  margin: 10px;
+}
+
+.owrapper {
+  position: absolute;
+  left: 10em;
+  top: 4em;
+  display: flex;
+  height: 85%;
+  width: 85%;
+}

@@ -1,0 +1,32 @@
+.search-form {
+  margin-top: 18px;
+}
+
+.search__container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  transition: filter 300ms;
+}
+
+input {
+	border: 2px solid #000;
+	transition: all .5s ease;
+  margin-bottom: 20px;
+}
+
+input:focus {
+  outline: none;
+}
+
+#searchInput {
+  font-size: 16px;
+  color: black;
+  background-color: #fff;
+  background-image:url('https://cdn2.iconfinder.com/data/icons/ios-7-icons/50/search-24.png');
+  background-repeat: no-repeat;
+
+  background-position: 10px 7px;
+  padding: 8px 20px 8px 40px;
+  opacity: 0.9;
+}

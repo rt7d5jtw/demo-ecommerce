@@ -1,0 +1,15 @@
+.logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: filter 300ms;
+  cursor: pointer;
+}
+
+.logo:hover {
+  filter: brightness(1.2);
+}
+
+.logo h1 {
+  color: #c3b091;
+}

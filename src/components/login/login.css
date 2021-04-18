@@ -1,0 +1,52 @@
+.login {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-wrapper {
+  background: #016064;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60%;
+  width: 30%;
+}
+
+.login-wrapper h1 {
+  font-family: "Roboto", sans-serif;
+  position: absolute;
+  top: 180px;
+}
+
+.login-picture {
+  background-size: cover;
+  background-position: center;
+  height: 60%;
+  width: 35%;
+}
+
+.login-wrapper h1 {
+  color: white;
+}
+
+.login-wrapper input {
+}
+
+.register-link {
+  font-family: "Roboto", sans-serif;
+  position: absolute;
+  bottom: 190px;
+  left: 67rem;
+  color: #c3b091;
+  font-size: 18px;
+}
+
+.register-link:hover {
+  color: #f5f5f5;
+}
+
+a {
+  text-decoration: none !important;
+}

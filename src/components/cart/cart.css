@@ -1,0 +1,98 @@
+.cart {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cart-icon:hover {
+  filter: brightness(1.2);
+}
+
+.cart-icon {
+  cursor: pointer;
+  color: #efcba7;
+  width: 150px;
+  height: 50px;
+  transition: filter 300ms;
+}
+
+.cart-quantity {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 25px;
+
+  width: 25px;
+  height: 25px;
+  background: #ff8c00;
+  color: black;
+  top: 55px;
+  right: 195px;
+  position: absolute;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+/* z-index puts the div over other divs */
+
+.cart-content {
+  overflow-x: hidden;
+  position: absolute;
+  right: 50px;
+  top: 80px;
+
+  z-index: 10;
+  overflow-y: scroll;
+
+  background: #282828;
+  border: 1px solid white;
+
+  height: 85%;
+  width: 450px;
+}
+
+.empty-cart {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 26px;
+}
+
+.checkout-cart {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin: 10px;
+}
+
+.checkout-btn {
+  font-size: 18px;
+  color: #000;
+  background: #fff;
+  padding: 15px 50px;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  margin: 0px 35px;
+}
+
+.checkout-btn:hover {
+  background: #000;
+  color: #fff;
+}
+
+.clear-cart-btn {
+  border: none;
+  appearance: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.clear-cart-btn:hover {
+  color: white;
+  background: #121212;
+}
