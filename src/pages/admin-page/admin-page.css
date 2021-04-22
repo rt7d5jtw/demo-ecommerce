@@ -1,4 +1,4 @@
-.profile-information {
+.admin-information {
   background: #f0ecec;
   width: 100%;
   height: 100vh; 
@@ -7,21 +7,21 @@
   grid-template-rows: repeat(10, 1fr);
   grid-gap: 20px 20px;
   grid-template-areas:
-   "profile-header profile-header profile-header"
-    "profile-nav profile-main profile-main"
-    "profile-nav profile-main profile-main"
-    "profile-nav profile-main profile-main"
-    "profile-nav profile-main profile-main"
-    "profile-nav profile-main profile-main"
-    "profile-nav profile-main profile-main"
-    "profile-nav profile-main profile-main"
-    "profile-nav profile-main profile-main"
-    "profile-nav profile-main profile-main";
+   "admin-header admin-header admin-header"
+    "admin-nav admin-main admin-main"
+    "admin-nav admin-main admin-main"
+    "admin-nav admin-main admin-main"
+    "admin-nav admin-main admin-main"
+    "admin-nav admin-main admin-main"
+    "admin-nav admin-main admin-main"
+    "admin-nav admin-main admin-main"
+    "admin-nav admin-main admin-main"
+    "admin-nav admin-main admin-main";
 }
 
-.profile-header {
+.admin-header {
   display: grid;
-  grid-area: profile-header;
+  grid-area: admin-header;
   background: #f0ecec;
   grid-auto-flow: column;
   place-items: center start;
@@ -29,7 +29,7 @@
   border: 1px solid black;
 }
 
-.profile-header h1 {
+.admin-header h1 {
   font-family: "Lato", sans-serif;
   margin-left: 13rem;
   display: grid;
@@ -52,14 +52,14 @@
   color: #ffab00;
 }
 
-.profile-nav {
+.admin-nav {
   display: grid;
-  grid-area: profile-nav;
+  grid-area: admin-nav;
   background: #f0ecec;
   place-items: center center;
 }
 
-.profile-nav h1 {
+.admin-nav h1 {
   display: grid;
   place-items: center center;
   color: white;
@@ -74,12 +74,12 @@
   transition:         color 1.5s;
 }
 
-.profile-nav h1:hover {
+.admin-nav h1:hover {
   color: black;
   background: white;
 }
 
-.profile-nav-wrapper {
+.admin-nav-wrapper {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -90,13 +90,13 @@
   background: white;
 }
 
-.profile-main {
+.admin-main {
   display: grid;
-  grid-area: profile-main;
+  grid-area: admin-main;
   background: #f0ecec;
 }
 
-.profile-image {
+.admin-image {
   display: flex;
   background-size: cover;
   background-position: center;
@@ -105,7 +105,7 @@
   justify-content: center;
 }
 
-.profile-image h1 {
+.admin-image h1 {
   font-family: "Roboto", sans-serif;
   display: grid;
   color: #fff;
@@ -113,13 +113,22 @@
   font-weight: 300;
 }
 
-.profile-overview {
+.text-overlay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #131313;
+  height: 10%;
+  width: 100%;
+}
+
+.admin-overview {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.profile-overview-wrapper {
+.admin-overview-wrapper {
   height: 85%;
   width: 75%;
   background: white;
@@ -129,30 +138,22 @@
   align-items: center;
 }
 
-.profile-password {
+.profile-admin {
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  height: 50%;
-  width: 50%;
+  align-items: center;
 }
 
-.profile-password h1 {
-  font-weight: 300;
-  margin-bottom: 1em;
-}
-
-.profile-password form {
+.profile-admin form {
   display: flex;
   flex-direction: column;
-  border: none;
+  border: 1px solid black;
   padding: 10px 15px;
   margin-bottom: 15px;
   font-size: 14px;
 }
 
-.profile-password input {
+.profile-admin button {
   display: block;
   border: none;
   border-radius: 4px;
@@ -162,7 +163,7 @@
   width: 100%;
 }
 
-.profile-password label {
+.profile-admin label {
   display: block;
   line-height: 2;
   color: #131313;
@@ -170,18 +171,18 @@
   font-weight: 200;
 }
 
-.profile-text {
+.admin-text {
   font-family: "Roboto", sans-serif;
   font-size: 16px;
   color: black;
 }
 
-.profile-text::before {
+.admin-text::before {
   display: inline;
   content: "⚠ ";
 }
 
-.profile-password button {
+.profile-admin button {
   font-family: "Roboto", sans-serif;
   outline: 0;
   border: 0;
@@ -201,15 +202,63 @@
   cursor: pointer;
 }
 
-.profile-password button[type="button"]:hover {
+.profile-admin button[type="button"]:hover {
   background: #282828;
   color: #f5f5f5;
 }
 
-.profile-password button[type="button"]:active {
+.profile-admin button[type="button"]:active {
   transition: 0.3s all;
   transform: translateY(3px);
   opacity: 0.8;
+}
+
+.profile-admin input {
+  background: #dcdcdc;
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  border-radius: 4px;
+  border: 1px solid white;
+  padding: 10px 15px;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.profile-admin button[type="submit"] {
+  background: #ec5990;
+  color: white;
+  text-transform: uppercase;
+  border: none;
+  margin-top: 40px;
+  padding: 20px;
+  font-size: 16px;
+  font-weight: 100;
+  letter-spacing: 10px;
+  cursor: pointer;
+}
+
+.profile-admin button[type="submit"]:hover {
+  background: #bf1650;
+}
+
+.profile-admin button[type="submit"]:active {
+  transition: 0.3s all;
+  transform: translateY(3px);
+  border: 1px solid transparent;
+  opacity: 0.8;
+}
+
+.profile-admin button[type="submit"] {
+  -webkit-appearance: none;
+}
+
+.profile-admin button:disabled {
+  opacity: 0.4;
+}
+
+.profile-admin input[type="button"]:hover {
+  transition: 0.3s all;
 }
 
 .profile-details-wrapper {
@@ -222,7 +271,7 @@
   background: white;
 }
 
-.profile-myorders-wrapper {
+.admin-myorders-wrapper {
   position: absolute;
   height: 75%;
   width: 55%;
@@ -231,17 +280,45 @@
   background: white;
 }
 
-.profile-myorders-wrapper h1 {
-  text-align: center;
+.admin-users-wrapper {
+  height: 85%;
+  width: 75%;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.admin-category-wrapper {
+  height: 85%;
+  width: 75%;
+  background: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.form-wrapper {
+  display: flex;
+}
+
+.admin-form {
+  margin-left: 2em;
+}
+
+.admin-myorders-wrapper h1 {
   font-family: "Roboto", sans-serif;
   font-weight: 380;
   font-size: 1.2em;
   color: #131313;
 }
 
-.order-wrapper {
+.admin-order-wrapper {
   position: absolute;
   left: 7%;
+  top: 7%;
   border: 1px solid black;
   display: flex;
   flex-direction: column;
@@ -253,4 +330,52 @@
   height: 85%;
 }
 
+.admin-myusers-wrapper {
+  height: 85%;
+  width: 75%;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 
+.admin-myusers-wrapper h1 {
+  font-family: "Roboto", sans-serif;
+  font-weight: 380;
+  font-size: 1.2em;
+}
+
+#browse-users {
+  position: absolute;
+  top: 8.5em;
+}
+
+#browse-orders {
+  position: absolute;
+  left: 40%;
+}
+
+#category-title {
+  position: absolute;
+  top: 6em;
+}
+
+.user-wrapper {
+  position: absolute;
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 45%;
+  height: 65%;
+  overflow-y: scroll;
+}
+
+#product-desc {
+  max-height: 200px;
+  max-width: 300px;
+  height: 100px;
+  width: 200px;
+}

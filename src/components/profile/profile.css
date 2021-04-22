@@ -89,7 +89,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 50px;
+  height: 6.25em;
   transition: background 300ms;
   padding: 0.5rem;
   z-index: 9999;

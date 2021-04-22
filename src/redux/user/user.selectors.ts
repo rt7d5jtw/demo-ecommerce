@@ -13,3 +13,13 @@ export const selectLoggedIn = createSelector(
   [selectUser],
   (user: UserState) => user.loggedIn
 )
+
+export const selectRole = createSelector(
+  [selectUser],
+  (user: UserState) => user.role
+)
+
+export const selectUsers = createSelector(
+  [selectUser],
+  (user: UserState) => user.users
+)

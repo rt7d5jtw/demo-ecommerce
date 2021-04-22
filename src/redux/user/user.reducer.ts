@@ -1,10 +1,13 @@
 import { UserConstants } from './user.constants';
 import { AnyAction } from 'redux';
-import { UserState } from '../types';
+import { UserRole, UserState } from '../types.d';
 
 const INITIAL_STATE = {
   currentUser: null,
   loggedIn: false,
+  role: UserRole.USER,
+  hash: '',
+  users: [],
   requesting: false,
   succesful: false,
   messages: [],
@@ -61,6 +64,24 @@ export const userReducer = (state: UserState = INITIAL_STATE, action: AnyAction)
         currentUser: null,
         loggedIn: false,
         messages: [{ body: 'User logged out', time: new Date() }],
+      }
+
+    case UserConstants.ROLE:
+      return {
+        ...state,
+        role: action.payload
+      }
+
+    case UserConstants.CHANGE_PASSWORD:
+      return {
+        ...state,
+        hash: action.payload
+      }
+
+    case UserConstants.VIEW_USERS:
+      return {
+        ...state,
+        users: action.payload
       }
 
     default:

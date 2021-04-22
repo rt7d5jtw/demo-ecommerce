@@ -1,10 +1,10 @@
 import * as React from 'react';
 import './profile.css';
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { selectCurrentUser, selectLoggedIn } from '../../redux/user/user.selectors';
+import { connect, useSelector } from 'react-redux';
+import { selectCurrentUser, selectLoggedIn, selectRole } from '../../redux/user/user.selectors';
 import { RootState } from '../../redux/root-reducer';
-import { User } from '../../redux/types';
+import { User, UserRole } from '../../redux/types';
 import { createStructuredSelector } from 'reselect';
 import { useDispatch } from 'react-redux';
 import { logoutRequest } from '../../redux/user/user.actions';
@@ -13,8 +13,9 @@ import { useHistory } from 'react-router';
 import { CgProfile } from 'react-icons/cg';
 
 type ProfileProp = {
-  currentUser: User | null ;
+  currentUser: User | null;
   loggedIn: boolean;
+  role: UserRole;
 }
 
 const Profile = ({ currentUser, loggedIn }: ProfileProp) => {
@@ -58,11 +59,13 @@ export const LoggedIn = () => {
     };
   }, [])
 
-  function DropdownMenu () {
-    function DropdownItem(props: any) {
+  function DropdownMenu() {
+    function DropdownItem() {
+      const Userole = useSelector(selectRole);
       return (
         <a href='#' className='dropdown-item'>
           <span className='span-button' onClick={() => push('/profile')}>Profile</span>
+          { Userole == 'ADMIN' ? <span className='span-button' onClick={() => push('/admin-page')}>Admin</span> : null}
           <span className='span-button' onClick={() => dispatch(logoutRequest)}>Logout</span>
         </a>
       )
@@ -89,6 +92,7 @@ export const LoggedIn = () => {
 const mapStateToProps = createStructuredSelector<RootState, ProfileProp>({
   currentUser: selectCurrentUser,
   loggedIn: selectLoggedIn,
+  role: selectRole,
 })
 
 export default connect(mapStateToProps)(Profile);

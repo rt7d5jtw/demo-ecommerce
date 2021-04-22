@@ -1,11 +1,27 @@
+export enum UserRole {
+  ADMIN = 'ADMIN',
+  USER = 'USER'
+}
 export interface User {
   email: string;
   password: string;
 }
 
+export interface IUser {
+  email: string;
+  password: string;
+  id: string;
+  role: UserRole;
+  salt: string;
+  createdAt: string
+}
+
 export interface UserState {
   currentUser: null | User;
   loggedIn: boolean;
+  role: UserRole;
+  hash: string | null;
+  users: IUser[];
   requesting: boolean;
   succesful: boolean;
   messages: Array<string>;
@@ -26,9 +42,22 @@ export interface Product {
 export interface ProductState {
   items: Array;
   search: string;
-  searchItems: Product[],
+  searchItems: Product[];
   loading: boolean;
   error: null | Error;
+}
+
+export interface Order {
+  address: string;
+  date: string;
+  id: string;
+  status: string;
+  total_price: number;
+  userId: string;
+}
+
+export interface OrderState {
+  orders: Order[];
 }
 
 export interface CartState {
@@ -60,3 +89,11 @@ export interface ActionType {
   payload?: any;
 }
 
+export type Category = {
+  id: string,
+  cname: string;
+}
+
+export interface CategoryState {
+  categories: Category[];
+}

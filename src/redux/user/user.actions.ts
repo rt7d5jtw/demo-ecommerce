@@ -1,6 +1,6 @@
 import { UserConstants } from './user.constants';
 import { User } from '../types.d';
-import { registerUser } from '../../services/user.service';
+import { registerUser, fetchRole, fetchUsers, changePassword, PasswordObj } from '../../services/user.service';
 import { loginUser, logoutUser } from '../../services/auth.service';
 import { AppDispatch } from '../store';
 
@@ -76,3 +76,36 @@ export const logoutRequest = () => {
   logoutUser()
   return { type: UserConstants.LOGOUT }
 };
+
+export function getRole() {
+  return async (dispatch: AppDispatch) => {
+    return fetchRole().then(role => {
+      dispatch({
+        type: UserConstants.ROLE,
+        payload: role.data
+      })
+    })
+  }
+}
+
+export function passwordChange(passwords: PasswordObj) {
+  return async (dispatch: AppDispatch) => {
+    return changePassword(passwords).then(result => {
+      dispatch({
+        type: UserConstants.CHANGE_PASSWORD,
+        payload: result.password
+      })
+    })
+  }
+}
+
+export function listUsers() {
+  return async (dispatch: AppDispatch) => {
+    return fetchUsers().then((users: any) => {
+      dispatch({
+        type: UserConstants.VIEW_USERS,
+        payload: users.data
+      })
+    })
+  }
+}

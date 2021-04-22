@@ -1,13 +1,28 @@
 import * as React from 'react';
-import './profile-page.css';
-import { useState, ChangeEvent } from 'react';
+import './profile-page.css'; import { useState, useEffect, ChangeEvent } from 'react';
 import { useDispatch } from 'react-redux';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Inputs } from '../../components/register/register.component';
 import { useHistory, Link } from 'react-router-dom';
 import { OrderCard } from '../../components/order-card/order-card.component';
+import { connect, useSelector } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
+import { RootState } from '../../redux/root-reducer';
+import { selectOrders } from '../../redux/order/order.selectors';
+import { Order } from '../../redux/types';
+import { fetchOrders } from '../../redux/order/order.actions';
+import { passwordChange } from '../../redux/user/user.actions';
 
-export const ProfilePage = () => {
+interface IProfilePage {
+  orders: Order[];
+}
+
+const ProfilePage = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchOrders());
+  }, [dispatch])
+
   const [page, setPage] = useState('overview');
   const { push } = useHistory();
 
@@ -67,44 +82,37 @@ const ProfileOverview = () => {
 }
 
 const MyOrders = () => {
+  const orders = useSelector(selectOrders);
   return (
     <div className='profile-overview'>
       <div className='profile-myorders-wrapper'>
         <h1>Browse your orders</h1>
         <div className='order-wrapper'>
-          <OrderCard image={'https://i.imgur.com/yadQN6X.png'} title={'WD Watch'} ordernum={'114a42d6-3acf-4694-a03b-a774674fa7a9'} date={'16-4-2021'}/>
+          {orders.map(({ id, date, ...props }) => (
+            <OrderCard key={id} id={id} date={date} { ...props } />
+          ))}
         </div>
-      {/*
-      {orders.map(({ id, ...props }) => (
-        <CartItem key={id} id={id} { ...props } />
-      ))}
-      */}
       </div>
     </div>
-
   );
 }
 
 const ChangePassword = () => {
   const dispatch = useDispatch();
-  const [user, setUser] = useState({
-    email: '',
-    password: ''
+  const [pass, setPass] = useState({
+    currentPassword: '',
+    newPassword: ''
   });
-
-  const { email, password } = user;
   const { register, handleSubmit, errors } = useForm<Inputs>();
 
-  const onSubmit: SubmitHandler<Inputs> = data => {
-    console.log(data)
-
-    if (user.email && user.password) {
+  const onSubmit: SubmitHandler<Inputs> = (data: any) => {
+      console.log(data);
+      dispatch(passwordChange(data));
     }
-  }
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setUser(user => ({ ...user, [name]: value }));
+    setPass(pass => ({ ...pass, [name]: value }));
   }
 
   return (
@@ -116,8 +124,11 @@ const ChangePassword = () => {
           <label>Current Password</label>
             <input
               type="password"
-              name="password"
+              name="currentPassword"
+              value={pass.currentPassword}
               placeholder="Current password"
+              onChange={handleChange}
+              ref={register({ required: "You must specify a password", minLength: { value: 6, message: "Passwords must have at least 6 characters" } , maxLength: 150 })}
               required
             />
             {errors?.email && <p className='profile-text'>{errors.email.message}</p>}
@@ -125,8 +136,11 @@ const ChangePassword = () => {
             <label>New Password</label>
               <input
                 type="password"
-                name="password"
+                name="newPassword"
+                value={pass.newPassword}
                 placeholder="New password"
+                onChange={handleChange}
+                ref={register({ required: "You must specify a password", minLength: { value: 6, message: "Passwords must have at least 6 characters" } , maxLength: 150 })}
               />
             {errors?.password && <p className='profile-text'>{errors.password.message}</p>}
             </div>
@@ -169,8 +183,8 @@ const ChangeEmail = () => {
           <form className='profile-form'>
           <label>Current Email</label>
             <input
-              type="password"
-              name="password"
+              type="email"
+              name="email"
               placeholder="Current email"
               required
             />
@@ -178,11 +192,11 @@ const ChangeEmail = () => {
             <div>
             <label>New Email</label>
               <input
-                type="password"
-                name="password"
+                type="email"
+                name="email"
                 placeholder="New email"
               />
-            {errors?.password && <p className='profile-text'>{errors.password.message}</p>}
+            {errors?.email && <p className='profile-text'>{errors.email.message}</p>}
             </div>
 
             <button type="button" onClick={handleSubmit(onSubmit)}>Save Email</button>
@@ -247,3 +261,8 @@ const ChangeDetails = () => {
   );
 }
 
+const mapStateToProps = createStructuredSelector<RootState, IProfilePage>({
+   orders: selectOrders
+})
+
+export default connect(mapStateToProps)(ProfilePage);
