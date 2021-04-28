@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 # Bookstore 
-=======
-# Bookstore
->>>>>>> 5ff0ae6efd6440bbc2c5175314eae470f8f9ce99
 
 ## ecommerce appliation done with React and Redux 
 
