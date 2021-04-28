@@ -9,7 +9,6 @@ interface MatchParams {
 interface MatchProps extends RouteComponentProps<MatchParams> {
 }
 
-
 function AdminNav({ match }: MatchProps) {
   return (
     <div className='admin-nav'>

@@ -1,0 +1,179 @@
+.profile-information {
+  background: #f0ecec;
+  width: 100%;
+  height: 100vh; 
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(10, 1fr);
+  grid-gap: 20px 20px;
+  grid-template-areas:
+   "profile-header profile-header profile-header"
+    "profile-nav profile-main profile-main"
+    "profile-nav profile-main profile-main"
+    "profile-nav profile-main profile-main"
+    "profile-nav profile-main profile-main"
+    "profile-nav profile-main profile-main"
+    "profile-nav profile-main profile-main"
+    "profile-nav profile-main profile-main"
+    "profile-nav profile-main profile-main"
+    "profile-nav profile-main profile-main";
+}
+
+.profile-image {
+  display: flex;
+  background-size: cover;
+  background-position: center;
+  height: 100%;
+  width: 100%;
+  justify-content: center;
+}
+
+.profile-image h1 {
+  font-family: "Roboto", sans-serif;
+  display: grid;
+  color: #fff;
+  font-size: 32px;
+  font-weight: 300;
+}
+
+.profile-overview {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile-overview-wrapper {
+  height: 85%;
+  width: 75%;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile-password {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 50%;
+  width: 50%;
+}
+
+.profile-password h1 {
+  font-weight: 300;
+  margin-bottom: 1em;
+}
+
+.profile-password form {
+  display: flex;
+  flex-direction: column;
+  border: none;
+  padding: 10px 15px;
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+.profile-password input {
+  display: block;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 15px;
+  font-size: 0.9em;
+  background: #f0f0f0;
+  width: 100%;
+}
+
+.profile-password label {
+  display: block;
+  line-height: 2;
+  color: #131313;
+  font-size: 14px;
+  font-weight: 200;
+}
+
+.profile-text {
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  color: black;
+}
+
+.profile-text::before {
+  display: inline;
+  content: "⚠ ";
+}
+
+.profile-password button {
+  font-family: "Roboto", sans-serif;
+  outline: 0;
+  border: 0;
+  background: #f0ecec;
+  color: #131313;
+  border: none;
+  margin-top: 40px;
+  padding: 15px;
+  width: 18rem;
+  font-size: 16px;
+  letter-spacing: 1px;
+  -webkit-transition: color 1.5s;
+  -moz-transition:    color 1.5s;
+  -ms-transition:     color 1.5s;
+  -o-transition:      color 1.5s;
+  transition:         color 1.5s;
+  cursor: pointer;
+}
+
+.profile-password button[type="button"]:hover {
+  background: #282828;
+  color: #f5f5f5;
+}
+
+.profile-password button[type="button"]:active {
+  transition: 0.3s all;
+  transform: translateY(3px);
+  opacity: 0.8;
+}
+
+.profile-details-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 85%;
+  width: 75%;
+  background: white;
+}
+
+.profile-myorders-wrapper {
+  position: absolute;
+  height: 75%;
+  width: 55%;
+  max-height: 85%;
+  max-width: 75%;
+  background: white;
+}
+
+.profile-myorders-wrapper h1 {
+  text-align: center;
+  font-family: "Roboto", sans-serif;
+  font-weight: 380;
+  font-size: 1.2em;
+  color: #131313;
+}
+
+.order-wrapper {
+  position: absolute;
+  left: 7%;
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  max-width: 85%;
+  max-height: 85%;
+  width: 85%;
+  height: 85%;
+}
+
+

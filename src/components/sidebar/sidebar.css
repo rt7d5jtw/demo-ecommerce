@@ -11,27 +11,28 @@
 }
 
 .sidebar h1 {
-   display: block;
-   padding: 10px 20px;
-   color: #fff;
-   text-decoration: none;
-   font-family: "Rubik";
-   letter-spacing: 2px;
-   font-weight: 400;
-   margin: 0 20px;
-   font-size: 25px;
-   text-transform: uppercase;
+  font-size: 1.7em;
+  display: block;
+  padding: 10px 20px;
+  color: #fff;
+  text-decoration: none;
+  font-family: "Rubik";
+  letter-spacing: 2px;
+  font-weight: 400;
+  margin: 0 20px;
+  font-size: 25px;
+  text-transform: uppercase;
 }
 
 .sidebar a {
-   font-family: "Rubik";
-   display: block;
-   width: 110px;
-   margin: 10px 35px;
-   padding: 5px 10px;
-   color: #bbb;
-   text-decoration: none;
-   letter-spacing: 2px;
+  font-family: "Rubik";
+  display: block;
+  width: 150px;
+  margin: 10px 35px;
+  padding: 5px 10px;
+  color: #bbb;
+  text-decoration: none;
+  letter-spacing: 2px;
 }
 
 .sidebar a:hover {
