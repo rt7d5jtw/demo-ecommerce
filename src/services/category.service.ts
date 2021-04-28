@@ -13,7 +13,7 @@ export const deleteCategory = (id: string): Promise<Category> => {
 }
 
 export const createCategory = (cname: string): Promise<Category> => {
-  return axios.post(CATEGORY_URL, cname);
+  return axios.post(CATEGORY_URL, { cname: cname });
 }
 
 export const editCategory = (id: string, cname: any): Promise<any> => {

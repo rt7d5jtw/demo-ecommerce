@@ -16,11 +16,9 @@ import Outlet from './pages/outlet/outlet.component';
 import SearchPage from './pages/search-result/search-result.component';
 import Checkout from './pages/checkout/checkout.component';
 import Classics from './pages/classics/classics.component';
+import AdminPage from './pages/admin-page/admin-page.component';
+import AdminCreatorPage from './pages/admin-creator-page/admin-creator-page.component';
 import ProfilePage from './pages/profile-page/profile-page.component';
-import { AdminPage } from './pages/admin-page/admin-page.component';
-import { CategoryDelete } from './pages/admin/category/category-delete.component';
-import { CategoryCreate } from './pages/admin/category/category-create.component';
-import { CategoryEdit } from './pages/admin/category/category-edit.component';
 
 type AppProp = {
   currentUser: User | null | undefined
@@ -32,10 +30,8 @@ const App = ({ currentUser }: AppProp) => {
       <Switch>
         <Route exact path='/' component={Homepage} />
         <Route path='/admin-page' component={AdminPage} />
-        <Route path='/category-delete' component={CategoryDelete} />
-        <Route path='/category-create' component={CategoryCreate} />
-        <Route path='/category-edit' component={CategoryEdit} />
         <Route path='/profile' component={ProfilePage} />
+        <Route path='/admin-creator' component={AdminCreatorPage} />
         <Route path='/new' component={NewReleases} />
         <Route path='/outlet' component={Outlet} />
         <Route path='/classics' component={Classics} />

@@ -1,0 +1,33 @@
+.edit-products {
+  display: grid;
+}
+
+.product-editor {
+  display: grid;
+}
+
+.product-editor form {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.product-editor input {
+  display: grid;
+}
+
+.product-editor select {
+  margin-bottom: 1em;
+}
+
+.product-editor button {
+  margin-top: 1em;
+  border: none;
+  height: 3em;
+  background: #228b22;
+  color: white;
+}
+
+.product-editor button:hover {
+  background: #2c6b2c;
+}

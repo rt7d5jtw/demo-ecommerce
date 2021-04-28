@@ -1,0 +1,35 @@
+.delete-categories {
+  display: grid;
+  place-items: center center;
+  width: 50%;
+}
+
+.delete-categories form {
+  display: flex;
+  flex-direction: column;
+  width: 15em;
+  margin-top: 1em;
+}
+
+.delete-categories label {
+  margin-bottom: 1em;
+}
+
+.delete-categories select {
+  margin-bottom: 1em;
+}
+
+.delete-categories button {
+  background: #c41e3a;
+  color: white;
+  border: none;
+  height: 3.5em;
+  width: 100%;
+  transition: 1.5s;
+  cursor: pointer;
+}
+
+.delete-categories button:hover {
+  color: red;
+  background: white;
+}

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import './profile.css';
+import './profile-link.css';
 import { Link } from 'react-router-dom';
 import { connect, useSelector } from 'react-redux';
 import { selectCurrentUser, selectLoggedIn, selectRole } from '../../redux/user/user.selectors';
@@ -12,13 +12,13 @@ import { useState, useEffect, useRef } from 'react';
 import { useHistory } from 'react-router';
 import { CgProfile } from 'react-icons/cg';
 
-type ProfileProp = {
+type ProfileLinkProp = {
   currentUser: User | null;
   loggedIn: boolean;
   role: UserRole;
 }
 
-const Profile = ({ currentUser, loggedIn }: ProfileProp) => {
+const ProfileLink = ({ currentUser, loggedIn }: ProfileLinkProp) => {
 
   return (
     <div className='profile'>
@@ -89,10 +89,10 @@ export const LoggedIn = () => {
   );
 }
 
-const mapStateToProps = createStructuredSelector<RootState, ProfileProp>({
+const mapStateToProps = createStructuredSelector<RootState, ProfileLinkProp>({
   currentUser: selectCurrentUser,
   loggedIn: selectLoggedIn,
   role: selectRole,
 })
 
-export default connect(mapStateToProps)(Profile);
+export default connect(mapStateToProps)(ProfileLink);

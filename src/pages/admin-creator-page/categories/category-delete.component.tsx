@@ -18,20 +18,19 @@ export const CategoryDelete = () => {
     dispatch(removeCategory(data.categories));
     location.reload()
   };
-  const onSubmitCat = (data: any) => {
-    console.log(data);
-  }
 
   return (
-          <form className='admin-form' onSubmit={handleSubmit(onSubmit)}>
-            <label>Delete a category</label>
-              <select ref={register} name="categories" id="categories">
-                {categories.map(({ id, cname }) => (
-                  <option value={id} key={id}>{cname}</option>
-                ))}
-              </select>
-              <button type="submit">Delete</button>
-          </form>
+  <div className='delete-categories'>
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <label>Delete a category</label>
+        <select ref={register} name="categories" id="categories">
+          {categories.map(({ id, cname }) => (
+            <option value={id} key={id}>{cname}</option>
+          ))}
+        </select>
+        <button type="submit">Delete</button>
+    </form>
+  </div>
   );
 }
 

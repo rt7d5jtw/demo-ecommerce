@@ -10,7 +10,7 @@ export const PRODUCT_URL = 'http://localhost:3000/product'
 export function fetchProducts() {
   return (dispatch: AppDispatch) => {
     dispatch(fetchProductsBegin());
-    return axios.get(PRODUCT_URL.concat('?cat=2fb8483b-a2ac-4410-8deb-f25fc5d6595a'))
+    return axios.get(PRODUCT_URL.concat('?cat=dcaa9f09-0dbe-4e81-af92-e15ee487beaa'))
       .then(res => {
         dispatch(fetchProductsSuccess(res.data));
         return res.data;

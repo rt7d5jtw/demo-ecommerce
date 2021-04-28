@@ -7,10 +7,8 @@ import { productAdded, productDeleted, cartCleared, userLogged, userRegistered }
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { selectMessage } from '../../redux/alert/alert.selectors';
-import { OrderCard } from '../../components/order-card/order-card.component';
 import { getRole, listUsers } from '../../redux/user/user.actions';
 import { fetchAllOrders, fetchOrders } from '../../redux/order/order.actions';
-import { getOrders } from '../../services/order.service';
 import { UserViewer } from '../../components/user-viewer/user-viewer.component';
 import { fetchCategories, updateCategory } from '../../redux/category/category.actions';
 import { editCategory } from '../../services/category.service';

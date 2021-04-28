@@ -1,0 +1,43 @@
+.product-deletion {
+  display: grid;
+  place-items: start center;
+  height: 100%;
+  width: 100%;
+}
+
+.form-wrapper {
+  display: flex;
+  justify-content: center;
+  width: 50%;
+  height: 75%;
+}
+
+.product-deletion form {
+  margin-top: 1em;
+  display: flex;
+  flex-direction: column;
+  width: 15em;
+}
+
+.product-deletion label {
+  margin-bottom: 1em;
+}
+
+.product-deletion select {
+  margin-bottom: 1em;
+}
+
+.product-deletion button {
+  background: #c41e3a;
+  color: white;
+  border: none;
+  height: 3.5em;
+  width: 100%;
+  transition: 1.5s;
+  cursor: pointer;
+}
+
+.product-deletion button:hover {
+  color: red;
+  background: white;
+}

@@ -1,0 +1,43 @@
+.creator-header { 
+  display: flex;
+  justify-content: space-between;
+
+  grid-area: creator-header; 
+  border: 1px solid black;
+  background: #282828;
+}
+
+.header-link {
+  display: grid;
+  place-items: center center;
+  cursor: pointer;
+  margin: 1em;
+  display: grid;
+}
+
+.creator-header a {
+  font-size: 1em;
+  color: white;
+  transition: 1.5s
+}
+
+.creator-header a:hover {
+  color: pink;
+}
+
+.back-to {
+  display: grid;
+  place-items: center auto;
+  height: 100%;
+  width: 15%;
+}
+
+.go-to {
+  display: grid;
+  place-items: center center;
+  height: 100%;
+  width: 15%;
+  display: grid;
+}
+
+

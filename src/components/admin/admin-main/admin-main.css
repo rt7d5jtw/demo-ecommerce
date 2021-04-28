@@ -1,0 +1,7 @@
+.admin-main {
+  display: grid;
+  grid-area: admin-main;
+  background: #f0ecec;
+}
+
+

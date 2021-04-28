@@ -1,0 +1,21 @@
+.admin-creator {
+  width: 100%;
+  height: 100vh;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: repeat(12, 1fr);
+  gap: 0px 0px;
+  grid-template-areas:
+    "creator-header creator-header creator-header creator-header creator-header creator-header"
+    "creator-sidebar second-header second-header second-header second-header second-header"
+    "creator-sidebar creator-main creator-main creator-main creator-main creator-main"
+    "creator-sidebar creator-main creator-main creator-main creator-main creator-main"
+    "creator-sidebar creator-main creator-main creator-main creator-main creator-main"
+    "creator-sidebar creator-main creator-main creator-main creator-main creator-main"
+    "creator-sidebar creator-main creator-main creator-main creator-main creator-main"
+    "creator-sidebar creator-main creator-main creator-main creator-main creator-main"
+    "creator-sidebar creator-main creator-main creator-main creator-main creator-main"
+    "creator-sidebar creator-main creator-main creator-main creator-main creator-main"
+    "creator-sidebar creator-main creator-main creator-main creator-main creator-main"
+    "creator-sidebar creator-main creator-main creator-main creator-main creator-main";
+}

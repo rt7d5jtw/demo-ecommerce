@@ -1,0 +1,34 @@
+.edit-categories {
+  display: grid;
+  margin: 1em;
+}
+
+.category-editor {
+  display: grid;
+  place-items: center center;
+}
+
+.category-editor form {
+  display: flex;
+  flex-direction: column;
+}
+
+.category-editor input {
+  display: grid;
+}
+
+.edit-categories select {
+  margin-bottom: 1em;
+}
+
+.category-editor button {
+  margin-top: 1em;
+  border: none;
+  height: 3em;
+  background: #228b22;
+  color: white;
+}
+
+.category-editor button:hover {
+  background: #2c6b2c;
+}
