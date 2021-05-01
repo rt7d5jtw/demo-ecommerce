@@ -31,3 +31,7 @@
 .product-editor button:hover {
   background: #2c6b2c;
 }
+
+.product-editor button:active {
+  transform: translateY(2px);
+}

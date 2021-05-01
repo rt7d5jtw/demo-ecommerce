@@ -12,6 +12,8 @@ import { fetchAllOrders, fetchOrders } from '../../redux/order/order.actions';
 import { UserViewer } from '../../components/user-viewer/user-viewer.component';
 import { fetchCategories, updateCategory } from '../../redux/category/category.actions';
 import { editCategory } from '../../services/category.service';
+import { fetchProducts } from '../../redux/product/product.actions';
+import { getProducts } from '../../services/product.service';
 
 interface IClassics {
   message: string;
@@ -34,7 +36,7 @@ const Classics = ({ message }: IClassics) => {
       <button className='cl-btn' onClick={() => dispatch(fetchAllOrders())}>Test all orders</button>
       <button className='cl-btn' onClick={() => dispatch(fetchCategories())}>Test all categories</button>
       <button className='cl-btn' onClick={() => dispatch(updateCategory('2c21c28b-cbbe-4c95-bda7-97feac2790ac', 'something'))}>Update category</button>
-      <button className='cl-btn' onClick={() => console.log((editCategory('2c21c28b-cbbe-4c95-bda7-97feac2790ac', { cname: 'something' })))}>Update straight category</button>
+      <button className='cl-btn' onClick={() => console.log(fetchProducts())}>Get products</button>
 
       <div className='owrapper'>
         <UserViewer email={'miumau@gmail.com'} id={'1517baeb-81d3-4462-89ab-85a017de8f99'} date={'16-4-2021'} />

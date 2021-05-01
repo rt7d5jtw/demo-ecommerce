@@ -36,7 +36,7 @@ export function buildCategory(cname: string) {
 
 export function updateCategory(id: string, cname: string) {
   return async (dispatch: AppDispatch) => {
-    return editCategory(id, cname).then(category => {
+    return editCategory(id, { cname: cname }).then(category => {
       dispatch({
         type: CategoryConstants.UPDATE_CATEGORY,
         payload: category.data

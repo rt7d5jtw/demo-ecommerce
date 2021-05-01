@@ -41,3 +41,7 @@
   color: red;
   background: white;
 }
+
+.product-deletion button:active {
+  transform: translateY(2px);
+}

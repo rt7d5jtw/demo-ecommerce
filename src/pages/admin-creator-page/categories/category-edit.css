@@ -27,8 +27,13 @@
   height: 3em;
   background: #228b22;
   color: white;
+  cursor: pointer;
 }
 
 .category-editor button:hover {
   background: #2c6b2c;
+}
+
+.category-editor button:active {
+  transform: translateY(2px);
 }

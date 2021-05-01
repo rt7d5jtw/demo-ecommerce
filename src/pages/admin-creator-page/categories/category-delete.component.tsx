@@ -5,6 +5,7 @@ import { connect, useDispatch, useSelector } from 'react-redux';
 import { buildCategory, fetchCategories, removeCategory, updateCategory } from '../../../redux/category/category.actions';
 import { selectCategories } from '../../../redux/category/category.selectors';
 import { useForm } from 'react-hook-form';
+import { getCategories } from '../../../services/category.service';
 
 export const CategoryDelete = () => {
   const categories = useSelector(selectCategories);

@@ -24,8 +24,13 @@
   height: 3em;
   background: #228b22;
   color: white;
+  cursor: pointer;
 }
 
 .category-creator button:hover {
   background: #2c6b2c;
+}
+
+.category-creator button:active {
+  transform: translateY(2px);
 }

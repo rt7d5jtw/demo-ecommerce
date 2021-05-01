@@ -29,14 +29,23 @@ export interface UserState {
 };
 
 export interface Product {
-  id: string;
-  categoryId?: string;
+  id?: string;
+  category?: string;
   title: string;
-  quantity: number;
+  quantity?: number;
   image: string;
   price: number;
   author?: string;
-  desc?: string;
+  description?: string;
+}
+
+export interface ProductwithID {
+  id: string;
+  title: string;
+  image: string;
+  price: number;
+  author: string;
+  description: string;
 }
 
 export interface ProductState {
@@ -89,10 +98,19 @@ export interface ActionType {
   payload?: any;
 }
 
+/*
 export type Category = {
-  id: string,
-  cname: string;
+  title: string;
+  image: string;
+  id: number,
+  url: string;
 }
+*/
+
+export type Category = {
+  cname: string;
+  id: string;
+};
 
 export interface CategoryState {
   categories: Category[];

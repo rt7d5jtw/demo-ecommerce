@@ -1,6 +1,16 @@
 import * as React from 'react';
 import './products-edit.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { useState, useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { selectCategories } from '../../../redux/category/category.selectors';
+import { fetchCategories } from '../../../redux/category/category.actions';
+import { fetch, editProduct, fetchProducts } from '../../../redux/product/product.actions';
+import { selectProductItems } from '../../../redux/product/product.selectors';
+import { Product } from '../../../redux/types';
+import { getProducts, PRODUCT_URL } from '../../../services/product.service';
+import axios from 'axios';
+
 
 type ProductInputs = {
   title: string;
@@ -8,14 +18,21 @@ type ProductInputs = {
   price: number;
   description: string;
   author: string;
-  category: string;
+  id: string;
 }
 
 function ProductsEdit() {
+  const dispatch = useDispatch();
   const { register, handleSubmit, errors } = useForm<ProductInputs>();
   const onSubmit: SubmitHandler<ProductInputs> = data => {
+    dispatch(editProduct(data));
     console.log(data);
   }
+  useEffect(() => {
+    dispatch(fetch());
+  }, [dispatch])
+  const categories = useSelector(selectCategories);
+  const products = useSelector(selectProductItems);
   return (
   <div className='edit-products'>
     <div className='product-editor'>
@@ -54,13 +71,14 @@ function ProductsEdit() {
           required
         />
         <label>Product category</label>
-        <select ref={register} form='create-product' name='categories' id='categories'>
-          <option key={1} ref={register} value='classics'>Classics</option>
-          <option key={2} ref={register} value='outlet'>Outlet</option>
+        <select ref={register} form='create-product' name='id' id='products'>
+          {products.map(({ title , id }: Product) => (
+            <option key={id} ref={register} value={id}>{title}</option>
+          ))}
         </select>
         <label>Product description</label>
         <textarea ref={register} name='description' form='create-product'></textarea>
-          <button type="button" onClick={handleSubmit(onSubmit)}>Edit</button>
+          <button type='submit' onClick={handleSubmit(onSubmit)}>Edit</button>
       </form>
     </div>
   </div>

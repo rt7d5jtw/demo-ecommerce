@@ -37,3 +37,7 @@
 .product-creator button:hover {
   background: #2c6b2c;
 }
+
+.product-creator button:active {
+  transform: translateY(2px);
+}
