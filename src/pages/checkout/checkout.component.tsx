@@ -50,6 +50,7 @@ const Checkout = ({ cartItems, total }: ICheckout) => {
             <h1>Total price: ${total}</h1>
             <button className='order-btn'>Order</button>
             </div>
+            { cartItems.length ? 
             <div className='order-summary'>
             <h1>Products</h1>
             {cartItems.length 
@@ -58,6 +59,7 @@ const Checkout = ({ cartItems, total }: ICheckout) => {
                 <__CartItem key={id} id={id} title={title} price={price} quantity={quantity} image={image} />
               ))) : (null) }
             </div>
+            : (null) }
           </div>
       <hr /> 
       <Footer />

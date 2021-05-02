@@ -90,7 +90,7 @@ export interface CartItem {
   quantity: number;
   price: number;
   image: string;
-  id: string | undefined;
+  id?: string;
 }
 
 export type Alert = {
