@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Footer } from '../../components/footer/footer.component';
 import { Navbar } from '../../components/navbar/navbar.component';
-import { Sidebar } from '../../components/sidebar/sidebar.component';
+import Sidebar from '../../components/sidebar/sidebar.component';
 import { connect } from 'react-redux';
 import ProductCard from '../../components/product-card/product-card.component';
 import { createStructuredSelector } from 'reselect';

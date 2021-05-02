@@ -37,6 +37,7 @@ export interface Product {
   price: number;
   author?: string;
   description?: string;
+  categoryId?: string;
 }
 
 export interface ProductwithID {

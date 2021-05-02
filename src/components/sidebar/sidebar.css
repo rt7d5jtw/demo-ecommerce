@@ -35,6 +35,10 @@
   letter-spacing: 2px;
 }
 
+.sidebar a:first-letter {
+  text-transform: capitalize;
+}
+
 .sidebar a:hover {
    color: #fff;
    transition: 0.4s;

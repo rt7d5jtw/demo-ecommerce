@@ -1,6 +1,5 @@
 import * as React from 'react';
 import StripeCheckout, { Token } from 'react-stripe-checkout';
-import './stripe-button.css';
 import axios from 'axios';
 import { clearCart } from '../../redux/cart/cart.actions';
 import { useDispatch } from 'react-redux';
@@ -32,15 +31,15 @@ export function StripeButton({ price, clearCart }: IStripeButton) {
     });
   }
   return (
-    <StripeCheckout
-      label='Pay now'
-      name='Bookstore'
-      billingAddress
-      shippingAddress
-      panelLabel='Pay now'
-      amount={amount}
-      token={onToken}
-      stripeKey={publishableKey}
-    />
+      <StripeCheckout
+        label='Pay now'
+        name='Bookstore'
+        billingAddress
+        shippingAddress
+        panelLabel='Pay now'
+        amount={amount}
+        token={onToken}
+        stripeKey={publishableKey}
+      />
   )
 }

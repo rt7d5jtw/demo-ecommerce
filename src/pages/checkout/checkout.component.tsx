@@ -2,7 +2,7 @@ import * as React from 'react';
 import './checkout.css';
 import { Footer } from '../../components/footer/footer.component';
 import { Navbar } from '../../components/navbar/navbar.component';
-import { Sidebar } from '../../components/sidebar/sidebar.component';
+import Sidebar from '../../components/sidebar/sidebar.component';
 import __CartItem from '../../components/cart-item/cart-item.component';
 import { connect } from 'react-redux';
 import { selectCartItems, selectCartTotal } from '../../redux/cart/cart.selectors';
@@ -10,13 +10,15 @@ import { createStructuredSelector } from 'reselect';
 import { RootState } from '../../redux/root-reducer';
 import { CartItem } from '../../redux/types';
 import Alert from '../../components/alert/alert.component';
+import { StripeButton } from '../../components/stripe-button/stripe-button.component';
 
 interface ICheckout {
   cartItems: CartItem[];
   total: number;
+  clearCart: () => void;
 }
 
-const Checkout = ({ cartItems, total }: ICheckout) => {
+const Checkout = ({ cartItems, total, clearCart }: ICheckout) => {
   return (
       <>
       <Alert />
@@ -48,7 +50,7 @@ const Checkout = ({ cartItems, total }: ICheckout) => {
             </form>
             <h1>Order Summary</h1>
             <h1>Total price: ${total}</h1>
-            <button className='order-btn'>Order</button>
+              <StripeButton price={total} clearCart={clearCart} />
             </div>
             { cartItems.length ? 
             <div className='order-summary'>
@@ -67,7 +69,12 @@ const Checkout = ({ cartItems, total }: ICheckout) => {
   )
 }
 
-const mapStateToProps = createStructuredSelector<RootState, ICheckout>({
+interface IMapStateToProps {
+  cartItems: CartItem[];
+  total: number;
+}
+
+const mapStateToProps = createStructuredSelector<RootState, IMapStateToProps>({
   cartItems: selectCartItems,
   total: selectCartTotal,
 })

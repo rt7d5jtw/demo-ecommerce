@@ -3,7 +3,7 @@ import { useState } from 'react';
 import './new_releases.css';
 import { NEW_RELEASES_DATA } from './new_releases.data';
 import ProductCard from '../../components/product-card/product-card.component';
-import { Sidebar } from '../../components/sidebar/sidebar.component';
+import Sidebar from '../../components/sidebar/sidebar.component';
 import { Navbar } from '../../components/navbar/navbar.component';
 import { Footer } from '../../components/footer/footer.component';
 
