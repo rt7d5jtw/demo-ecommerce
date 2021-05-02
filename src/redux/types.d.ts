@@ -48,6 +48,16 @@ export interface ProductwithID {
   description: string;
 }
 
+export interface Product_for_CartItem {
+  id: string;
+  title: string;
+  image: string;
+  price: number;
+  author: string;
+  description: string;
+  quantity: number;
+}
+
 export interface ProductState {
   items: Array;
   search: string;
@@ -71,7 +81,7 @@ export interface OrderState {
 
 export interface CartState {
   isOpen: boolean;
-  cartItems: Product[];
+  cartItems: any;
   quantity: number;
 }
 
@@ -80,7 +90,7 @@ export interface CartItem {
   quantity: number;
   price: number;
   image: string;
-  id: string;
+  id: string | undefined;
 }
 
 export type Alert = {

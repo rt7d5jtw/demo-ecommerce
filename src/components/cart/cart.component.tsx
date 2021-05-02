@@ -7,7 +7,7 @@ import { cartToggle, clearCart } from '../../redux/cart/cart.actions';
 import { useDispatch } from 'react-redux';
 import { selectOpen, selectCartItems, selectQuantity } from '../../redux/cart/cart.selectors';
 import { createStructuredSelector } from 'reselect';
-import { Product } from '../../redux/types';
+import { Product, ProductwithID, Product_for_CartItem } from '../../redux/types';
 import __CartItem from '../cart-item/cart-item.component';
 import { useHistory } from 'react-router-dom';
 import { useRef, useEffect } from 'react';
@@ -15,7 +15,7 @@ import { cartCleared } from '../../redux/alert/alert.actions';
 
 interface ICart {
   isOpen: boolean;
-  cartItems: Product[];
+  cartItems: Product_for_CartItem[];
   quantity: number;
 }
 

@@ -49,14 +49,15 @@ const Checkout = ({ cartItems, total }: ICheckout) => {
             <h1>Order Summary</h1>
             <h1>Total price: ${total}</h1>
             <button className='order-btn'>Order</button>
-          </div>
-          {cartItems.length 
-            ? (
-              cartItems.map(({ title, price, quantity, image, id }) => (
-              <div className='order-summary'>
-              <h1>Products</h1>
+            </div>
+            <div className='order-summary'>
+            <h1>Products</h1>
+            {cartItems.length 
+              ? (
+                cartItems.map(({ title, price, quantity, image, id }) => (
                 <__CartItem key={id} id={id} title={title} price={price} quantity={quantity} image={image} />
-              </div>))) : (null) }
+              ))) : (null) }
+            </div>
           </div>
       <hr /> 
       <Footer />
