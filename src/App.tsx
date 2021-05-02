@@ -24,7 +24,7 @@ const App = () => {
     <div className='scroller'>
       <Switch>
         <Route exact path='/' component={Homepage} />
-        <Route path={`${path}/:categoryId`} component={CategoryPage} />
+        <Route path={`${path}:categoryId`} component={CategoryPage} />
         <Route path='/admin-page' component={AdminPage} />
         <Route path='/profile' component={ProfilePage} />
         <Route path='/admin-creator' component={AdminCreatorPage} />
