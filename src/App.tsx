@@ -1,6 +1,6 @@
 import * as React from 'react';
 import './App.css';
-import { Switch, Route, Redirect, useRouteMatch } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import { connect, useSelector } from 'react-redux';
 import { selectCurrentUser } from './redux/user/user.selectors';
 
@@ -17,6 +17,8 @@ import AdminCreatorPage from './pages/admin-creator-page/admin-creator-page.comp
 import ProfilePage from './pages/profile-page/profile-page.component';
 import CategoryPage from './pages/category-page/category-page.component';
 
+import { useRouteMatch } from 'react-router-dom';
+
 const App = () => {
   const currentUser = useSelector(selectCurrentUser);
   const { path } = useRouteMatch();
@@ -24,7 +26,7 @@ const App = () => {
     <div className='scroller'>
       <Switch>
         <Route exact path='/' component={Homepage} />
-        <Route path={`${path}:categoryId`} component={CategoryPage} />
+        <Route path={`${path}books/:categoryId`} component={CategoryPage} />
         <Route path='/admin-page' component={AdminPage} />
         <Route path='/profile' component={ProfilePage} />
         <Route path='/admin-creator' component={AdminCreatorPage} />

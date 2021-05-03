@@ -16,7 +16,7 @@ const Sidebar = ({ categories }: ISidebar) => {
     <div className='sidebar'>
         <h1>Bookstore</h1>
         {categories.map(({ cname, id }) => (
-          <Link to={'/' + cname} href={cname} key={id}>{cname}</Link>
+          <Link to={'/books/' + cname} href={cname} key={id}>{cname}</Link>
         ))}
         <hr />
         <Link to='/shop' href='shop'>Shop</Link>
