@@ -16,16 +16,11 @@ type ProfileLinkProp = {
   currentUser: User | null;
   loggedIn: boolean;
   role: UserRole;
-}
+};
 
 const ProfileLink = ({ currentUser, loggedIn }: ProfileLinkProp) => {
-
-  return (
-    <div className='profile'>
-      {currentUser && loggedIn ?  <LoggedIn /> : <Login />}
-    </div>
-  )
-}
+  return <div className='profile'>{currentUser && loggedIn ? <LoggedIn /> : <Login />}</div>;
+};
 
 export const Login = () => {
   return (
@@ -35,11 +30,9 @@ export const Login = () => {
       </Link>
     </div>
   );
-}
-
+};
 
 export const LoggedIn = () => {
-
   const dispatch = useDispatch();
   const { push } = useHistory();
   const [open, setOpen] = useState(false);
@@ -47,52 +40,67 @@ export const LoggedIn = () => {
   const menuRef2 = useRef<HTMLDivElement>(null);
 
   const handleClickOutside = (event: any) => {
-    if (menuRef.current && menuRef2.current && !menuRef2.current.contains(event.target) && !menuRef.current.contains(event.target)) {
+    if (
+      menuRef.current &&
+      menuRef2.current &&
+      !menuRef2.current.contains(event.target) &&
+      !menuRef.current.contains(event.target)
+    ) {
       setOpen(false);
     }
-  }
+  };
 
   useEffect(() => {
     document.addEventListener('click', handleClickOutside, true);
     return () => {
       document.addEventListener('click', handleClickOutside, true);
     };
-  }, [])
+  }, []);
 
   function DropdownMenu() {
     function DropdownItem() {
       const Userole = useSelector(selectRole);
       return (
         <a href='#' className='dropdown-item'>
-          <span className='span-button' onClick={() => push('/profile')}>Profile</span>
-          { Userole == 'ADMIN' ? <span className='span-button' onClick={() => push('/admin-page')}>Admin</span> : null}
-          <span className='span-button' onClick={() => dispatch(logoutRequest)}>Logout</span>
+          <span className='span-button' onClick={() => push('/profile')}>
+            Profile
+          </span>
+          {Userole == 'ADMIN' ? (
+            <span className='span-button' onClick={() => push('/admin-page')}>
+              Admin
+            </span>
+          ) : null}
+          <span className='span-button' onClick={() => dispatch(logoutRequest)}>
+            Logout
+          </span>
         </a>
-      )
+      );
     }
     return (
       <div className='dropdown' ref={menuRef}>
         <DropdownItem />
       </div>
-    )
+    );
   }
 
   return (
-      <div className='nav'>
-        <div className='menu' ref={menuRef2}>
-          <li className='nav-item'>
-            <a href='#' className='icon-button' onClick={() => setOpen(!open)}><CgProfile /></a>
-    {open ? <DropdownMenu /> : null}
-          </li>
-        </div>
+    <div className='nav'>
+      <div className='menu' ref={menuRef2}>
+        <li className='nav-item'>
+          <a href='#' className='icon-button' onClick={() => setOpen(!open)}>
+            <CgProfile />
+          </a>
+          {open ? <DropdownMenu /> : null}
+        </li>
       </div>
+    </div>
   );
-}
+};
 
 const mapStateToProps = createStructuredSelector<RootState, ProfileLinkProp>({
   currentUser: selectCurrentUser,
   loggedIn: selectLoggedIn,
   role: selectRole,
-})
+});
 
 export default connect(mapStateToProps)(ProfileLink);

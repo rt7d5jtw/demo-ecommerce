@@ -1,0 +1,6 @@
+.main {
+  display: grid;
+  grid-area: main;
+  place-items: center stretch;
+  border: 2px solid green;
+}

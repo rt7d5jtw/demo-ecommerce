@@ -21,20 +21,20 @@ function AdminCreatorPage() {
       <CreatorSidebar />
       <SecondHeader />
       <CreatorMain>
-      <Switch>
-        <Route path={`${path}/:creatorPage`}>
-          <ConditionalPaging />
-        </Route>
-      </Switch>
+        <Switch>
+          <Route path={`${path}/:creatorPage`}>
+            <ConditionalPaging />
+          </Route>
+        </Switch>
       </CreatorMain>
     </div>
-  )
+  );
 }
 
 export default AdminCreatorPage;
 
 export function ConditionalPaging() {
-  let { creatorPage } = useParams<{creatorPage?: string}>();
+  const { creatorPage } = useParams<{ creatorPage?: string }>();
   const matchCreator = (param: string | undefined) => {
     switch (param) {
       case 'create-products':

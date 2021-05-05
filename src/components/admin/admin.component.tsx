@@ -20,20 +20,19 @@ const Admin = () => {
       </div>
     </div>
   );
-}
+};
 
 function ConditionalPaging() {
   switch (location.pathname) {
     case '/admin-page':
-    return <AdminOverview />;
+      return <AdminOverview />;
     case '/admin-page/users':
-    return <ViewUsers />;
+      return <ViewUsers />;
     case '/admin-page/orders':
-    return <ViewOrders />;
+      return <ViewOrders />;
     default:
-    return <AdminOverview />;
+      return <AdminOverview />;
   }
 }
 
 export default withRouter(Admin);
-

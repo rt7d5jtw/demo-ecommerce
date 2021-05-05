@@ -4,5 +4,5 @@ export enum AlertConstants {
   CART_CLEARED = 'CART_CLEARED',
   LOGGED_IN = 'LOGGED_IN',
   REGISTERED = 'REGISTERED',
-  HIDEOUT = 'HIDEOUT'
+  HIDEOUT = 'HIDEOUT',
 }

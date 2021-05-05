@@ -5,6 +5,7 @@ import { cartReducer } from './cart/cart.reducer';
 import { alertReducer } from './alert/alert.reducer';
 import { orderReducer } from './order/order.reducer';
 import { categoryReducer } from './category/category.reducer';
+import { promotionsReducer } from './promotions/promotions.reducer';
 
 export const rootReducer = combineReducers({
   user: userReducer,
@@ -13,6 +14,7 @@ export const rootReducer = combineReducers({
   product: productReducer,
   cart: cartReducer,
   alert: alertReducer,
+  promotions: promotionsReducer,
 });
 
-export type RootState = ReturnType<typeof rootReducer>
+export type RootState = ReturnType<typeof rootReducer>;

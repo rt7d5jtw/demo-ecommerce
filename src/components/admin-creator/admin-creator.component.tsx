@@ -11,10 +11,9 @@ function AdminCreator() {
       <CreatorHeader />
       <CreatorSidebar />
       <SecondHeader />
-      <CreatorMain>
-      </CreatorMain>
+      <CreatorMain></CreatorMain>
     </div>
-  )
+  );
 }
 
 export default AdminCreator;

@@ -9,7 +9,7 @@
 }
 
 .profile-header h1 {
-  font-family: "Lato", sans-serif;
+  font-family: 'Lato', sans-serif;
   margin-left: 13rem;
   display: grid;
   color: #131313;
@@ -21,14 +21,12 @@
 .store-name {
   cursor: pointer;
   -webkit-transition: color 1s;
-  -moz-transition:    color 1s;
-  -ms-transition:     color 1s;
-  -o-transition:      color 1s;
-  transition:         color 1s;
+  -moz-transition: color 1s;
+  -ms-transition: color 1s;
+  -o-transition: color 1s;
+  transition: color 1s;
 }
 
 .store-name:hover {
   color: #ffab00;
 }
-
-

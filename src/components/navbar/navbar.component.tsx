@@ -5,7 +5,7 @@ import { Search } from '../search/search.component';
 import ProfileLink from '../profile-link/profile-link.component';
 import Cart from '../cart/cart.component';
 
-export const Navbar = () => {
+export const Navbar = (): JSX.Element => {
   return (
     <nav className='navbar'>
       <Logo />
@@ -14,4 +14,4 @@ export const Navbar = () => {
       <Cart />
     </nav>
   );
-}
+};

@@ -13,8 +13,8 @@ export const ViewUsers = () => {
   const users = useSelector(selectUsers);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(listUsers())
-  }, [dispatch])
+    dispatch(listUsers());
+  }, [dispatch]);
 
   return (
     <div className='admin-overview'>
@@ -22,10 +22,10 @@ export const ViewUsers = () => {
         <h1 id='browse-users'>Browse users</h1>
         <div className='user-wrapper'>
           {users.map(({ id, createdAt, ...props }) => (
-            <UserViewer key={id} id={id} date={createdAt} { ...props } />
+            <UserViewer key={id} id={id} date={createdAt} {...props} />
           ))}
         </div>
       </div>
     </div>
   );
-}
+};

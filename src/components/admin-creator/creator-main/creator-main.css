@@ -1,5 +1,5 @@
-.creator-main { 
+.creator-main {
   display: grid;
-  grid-area: creator-main; 
+  grid-area: creator-main;
   border: 1px solid black;
 }

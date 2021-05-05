@@ -2,8 +2,4 @@
   display: flex;
   flex-wrap: wrap;
   padding: 50px 50px;
-  justify-content: center;
-  align-items: center;
-  align-content: stretch;
-  margin-left: 200px;
 }

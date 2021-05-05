@@ -1,12 +1,8 @@
 .navbar {
+  display: grid;
+  grid-area: navbar;
+  grid-auto-flow: column;
   background: #131313;
-  display: flex;
-  justify-content: space-around;
-  align-content: center;
-  height: 100px;
-  margin-left: 250px;
-  overflow-x: hidden !important;
-  overflow-y: hidden !important;
 }
 
 .navbar h1 {

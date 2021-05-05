@@ -20,4 +20,4 @@ export const UserViewer = ({ email, id, date }: IUserViewer) => {
       </div>
     </div>
   );
-}
+};

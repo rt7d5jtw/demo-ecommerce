@@ -1,5 +1,5 @@
 import * as React from 'react';
-import './profile.css'; 
+import './profile.css';
 import { withRouter } from 'react-router-dom';
 import { ProfileHeader } from './profile-header/profile-header.component';
 import ProfileMain from './profile-main/profile-main.component';
@@ -8,21 +8,20 @@ import { ProfileOverview } from './profile-components/profile-overview/profile-o
 import { MyOrders } from './profile-components/my-orders/my-orders.component';
 import ChangePassword from './profile-components/change-password/change-password.component';
 import ChangeEmail from './profile-components/change-email/change-email.component';
-import ChangeDetails from './profile-components/change-details/change-details.component';
 
 const Profile = () => {
   return (
-  <div className='profile-page'>
-    <div className='profile-information'>
-      <ProfileHeader />
-      <ProfileNav />
-      <ProfileMain>
-        <ConditionalPaging />
-      </ProfileMain>
+    <div className='profile-page'>
+      <div className='profile-information'>
+        <ProfileHeader />
+        <ProfileNav />
+        <ProfileMain>
+          <ConditionalPaging />
+        </ProfileMain>
+      </div>
     </div>
-  </div>
   );
-}
+};
 
 function ConditionalPaging() {
   switch (location.pathname) {
@@ -34,8 +33,6 @@ function ConditionalPaging() {
       return <ChangePassword />;
     case '/profile/change-email':
       return <ChangeEmail />;
-    case '/profile/change-details':
-      return <ChangeDetails />;
     default:
       return <ProfileOverview />;
   }

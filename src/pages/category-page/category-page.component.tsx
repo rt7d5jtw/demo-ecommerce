@@ -19,25 +19,36 @@ interface ICategoryPage {
 }
 
 function CategoryPage({ categories, products }: ICategoryPage) {
-  let { categoryId } = useParams<{categoryId?: string}>();
+  const { categoryId } = useParams<{ categoryId?: string }>();
   return (
     <>
       <Navbar />
       <Sidebar />
-    <div className='category-page'>
-      <h1 className='category__title'><p>{categories.find( ({ cname }: any) => cname === categoryId).cname}</p></h1>
-      <div className='products'>
-        {products
-          .filter(product => product.categoryId === categories
-            .find( ({ cname }: any) => cname === categoryId ).id)
-          .map(({ title, price, id, image, quantity }) => (
-            <ProductCard key={id} id={id} title={title} price={price} image={image} quantity={quantity} />
-          ))}
+      <div className='category-page'>
+        <h1 className='category__title'>
+          <p>{categories.find(({ cname }: any) => cname === categoryId).cname}</p>
+        </h1>
+        <div className='products'>
+          {products
+            .filter(
+              (product) =>
+                product.categoryId === categories.find(({ cname }: any) => cname === categoryId).id
+            )
+            .map(({ title, price, id, image, quantity }) => (
+              <ProductCard
+                key={id}
+                id={id}
+                title={title}
+                price={price}
+                image={image}
+                quantity={quantity}
+              />
+            ))}
+        </div>
       </div>
-    </div>
       <Footer />
     </>
-  )
+  );
 }
 
 interface IMapStateToProps {
@@ -47,7 +58,7 @@ interface IMapStateToProps {
 
 const mapStateToProps = createStructuredSelector<RootState, IMapStateToProps>({
   products: selectProductItems,
-  categories: selectCategories
-})
+  categories: selectCategories,
+});
 
 export default connect(mapStateToProps)(CategoryPage);

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import './App.css';
-import { Switch, Route, Redirect } from 'react-router-dom';
-import { connect, useSelector } from 'react-redux';
+import { Switch, Route, Redirect, useRouteMatch } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { selectCurrentUser } from './redux/user/user.selectors';
 
 // pages
@@ -17,13 +17,11 @@ import AdminCreatorPage from './pages/admin-creator-page/admin-creator-page.comp
 import ProfilePage from './pages/profile-page/profile-page.component';
 import CategoryPage from './pages/category-page/category-page.component';
 
-import { useRouteMatch } from 'react-router-dom';
-
-const App = () => {
+const App = (): JSX.Element => {
   const currentUser = useSelector(selectCurrentUser);
   const { path } = useRouteMatch();
   return (
-    <div className='scroller'>
+    <>
       <Switch>
         <Route exact path='/' component={Homepage} />
         <Route path={`${path}books/:categoryId`} component={CategoryPage} />
@@ -34,11 +32,18 @@ const App = () => {
         <Route path='/classics' component={Classics} />
         <Route path='/search-result' component={SearchPage} />
         <Route exact path='/checkout' component={Checkout} />
-        <Route path='/register' component={() => currentUser ? (<Redirect to="/" />) : (<AuthorizationPage />)} />
-        <Route exact path='/login' render={() => currentUser ? (<Redirect to="/" />) : (<AuthenticationPage />)} />
+        <Route
+          path='/register'
+          component={() => (currentUser ? <Redirect to='/' /> : <AuthorizationPage />)}
+        />
+        <Route
+          exact
+          path='/login'
+          render={() => (currentUser ? <Redirect to='/' /> : <AuthenticationPage />)}
+        />
       </Switch>
-    </div>
+    </>
   );
-}
+};
 
-export default connect()(App);
+export default App;

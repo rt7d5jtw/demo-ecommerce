@@ -1,6 +1,6 @@
 .profile {
   display: flex;
-  justify-content: center;
+  justify-content: end;
   align-items: center;
   width: 150px;
   cursor: pointer;
@@ -51,10 +51,10 @@
   font-size: 36px;
   color: #efcba7;
   -webkit-transition: color 1s;
-  -moz-transition:    color 1s;
-  -ms-transition:     color 1s;
-  -o-transition:      color 1s;
-  transition:         color 1s;
+  -moz-transition: color 1s;
+  -ms-transition: color 1s;
+  -o-transition: color 1s;
+  transition: color 1s;
 }
 
 .span-button {

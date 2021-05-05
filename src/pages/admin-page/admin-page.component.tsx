@@ -10,11 +10,9 @@ interface MatchParams {
   name: string;
 }
 
-interface MatchProps extends RouteComponentProps<MatchParams> {
-}
+type MatchProps = RouteComponentProps<MatchParams>;
 
-type IAdminPage = {
-} & RouteComponentProps
+type IAdminPage = {} & RouteComponentProps;
 
 const AdminPage = ({ match }: IAdminPage) => {
   return (
@@ -27,6 +25,6 @@ const AdminPage = ({ match }: IAdminPage) => {
       </Switch>
     </div>
   );
-}
+};
 
 export default withRouter(AdminPage);

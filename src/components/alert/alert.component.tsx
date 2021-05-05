@@ -20,14 +20,14 @@ const Alert = ({ message, timeout }: IAlert) => {
 
   useEffect(() => {
     if (message) {
-      setTimeout(hide, timeout)
-      setPercentage(100)
+      setTimeout(hide, timeout);
+      setPercentage(100);
       setTimeout(reset, timeout);
     }
-  })
+  });
 
   function hide() {
-    dispatch(hideout())
+    dispatch(hideout());
   }
 
   function reset() {
@@ -35,17 +35,17 @@ const Alert = ({ message, timeout }: IAlert) => {
   }
 
   return (
-    <div className='alert' style={{opacity: message ? '1' : '0'}}>
+    <div className='alert' style={{ opacity: message ? '1' : '0' }}>
       {message}
-    <div className='filler' style={{width: `${percentage}%`}} />
+      <div className='filler' style={{ width: `${percentage}%` }} />
     </div>
-  )
-}
+  );
+};
 
 const mapStateToProps = createStructuredSelector<RootState, IAlert>({
   message: selectMessage,
   atype: selectAlertType,
   timeout: selectTimeout,
-})
+});
 
 export default connect(mapStateToProps)(Alert);

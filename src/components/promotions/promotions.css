@@ -1,0 +1,9 @@
+.promotions {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 50px 50px;
+  justify-content: center;
+  align-items: center;
+  align-content: stretch;
+  border: 2px solid black;
+}

@@ -1,8 +1,8 @@
-.creator-header { 
+.creator-header {
   display: flex;
   justify-content: space-between;
 
-  grid-area: creator-header; 
+  grid-area: creator-header;
   border: 1px solid black;
   background: #282828;
 }
@@ -18,7 +18,7 @@
 .creator-header a {
   font-size: 1em;
   color: white;
-  transition: 1.5s
+  transition: 1.5s;
 }
 
 .creator-header a:hover {
@@ -39,5 +39,3 @@
   width: 15%;
   display: grid;
 }
-
-

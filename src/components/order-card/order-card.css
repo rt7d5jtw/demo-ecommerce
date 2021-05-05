@@ -43,10 +43,10 @@
   margin: 30px 10px;
 
   -webkit-transition: color 0.5s;
-  -moz-transition:    color 0.5s;
-  -ms-transition:     color 0.5s;
-  -o-transition:      color 0.5s;
-  transition:         color 0.5s;
+  -moz-transition: color 0.5s;
+  -ms-transition: color 0.5s;
+  -o-transition: color 0.5s;
+  transition: color 0.5s;
 
   cursor: pointer;
 }
@@ -80,7 +80,7 @@
 }
 
 .order-title {
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-weight: 380;
   display: flex;
   font-size: 1.2em;
@@ -100,7 +100,7 @@
 }
 
 .order-info h1 {
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-weight: 380;
   font-size: 1.2em;
   color: #131313;
@@ -116,4 +116,3 @@
   background-position: center;
   cursor: pointer;
 }
-

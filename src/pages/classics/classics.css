@@ -1,5 +1,5 @@
 .classics {
-  margin: 0;
+  margin: 1em;
   height: 100vh;
 }
 
@@ -8,10 +8,8 @@
 }
 
 .owrapper {
-  position: absolute;
-  left: 10em;
-  top: 4em;
-  display: flex;
-  height: 85%;
-  width: 85%;
+  height: 80%;
+  margin: 1em;
+  position: flex;
+  border: 2px solid black;
 }

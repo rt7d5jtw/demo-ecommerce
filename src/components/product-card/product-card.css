@@ -9,7 +9,7 @@
 }
 
 .title {
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
   display: flex;
   font-size: 20px;
   color: #131313;
@@ -19,7 +19,7 @@
 }
 
 .price {
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
   text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
   font-size: 1.5em;
   color: white;

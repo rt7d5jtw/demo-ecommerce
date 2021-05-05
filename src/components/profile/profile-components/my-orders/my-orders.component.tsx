@@ -12,10 +12,10 @@ export const MyOrders = () => {
         <h1>Browse your orders</h1>
         <div className='order-wrapper'>
           {orders.map(({ id, date, ...props }) => (
-            <OrderCard key={id} id={id} date={date} { ...props } />
+            <OrderCard key={id} id={id} date={date} {...props} />
           ))}
         </div>
       </div>
     </div>
   );
-}
+};

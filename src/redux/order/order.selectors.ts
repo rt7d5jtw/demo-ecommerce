@@ -4,7 +4,4 @@ import { OrderState } from '../types';
 
 const selectOrder = (state: RootState) => state.order;
 
-export const selectOrders = createSelector(
-  [selectOrder],
-  (order: OrderState) => order.orders
-)
+export const selectOrders = createSelector([selectOrder], (order: OrderState) => order.orders);

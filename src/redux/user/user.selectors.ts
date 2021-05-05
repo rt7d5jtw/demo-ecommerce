@@ -9,17 +9,8 @@ export const selectCurrentUser = createSelector(
   (user: UserState) => user.currentUser
 );
 
-export const selectLoggedIn = createSelector(
-  [selectUser],
-  (user: UserState) => user.loggedIn
-)
+export const selectLoggedIn = createSelector([selectUser], (user: UserState) => user.loggedIn);
 
-export const selectRole = createSelector(
-  [selectUser],
-  (user: UserState) => user.role
-)
+export const selectRole = createSelector([selectUser], (user: UserState) => user.role);
 
-export const selectUsers = createSelector(
-  [selectUser],
-  (user: UserState) => user.users
-)
+export const selectUsers = createSelector([selectUser], (user: UserState) => user.users);

@@ -23,12 +23,11 @@ export const NewReleases = ({ title, price, image, id }: INewReleases) => {
       <Sidebar />
       <h1 className='category__title'>New Releases</h1>
       <div className='products'>
-          {products.map(({ id, ...props }) => (
-            <ProductCard key={id} id={id} { ...props } />
-          ))}
+        {products.map(({ id, ...props }) => (
+          <ProductCard key={id} id={id} {...props} />
+        ))}
       </div>
       <Footer />
     </div>
   );
-}
-
+};

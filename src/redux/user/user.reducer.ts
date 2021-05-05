@@ -22,7 +22,7 @@ export const userReducer = (state: UserState = INITIAL_STATE, action: AnyAction)
         requesting: true,
         messages: [{ body: 'Registration request for the user made', time: new Date() }],
         errors: [],
-      }
+      };
     case UserConstants.LOGIN_REQUEST:
       return {
         ...state,
@@ -30,7 +30,7 @@ export const userReducer = (state: UserState = INITIAL_STATE, action: AnyAction)
         requesting: true,
         messages: [{ body: 'Request to authenticate the user made', time: new Date() }],
         errors: [],
-      }
+      };
 
     case UserConstants.LOGIN_SUCCESS:
       return {
@@ -64,25 +64,25 @@ export const userReducer = (state: UserState = INITIAL_STATE, action: AnyAction)
         currentUser: null,
         loggedIn: false,
         messages: [{ body: 'User logged out', time: new Date() }],
-      }
+      };
 
     case UserConstants.ROLE:
       return {
         ...state,
-        role: action.payload
-      }
+        role: action.payload,
+      };
 
     case UserConstants.CHANGE_PASSWORD:
       return {
         ...state,
-        hash: action.payload
-      }
+        hash: action.payload,
+      };
 
     case UserConstants.VIEW_USERS:
       return {
         ...state,
-        users: action.payload
-      }
+        users: action.payload,
+      };
 
     default:
       return state;

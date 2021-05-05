@@ -15,68 +15,72 @@ type ProductInputs = {
   author: string;
   category: string;
   quantity: 1;
-}
+};
 
 function ProductsCreate() {
   const categories = useSelector(selectCategories);
   const dispatch = useDispatch();
   const { register, handleSubmit, errors } = useForm<ProductInputs>();
-  const onSubmit: SubmitHandler<ProductInputs> = data => {
+  const onSubmit: SubmitHandler<ProductInputs> = (data) => {
     dispatch(buildProduct(data));
-  }
+  };
   useEffect(() => {
-    dispatch(fetchCategories())
-  }, [dispatch])
+    dispatch(fetchCategories());
+  }, [dispatch]);
 
   return (
-  <div className='creator-products'>
-    <div className='product-creator'>
-      <form id='create-product'>
-        <h1>Create a product</h1>
-        <label>Product title</label>
-        <input
-          type='text'
-          name='title'
-          placeholder='Product title'
-          ref={register({ required: 'You must specify a title' })}
-          required
-        />
-        <label>Product image</label>
-        <input
-          type='text'
-          name='image'
-          placeholder='Product image'
-          ref={register({ required: 'You must specify a image' })}
-          required
-        />
-        <label>Product price</label>
-        <input
-          type='number'
-          name='price'
-          placeholder='Product price'
-          ref={register({ required: 'You must specify a price' })}
-          required
-        />
-        <label>Product author</label>
-        <input
-          type='text'
-          name='author'
-          placeholder='Product author'
-          ref={register({ required: 'You must specify a author' })}
-          required
-        />
-        <label>Product category</label>
-        <select ref={register} form='create-product' name='category' id='categories'>
-          {categories.map(({ id, cname }) => (
-            <option ref={register} value={id} key={id}>{cname}</option>
-          ))}
-        </select>
-        <label>Product description</label>
-        <textarea ref={register} name='description' form='create-product'></textarea>
-          <button type="button" onClick={handleSubmit(onSubmit)}>Create</button>
-      </form>
+    <div className='creator-products'>
+      <div className='product-creator'>
+        <form id='create-product'>
+          <h1>Create a product</h1>
+          <label>Product title</label>
+          <input
+            type='text'
+            name='title'
+            placeholder='Product title'
+            ref={register({ required: 'You must specify a title' })}
+            required
+          />
+          <label>Product image</label>
+          <input
+            type='text'
+            name='image'
+            placeholder='Product image'
+            ref={register({ required: 'You must specify a image' })}
+            required
+          />
+          <label>Product price</label>
+          <input
+            type='number'
+            name='price'
+            placeholder='Product price'
+            ref={register({ required: 'You must specify a price' })}
+            required
+          />
+          <label>Product author</label>
+          <input
+            type='text'
+            name='author'
+            placeholder='Product author'
+            ref={register({ required: 'You must specify a author' })}
+            required
+          />
+          <label>Product category</label>
+          <select ref={register} form='create-product' name='category' id='categories'>
+            {categories.map(({ id, cname }) => (
+              <option ref={register} value={id} key={id}>
+                {cname}
+              </option>
+            ))}
+          </select>
+          <label>Product description</label>
+          <textarea ref={register} name='description' form='create-product'></textarea>
+          <button type='button' onClick={handleSubmit(onSubmit)}>
+            Create
+          </button>
+        </form>
+      </div>
     </div>
-  </div>
   );
 }
 

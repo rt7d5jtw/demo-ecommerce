@@ -6,16 +6,16 @@
   grid-template-rows: repeat(12, 1fr);
   gap: 0px 0px;
   grid-template-areas:
-    "creator-header creator-header creator-header creator-header creator-header creator-header"
-    "creator-sidebar second-header second-header second-header second-header second-header"
-    "creator-sidebar creator-main creator-main creator-main creator-main creator-main"
-    "creator-sidebar creator-main creator-main creator-main creator-main creator-main"
-    "creator-sidebar creator-main creator-main creator-main creator-main creator-main"
-    "creator-sidebar creator-main creator-main creator-main creator-main creator-main"
-    "creator-sidebar creator-main creator-main creator-main creator-main creator-main"
-    "creator-sidebar creator-main creator-main creator-main creator-main creator-main"
-    "creator-sidebar creator-main creator-main creator-main creator-main creator-main"
-    "creator-sidebar creator-main creator-main creator-main creator-main creator-main"
-    "creator-sidebar creator-main creator-main creator-main creator-main creator-main"
-    "creator-sidebar creator-main creator-main creator-main creator-main creator-main";
+    'creator-header creator-header creator-header creator-header creator-header creator-header'
+    'creator-sidebar second-header second-header second-header second-header second-header'
+    'creator-sidebar creator-main creator-main creator-main creator-main creator-main'
+    'creator-sidebar creator-main creator-main creator-main creator-main creator-main'
+    'creator-sidebar creator-main creator-main creator-main creator-main creator-main'
+    'creator-sidebar creator-main creator-main creator-main creator-main creator-main'
+    'creator-sidebar creator-main creator-main creator-main creator-main creator-main'
+    'creator-sidebar creator-main creator-main creator-main creator-main creator-main'
+    'creator-sidebar creator-main creator-main creator-main creator-main creator-main'
+    'creator-sidebar creator-main creator-main creator-main creator-main creator-main'
+    'creator-sidebar creator-main creator-main creator-main creator-main creator-main'
+    'creator-sidebar creator-main creator-main creator-main creator-main creator-main';
 }

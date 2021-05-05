@@ -14,26 +14,24 @@ interface ISidebar {
 const Sidebar = ({ categories }: ISidebar) => {
   return (
     <div className='sidebar'>
+      <div className='sidebar-links'>
         <h1>Bookstore</h1>
         {categories.map(({ cname, id }) => (
-          <Link to={'/books/' + cname} href={cname} key={id}>{cname}</Link>
+          <Link to={'/books/' + cname} href={cname} key={id}>
+            {cname}
+          </Link>
         ))}
-        <hr />
-        <Link to='/shop' href='shop'>Shop</Link>
-        <Link to='/New' href='new'>New Releases</Link>
-        <Link to='/Bestsellers' href='bestsellers'>Bestsellers</Link>
-        <Link to='/Outlet' href='outlet'>Outlet</Link>
-        <Link to='/Fiction' href='fiction'>Fiction</Link>
+      </div>
     </div>
-  )
-}
+  );
+};
 
 interface IMapStateToProps {
   categories: Category[];
 }
 
 const mapStateToProps = createStructuredSelector<RootState, IMapStateToProps>({
-  categories: selectCategories
-})
+  categories: selectCategories,
+});
 
 export default connect(mapStateToProps)(Sidebar);

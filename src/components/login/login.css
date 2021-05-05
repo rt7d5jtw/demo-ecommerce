@@ -15,7 +15,7 @@
 }
 
 .login-wrapper h1 {
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
   position: absolute;
   top: 180px;
 }
@@ -35,7 +35,7 @@
 }
 
 .register-link {
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
   position: absolute;
   bottom: 190px;
   left: 67rem;

@@ -1,6 +1,6 @@
 export enum UserRole {
   ADMIN = 'ADMIN',
-  USER = 'USER'
+  USER = 'USER',
 }
 export interface User {
   email: string;
@@ -13,7 +13,7 @@ export interface IUser {
   id: string;
   role: UserRole;
   salt: string;
-  createdAt: string
+  createdAt: string;
 }
 
 export interface UserState {
@@ -26,7 +26,7 @@ export interface UserState {
   succesful: boolean;
   messages: Array<string>;
   errors: Array<string>;
-};
+}
 
 export interface Product {
   id?: string;
@@ -96,7 +96,7 @@ export interface CartItem {
 
 export type Alert = {
   message: string;
-}
+};
 
 export interface AlertState {
   message: string;

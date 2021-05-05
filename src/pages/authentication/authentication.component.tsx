@@ -10,4 +10,4 @@ export const AuthenticationPage = () => {
       <Login />
     </div>
   );
-}
+};

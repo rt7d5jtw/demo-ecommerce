@@ -6,24 +6,20 @@ interface IOrderCard {
   date: any;
 }
 
-interface IOrderImage {
-}
+interface IOrderImage {}
 
 export const OrderCard = ({ id, date }: IOrderCard) => {
-
   function OrderImage({}: IOrderImage) {
     return (
       <div className='order-card'>
-        <div className='image' style={{backgroundImage: `url()`}}>
-        </div>
+        <div className='image' style={{ backgroundImage: `url()` }}></div>
         <span className='order-title'>{}</span>
       </div>
     );
   }
 
-
   return (
-      <>
+    <>
       <div className='order'>
         <div className='order-info'>
           <h1 className='order-number'>Order number: {id}</h1>
@@ -31,11 +27,9 @@ export const OrderCard = ({ id, date }: IOrderCard) => {
         </div>
         {/* preview the first three unique items from the cart */}
         <div className='order-container'>
-          <div className='view-order'>
-            View the order
-          </div>
+          <div className='view-order'>View the order</div>
         </div>
       </div>
-      </>
+    </>
   );
-}
+};

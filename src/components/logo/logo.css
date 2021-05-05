@@ -1,9 +1,8 @@
 .logo {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: filter 300ms;
+  display: grid;
+  place-items: center center;
   cursor: pointer;
+  transition: 1s;
 }
 
 .logo:hover {
@@ -11,5 +10,7 @@
 }
 
 .logo h1 {
+  font-size: 1.7em;
+  font-weight: bold;
   color: #c3b091;
 }

@@ -6,19 +6,25 @@ interface MatchParams {
   name: string;
 }
 
-interface MatchProps extends RouteComponentProps<MatchParams> {
-}
+type MatchProps = RouteComponentProps<MatchParams>;
 
 function ProfileNav({ match }: MatchProps) {
   return (
     <div className='profile-nav'>
-        <div className='profile-nav-wrapper'>
-          <Link to={`${match.url}/profile-overview`} className='nav-element'>Profile Overview</Link>
-          <Link to={`${match.url}/my-orders`} className='nav-element'>My Orders</Link>
-          <Link to={`${match.url}/change-password`} className='nav-element'>Change Password</Link>
-          <Link to={`${match.url}/change-email`} className='nav-element'>Change Email</Link>
-          <Link to={`${match.url}/change-details`} className='nav-element'>Change Details</Link>
-        </div>
+      <div className='profile-nav-wrapper'>
+        <Link to={`${match.url}/profile-overview`} className='nav-element'>
+          Profile Overview
+        </Link>
+        <Link to={`${match.url}/my-orders`} className='nav-element'>
+          My Orders
+        </Link>
+        <Link to={`${match.url}/change-password`} className='nav-element'>
+          Change Password
+        </Link>
+        <Link to={`${match.url}/change-email`} className='nav-element'>
+          Change Email
+        </Link>
+      </div>
     </div>
   );
 }

@@ -11,7 +11,6 @@ import { Product } from '../../../redux/types';
 import { getProducts, PRODUCT_URL } from '../../../services/product.service';
 import axios from 'axios';
 
-
 type ProductInputs = {
   title: string;
   image: string;
@@ -19,69 +18,73 @@ type ProductInputs = {
   description: string;
   author: string;
   id: string;
-}
+};
 
 function ProductsEdit() {
   const dispatch = useDispatch();
   const { register, handleSubmit, errors } = useForm<ProductInputs>();
-  const onSubmit: SubmitHandler<ProductInputs> = data => {
+  const onSubmit: SubmitHandler<ProductInputs> = (data) => {
     dispatch(editProduct(data));
     console.log(data);
-  }
+  };
   useEffect(() => {
     dispatch(fetch());
-  }, [dispatch])
+  }, [dispatch]);
   const categories = useSelector(selectCategories);
   const products = useSelector(selectProductItems);
   return (
-  <div className='edit-products'>
-    <div className='product-editor'>
-      <form id='create-product'>
-        <h1>Edit a product</h1>
-        <label>Product title</label>
-        <input
-          type='text'
-          name='title'
-          placeholder='Product title'
-          ref={register({ required: 'You must specify a title' })}
-          required
-        />
-        <label>Product image</label>
-        <input
-          type='text'
-          name='image'
-          placeholder='Product image'
-          ref={register({ required: 'You must specify a image' })}
-          required
-        />
-        <label>Product price</label>
-        <input
-          type='number'
-          name='price'
-          placeholder='Product price'
-          ref={register({ required: 'You must specify a price' })}
-          required
-        />
-        <label>Product author</label>
-        <input
-          type='text'
-          name='author'
-          placeholder='Product author'
-          ref={register({ required: 'You must specify a author' })}
-          required
-        />
-        <label>Product category</label>
-        <select ref={register} form='create-product' name='id' id='products'>
-          {products.map(({ title , id }: Product) => (
-            <option key={id} ref={register} value={id}>{title}</option>
-          ))}
-        </select>
-        <label>Product description</label>
-        <textarea ref={register} name='description' form='create-product'></textarea>
-          <button type='submit' onClick={handleSubmit(onSubmit)}>Edit</button>
-      </form>
+    <div className='edit-products'>
+      <div className='product-editor'>
+        <form id='create-product'>
+          <h1>Edit a product</h1>
+          <label>Product title</label>
+          <input
+            type='text'
+            name='title'
+            placeholder='Product title'
+            ref={register({ required: 'You must specify a title' })}
+            required
+          />
+          <label>Product image</label>
+          <input
+            type='text'
+            name='image'
+            placeholder='Product image'
+            ref={register({ required: 'You must specify a image' })}
+            required
+          />
+          <label>Product price</label>
+          <input
+            type='number'
+            name='price'
+            placeholder='Product price'
+            ref={register({ required: 'You must specify a price' })}
+            required
+          />
+          <label>Product author</label>
+          <input
+            type='text'
+            name='author'
+            placeholder='Product author'
+            ref={register({ required: 'You must specify a author' })}
+            required
+          />
+          <label>Product category</label>
+          <select ref={register} form='create-product' name='id' id='products'>
+            {products.map(({ title, id }: Product) => (
+              <option key={id} ref={register} value={id}>
+                {title}
+              </option>
+            ))}
+          </select>
+          <label>Product description</label>
+          <textarea ref={register} name='description' form='create-product'></textarea>
+          <button type='submit' onClick={handleSubmit(onSubmit)}>
+            Edit
+          </button>
+        </form>
+      </div>
     </div>
-  </div>
   );
 }
 

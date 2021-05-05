@@ -20,54 +20,46 @@ interface ICheckout {
 
 const Checkout = ({ cartItems, total, clearCart }: ICheckout) => {
   return (
-      <>
+    <>
       <Alert />
       <Navbar />
       <Sidebar />
       <div className='checkout'>
-          <div className='order-information'>
-            <h1> Checkout </h1>
-            <form className='order-form'>
-              <label>Order information</label>
-              <input
-                type='address'
-                name='address'
-                placeholder='Order address'
-                required
-              />
-              <input
-                type='name'
-                name='name'
-                placeholder='Name'
-                required
-              />
-              <input
-                type='email'
-                name='email'
-                placeholder='Email'
-                required
-              />
-            </form>
-            <h1>Order Summary</h1>
-            <h1>Total price: ${total}</h1>
-              <StripeButton price={total} clearCart={clearCart} />
-            </div>
-            { cartItems.length ? 
-            <div className='order-summary'>
+        <div className='order-information'>
+          <h1> Checkout </h1>
+          <form className='order-form'>
+            <label>Order information</label>
+            <input type='address' name='address' placeholder='Order address' required />
+            <input type='name' name='name' placeholder='Name' required />
+            <input type='email' name='email' placeholder='Email' required />
+          </form>
+          <h1>Order Summary</h1>
+          <h1>Total price: ${total}</h1>
+          <StripeButton price={total} clearCart={clearCart} />
+        </div>
+        {cartItems.length ? (
+          <div className='order-summary'>
             <h1>Products</h1>
-            {cartItems.length 
-              ? (
-                cartItems.map(({ title, price, quantity, image, id }) => (
-                <__CartItem key={id} id={id} title={title} price={price} quantity={quantity} image={image} />
-              ))) : (null) }
-            </div>
-            : (null) }
+            {cartItems.length
+              ? cartItems.map(({ title, price, quantity, image, id }) => (
+                  <__CartItem
+                    key={id}
+                    id={id}
+                    title={title}
+                    price={price}
+                    quantity={quantity}
+                    image={image}
+                  />
+                ))
+              : null}
           </div>
-      <hr /> 
+        ) : null}
+      </div>
+      <hr />
       <Footer />
-      </>
-  )
-}
+    </>
+  );
+};
 
 interface IMapStateToProps {
   cartItems: CartItem[];
@@ -77,6 +69,6 @@ interface IMapStateToProps {
 const mapStateToProps = createStructuredSelector<RootState, IMapStateToProps>({
   cartItems: selectCartItems,
   total: selectCartTotal,
-})
+});
 
 export default connect(mapStateToProps)(Checkout);

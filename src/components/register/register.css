@@ -25,19 +25,19 @@
 .registration-wrapper h1 {
   position: absolute;
   top: 180px;
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
   color: white;
 }
 
 .register-text {
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-size: 16px;
   color: #fcae1e;
 }
 
 .register-text::before {
   display: inline;
-  content: "⚠ ";
+  content: '⚠ ';
 }
 
 .form input {
@@ -62,8 +62,8 @@
   font-weight: 200;
 }
 
-.form button[type="button"] {
-  font-family: "Roboto", sans-serif;
+.form button[type='button'] {
+  font-family: 'Roboto', sans-serif;
   outline: 0;
   border: 0;
   background: #f5f5f5;
@@ -75,19 +75,19 @@
   font-size: 16px;
   letter-spacing: 1px;
   -webkit-transition: color 1.5s;
-  -moz-transition:    color 1.5s;
-  -ms-transition:     color 1.5s;
-  -o-transition:      color 1.5s;
-  transition:         color 1.5s;
+  -moz-transition: color 1.5s;
+  -ms-transition: color 1.5s;
+  -o-transition: color 1.5s;
+  transition: color 1.5s;
   cursor: pointer;
 }
 
-.form button[type="button"]:hover {
+.form button[type='button']:hover {
   background: #282828;
   color: #f5f5f5;
 }
 
-.form button[type="button"]:active {
+.form button[type='button']:active {
   transition: 0.3s all;
   transform: translateY(3px);
   border: 1px solid transparent;

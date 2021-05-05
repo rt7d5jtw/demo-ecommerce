@@ -8,9 +8,9 @@ import { useHistory } from 'react-router';
 
 type Inputs = {
   search: string;
-}
+};
 
-export const Search = () => {
+export const Search = (): JSX.Element => {
   const [input, setInput] = useState({ search: '' });
   const dispatch = useDispatch();
   const { push } = useHistory();
@@ -19,21 +19,27 @@ export const Search = () => {
   const onSubmit: SubmitHandler<Inputs> = () => {
     if (input.search) {
       dispatch(searchProducts(input.search));
-      push('/search-result')
+      push('/search-result');
     }
-  }
+  };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setInput(input => ({ ...input, [name]: value }))
-  }
-
+    setInput((input) => ({ ...input, [name]: value }));
+  };
 
   return (
     <div className='search__container'>
       <form className='search-form' action='/search-result' onSubmit={handleSubmit(onSubmit)}>
-        <input type="text" placeholder="Search for books.." name="search" value={input.search} id="searchInput" onChange={handleChange} />
+        <input
+          type='text'
+          placeholder='Search for books..'
+          name='search'
+          value={input.search}
+          id='searchInput'
+          onChange={handleChange}
+        />
       </form>
     </div>
-  )
-}
+  );
+};

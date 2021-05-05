@@ -12,7 +12,8 @@ interface IStripeButton {
 export function StripeButton({ price, clearCart }: IStripeButton) {
   const dispatch = useDispatch();
   const amount = price * 100;
-  const publishableKey = 'pk_test_51HUuCuDiJxi7nioJsEusYP3Ty7hbKaquESZBYVkCuY3g9w2roo3BSMJMPK529s7EIIcBsSxhV6Ym9xFzwCHM0Q9L00KOmEYf1f';
+  const publishableKey =
+    'pk_test_51HUuCuDiJxi7nioJsEusYP3Ty7hbKaquESZBYVkCuY3g9w2roo3BSMJMPK529s7EIIcBsSxhV6Ym9xFzwCHM0Q9L00KOmEYf1f';
 
   const onToken = (token: Token) => {
     axios({
@@ -20,26 +21,28 @@ export function StripeButton({ price, clearCart }: IStripeButton) {
       method: 'POST',
       data: {
         amount,
-        token
-      }
-    }).then(res => {
-      alert('Thanks for the payment!')
-      dispatch(clearCart());
-    }).catch(error => {
-      console.log('There was an error in the payment process: ' + error);
-      alert('Payment failed, please make sure credit card is provided');
-    });
-  }
+        token,
+      },
+    })
+      .then((res) => {
+        alert('Thanks for the payment!');
+        dispatch(clearCart());
+      })
+      .catch((error) => {
+        console.log('There was an error in the payment process: ' + error);
+        alert('Payment failed, please make sure credit card is provided');
+      });
+  };
   return (
-      <StripeCheckout
-        label='Pay now'
-        name='Bookstore'
-        billingAddress
-        shippingAddress
-        panelLabel='Pay now'
-        amount={amount}
-        token={onToken}
-        stripeKey={publishableKey}
-      />
-  )
+    <StripeCheckout
+      label='Pay now'
+      name='Bookstore'
+      billingAddress
+      shippingAddress
+      panelLabel='Pay now'
+      amount={amount}
+      token={onToken}
+      stripeKey={publishableKey}
+    />
+  );
 }

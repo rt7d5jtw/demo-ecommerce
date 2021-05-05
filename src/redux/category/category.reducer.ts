@@ -11,28 +11,28 @@ export const categoryReducer = (state = INITIAL_STATE, action: AnyAction) => {
     case CategoryConstants.FETCH_CATEGORIES:
       return {
         ...state,
-        categories: action.payload
-      }
+        categories: action.payload,
+      };
 
     case CategoryConstants.DELETE_CATEGORY:
       return {
-        ...state
-      }
+        ...state,
+      };
 
     case CategoryConstants.CREATE_CATEGORY:
       return {
         ...state,
-      }
+      };
 
     case CategoryConstants.UPDATE_CATEGORY:
       return {
         ...state,
-      }
+      };
 
     default:
       return state;
   }
-}
+};
 
 /*
 const INITIAL_STATE: CategoryState = {

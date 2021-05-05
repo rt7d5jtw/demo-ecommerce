@@ -10,8 +10,8 @@ export const persistConfig = {
   key: 'root',
   version: 1,
   storage,
-  blacklist: ['alert']
-}
+  blacklist: ['alert'],
+};
 
 const middlewares = [logger, thunk];
 
@@ -19,9 +19,9 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store: any = configureStore({
   reducer: persistedReducer,
-  middleware: [...middlewares]
-})
+  middleware: [...middlewares],
+});
 
 export const persistor = persistStore(store);
 
-export type AppDispatch = typeof store.dispatch
+export type AppDispatch = typeof store.dispatch;

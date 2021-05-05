@@ -1,7 +1,7 @@
-.creator-sidebar { 
+.creator-sidebar {
   display: grid;
   place-items: start start;
-  grid-area: creator-sidebar; 
+  grid-area: creator-sidebar;
   border: 1px solid black;
   background: #282828;
 }

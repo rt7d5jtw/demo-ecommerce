@@ -10,18 +10,18 @@ import { selectCartItems } from '../../redux/cart/cart.selectors';
 import { productAdded } from '../../redux/alert/alert.actions';
 
 export interface IProductCard {
-  CartItems: Array<CartItem>
+  CartItems: Array<CartItem>;
 }
 
 const ProductCard = (item: Product) => {
   const dispatch = useDispatch();
 
-  let cart_item: CartItem = {
+  const cart_item: CartItem = {
     title: '',
     quantity: 1,
     price: 0,
     image: '',
-    id: ''
+    id: '',
   };
 
   const buttonHandler = () => {
@@ -31,29 +31,30 @@ const ProductCard = (item: Product) => {
     cart_item.image = item.image;
     cart_item.id = item.id;
     //dispatch(addItemToCart(cartItems, cart_item))
-    dispatch(addItem(cart_item))
-    dispatch(dispatch(productAdded()))
-    console.log(cart_item)
-  }
+    dispatch(addItem(cart_item));
+    dispatch(dispatch(productAdded()));
+    console.log(cart_item);
+  };
 
   return (
     <div className='card'>
-      <div className='image' style={{backgroundImage: `url(${item.image})`}}>
+      <div className='image' style={{ backgroundImage: `url(${item.image})` }}>
         <div className='opacity-wrapper' />
-          <div className='info-wrapper'>
-          </div>
+        <div className='info-wrapper'></div>
       </div>
       <div className='card-bottom'>
         <span className='price'>${item.price}</span>
-        <button className='card-button' onClick={buttonHandler}>Add to Cart</button>
+        <button className='card-button' onClick={buttonHandler}>
+          Add to Cart
+        </button>
       </div>
       <span className='title'>{item.title}</span>
     </div>
   );
-}
+};
 
 const mapStateToProps = createStructuredSelector<RootState, any>({
-  cartItems: selectCartItems
-})
+  cartItems: selectCartItems,
+});
 
 export default connect(mapStateToProps)(ProductCard);

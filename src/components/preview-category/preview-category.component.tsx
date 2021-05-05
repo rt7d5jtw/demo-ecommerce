@@ -10,16 +10,18 @@ export interface IPreviewCategory {
 }
 
 export const PreviewCategory = ({ title, image, linkUrl }: IPreviewCategory) => {
-  let history = useHistory();
-  let match = useRouteMatch();
+  const history = useHistory();
+  const match = useRouteMatch();
 
   return (
     <div className='preview-category' onClick={() => history.push(`${match.url}${linkUrl}`)}>
-      <div className='img' style={{backgroundImage: `url(${image})`}} />
+      <div
+        className='img'
+        style={{ backgroundImage: `url(${'https://i.imgur.com/FbZAhhu.jpeg'})` }}
+      />
       <div className='content'>
-      <h1>{title}</h1>
+        <h1>{title}</h1>
       </div>
-   </div>   
+    </div>
   );
 };
-
