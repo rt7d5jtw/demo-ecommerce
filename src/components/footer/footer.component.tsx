@@ -7,7 +7,7 @@ import { SiTwitter } from 'react-icons/si';
 
 export const Footer = (): JSX.Element => {
   return (
-    <div className='footer'>
+    <footer>
       <div className='row'>
         <a href='#'>
           <i className='fa fa-twitter'>
@@ -47,6 +47,6 @@ export const Footer = (): JSX.Element => {
           </li>
         </ul>
       </div>
-    </div>
+    </footer>
   );
 };

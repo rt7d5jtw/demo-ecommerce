@@ -2,17 +2,7 @@
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   grid-template-rows: repeat(12, 1fr);
-  grid-template-areas:
-    "sidebar sidebar navbar navbar navbar navbar navbar navbar navbar navbar navbar navbar"
-    "sidebar sidebar main main main main main main main main main main"
-    "sidebar sidebar main main main main main main main main main main"
-    "sidebar sidebar main main main main main main main main main main"
-    "sidebar sidebar main main main main main main main main main main"
-    "sidebar sidebar main main main main main main main main main main"
-    "sidebar sidebar main main main main main main main main main main"
-    "sidebar sidebar main main main main main main main main main main"
-    "sidebar sidebar main main main main main main main main main main"
-    "sidebar sidebar main main main main main main main main main main"
-    "sidebar sidebar footer footer footer footer footer footer footer footer footer footer"
-    "sidebar sidebar footer footer footer footer footer footer footer footer footer footer";
+  border: 2px solid black;
+  
+  height: 100vh;
 }

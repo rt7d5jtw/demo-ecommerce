@@ -8,10 +8,12 @@ import Cart from '../cart/cart.component';
 export const Navbar = (): JSX.Element => {
   return (
     <nav className='navbar'>
-      <Logo />
-      <Search />
-      <ProfileLink />
-      <Cart />
+      <div className='nav-wrapper'>
+        <Logo />
+        <Search />
+        <ProfileLink />
+        <Cart />
+      </div>
     </nav>
   );
 };

@@ -2,8 +2,9 @@
 
 .sidebar {
   display: grid;
-  grid-area: sidebar;
+  grid-area: 1 / 1 / 13 / 3;
   place-items: start center;
+
   background: #131313;
 }
 

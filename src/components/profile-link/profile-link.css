@@ -1,18 +1,22 @@
 .profile {
   display: flex;
-  justify-content: end;
+  justify-content: center;
   align-items: center;
   width: 150px;
   cursor: pointer;
 }
 
-.profile:hover {
+.profile h1 {
+  font-family: 'Rubik';
+  padding: 15px 25px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #efcba7;
+  transition: 1s
 }
 
-.profile h1 {
-  padding: 15px 25px;
-  font-size: 1rem;
-  color: #efcba7;
+.profile h1:hover {
+  color: white;
 }
 
 .link-wrapper {

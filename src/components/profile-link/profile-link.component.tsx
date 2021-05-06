@@ -24,7 +24,7 @@ const ProfileLink = ({ currentUser, loggedIn }: ProfileLinkProp) => {
 
 export const Login = () => {
   return (
-    <div className='login'>
+    <div className='login__link'>
       <Link className='link-wrapper' to='/login'>
         <h1>Login</h1>
       </Link>

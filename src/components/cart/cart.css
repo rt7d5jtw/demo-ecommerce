@@ -1,6 +1,9 @@
 .cart {
   display: grid;
   place-items: center center;
+  width: 5%;
+
+  margin-left: 40em;
 }
 
 .cart-icon:hover {
@@ -22,8 +25,8 @@
   border-radius: 25px;
 
   position: absolute;
-  top: 2.8em;
-  right: 8em;
+  top: 2.1em;
+  right: 10.1em;
 
   width: 25px;
   height: 25px;

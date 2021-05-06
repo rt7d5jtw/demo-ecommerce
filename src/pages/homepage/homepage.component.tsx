@@ -21,9 +21,8 @@ function Homepage(): JSX.Element {
     <div className='homepage'>
       <Navbar />
       <Sidebar />
-      <Alert />
       <Main>
-        <Preview />
+        <h1>something</h1>
       </Main>
       <Footer />
     </div>
