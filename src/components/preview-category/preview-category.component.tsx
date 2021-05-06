@@ -16,10 +16,10 @@ export const PreviewCategory = ({ title, image, linkUrl }: IPreviewCategory) => 
   return (
     <div className='preview-category' onClick={() => history.push(`${match.url}${linkUrl}`)}>
       <div
-        className='img'
+        className='category-img'
         style={{ backgroundImage: `url(${'https://i.imgur.com/FbZAhhu.jpeg'})` }}
       />
-      <div className='content'>
+      <div className='category-content'>
         <h1>{title}</h1>
       </div>
     </div>

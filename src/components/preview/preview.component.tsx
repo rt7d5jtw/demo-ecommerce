@@ -16,7 +16,7 @@ export const Preview = () => {
       title: 'Outlet',
       image: outlet,
       id: 1,
-      linkUrl: 'Outlet',
+      linkUrl: 'books/outlet',
     },
     {
       title: 'Classics',

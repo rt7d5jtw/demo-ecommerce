@@ -2,4 +2,10 @@
   display: grid;
   grid-area: 2 / 3 / 12 / 13;
   place-items: center center;
+  width: 100%;
+}
+
+.main-wrapper {
+  display: grid;
+  width: 100%;
 }

@@ -6,6 +6,7 @@ import ProductCard from '../../components/product-card/product-card.component';
 import Sidebar from '../../components/sidebar/sidebar.component';
 import { Navbar } from '../../components/navbar/navbar.component';
 import { Footer } from '../../components/footer/footer.component';
+import Main from '../main/main.component';
 
 interface INewReleases {
   title: string;
@@ -18,15 +19,17 @@ export const NewReleases = ({ title, price, image, id }: INewReleases) => {
   const [products, setProducts] = useState(NEW_RELEASES_DATA);
 
   return (
-    <div className='new-releases'>
+    <div className='homepage'>
       <Navbar />
       <Sidebar />
-      <h1 className='category__title'>New Releases</h1>
-      <div className='products'>
-        {products.map(({ id, ...props }) => (
-          <ProductCard key={id} id={id} {...props} />
-        ))}
-      </div>
+      <Main>
+        <h1 className='category__title'>New Releases</h1>
+        <div className='products'>
+          {products.map(({ id, ...props }) => (
+            <ProductCard key={id} id={id} {...props} />
+          ))}
+        </div>
+      </Main>
       <Footer />
     </div>
   );

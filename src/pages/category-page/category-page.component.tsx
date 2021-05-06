@@ -21,7 +21,7 @@ interface ICategoryPage {
 function CategoryPage({ categories, products }: ICategoryPage) {
   const { categoryId } = useParams<{ categoryId?: string }>();
   return (
-    <>
+    <div className='homepage'>
       <Navbar />
       <Sidebar />
       <div className='category-page'>
@@ -47,7 +47,7 @@ function CategoryPage({ categories, products }: ICategoryPage) {
         </div>
       </div>
       <Footer />
-    </>
+    </div>
   );
 }
 

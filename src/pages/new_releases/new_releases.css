@@ -4,12 +4,15 @@
 .products {
   display: flex;
   flex-wrap: wrap;
-  margin-left: 300px;
 }
 
 .category__title {
+  font-size: 1.7em;
+  font-weight: bold;
   font-family: 'Roboto', sans-serif;
   display: flex;
   color: #131313;
-  margin-left: 300px;
+
+  margin-left: 6em;
+  margin-top: 1em;
 }
