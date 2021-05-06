@@ -3,6 +3,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  background: #87ceeb;
 }
 
 .register-picture {
@@ -23,9 +24,12 @@
 }
 
 .registration-wrapper h1 {
-  position: absolute;
-  top: 180px;
+  font-size: 1.7em;
   font-family: 'Roboto', sans-serif;
+  font-weight: bold;
+
+  position: absolute;
+  top: 8em;
   color: white;
 }
 
@@ -62,7 +66,7 @@
   font-weight: 200;
 }
 
-.form button[type='button'] {
+.form input[type='submit'] {
   font-family: 'Roboto', sans-serif;
   outline: 0;
   border: 0;
@@ -82,12 +86,12 @@
   cursor: pointer;
 }
 
-.form button[type='button']:hover {
+.form input[type='submit']:hover {
   background: #282828;
   color: #f5f5f5;
 }
 
-.form button[type='button']:active {
+.form input[type='submit']:active {
   transition: 0.3s all;
   transform: translateY(3px);
   border: 1px solid transparent;

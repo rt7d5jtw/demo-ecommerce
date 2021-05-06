@@ -1,39 +1,32 @@
 import * as React from 'react';
 import './login.css';
 import { Link, useHistory } from 'react-router-dom';
-import { useState, useEffect, FormEvent, ChangeEvent } from 'react';
 import { useDispatch } from 'react-redux';
 import { loginRequest } from '../../redux/user/user.actions';
-import { Inputs } from '../register/register.component';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { userLogged } from '../../redux/alert/alert.actions';
 
-export const Login = () => {
-  const [user, setUser] = useState({
-    email: '',
-    password: '',
-  });
+type FormValues = {
+  email: string;
+  password: string;
+};
 
-  const { email, password } = user;
-  const { register, handleSubmit, errors } = useForm<Inputs>();
+export const Login = (): JSX.Element => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormValues>();
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
+  const onSubmit: SubmitHandler<FormValues> = (data) => {
     console.log(data);
     push('/');
-
-    if (user.email && user.password) {
-      dispatch(loginRequest(data));
-      dispatch(userLogged());
-    }
+    dispatch(loginRequest(data));
+    dispatch(userLogged());
   };
 
   const { push } = useHistory();
   const dispatch = useDispatch();
-
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setUser((user) => ({ ...user, [name]: value }));
-  };
 
   return (
     <div className='login'>
@@ -43,33 +36,26 @@ export const Login = () => {
       ></div>
       <div className='login-wrapper'>
         <h1>Login</h1>
-        <form className='form'>
+        <form className='form' onSubmit={handleSubmit(onSubmit)}>
           <label>Email</label>
           <input
             type='email'
-            name='email'
-            value={user.email}
             placeholder='Email'
-            onChange={handleChange}
-            ref={register({ required: 'You must specify an email' })}
-            required
+            {...register('email', { required: true })}
+            id='email'
           />
           {errors?.email && <p className='register-text'>{errors.email.message}</p>}
           <div>
             <label>Password</label>
             <input
               type='password'
-              name='password'
-              value={user.password}
               placeholder='Password'
-              onChange={handleChange}
-              ref={register({ required: 'You must specify a password' })}
+              {...register('password', { required: true })}
+              id='password'
             />
             {errors?.password && <p className='register-text'>{errors.password.message}</p>}
           </div>
-          <button type='button' onClick={handleSubmit(onSubmit)}>
-            Login
-          </button>
+          <input type='submit' value='Login' />
           <Link to='/register'>
             <p className='register-link'>Dont have an account yet? Click here to register</p>
           </Link>

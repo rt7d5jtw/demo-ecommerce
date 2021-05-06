@@ -27,7 +27,6 @@ const Checkout = ({ cartItems, total, clearCart }: ICheckout) => {
       <Sidebar />
       <Main>
         <div className='checkout'>
-
           <div className='order-information'>
             <h1> Checkout </h1>
             <form className='order-form'>
@@ -59,7 +58,6 @@ const Checkout = ({ cartItems, total, clearCart }: ICheckout) => {
             </div>
           ) : null}
         </div>
-
       </Main>
       <Footer />
     </div>
