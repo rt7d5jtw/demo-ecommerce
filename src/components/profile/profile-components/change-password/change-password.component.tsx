@@ -1,27 +1,24 @@
 import * as React from 'react';
 import './change-password.css';
-import { useState, ChangeEvent } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
-import { Inputs } from '../../../../components/register/register.component';
 import { passwordChange } from '../../../../redux/user/user.actions';
 
-const ChangePassword = () => {
+type FormValues = {
+  currentPassword: string;
+  newPassword: string;
+};
+
+const ChangePassword = (): JSX.Element => {
   const dispatch = useDispatch();
-  const [pass, setPass] = useState({
-    currentPassword: '',
-    newPassword: '',
-  });
-  const { register, handleSubmit, errors } = useForm<Inputs>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormValues>();
 
-  const onSubmit: SubmitHandler<Inputs> = (data: any) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<FormValues> = (data) => {
     dispatch(passwordChange(data));
-  };
-
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setPass((pass) => ({ ...pass, [name]: value }));
   };
 
   return (
@@ -29,42 +26,37 @@ const ChangePassword = () => {
       <div className='profile-overview-wrapper'>
         <div className='profile-password'>
           <h1>Change my password</h1>
-          <form className='profile-form'>
+          <form className='profile-form' onSubmit={handleSubmit(onSubmit)}>
             <label>Current Password</label>
             <input
               type='password'
-              name='currentPassword'
-              value={pass.currentPassword}
               placeholder='Current password'
-              onChange={handleChange}
-              ref={register({
+              {...register('currentPassword', {
                 required: 'You must specify a password',
                 minLength: { value: 6, message: 'Passwords must have at least 6 characters' },
                 maxLength: 150,
               })}
+              id='currentPassword'
               required
             />
-            {errors?.email && <p className='profile-text'>{errors.email.message}</p>}
+            {errors?.currentPassword && (
+              <p className='profile-text'>{errors.currentPassword.message}</p>
+            )}
             <div>
               <label>New Password</label>
               <input
                 type='password'
-                name='newPassword'
-                value={pass.newPassword}
                 placeholder='New password'
-                onChange={handleChange}
-                ref={register({
+                {...register('newPassword', {
                   required: 'You must specify a password',
                   minLength: { value: 6, message: 'Passwords must have at least 6 characters' },
                   maxLength: 150,
                 })}
+                id='newPassword'
               />
-              {errors?.password && <p className='profile-text'>{errors.password.message}</p>}
+              {errors?.newPassword && <p className='profile-text'>{errors.newPassword.message}</p>}
             </div>
-
-            <button type='button' onClick={handleSubmit(onSubmit)}>
-              Save Password
-            </button>
+            <input type='submit' value='Save Password' />
           </form>
         </div>
       </div>

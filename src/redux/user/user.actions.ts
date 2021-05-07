@@ -6,9 +6,14 @@ import {
   fetchUsers,
   changePassword,
   PasswordObj,
+  EmailObj,
+  REGISTER_URL,
 } from '../../services/user.service';
 import { loginUser, logoutUser } from '../../services/auth.service';
 import { AppDispatch } from '../store';
+import { ProductConstants } from '../product/product.constants';
+import { authHeader } from '../../services/auth-header';
+import axios from 'axios';
 
 export const registerRequest = (userData: User) => (dispatch: AppDispatch) => {
   return registerUser(userData).then(
@@ -97,6 +102,28 @@ export function passwordChange(passwords: PasswordObj) {
         payload: result.password,
       });
     });
+  };
+}
+
+export function emailChange(emails: EmailObj) {
+  return (dispatch: AppDispatch) => {
+    dispatch({
+      type: UserConstants.CHANGE_EMAIL_BEGIN,
+    });
+    axios
+      .patch(REGISTER_URL.concat('email'), emails, { headers: authHeader() })
+      .then((res) => {
+        dispatch({
+          type: UserConstants.CHANGE_EMAIL_SUCCESS,
+          payload: res.data,
+        });
+      })
+      .catch((error) =>
+        dispatch({
+          type: UserConstants.CHANGE_EMAIL_FAILURE,
+          payload: error,
+        })
+      );
   };
 }
 

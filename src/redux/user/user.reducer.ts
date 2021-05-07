@@ -5,6 +5,7 @@ import { UserRole, UserState } from '../types.d';
 const INITIAL_STATE = {
   currentUser: null,
   loggedIn: false,
+  loading: false,
   role: UserRole.USER,
   hash: '',
   users: [],
@@ -12,6 +13,7 @@ const INITIAL_STATE = {
   succesful: false,
   messages: [],
   errors: [],
+  email: '',
 };
 
 export const userReducer = (state: UserState = INITIAL_STATE, action: AnyAction) => {
@@ -82,6 +84,24 @@ export const userReducer = (state: UserState = INITIAL_STATE, action: AnyAction)
       return {
         ...state,
         users: action.payload,
+      };
+
+    case UserConstants.CHANGE_EMAIL_BEGIN:
+      return {
+        ...state,
+        loading: true,
+      };
+
+    case UserConstants.CHANGE_EMAIL_SUCCESS:
+      return {
+        ...state,
+        email: action.payload,
+      };
+
+    case UserConstants.CHANGE_EMAIL_FAILURE:
+      return {
+        ...state,
+        errors: ["Email could't be changed", action.payload],
       };
 
     default:

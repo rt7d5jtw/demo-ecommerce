@@ -14,6 +14,11 @@ export type PasswordObj = {
   newPassword: string;
 };
 
+export type EmailObj = {
+  currentEmail: string;
+  newEmail: string;
+};
+
 export const registerUser = (payload: Creds): Promise<User> => {
   return axios.post(REGISTER_URL, payload);
 };

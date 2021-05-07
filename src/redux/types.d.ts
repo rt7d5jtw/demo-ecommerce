@@ -19,6 +19,7 @@ export interface IUser {
 export interface UserState {
   currentUser: null | User;
   loggedIn: boolean;
+  loading: boolean;
   role: UserRole;
   hash: string | null;
   users: IUser[];
@@ -26,6 +27,7 @@ export interface UserState {
   succesful: boolean;
   messages: Array<string>;
   errors: Array<string>;
+  email: string;
 }
 
 export interface Product {
