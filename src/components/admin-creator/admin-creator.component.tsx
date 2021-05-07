@@ -5,7 +5,7 @@ import CreatorSidebar from './creator-sidebar/creator-sidebar.component';
 import SecondHeader from './second-header/second-header.component';
 import CreatorMain from './creator-main/creator-main.component';
 
-function AdminCreator() {
+function AdminCreator(): JSX.Element {
   return (
     <div className='admin-creator'>
       <CreatorHeader />

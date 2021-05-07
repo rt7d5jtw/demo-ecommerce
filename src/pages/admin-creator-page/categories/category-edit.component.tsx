@@ -4,17 +4,22 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchCategories, updateCategory } from '../../../redux/category/category.actions';
 import { selectCategories } from '../../../redux/category/category.selectors';
-import { useForm } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
 
-export const CategoryEdit = () => {
+type FormValues = {
+  id: string;
+  cname: string;
+};
+
+export const CategoryEdit = (): JSX.Element => {
   const categories = useSelector(selectCategories);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchCategories());
   }, [dispatch]);
 
-  const { register, handleSubmit } = useForm();
-  const onSubmit = (data: any) => {
+  const { register, handleSubmit } = useForm<FormValues>();
+  const onSubmit: SubmitHandler<FormValues> = (data) => {
     const { id, cname } = data;
     dispatch(updateCategory(id, cname));
   };
@@ -25,7 +30,7 @@ export const CategoryEdit = () => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <h1>Edit a category</h1>
           <label>Select a category to edit</label>
-          <select ref={register} name='id' title='Select category which you want to update'>
+          <select {...register('id')} name='id' title='Select category which you want to update'>
             {categories.map(({ id, cname }) => (
               <option value={id} key={id}>
                 {cname}
@@ -34,12 +39,12 @@ export const CategoryEdit = () => {
           </select>
           <input
             type='text'
-            ref={register}
+            {...register('cname')}
             name='cname'
             placeholder='New category name'
             title='Input a new name for the category'
           />
-          <button type='submit'>Edit</button>
+          <input type='submit' value='Edit' />
         </form>
       </div>
     </div>

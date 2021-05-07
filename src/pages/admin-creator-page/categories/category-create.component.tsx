@@ -4,33 +4,31 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { buildCategory } from '../../../redux/category/category.actions';
 
-type CategoryInputs = {
+type FormValues = {
   cname: string;
 };
 
-function CategoryCreate() {
+function CategoryCreate(): JSX.Element {
   const dispatch = useDispatch();
-  const { register, handleSubmit, errors } = useForm<CategoryInputs>();
-  const onSubmit: SubmitHandler<CategoryInputs> = (data) => {
+  const { register, handleSubmit } = useForm<FormValues>();
+  const onSubmit: SubmitHandler<FormValues> = (data) => {
     dispatch(buildCategory(data['cname']));
     console.log(data['cname']);
   };
   return (
     <div className='creator-categories'>
       <div className='category-creator'>
-        <form id='create-product'>
-          <h1>Create a category</h1>
-          <label>Category name</label>
+        <h1>Create a category</h1>
+        <form id='create-product' onSubmit={handleSubmit(onSubmit)}>
           <input
             type='text'
-            name='cname'
             placeholder='Category name'
-            ref={register({ required: 'You must specify a name for the category' })}
+            {...register('cname', { required: 'You must specify a name for the category' })}
+            id='cname'
+            title='Type the name of the new category'
             required
           />
-          <button type='submit' onClick={handleSubmit(onSubmit)}>
-            Create
-          </button>
+          <input type='submit' value='Create' />
         </form>
       </div>
     </div>

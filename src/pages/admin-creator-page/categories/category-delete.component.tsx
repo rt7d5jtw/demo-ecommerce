@@ -9,34 +9,37 @@ import {
   updateCategory,
 } from '../../../redux/category/category.actions';
 import { selectCategories } from '../../../redux/category/category.selectors';
-import { useForm } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import { getCategories } from '../../../services/category.service';
 
-export const CategoryDelete = () => {
+type FormValues = {
+  categories: string;
+};
+
+export const CategoryDelete = (): JSX.Element => {
   const categories = useSelector(selectCategories);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchCategories());
   }, [dispatch]);
 
-  const { register, handleSubmit } = useForm();
-  const onSubmit = (data: any) => {
+  const { register, handleSubmit } = useForm<FormValues>();
+  const onSubmit: SubmitHandler<FormValues> = (data) => {
     dispatch(removeCategory(data.categories));
-    location.reload();
   };
 
   return (
     <div className='delete-categories'>
       <form onSubmit={handleSubmit(onSubmit)}>
         <label>Delete a category</label>
-        <select ref={register} name='categories' id='categories'>
+        <select {...register('categories')} name='categories' id='categories'>
           {categories.map(({ id, cname }) => (
             <option value={id} key={id}>
               {cname}
             </option>
           ))}
         </select>
-        <button type='submit'>Delete</button>
+        <input type='submit' value='Delete' />
       </form>
     </div>
   );

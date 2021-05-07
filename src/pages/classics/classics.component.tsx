@@ -33,19 +33,48 @@ const Classics = ({ message }: IClassics) => {
 
   return (
     <div className='classics'>
-      {/*<Alert />
-      <button className='cl-btn' onClick={() => dispatch(productAdded())}>Add item</button>
-      <button className='cl-btn' onClick={() => dispatch(productDeleted())}>Delete item</button>
-      <button className='cl-btn' onClick={() => dispatch(cartCleared())}>Clear Cart</button>
-      <button className='cl-btn' onClick={() => dispatch(userLogged())}>Log in</button>
-      <button className='cl-btn' onClick={() => dispatch(userRegistered())}>Register</button>
-      <button className='cl-btn' onClick={() => dispatch(getRole())}>Get Role</button>
-      <button className='cl-btn' onClick={() =>dispatch(fetchOrders())}>Get Orders</button>
-      <button className='cl-btn' onClick={() => dispatch(listUsers())}>Test users</button>
-      <button className='cl-btn' onClick={() => dispatch(fetchAllOrders())}>Test all orders</button>
-      <button className='cl-btn' onClick={() => dispatch(fetchCategories())}>Test all categories</button>
-      <button className='cl-btn' onClick={() => dispatch(updateCategory('2c21c28b-cbbe-4c95-bda7-97feac2790ac', 'something'))}>Update category</button>
-      <button className='cl-btn' onClick={() => console.log(fetchProducts())}>Get products</button>*/}
+      <Alert />
+      <button className='cl-btn' onClick={() => dispatch(productAdded())}>
+        Add item
+      </button>
+      <button className='cl-btn' onClick={() => dispatch(productDeleted())}>
+        Delete item
+      </button>
+      <button className='cl-btn' onClick={() => dispatch(cartCleared())}>
+        Clear Cart
+      </button>
+      <button className='cl-btn' onClick={() => dispatch(userLogged())}>
+        Log in
+      </button>
+      <button className='cl-btn' onClick={() => dispatch(userRegistered())}>
+        Register
+      </button>
+      <button className='cl-btn' onClick={() => dispatch(getRole())}>
+        Get Role
+      </button>
+      <button className='cl-btn' onClick={() => dispatch(fetchOrders())}>
+        Get Orders
+      </button>
+      <button className='cl-btn' onClick={() => dispatch(listUsers())}>
+        Test users
+      </button>
+      <button className='cl-btn' onClick={() => dispatch(fetchAllOrders())}>
+        Test all orders
+      </button>
+      <button className='cl-btn' onClick={() => dispatch(fetchCategories())}>
+        Test all categories
+      </button>
+      <button
+        className='cl-btn'
+        onClick={() =>
+          dispatch(updateCategory('2c21c28b-cbbe-4c95-bda7-97feac2790ac', 'something'))
+        }
+      >
+        Update category
+      </button>
+      <button className='cl-btn' onClick={() => console.log(fetchProducts())}>
+        Get products
+      </button>
 
       <Promotions />
     </div>

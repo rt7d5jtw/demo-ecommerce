@@ -6,23 +6,26 @@ import { connect, useDispatch, useSelector } from 'react-redux';
 import { selectProductItems } from '../../../redux/product/product.selectors';
 import { fetch, remove } from '../../../redux/product/product.actions';
 
-function ProductsDelete() {
+type FormValues = {
+  id: string;
+};
+
+function ProductsDelete(): JSX.Element {
   const products = useSelector(selectProductItems);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetch());
   }, [dispatch]);
-  const { register, handleSubmit } = useForm();
-  const onSubmit = (data: any) => {
+  const { register, handleSubmit } = useForm<FormValues>();
+  const onSubmit: SubmitHandler<FormValues> = (data) => {
     dispatch(remove(data['id']));
-    location.reload();
   };
   return (
     <div className='product-deletion'>
       <div className='form-wrapper'>
         <form onSubmit={handleSubmit(onSubmit)}>
           <label>Delete a product</label>
-          <select ref={register} name='id' id='products'>
+          <select {...register('id')} id='products'>
             {products.map(({ id, title }: any) => (
               <option value={id} key={id}>
                 {title}

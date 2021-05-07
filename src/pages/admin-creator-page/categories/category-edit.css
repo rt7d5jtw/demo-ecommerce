@@ -8,20 +8,34 @@
   place-items: center center;
 }
 
+.category-editor h1 {
+  font-size: 1.7em;
+  font-weight: bold;
+  margin-bottom: 1em;
+  margin-top: 1em;
+}
+
 .category-editor form {
   display: flex;
   flex-direction: column;
 }
 
 .category-editor input {
-  display: grid;
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  border-radius: 4px;
+  border: none;
+  padding: 10px 15px;
+  margin-bottom: 15px;
+  font-size: 14px;
 }
 
 .edit-categories select {
   margin-bottom: 1em;
 }
 
-.category-editor button {
+.category-editor input[type='submit'] {
   margin-top: 1em;
   border: none;
   height: 3em;
@@ -30,10 +44,10 @@
   cursor: pointer;
 }
 
-.category-editor button:hover {
+.category-editor input[type='submit']:hover {
   background: #2c6b2c;
 }
 
-.category-editor button:active {
+.category-editor input[type='submit']:active {
   transform: translateY(2px);
 }
