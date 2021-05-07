@@ -3,8 +3,7 @@
   justify-content: space-between;
 
   grid-area: creator-header;
-  border: 1px solid black;
-  background: #282828;
+  background: #20242c;
 }
 
 .header-link {
@@ -16,7 +15,9 @@
 }
 
 .creator-header a {
-  font-size: 1em;
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.2em;
+  font-weight: bold;
   color: white;
   transition: 1.5s;
 }

@@ -2,7 +2,7 @@ import * as React from 'react';
 import './creator-sidebar.css';
 import { Link, useRouteMatch } from 'react-router-dom';
 
-function CreatorSidebar() {
+function CreatorSidebar(): JSX.Element {
   const { url } = useRouteMatch();
   return (
     <nav className='creator-sidebar'>

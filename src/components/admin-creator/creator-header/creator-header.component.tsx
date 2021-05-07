@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 import './creator-header.css';
 
-function CreatorHeader() {
+function CreatorHeader(): JSX.Element {
   return (
     <div className='creator-header'>
       <div className='back-to'>
