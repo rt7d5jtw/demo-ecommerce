@@ -1,6 +1,7 @@
 .products {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 .category__title {

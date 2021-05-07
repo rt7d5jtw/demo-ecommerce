@@ -10,12 +10,14 @@ import { useDispatch } from 'react-redux';
 import { fetchCategories } from '../../redux/category/category.actions';
 import Promotions from '../../components/promotions/promotions.component';
 import Main from '../main/main.component';
+import { fetch } from '../../redux/product/product.actions';
 
 function Homepage(): JSX.Element {
   const dispatch = useDispatch();
   useEffect(() => {
     /* fetch categories and products for state */
     dispatch(fetchCategories());
+    dispatch(fetch());
   }, [dispatch]);
   return (
     <div className='homepage'>

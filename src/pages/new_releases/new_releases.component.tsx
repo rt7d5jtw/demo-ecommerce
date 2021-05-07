@@ -15,7 +15,7 @@ interface INewReleases {
   id: number;
 }
 
-export const NewReleases = ({ title, price, image, id }: INewReleases) => {
+export const NewReleases = ({ title, price, image, id }: INewReleases): JSX.Element => {
   const [products, setProducts] = useState(NEW_RELEASES_DATA);
 
   return (
