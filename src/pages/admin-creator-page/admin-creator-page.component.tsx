@@ -2,7 +2,6 @@ import * as React from 'react';
 import './admin-creator-page.css';
 import CreatorHeader from '../../components/admin-creator/creator-header/creator-header.component';
 import CreatorSidebar from '../../components/admin-creator/creator-sidebar/creator-sidebar.component';
-import SecondHeader from '../../components/admin-creator/second-header/second-header.component';
 import CreatorMain from '../../components/admin-creator/creator-main/creator-main.component';
 import { Switch, Route, useRouteMatch, useParams } from 'react-router-dom';
 import ProductsCreate from './products/products-create.component';
@@ -19,7 +18,6 @@ function AdminCreatorPage() {
     <div className='admin-creator'>
       <CreatorHeader />
       <CreatorSidebar />
-      <SecondHeader />
       <CreatorMain>
         <Switch>
           <Route path={`${path}/:creatorPage`}>

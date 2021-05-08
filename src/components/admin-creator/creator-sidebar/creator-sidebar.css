@@ -34,3 +34,8 @@
 .creator-sidebar a:hover {
   background: #fcceee;
 }
+
+.sidebar-line {
+  width: 100%;
+  color: pink;
+}

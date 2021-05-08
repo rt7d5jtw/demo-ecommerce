@@ -31,17 +31,4 @@ function Homepage(): JSX.Element {
   );
 }
 
-function StupidShit() {
-  return (
-    <div className='itsatest'>
-      <div className='box'>One</div>
-      <div className='box'>Two</div>
-      <div className='box'>Three</div>
-      <div className='box'>Four</div>
-      <div className='box'>Five</div>
-      <div className='box'>Six</div>
-    </div>
-  );
-}
-
 export default Homepage;

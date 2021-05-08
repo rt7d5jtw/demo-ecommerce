@@ -1,8 +1,7 @@
 .creator-overview {
   display: grid;
-  border: 2px solid black;
-  height: 75%;
-  width: 50%;
+  height: 100%;
+  width: 100%;
 }
 
 .info-box {
@@ -16,12 +15,13 @@
 
 #creator-welcome {
   position: absolute;
-  font-size: 1.7em;
+  top: 6em;
+  font-size: 1.9em;
   color: white;
 }
 
 #creator-text {
   position: absolute;
   color: white;
-  top: 41.5em;
+  top: 15.5em;
 }
