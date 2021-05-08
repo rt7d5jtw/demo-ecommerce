@@ -25,6 +25,9 @@ function CreatorSidebar(): JSX.Element {
         <li>
           <Link to={url + `/edit-categories`}>Edit Categories</Link>
         </li>
+        <li>
+          <Link to={url + `/add-promotions`}>Add Promotion</Link>
+        </li>
       </ul>
     </nav>
   );

@@ -128,3 +128,10 @@ export type Category = {
 export interface CategoryState {
   categories: Category[];
 }
+
+export type _Promotions = {
+  id: number;
+  image: string;
+  title: string;
+  link: string;
+};

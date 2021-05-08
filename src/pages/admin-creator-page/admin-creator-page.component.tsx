@@ -11,8 +11,9 @@ import { CategoryDelete } from './categories/category-delete.component';
 import ProductsDelete from './products/products-delete.component';
 import { CategoryEdit } from './categories/category-edit.component';
 import ProductsEdit from './products/products-edit.component';
+import PromotionsAdd from './promotions/add-promotions.component';
 
-function AdminCreatorPage() {
+function AdminCreatorPage(): JSX.Element {
   const { path } = useRouteMatch();
   return (
     <div className='admin-creator'>
@@ -31,7 +32,7 @@ function AdminCreatorPage() {
 
 export default AdminCreatorPage;
 
-export function ConditionalPaging() {
+export function ConditionalPaging(): JSX.Element {
   const { creatorPage } = useParams<{ creatorPage?: string }>();
   const matchCreator = (param: string | undefined) => {
     switch (param) {
@@ -47,6 +48,8 @@ export function ConditionalPaging() {
         return <CategoryDelete />;
       case 'edit-categories':
         return <CategoryEdit />;
+      case 'add-promotions':
+        return <PromotionsAdd />;
       default:
         return <CreatorOverview />;
     }

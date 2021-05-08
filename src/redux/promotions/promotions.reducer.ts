@@ -3,12 +3,10 @@ import { AnyAction } from 'redux';
 
 const INITIAL_STATE = {
   promotions: [
-    { id: 1, image: 'https://i.imgur.com/q5B9dMe.png', title: 'I eat ass', link: '/sale' },
-    { id: 2, image: 'https://i.imgur.com/q5B9dMe.png', title: 'I eat ass', link: '/sale' },
+    { id: 1, image: 'https://i.imgur.com/2ZQ74M2.jpg', title: 'I eat ass', link: '/sale' },
+    { id: 2, image: 'https://i.imgur.com/g4o8KSZ.png', title: 'I eat ass', link: '/sale' },
     { id: 3, image: 'https://i.imgur.com/q5B9dMe.png', title: 'I eat ass', link: '/sale' },
-    { id: 4, image: 'https://i.imgur.com/q5B9dMe.png', title: 'I eat ass', link: '/sale' },
-    { id: 5, image: 'https://i.imgur.com/q5B9dMe.png', title: 'I eat ass', link: '/sale' },
-    { id: 6, image: 'https://i.imgur.com/q5B9dMe.png', title: 'I eat ass', link: '/sale' },
+    { id: 4, image: 'https://i.imgur.com/FAHGdJD.png', title: 'I eat ass', link: '/sale' },
   ],
   loading: false,
 };

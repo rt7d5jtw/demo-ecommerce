@@ -25,6 +25,7 @@ function Homepage(): JSX.Element {
       <Sidebar />
       <Main>
         <Preview />
+        <Promotions />
       </Main>
       <Footer />
     </div>

@@ -1,9 +1,31 @@
 .promotions {
   display: flex;
-  flex-wrap: wrap;
-  padding: 50px 50px;
   justify-content: center;
   align-items: center;
-  align-content: stretch;
+  width: 93%;
+  height: 35em;
   border: 2px solid black;
+}
+
+.gallery-arrow {
+  position: absolute;
+  color: white;
+  width: 4em;
+  height: 3.2em;
+  cursor: pointer;
+  transition: 1.5s;
+}
+
+.gallery-arrow:hover {
+  color: black;
+}
+
+.right-arrow {
+  top: 72em;
+  right: 5em;
+}
+
+.left-arrow {
+  top: 72em;
+  left: 25em;
 }
