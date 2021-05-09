@@ -7,6 +7,5 @@
 
 .main-wrapper {
   display: grid;
-  place-items: center center;
   width: 100%;
 }

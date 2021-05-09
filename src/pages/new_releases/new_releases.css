@@ -8,9 +8,9 @@
   font-size: 1.7em;
   font-weight: bold;
   font-family: 'Roboto', sans-serif;
-  display: flex;
   color: #131313;
 
   margin-left: 6em;
   margin-top: 1em;
+  display: none;
 }

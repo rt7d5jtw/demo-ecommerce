@@ -361,11 +361,12 @@
 
 #browse-users {
   position: absolute;
-  top: 8.5em;
+  top: 9em;
 }
 
 #browse-orders {
   position: absolute;
+  top: 1em;
   left: 40%;
 }
 

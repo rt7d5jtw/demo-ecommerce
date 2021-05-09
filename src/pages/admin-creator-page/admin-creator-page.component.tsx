@@ -12,6 +12,8 @@ import ProductsDelete from './products/products-delete.component';
 import { CategoryEdit } from './categories/category-edit.component';
 import ProductsEdit from './products/products-edit.component';
 import PromotionsAdd from './promotions/add-promotions.component';
+import PromotionsEdit from './promotions/edit-promotions.component';
+import PromotionsDelete from './promotions/delete-promotions.component';
 
 function AdminCreatorPage(): JSX.Element {
   const { path } = useRouteMatch();
@@ -50,6 +52,10 @@ export function ConditionalPaging(): JSX.Element {
         return <CategoryEdit />;
       case 'add-promotions':
         return <PromotionsAdd />;
+      case 'edit-promotions':
+        return <PromotionsEdit />;
+      case 'delete-promotions':
+        return <PromotionsDelete />;
       default:
         return <CreatorOverview />;
     }

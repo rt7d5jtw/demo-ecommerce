@@ -16,12 +16,32 @@ export function fetch() {
       .then((res) => {
         dispatch({
           type: PromotionConstants.FETCH_PROMOTION_SUCCESS,
-          payload: res.data,
         });
       })
       .catch((error) =>
         dispatch({
           type: PromotionConstants.FETCH_PROMOTION_FAILURE,
+          payload: error,
+        })
+      );
+  };
+}
+
+export function remove(id: string) {
+  return (dispatch: AppDispatch) => {
+    dispatch({
+      type: PromotionConstants.REMOVE_PROMOTION_BEGIN,
+    });
+    axios
+      .delete(PROMOTION_URL.concat('/' + id))
+      .then((res) => {
+        dispatch({
+          type: PromotionConstants.REMOVE_PROMOTION_SUCCESS,
+        });
+      })
+      .catch((error) =>
+        dispatch({
+          type: PromotionConstants.REMOVE_PROMOTION_FAILURE,
           payload: error,
         })
       );
