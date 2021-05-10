@@ -24,8 +24,8 @@ export class Order extends BaseEntity {
   @Column()
   status: OrderStatus;
 
-  @CreateDateColumn({ name: 'Order_Date' })
-  createdAt: Date;
+  @CreateDateColumn({ type: 'date' })
+  date: Date;
 
   @ManyToOne(() => User, user => user.orders, {
     eager: false

@@ -1,8 +1,8 @@
-import { Logger, UseGuards } from "@nestjs/common";
+import { Logger, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { EntityRepository, Repository } from "typeorm";
-import { CreateProductDto } from "./dto/product.dto";
-import { SearchProductDto } from "./dto/search-product.dto";
+import { EntityRepository, Repository } from 'typeorm';
+import { CreateProductDto } from './dto/product.dto';
+import { SearchProductDto } from './dto/search-product.dto';
 import { Product, ProductStatus } from './product.entity';
 
 @EntityRepository(Product)
@@ -14,7 +14,10 @@ export class ProductRepository extends Repository<Product> {
     const query = this.createQueryBuilder('product');
 
     if (search) {
-      query.andWhere('product.title LIKE :search OR product.description LIKE :search', { search: `%${search}%` });
+      query.andWhere(
+        'product.title LIKE :search OR product.description LIKE :search',
+        { search: `%${search}%` },
+      );
     }
 
     if (cat) {
@@ -25,10 +28,15 @@ export class ProductRepository extends Repository<Product> {
     return products;
   }
 
-  async createProduct(
-    createProductDto: CreateProductDto
-  ): Promise<Product> {
-    const { title, image, price, description, author, category } = createProductDto;
+  async createProduct(createProductDto: CreateProductDto): Promise<Product> {
+    const {
+      title,
+      image,
+      price,
+      description,
+      author,
+      category,
+    } = createProductDto;
 
     const product = new Product();
     product.title = title;
@@ -42,7 +50,7 @@ export class ProductRepository extends Repository<Product> {
     try {
       await product.save();
     } catch (error) {
-      this.logger.error(`Failed to create a prouct`, error.stack);
+      this.logger.error(`Failed to create a product`, error.stack);
     }
 
     return product;

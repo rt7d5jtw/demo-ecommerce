@@ -1,6 +1,11 @@
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { User, UserRole } from './user.entity';
-import { CreateUserDto, UpdateUserDto } from './dto/user.dto';
+import {
+  ChangePasswordDto,
+  ChangeEmailDto,
+  CreateUserDto,
+  UpdateUserDto,
+} from './dto/user.dto';
 import { SearchUserDto } from './dto/search-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserRepository } from './user.repository';
@@ -18,26 +23,54 @@ export class UsersService {
   }
 
   async getUserById(id: string): Promise<User> {
-    const result = await this.userRepository.findOne(id);
-    if (!result) {
+    const user = await this.userRepository.findOne(id);
+    if (!user) {
       throw new NotFoundException(`User with ID "${id}" not found`);
     }
+    return user;
+  }
+
+  async getUser(user: User): Promise<User> {
+    const result = await this.userRepository.findOne(user);
+    if (!result) {
+      throw new NotFoundException(`User with ID "${user}" not found!`);
+    }
     return result;
+  }
+
+  async getRoleByUser(user: User): Promise<UserRole> {
+    return user.role;
+  }
+
+  async getRole(id: string): Promise<any> {
+    const user = await this.getUserById(id);
+    if (!user) {
+      throw new NotFoundException(`User with ID "${id}" not found`);
+    }
+    return user.role;
   }
 
   createUser(createUserDto: CreateUserDto): Promise<User> {
     return this.userRepository.createUser(createUserDto);
   }
 
+  async updatePassword(user: User, password: string): Promise<User> {
+    return this.userRepository.updatePassword(user, password);
+  }
+
+  async changePassword(
+    user: User,
+    changePasswordDto: ChangePasswordDto,
+  ): Promise<User> {
+    return this.userRepository.changePassword(user, changePasswordDto);
+  }
+
+  async changeEmail(user: User, changeEmailDto: ChangeEmailDto): Promise<User> {
+    return this.userRepository.changeEmail(user, changeEmailDto);
+  }
+
   async updateUser(id: string, updateUserDto: UpdateUserDto): Promise<User> {
-    const { password, email } = updateUserDto;
-    const user = await this.getUserById(id);
-
-    user.email = email;
-    user.password = password;
-    await user.save();
-
-    return user;
+    return this.userRepository.updateUser(id, updateUserDto);
   }
 
   async updateUserRole(id: string, role: UserRole): Promise<User> {

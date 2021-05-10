@@ -5,7 +5,6 @@ import { CreateCategoryDto, SearchCategoryDto } from './dto/category.dto';
 import { Category } from './category.entity';
 
 @Controller('category')
-@UseGuards(AuthGuard())
 export class CategoryController {
   constructor(private categoryService: CategoryService) {}
 

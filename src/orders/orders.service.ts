@@ -31,6 +31,10 @@ export class OrdersService {
     return result;
   }
 
+  async getAllOrders(): Promise<Order[]> {
+    return this.orderRepository.query('SELECT * FROM public.orders');
+  }
+
   async getOrderItemById(id: string, user: User): Promise<OrderItem> {
     const userId = user["id"];
     const orderId = await this.orderRepository.find({

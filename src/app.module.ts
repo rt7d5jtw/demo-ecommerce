@@ -10,11 +10,12 @@ import { typeOrmConfig } from './config/typeorm.config';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { CategoryModule } from './category/category.module';
+import { PromotionsModule } from './promotions/promotions.module';
 
 @Module({
   imports: [ConfigModule.forRoot({
     isGlobal: true,
-  }), TypeOrmModule.forRoot(typeOrmConfig), UsersModule, ProductModule, CartModule, OrdersModule, AuthModule, CategoryModule],
+  }), TypeOrmModule.forRoot(typeOrmConfig), UsersModule, ProductModule, CartModule, OrdersModule, AuthModule, CategoryModule, PromotionsModule],
   controllers: [AppController],
   providers: [AppService],
 })

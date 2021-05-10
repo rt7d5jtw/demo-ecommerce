@@ -16,7 +16,7 @@ export class User extends BaseEntity {
   @Column({ unique: true })
   email!: string;
 
-  @Column({ length: 150 })
+  @Column({ length: 150, type: "varchar" })
   password: string;
 
   @Column()
@@ -25,7 +25,7 @@ export class User extends BaseEntity {
   @Column()
   salt: string;
 
-  @CreateDateColumn({ name: 'registered_at' })
+  @CreateDateColumn({ name: 'registered_at', type: 'date' })
   createdAt: Date;
 
   @OneToOne(() => Cart, cart => cart.user)

@@ -5,8 +5,9 @@ import { SearchOrdersDto } from './dto/search-orders.dto';
 import { OrdersService } from './orders.service';
 import { Order } from './order.entity';
 import { OrderItem } from './order-item.entity';
-import { User } from '../users/user.entity';
+import { User, UserRole } from '../users/user.entity';
 import { GetUser } from '../users/get_user.decorator';
+import { Roles } from 'src/users/roles.decorator';
 
 @Controller('orders')
 @UseGuards(AuthGuard())
@@ -19,6 +20,12 @@ export class OrdersController {
     @GetUser() user: User,
   ): Promise<Order[]> {
     return this.ordersService.getOrders(searchOrdersDto, user);
+  }
+
+  @Get('all')
+  getAllOrders(
+  ): Promise<Order[]> {
+    return this.ordersService.getAllOrders();
   }
 
   @Get(':id')
