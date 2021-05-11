@@ -1,16 +1,17 @@
 import * as React from 'react';
+import { useHistory } from 'react-router';
 import './promotion-card.css';
 
 interface IPromotionCard {
-  title: string;
   image: string;
-  link: string;
-  id: number;
+  url: string;
+  id: string;
 }
 
-const PromotionCard = ({ title, image }: IPromotionCard) => {
+const PromotionCard = ({ image, url }: IPromotionCard): JSX.Element => {
+  const { push } = useHistory();
   return (
-    <div className='promotion-card' onClick={() => alert('yeet')}>
+    <div className='promotion-card' onClick={() => push(url)}>
       <div className='img' style={{ backgroundImage: `url(${image})` }} />
     </div>
   );

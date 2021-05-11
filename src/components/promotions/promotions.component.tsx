@@ -1,15 +1,17 @@
 import * as React from 'react';
 import { useState } from 'react';
 import './promotions.css';
-import { useSelector, useDispatch } from 'react-redux';
-import { selectPromotions } from '../../redux/promotions/promotions.selectors';
+import { useSelector } from 'react-redux';
+import { selectPromotions, SelectTest } from '../../redux/promotions/promotions.selectors';
 import PromotionCard from '../promotion-card/promotion-card.component';
 import { _Promotions } from '../../redux/types';
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
 
-const Promotions = (): JSX.Element => {
-  const dispatch = useDispatch();
-  const promotions = useSelector(selectPromotions);
+interface IPromotions {
+  promotions: any;
+}
+
+const Promotions = ({ promotions }: IPromotions): JSX.Element => {
   const [index, setIndex] = useState(0);
 
   function nextSlide() {
@@ -28,8 +30,7 @@ const Promotions = (): JSX.Element => {
       <PromotionCard
         id={promotions[index].id}
         image={promotions[index].image}
-        title={promotions[index].title}
-        link={promotions[index].link}
+        url={promotions[index].url}
       />
       <MdKeyboardArrowRight className='gallery-arrow right-arrow' onClick={nextSlide} />
     </div>

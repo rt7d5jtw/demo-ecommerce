@@ -12,6 +12,7 @@ import {
   selectProductSearch,
   selectSearchItems,
 } from '../../redux/product/product.selectors';
+import Main from '../main/main.component';
 
 interface ISearchPage {
   searchItems: Product[];
@@ -20,22 +21,24 @@ interface ISearchPage {
 
 const SearchPage = ({ searchItems, search }: ISearchPage) => {
   return (
-    <div className='search-page'>
+    <div className='homepage'>
       <Navbar />
       <Sidebar />
-      <h1 className='category__title'>Searched for {search}</h1>
-      <div className='products'>
-        {searchItems.map(({ title, price, id, image, quantity }) => (
-          <ProductCard
-            key={id}
-            id={id}
-            title={title}
-            price={price}
-            image={image}
-            quantity={quantity}
-          />
-        ))}
-      </div>
+      <Main>
+        <h1 className='category__title'>Searched for {search}</h1>
+        <div className='products'>
+          {searchItems.map(({ title, price, id, image, quantity }) => (
+            <ProductCard
+              key={id}
+              id={id}
+              title={title}
+              price={price}
+              image={image}
+              quantity={quantity}
+            />
+          ))}
+        </div>
+      </Main>
       <Footer />
     </div>
   );

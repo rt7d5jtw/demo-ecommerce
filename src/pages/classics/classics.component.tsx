@@ -1,7 +1,7 @@
 import * as React from 'react';
 import './classics.css';
 import Alert from '../../components/alert/alert.component';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/root-reducer';
 import {
   productAdded,
@@ -18,7 +18,7 @@ import { fetchAllOrders, fetchOrders } from '../../redux/order/order.actions';
 import { UserViewer } from '../../components/user-viewer/user-viewer.component';
 import { fetchCategories, updateCategory } from '../../redux/category/category.actions';
 import { editCategory } from '../../services/category.service';
-import { fetchProducts } from '../../redux/product/product.actions';
+import { fetch } from '../../redux/promotions/promotions.actions';
 import { getProducts } from '../../services/product.service';
 import PromotionCard from '../../components/promotion-card/promotion-card.component';
 import { PreviewCategory } from '../../components/preview-category/preview-category.component';
@@ -30,7 +30,6 @@ interface IClassics {
 
 const Classics = ({ message }: IClassics) => {
   const dispatch = useDispatch();
-
   return (
     <div className='classics'>
       <Alert />
@@ -62,7 +61,7 @@ const Classics = ({ message }: IClassics) => {
         Test all orders
       </button>
       <button className='cl-btn' onClick={() => dispatch(fetchCategories())}>
-        Test all categories
+        Fetch promotions
       </button>
       <button
         className='cl-btn'
@@ -72,11 +71,9 @@ const Classics = ({ message }: IClassics) => {
       >
         Update category
       </button>
-      <button className='cl-btn' onClick={() => console.log(fetchProducts())}>
+      <button className='cl-btn' onClick={() => console.log(dispatch(fetch()))}>
         Get products
       </button>
-
-      <Promotions />
     </div>
   );
 };

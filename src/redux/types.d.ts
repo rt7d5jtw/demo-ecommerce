@@ -133,5 +133,19 @@ export type _Promotions = {
   id: number;
   image: string;
   title: string;
-  link: string;
+  url: string;
 };
+
+export interface PromotionsState {
+  promotions: any[];
+  loading: boolean;
+}
+
+type LoaderObj = {
+  actions: string[];
+  refreshing: string[];
+};
+
+export interface UIState {
+  loader: LoaderObj;
+}

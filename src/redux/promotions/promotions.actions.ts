@@ -1,6 +1,7 @@
 import { PromotionConstants } from './promotions.constants';
 import axios from 'axios';
 import { AppDispatch } from '../store';
+import { _Promotions } from '../types';
 
 const PROMOTION_URL = 'http://localhost:3000/promotions';
 
@@ -16,11 +17,34 @@ export function fetch() {
       .then((res) => {
         dispatch({
           type: PromotionConstants.FETCH_PROMOTION_SUCCESS,
+          payload: res.data,
         });
       })
       .catch((error) =>
         dispatch({
           type: PromotionConstants.FETCH_PROMOTION_FAILURE,
+          payload: error,
+        })
+      );
+  };
+}
+
+export function add(data: _Promotions) {
+  return async (dispatch: AppDispatch) => {
+    dispatch({
+      type: PromotionConstants.CREATE_PROMOTION_BEGIN,
+    });
+    axios
+      .post(PROMOTION_URL, data)
+      .then((res) => {
+        dispatch({
+          type: PromotionConstants.CREATE_PROMOTION_SUCCESS,
+          payload: data,
+        });
+      })
+      .catch((error) =>
+        dispatch({
+          type: PromotionConstants.CREATE_PROMOTION_FAILURE,
           payload: error,
         })
       );
