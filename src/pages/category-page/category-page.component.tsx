@@ -5,28 +5,31 @@ import { Navbar } from '../../components/navbar/navbar.component';
 import Sidebar from '../../components/sidebar/sidebar.component';
 import { Category, Product } from '../../redux/types';
 import ProductCard from '../../components/product-card/product-card.component';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { RootState } from '../../redux/root-reducer';
 import { selectProductItems } from '../../redux/product/product.selectors';
 import { selectCategories } from '../../redux/category/category.selectors';
-import { useParams } from 'react-router-dom';
+import { Route, useLocation, useParams, useRouteMatch } from 'react-router-dom';
 import Main from '../main/main.component';
+import { SingleProductPage } from '../single-product/single-product.component';
+import { useEffect } from 'react';
 
 interface ICategoryPage {
   categories: any;
   products: Product[];
-  categoryId: string;
-  find: () => Category;
 }
 
-function CategoryPage({ categories, products }: ICategoryPage) {
+function CategoryPage({ categories, products }: ICategoryPage): JSX.Element {
   const { categoryId } = useParams<{ categoryId?: string }>();
+  const { path, url } = useRouteMatch();
+  useEffect(() => console.log(products));
   return (
     <div className='homepage'>
       <Navbar />
       <Sidebar />
       <Main>
+        <Route path={`${url}/:bookId`} component={SingleProductPage} />
         <div className='category-page'>
           <h1 className='category__title'>
             <p>{categories.find(({ cname }: Category) => cname === categoryId).cname}</p>
@@ -34,11 +37,11 @@ function CategoryPage({ categories, products }: ICategoryPage) {
           <div className='products'>
             {products
               .filter(
-                (product) =>
+                (product: Product) =>
                   product.categoryId ===
                   categories.find(({ cname }: Category) => cname === categoryId).id
               )
-              .map(({ title, price, id, image, quantity }) => (
+              .map(({ title, price, id, image, quantity }: Product) => (
                 <ProductCard
                   key={id}
                   id={id}

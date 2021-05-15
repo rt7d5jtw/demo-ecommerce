@@ -8,6 +8,7 @@ import { CartItem, Product } from '../../redux/types';
 import { createStructuredSelector } from 'reselect';
 import { selectCartItems } from '../../redux/cart/cart.selectors';
 import { productAdded } from '../../redux/alert/alert.actions';
+import { useHistory, useParams } from 'react-router';
 
 export interface IProductCard {
   CartItems: Array<CartItem>;
@@ -15,7 +16,8 @@ export interface IProductCard {
 
 const ProductCard = (item: Product) => {
   const dispatch = useDispatch();
-
+  const { push } = useHistory();
+  const params = useParams<{ categoryId?: string }>();
   const cart_item: CartItem = {
     title: '',
     quantity: 1,
@@ -38,7 +40,11 @@ const ProductCard = (item: Product) => {
 
   return (
     <div className='card'>
-      <div className='image' style={{ backgroundImage: `url(${item.image})` }}>
+      <div
+        className='image'
+        style={{ backgroundImage: `url(${item.image})` }}
+        onClick={() => push(`${params.categoryId}/${item.id}`)}
+      >
         <div className='opacity-wrapper' />
         <div className='info-wrapper'></div>
       </div>

@@ -1,10 +1,7 @@
 import * as React from 'react';
 import { useState } from 'react';
 import './promotions.css';
-import { useSelector } from 'react-redux';
-import { selectPromotions, SelectTest } from '../../redux/promotions/promotions.selectors';
 import PromotionCard from '../promotion-card/promotion-card.component';
-import { _Promotions } from '../../redux/types';
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
 
 interface IPromotions {

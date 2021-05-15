@@ -2,18 +2,23 @@ import * as React from 'react';
 import './edit-promotions.css';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
+import { selectPromotions, update } from '../../../redux/promotions/promotionsSlice';
+import { _Promotions } from '../../../redux/types';
 
 type FormValues = {
   title: string;
   image: string;
   link: string;
+  id: number;
 };
 
 function PromotionsEdit(): JSX.Element {
+  const promotions = useSelector(selectPromotions)
+  const dispatch = useDispatch();
   const { register, handleSubmit } = useForm<FormValues>();
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     console.log(data);
-    //dispatch(editPromotion(data))
+    dispatch(update(data))
   };
   return (
     <div className='edit-promotions'>
@@ -27,6 +32,14 @@ function PromotionsEdit(): JSX.Element {
           {...register('image')}
           required
         />
+        <select {...register('id')} form='edit-promotions' name='id' id='promotions'>
+          {promotions.map(({ title, id }: _Promotions) => (
+            <option key={id} {...register} value={id}>
+              {title}
+            </option>
+          ))}
+        </select>
+
         <input type='submit' value='Edit' />
       </form>
     </div>

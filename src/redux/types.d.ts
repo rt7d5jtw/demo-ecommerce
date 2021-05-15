@@ -120,24 +120,25 @@ export type Category = {
 }
 */
 
-export type Category = {
+export interface Category {
   cname: string;
   id: string;
-};
+}
 
 export interface CategoryState {
   categories: Category[];
 }
 
 export type _Promotions = {
-  id: number;
+  id?: number;
   image: string;
   title: string;
   url: string;
 };
 
 export interface PromotionsState {
-  promotions: any[];
+  promotions: _Promotions[];
+  test: any[];
   loading: boolean;
 }
 

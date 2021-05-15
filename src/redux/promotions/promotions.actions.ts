@@ -1,3 +1,4 @@
+/*
 import { PromotionConstants } from './promotions.constants';
 import axios from 'axios';
 import { AppDispatch } from '../store';
@@ -5,7 +6,6 @@ import { _Promotions } from '../types';
 
 const PROMOTION_URL = 'http://localhost:3000/promotions';
 
-/* side effects */
 
 export function fetch() {
   return (dispatch: AppDispatch) => {
@@ -71,3 +71,4 @@ export function remove(id: string) {
       );
   };
 }
+*/

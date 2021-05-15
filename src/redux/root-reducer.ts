@@ -5,7 +5,7 @@ import { cartReducer } from './cart/cart.reducer';
 import { alertReducer } from './alert/alert.reducer';
 import { orderReducer } from './order/order.reducer';
 import { categoryReducer } from './category/category.reducer';
-import { promotionsReducer } from './promotions/promotions.reducer';
+import promotionReducer from './promotions/promotionsSlice';
 import { uiReducer } from './ui/ui.reducer';
 
 export const rootReducer = combineReducers({
@@ -15,7 +15,7 @@ export const rootReducer = combineReducers({
   product: productReducer,
   cart: cartReducer,
   alert: alertReducer,
-  promotions: promotionsReducer,
+  promotions: promotionReducer,
   ui: uiReducer,
 });
 

@@ -1,3 +1,4 @@
+/*
 import { PromotionConstants } from './promotions.constants';
 import { AnyAction } from 'redux';
 
@@ -78,3 +79,4 @@ export const promotionsReducer = (state = INITIAL_STATE, action: AnyAction) => {
       };
   }
 };
+*/

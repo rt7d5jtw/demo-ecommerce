@@ -18,11 +18,12 @@ import { fetchAllOrders, fetchOrders } from '../../redux/order/order.actions';
 import { UserViewer } from '../../components/user-viewer/user-viewer.component';
 import { fetchCategories, updateCategory } from '../../redux/category/category.actions';
 import { editCategory } from '../../services/category.service';
-import { fetch } from '../../redux/promotions/promotions.actions';
+//import { fetch } from '../../redux/promotions/promotions.actions';
 import { getProducts } from '../../services/product.service';
 import PromotionCard from '../../components/promotion-card/promotion-card.component';
 import { PreviewCategory } from '../../components/preview-category/preview-category.component';
 import Promotions from '../../components/promotions/promotions.component';
+import { SingleProductPage } from '../single-product/single-product.component';
 
 interface IClassics {
   message: string;
@@ -32,7 +33,6 @@ const Classics = ({ message }: IClassics) => {
   const dispatch = useDispatch();
   return (
     <div className='classics'>
-      <Alert />
       <button className='cl-btn' onClick={() => dispatch(productAdded())}>
         Add item
       </button>
