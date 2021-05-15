@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchCategories } from '../../redux/category/category.actions';
 import Promotions from '../../components/promotions/promotions.component';
 import Main from '../main/main.component';
-import { fetch } from '../../redux/product/product.actions';
+import { fetch } from '../../redux/product/productSlice';
 //import { fetch as pfetch } from '../../redux/promotions/promotions.actions';
 import { checkIfLoading, fetchPromotions, selectPromotions } from '../../redux/promotions/promotionsSlice';
 import { Route, Switch } from 'react-router';
@@ -25,7 +25,6 @@ function Homepage(): JSX.Element {
     dispatch(fetch());
     dispatch(fetchPromotions());
     console.log(promotions);
-    console.log('Loading => ' + isLoading)
   }, [dispatch]);
 
   if (isLoading) {

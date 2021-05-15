@@ -3,7 +3,7 @@ import { ChangeEvent, useState } from 'react';
 import './search.css';
 import { useDispatch } from 'react-redux';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { searchProducts } from '../../redux/product/product.actions';
+import { search } from '../../redux/product/productSlice';
 import { useHistory } from 'react-router';
 
 type Inputs = {
@@ -18,7 +18,7 @@ export const Search = (): JSX.Element => {
   const { handleSubmit } = useForm<Inputs>();
   const onSubmit: SubmitHandler<Inputs> = () => {
     if (input.search) {
-      dispatch(searchProducts(input.search));
+      dispatch(search(input.search));
       push('/search-result');
     }
   };

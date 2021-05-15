@@ -1,3 +1,4 @@
+/*
 import { ProductConstants } from './product.constants';
 import { Product, ProductwithID } from '../types.d';
 import { AppDispatch } from '../store';
@@ -10,8 +11,6 @@ import {
 } from '../../services/product.service';
 
 export const PRODUCT_URL = 'http://localhost:3000/product';
-
-/* side effects */
 
 export function fetch() {
   return (dispatch: AppDispatch) => {
@@ -134,7 +133,6 @@ export function editProduct(data: ProductwithID) {
   };
 }
 
-/* plain objects */
 
 export const fetchProductsBegin = () => ({
   type: ProductConstants.FETCH_PRODUCTS_BEGIN,
@@ -164,7 +162,6 @@ export const searchProductsFailure = (error: Error) => ({
   payload: { error },
 });
 
-/* utility functions */
 
 export const addItemToProducts = (products: Product[], new_item: Product) => {
   const existingItem = products.find((item: Product) => item.id == new_item.id);
@@ -173,3 +170,4 @@ export const addItemToProducts = (products: Product[], new_item: Product) => {
   }
   return [...products, { ...new_item }];
 };
+*/

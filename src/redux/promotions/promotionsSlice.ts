@@ -2,11 +2,10 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { PromotionsState, _Promotions } from '../types';
 import axios, { AxiosError } from 'axios';
 import { RootState } from '../root-reducer';
-//import { PromotionConstants } from './promotions.constants';
 
 const PROMOTION_URL = 'http://localhost:3000/promotions';
 
-interface ValidationErrors {
+export interface ValidationErrors {
   errorMessage: string;
   field_errors: Record<string, string>;
 }

@@ -1,3 +1,4 @@
+/*
 import { createSelector } from 'reselect';
 import { RootState } from '../root-reducer';
 import { ProductState } from '../types';
@@ -18,3 +19,4 @@ export const selectSearchItems = createSelector(
   [selectProduct],
   (product: ProductState) => product.searchItems
 );
+*/

@@ -1,3 +1,4 @@
+/*
 import { ProductConstants } from './product.constants';
 import { AnyAction } from 'redux';
 import { addItemToProducts } from './product.actions';
@@ -124,3 +125,4 @@ export const productReducer = (state = INITIAL_STATE, action: AnyAction) => {
       return state;
   }
 };
+*/

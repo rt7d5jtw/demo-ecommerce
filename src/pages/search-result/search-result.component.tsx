@@ -11,7 +11,7 @@ import {
   selectProductItems,
   selectProductSearch,
   selectSearchItems,
-} from '../../redux/product/product.selectors';
+} from '../../redux/product/productSlice';
 import Main from '../main/main.component';
 
 interface ISearchPage {
