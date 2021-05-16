@@ -2,7 +2,7 @@ import * as React from 'react';
 import './my-orders.css';
 import { OrderCard } from '../../../../components/order-card/order-card.component';
 import { useSelector } from 'react-redux';
-import { selectOrders } from '../../../../redux/order/order.selectors';
+import { selectOrders } from '../../../../redux/order/orderSlice';
 
 export const MyOrders = () => {
   const orders = useSelector(selectOrders);

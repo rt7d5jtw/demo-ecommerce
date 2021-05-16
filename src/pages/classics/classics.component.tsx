@@ -14,7 +14,7 @@ import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { selectMessage } from '../../redux/alert/alert.selectors';
 import { getRole, listUsers } from '../../redux/user/user.actions';
-import { fetchAllOrders, fetchOrders } from '../../redux/order/order.actions';
+import { fetchAll, fetch } from '../../redux/order/orderSlice';
 import { UserViewer } from '../../components/user-viewer/user-viewer.component';
 import { fetchCategories, updateCategory } from '../../redux/category/category.actions';
 import { editCategory } from '../../services/category.service';

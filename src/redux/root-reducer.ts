@@ -3,7 +3,7 @@ import { userReducer } from './user/user.reducer';
 import productReducer from './product/productSlice';
 import { cartReducer } from './cart/cart.reducer';
 import { alertReducer } from './alert/alert.reducer';
-import { orderReducer } from './order/order.reducer';
+import orderReducer from './order/orderSlice';
 import { categoryReducer } from './category/category.reducer';
 import promotionReducer from './promotions/promotionsSlice';
 import { uiReducer } from './ui/ui.reducer';
