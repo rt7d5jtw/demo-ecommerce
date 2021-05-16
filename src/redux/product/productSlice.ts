@@ -1,8 +1,8 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, createSelector } from '@reduxjs/toolkit';
 import axios, { AxiosError } from 'axios';
 import { ValidationErrors } from '../promotions/promotionsSlice';
 import { RootState } from '../root-reducer';
-import { ProductwithID } from '../types';
+import { ProductState, ProductwithID } from '../types';
 
 export const PRODUCT_URL = 'http://localhost:3000/product';
 
@@ -129,8 +129,15 @@ export const productSlice = createSlice({
   },
 });
 
-export const selectProductItems = (state: RootState) => state.product.items;
-export const selectProductSearch = (state: RootState) => state.product.search;
-export const selectSearchItems = (state: RootState) => state.product.searchItems;
+export const selectRoot = (state: RootState) => state.product;
+
+export const selectItems = createSelector([selectRoot], (product: ProductState) => product.items);
+
+export const selectSearch = createSelector([selectRoot], (product: ProductState) => product.search);
+
+export const selectSearchItems = createSelector(
+  [selectRoot],
+  (product: ProductState) => product.searchItems
+);
 
 export default productSlice.reducer;

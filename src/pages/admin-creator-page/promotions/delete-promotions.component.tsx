@@ -14,7 +14,7 @@ function PromotionsDelete(): JSX.Element {
   const promotions = useSelector(selectPromotions);
   const { register, handleSubmit } = useForm<FormValues>();
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    dispatch(remove(data.id))
+    dispatch(remove(data.id));
   };
   return (
     <div className='delete-promotions'>

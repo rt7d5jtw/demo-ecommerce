@@ -1,7 +1,7 @@
 import * as React from 'react';
 import './single-product.css';
 import { useSelector } from 'react-redux';
-import { selectProductItems } from '../../redux/product/product.selectors';
+import { selectItems } from '../../redux/product/productSlice';
 import { useParams } from 'react-router';
 import { ProductwithID } from '../../redux/types';
 
@@ -11,7 +11,7 @@ interface ISingleProductPage {
 
 export const SingleProductPage = ({ match }: ISingleProductPage): JSX.Element => {
   const { bookId } = useParams<{ bookId?: string }>();
-  const products = useSelector(selectProductItems);
+  const products = useSelector(selectItems);
   const product = products.find((book: ProductwithID) => book.id === parseInt(bookId, 10));
   return (
     <div className='single-product'>

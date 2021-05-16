@@ -7,11 +7,7 @@ import ProductCard from '../../components/product-card/product-card.component';
 import { createStructuredSelector } from 'reselect';
 import { RootState } from '../../redux/root-reducer';
 import { Product } from '../../redux/types';
-import {
-  selectProductItems,
-  selectProductSearch,
-  selectSearchItems,
-} from '../../redux/product/productSlice';
+import { selectItems, selectSearch, selectSearchItems } from '../../redux/product/productSlice';
 import Main from '../main/main.component';
 
 interface ISearchPage {
@@ -45,7 +41,7 @@ const SearchPage = ({ searchItems, search }: ISearchPage) => {
 };
 
 const mapStateToProps = createStructuredSelector<RootState, ISearchPage>({
-  search: selectProductSearch,
+  search: selectSearch,
   searchItems: selectSearchItems,
 });
 

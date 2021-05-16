@@ -13,12 +13,12 @@ type FormValues = {
 };
 
 function PromotionsEdit(): JSX.Element {
-  const promotions = useSelector(selectPromotions)
+  const promotions = useSelector(selectPromotions);
   const dispatch = useDispatch();
   const { register, handleSubmit } = useForm<FormValues>();
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     console.log(data);
-    dispatch(update(data))
+    dispatch(update(data));
   };
   return (
     <div className='edit-promotions'>

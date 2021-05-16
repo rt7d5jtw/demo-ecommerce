@@ -11,7 +11,11 @@ import Promotions from '../../components/promotions/promotions.component';
 import Main from '../main/main.component';
 import { fetch } from '../../redux/product/productSlice';
 //import { fetch as pfetch } from '../../redux/promotions/promotions.actions';
-import { checkIfLoading, fetchPromotions, selectPromotions } from '../../redux/promotions/promotionsSlice';
+import {
+  checkIfLoading,
+  fetchPromotions,
+  selectPromotions,
+} from '../../redux/promotions/promotionsSlice';
 import { Route, Switch } from 'react-router';
 import { selectCategories } from '../../redux/category/category.selectors';
 

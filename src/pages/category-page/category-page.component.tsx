@@ -8,7 +8,7 @@ import ProductCard from '../../components/product-card/product-card.component';
 import { connect, useSelector } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { RootState } from '../../redux/root-reducer';
-import { selectProductItems } from '../../redux/product/productSlice';
+import { selectItems } from '../../redux/product/productSlice';
 import { selectCategories } from '../../redux/category/category.selectors';
 import { Route, useLocation, useParams, useRouteMatch } from 'react-router-dom';
 import Main from '../main/main.component';
@@ -65,7 +65,7 @@ interface IMapStateToProps {
 }
 
 const mapStateToProps = createStructuredSelector<RootState, IMapStateToProps>({
-  products: selectProductItems,
+  products: selectItems,
   categories: selectCategories,
 });
 

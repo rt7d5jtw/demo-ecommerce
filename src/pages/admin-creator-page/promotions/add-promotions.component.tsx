@@ -15,7 +15,7 @@ function PromotionsAdd(): JSX.Element {
   const { register, handleSubmit } = useForm<FormValues>();
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     console.log(data);
-    dispatch(add(data))
+    dispatch(add(data));
   };
   return (
     <div className='add-promotions'>

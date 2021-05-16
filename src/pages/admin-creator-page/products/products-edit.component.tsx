@@ -5,8 +5,8 @@ import { useState, useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { selectCategories } from '../../../redux/category/category.selectors';
 import { fetchCategories } from '../../../redux/category/category.actions';
-import { fetch, editProduct, fetchProducts } from '../../../redux/product/product.actions';
-import { selectProductItems } from '../../../redux/product/product.selectors';
+import { fetch, update } from '../../../redux/product/productSlice';
+import { selectItems } from '../../../redux/product/productSlice';
 import { Product } from '../../../redux/types';
 import { getProducts, PRODUCT_URL } from '../../../services/product.service';
 
@@ -27,13 +27,13 @@ function ProductsEdit() {
     formState: { errors },
   } = useForm<FormValues>();
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    dispatch(editProduct(data));
+    dispatch(update(data));
   };
   useEffect(() => {
     dispatch(fetch());
   }, [dispatch]);
   const categories = useSelector(selectCategories);
-  const products = useSelector(selectProductItems);
+  const products = useSelector(selectItems);
   return (
     <div className='edit-products'>
       <div className='product-editor'>
