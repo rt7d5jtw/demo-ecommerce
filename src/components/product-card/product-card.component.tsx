@@ -2,11 +2,11 @@ import * as React from 'react';
 import './product-card.css';
 import { connect } from 'react-redux';
 import { RootState } from '../../redux/root-reducer';
-import { addItem } from '../../redux/cart/cart.actions';
+import { addItem } from '../../redux/cart/cartSlice';
 import { useDispatch } from 'react-redux';
 import { CartItem, Product } from '../../redux/types';
 import { createStructuredSelector } from 'reselect';
-import { selectCartItems } from '../../redux/cart/cart.selectors';
+import { selectCartItems } from '../../redux/cart/cartSlice';
 import { productAdded } from '../../redux/alert/alert.actions';
 import { useHistory, useParams } from 'react-router';
 

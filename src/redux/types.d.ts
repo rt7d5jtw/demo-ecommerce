@@ -84,8 +84,9 @@ export interface OrderState {
 
 export interface CartState {
   isOpen: boolean;
-  cartItems: any;
+  items: any;
   quantity: number;
+  price: number;
 }
 
 export interface CartItem {

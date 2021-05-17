@@ -6,10 +6,10 @@ import { Footer } from '../../components/footer/footer.component';
 import Sidebar from '../../components/sidebar/sidebar.component';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchCategories } from '../../redux/category/category.actions';
+import { fetch as fetchCategories } from '../../redux/category/categorySlice';
+import { fetch } from '../../redux/product/productSlice';
 import Promotions from '../../components/promotions/promotions.component';
 import Main from '../main/main.component';
-import { fetch } from '../../redux/product/productSlice';
 //import { fetch as pfetch } from '../../redux/promotions/promotions.actions';
 import {
   checkIfLoading,
@@ -17,7 +17,7 @@ import {
   selectPromotions,
 } from '../../redux/promotions/promotionsSlice';
 import { Route, Switch } from 'react-router';
-import { selectCategories } from '../../redux/category/category.selectors';
+import { selectCategories } from '../../redux/category/categorySlice';
 
 function Homepage(): JSX.Element {
   const dispatch = useDispatch();

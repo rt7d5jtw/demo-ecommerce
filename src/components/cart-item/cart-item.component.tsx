@@ -2,7 +2,7 @@ import * as React from 'react';
 import './cart-item.css';
 import { CartItem } from '../../redux/types';
 import { connect, useDispatch } from 'react-redux';
-import { removeCartItem } from '../../redux/cart/cart.actions';
+import { removeItem } from '../../redux/cart/cartSlice';
 import { productDeleted } from '../../redux/alert/alert.actions';
 
 /* two underscores because CartItem is reserved for the type */
@@ -10,7 +10,7 @@ const __CartItem = (cartItem: CartItem) => {
   const dispatch = useDispatch();
 
   function removeHandler() {
-    dispatch(removeCartItem(cartItem));
+    dispatch(removeItem(cartItem));
     dispatch(productDeleted());
   }
 

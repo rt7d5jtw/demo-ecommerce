@@ -3,8 +3,8 @@ import './products-create.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { selectCategories } from '../../../redux/category/category.selectors';
-import { fetchCategories } from '../../../redux/category/category.actions';
+import { selectCategories } from '../../../redux/category/categorySlice';
+import { fetch } from '../../../redux/category/categorySlice';
 import { add } from '../../../redux/product/productSlice';
 
 type FormValues = {
@@ -26,7 +26,7 @@ function ProductsCreate(): JSX.Element {
     dispatch(add(data));
   };
   useEffect(() => {
-    dispatch(fetchCategories());
+    dispatch(fetch());
   }, [dispatch]);
 
   return (

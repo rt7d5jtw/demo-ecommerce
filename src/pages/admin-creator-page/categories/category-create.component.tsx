@@ -2,7 +2,7 @@ import * as React from 'react';
 import './category-create.css';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
-import { buildCategory } from '../../../redux/category/category.actions';
+import { add } from '../../../redux/category/categorySlice';
 
 type FormValues = {
   cname: string;
@@ -12,7 +12,7 @@ function CategoryCreate(): JSX.Element {
   const dispatch = useDispatch();
   const { register, handleSubmit } = useForm<FormValues>();
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    dispatch(buildCategory(data['cname']));
+    dispatch(add(data['cname']));
     console.log(data['cname']);
   };
   return (

@@ -3,9 +3,9 @@ import './cart.css';
 import { TiShoppingCart } from 'react-icons/ti';
 import { connect } from 'react-redux';
 import { RootState } from '../../redux/root-reducer';
-import { cartToggle, clearCart } from '../../redux/cart/cart.actions';
+import { cartToggle, clearCart } from '../../redux/cart/cartSlice';
 import { useDispatch } from 'react-redux';
-import { selectOpen, selectCartItems, selectQuantity } from '../../redux/cart/cart.selectors';
+import { selectOpen, selectCartItems, selectQuantity } from '../../redux/cart/cartSlice';
 import { createStructuredSelector } from 'reselect';
 import { Product, ProductwithID, Product_for_CartItem } from '../../redux/types';
 import __CartItem from '../cart-item/cart-item.component';
@@ -15,11 +15,11 @@ import { cartCleared } from '../../redux/alert/alert.actions';
 
 interface ICart {
   isOpen: boolean;
-  cartItems: Product_for_CartItem[];
+  items: Product_for_CartItem[];
   quantity: number;
 }
 
-const Cart = ({ isOpen, cartItems, quantity }: ICart) => {
+const Cart = ({ isOpen, items, quantity }: ICart) => {
   const dispatch = useDispatch();
   const wrappedRef = useRef<HTMLDivElement>(null);
   const iconRef = useRef<HTMLDivElement>(null);
@@ -74,8 +74,8 @@ const Cart = ({ isOpen, cartItems, quantity }: ICart) => {
               Clear Cart
             </button>
           </div>
-          {cartItems.length ? (
-            cartItems.map(({ title, price, image, quantity, id }) => (
+          {items.length ? (
+            items.map(({ title, price, image, quantity, id }) => (
               <__CartItem
                 key={id}
                 id={id}
@@ -96,7 +96,7 @@ const Cart = ({ isOpen, cartItems, quantity }: ICart) => {
 
 const mapStateToProps = createStructuredSelector<RootState, ICart>({
   isOpen: selectOpen,
-  cartItems: selectCartItems,
+  items: selectCartItems,
   quantity: selectQuantity,
 });
 

@@ -2,7 +2,7 @@ import * as React from 'react';
 import './sidebar.css';
 import { Link } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
-import { selectCategories } from '../../redux/category/category.selectors';
+import { selectCategories } from '../../redux/category/categorySlice';
 import { RootState } from '../../redux/root-reducer';
 import { Category } from '../../redux/types';
 import { connect } from 'react-redux';

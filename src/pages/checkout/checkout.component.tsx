@@ -5,7 +5,7 @@ import { Navbar } from '../../components/navbar/navbar.component';
 import Sidebar from '../../components/sidebar/sidebar.component';
 import __CartItem from '../../components/cart-item/cart-item.component';
 import { connect } from 'react-redux';
-import { selectCartItems, selectCartTotal } from '../../redux/cart/cart.selectors';
+import { selectCartItems, selectCartTotal } from '../../redux/cart/cartSlice';
 import { createStructuredSelector } from 'reselect';
 import { RootState } from '../../redux/root-reducer';
 import { CartItem } from '../../redux/types';
@@ -14,12 +14,12 @@ import { StripeButton } from '../../components/stripe-button/stripe-button.compo
 import Main from '../main/main.component';
 
 interface ICheckout {
-  cartItems: CartItem[];
+  items: CartItem[];
   total: number;
   clearCart: () => void;
 }
 
-const Checkout = ({ cartItems, total, clearCart }: ICheckout) => {
+const Checkout = ({ items, total, clearCart }: ICheckout) => {
   return (
     <div className='homepage'>
       <Alert />
@@ -40,11 +40,11 @@ const Checkout = ({ cartItems, total, clearCart }: ICheckout) => {
             <StripeButton price={total} clearCart={clearCart} />
           </div>
 
-          {cartItems.length ? (
+          {items.length ? (
             <div className='order-summary'>
               <h1>Products</h1>
-              {cartItems.length
-                ? cartItems.map(({ title, price, quantity, image, id }) => (
+              {items.length
+                ? items.map(({ title, price, quantity, image, id }) => (
                     <__CartItem
                       key={id}
                       id={id}
@@ -65,12 +65,12 @@ const Checkout = ({ cartItems, total, clearCart }: ICheckout) => {
 };
 
 interface IMapStateToProps {
-  cartItems: CartItem[];
+  items: CartItem[];
   total: number;
 }
 
 const mapStateToProps = createStructuredSelector<RootState, IMapStateToProps>({
-  cartItems: selectCartItems,
+  items: selectCartItems,
   total: selectCartTotal,
 });
 

@@ -9,7 +9,7 @@ import { connect, useSelector } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { RootState } from '../../redux/root-reducer';
 import { selectItems } from '../../redux/product/productSlice';
-import { selectCategories } from '../../redux/category/category.selectors';
+import { selectCategories } from '../../redux/category/categorySlice';
 import { Route, useLocation, useParams, useRouteMatch } from 'react-router-dom';
 import Main from '../main/main.component';
 import { SingleProductPage } from '../single-product/single-product.component';

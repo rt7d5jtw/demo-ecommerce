@@ -14,10 +14,9 @@ import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { selectMessage } from '../../redux/alert/alert.selectors';
 import { getRole, listUsers } from '../../redux/user/user.actions';
-import { fetchAll, fetch } from '../../redux/order/orderSlice';
+import { fetchAll, fetch as fetchOrders } from '../../redux/order/orderSlice';
 import { UserViewer } from '../../components/user-viewer/user-viewer.component';
-import { fetchCategories, updateCategory } from '../../redux/category/category.actions';
-import { editCategory } from '../../services/category.service';
+import { fetch as fetchCategories, update } from '../../redux/category/categorySlice';
 //import { fetch } from '../../redux/promotions/promotions.actions';
 import { getProducts } from '../../services/product.service';
 import PromotionCard from '../../components/promotion-card/promotion-card.component';
@@ -57,17 +56,15 @@ const Classics = ({ message }: IClassics) => {
       <button className='cl-btn' onClick={() => dispatch(listUsers())}>
         Test users
       </button>
-      <button className='cl-btn' onClick={() => dispatch(fetchAllOrders())}>
+      <button className='cl-btn' onClick={() => dispatch(fetchAll())}>
         Test all orders
       </button>
       <button className='cl-btn' onClick={() => dispatch(fetchCategories())}>
-        Fetch promotions
+        Fetch categories
       </button>
       <button
         className='cl-btn'
-        onClick={() =>
-          dispatch(updateCategory('2c21c28b-cbbe-4c95-bda7-97feac2790ac', 'something'))
-        }
+        onClick={() => dispatch(update('2c21c28b-cbbe-4c95-bda7-97feac2790ac', 'something'))}
       >
         Update category
       </button>
