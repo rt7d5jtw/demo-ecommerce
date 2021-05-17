@@ -11,7 +11,6 @@ import { Product, ProductwithID, Product_for_CartItem } from '../../redux/types'
 import __CartItem from '../cart-item/cart-item.component';
 import { useHistory } from 'react-router-dom';
 import { useRef, useEffect } from 'react';
-import { cartCleared } from '../../redux/alert/alert.actions';
 
 interface ICart {
   isOpen: boolean;
@@ -50,7 +49,6 @@ const Cart = ({ isOpen, items, quantity }: ICart) => {
 
   function cartClear() {
     dispatch(clearCart());
-    dispatch(cartCleared());
   }
 
   return (

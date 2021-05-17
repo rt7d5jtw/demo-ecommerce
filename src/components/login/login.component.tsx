@@ -4,7 +4,7 @@ import { Link, useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { loginRequest } from '../../redux/user/user.actions';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { userLogged } from '../../redux/alert/alert.actions';
+import { userLogged } from '../../redux/alert/alertSlice';
 
 type FormValues = {
   email: string;

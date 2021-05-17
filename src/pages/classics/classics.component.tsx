@@ -3,16 +3,10 @@ import './classics.css';
 import Alert from '../../components/alert/alert.component';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/root-reducer';
-import {
-  productAdded,
-  productDeleted,
-  cartCleared,
-  userLogged,
-  userRegistered,
-} from '../../redux/alert/alert.actions';
+import { userLogged, registered } from '../../redux/alert/alertSlice';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
-import { selectMessage } from '../../redux/alert/alert.selectors';
+import { selectMessage } from '../../redux/alert/alertSlice';
 import { getRole, listUsers } from '../../redux/user/user.actions';
 import { fetchAll, fetch as fetchOrders } from '../../redux/order/orderSlice';
 import { UserViewer } from '../../components/user-viewer/user-viewer.component';
@@ -32,19 +26,11 @@ const Classics = ({ message }: IClassics) => {
   const dispatch = useDispatch();
   return (
     <div className='classics'>
-      <button className='cl-btn' onClick={() => dispatch(productAdded())}>
-        Add item
-      </button>
-      <button className='cl-btn' onClick={() => dispatch(productDeleted())}>
-        Delete item
-      </button>
-      <button className='cl-btn' onClick={() => dispatch(cartCleared())}>
-        Clear Cart
-      </button>
+      <Alert />
       <button className='cl-btn' onClick={() => dispatch(userLogged())}>
         Log in
       </button>
-      <button className='cl-btn' onClick={() => dispatch(userRegistered())}>
+      <button className='cl-btn' onClick={() => dispatch(registered())}>
         Register
       </button>
       <button className='cl-btn' onClick={() => dispatch(getRole())}>

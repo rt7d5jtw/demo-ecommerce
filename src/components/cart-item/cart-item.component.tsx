@@ -3,7 +3,6 @@ import './cart-item.css';
 import { CartItem } from '../../redux/types';
 import { connect, useDispatch } from 'react-redux';
 import { removeItem } from '../../redux/cart/cartSlice';
-import { productDeleted } from '../../redux/alert/alert.actions';
 
 /* two underscores because CartItem is reserved for the type */
 const __CartItem = (cartItem: CartItem) => {
@@ -11,7 +10,6 @@ const __CartItem = (cartItem: CartItem) => {
 
   function removeHandler() {
     dispatch(removeItem(cartItem));
-    dispatch(productDeleted());
   }
 
   return (

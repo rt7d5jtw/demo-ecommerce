@@ -2,7 +2,7 @@ import * as React from 'react';
 import './change-email.css';
 import { useDispatch } from 'react-redux';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { emailChange } from '../../../../redux/user/user.actions';
+import { changeEmail } from '../../../../redux/user/userSlice';
 
 type FormValues = {
   currentEmail: string;
@@ -19,7 +19,7 @@ const ChangeEmail = (): JSX.Element => {
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     console.log(data);
-    dispatch(emailChange(data));
+    dispatch(changeEmail(data));
   };
 
   return (

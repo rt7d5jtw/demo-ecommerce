@@ -4,13 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { registerRequest } from '../../redux/user/user.actions';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
-import { userRegistered } from '../../redux/alert/alert.actions';
-
-type FormValues = {
-  email: string;
-  password: string;
-  confirm_password: string;
-};
+import { registered } from '../../redux/alert/alertSlice';
 
 export const Register = (): JSX.Element => {
   const { push } = useHistory();
@@ -19,13 +13,12 @@ export const Register = (): JSX.Element => {
     register,
     handleSubmit,
     formState: { errors },
-    watch,
-  } = useForm<FormValues>();
-  const onSubmit: SubmitHandler<FormValues> = (data) => {
+  } = useForm<any>();
+  const onSubmit: SubmitHandler<any> = (data) => {
     console.log(data);
-    push('/login');
+    //push('/login');
     dispatch(registerRequest(data));
-    dispatch(userRegistered());
+    dispatch(registered());
   };
 
   const { requesting } = useSelector((state: any) => state.user.requesting);
@@ -62,20 +55,7 @@ export const Register = (): JSX.Element => {
               required
             />
             {errors?.password && <p className='register-text'>{errors.password.message}</p>}
-            <label>Confirm Password</label>
-            <input
-              type='password'
-              {...register('confirm_password', {
-                validate: (value) => value === watch('password') || "Passwords don't match",
-              })}
-              placeholder='Confirm Password'
-              required
-            />
           </div>
-          {errors?.confirm_password && (
-            <p className='register-text'>{errors.confirm_password.message}</p>
-          )}
-
           <input type='submit' value='Register' />
         </form>
       </div>

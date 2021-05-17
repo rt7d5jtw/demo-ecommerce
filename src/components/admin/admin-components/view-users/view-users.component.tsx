@@ -7,13 +7,13 @@ import { UserViewer } from '../../../../components/user-viewer/user-viewer.compo
 import { AdminHeader } from '../../../../components/admin/admin-header/admin-header.component';
 import AdminNav from '../../../../components/admin/admin-nav/admin-nav.component';
 import { AdminMain } from '../../../../components/admin/admin-main/admin-main.component';
-import { listUsers } from '../../../../redux/user/user.actions';
+import { fetch } from '../../../../redux/user/userSlice';
 
 export const ViewUsers = () => {
   const users = useSelector(selectUsers);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(listUsers());
+    dispatch(fetch());
   }, [dispatch]);
 
   return (

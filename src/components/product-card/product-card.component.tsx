@@ -7,7 +7,6 @@ import { useDispatch } from 'react-redux';
 import { CartItem, Product } from '../../redux/types';
 import { createStructuredSelector } from 'reselect';
 import { selectCartItems } from '../../redux/cart/cartSlice';
-import { productAdded } from '../../redux/alert/alert.actions';
 import { useHistory, useParams } from 'react-router';
 
 export interface IProductCard {
@@ -34,7 +33,6 @@ const ProductCard = (item: Product) => {
     cart_item.id = item.id;
     //dispatch(addItemToCart(cartItems, cart_item))
     dispatch(addItem(cart_item));
-    dispatch(dispatch(productAdded()));
     console.log(cart_item);
   };
 

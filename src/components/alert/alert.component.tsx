@@ -3,9 +3,13 @@ import './alert.css';
 import { createStructuredSelector } from 'reselect';
 import { connect, useDispatch } from 'react-redux';
 import { RootState } from '../../redux/root-reducer';
-import { selectAlertType, selectMessage, selectTimeout } from '../../redux/alert/alert.selectors';
-import { alert_type } from '../../redux/alert/alert.reducer';
-import { hideout } from '../../redux/alert/alert.actions';
+import {
+  hideout,
+  selectAlertType,
+  selectMessage,
+  selectTimeout,
+} from '../../redux/alert/alertSlice';
+import { alert_type } from '../../redux/alert/alertSlice';
 import { useEffect, useState } from 'react';
 
 interface IAlert {

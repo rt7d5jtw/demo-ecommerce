@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 import { userReducer } from './user/user.reducer';
 import productReducer from './product/productSlice';
 import cartReducer from './cart/cartSlice';
-import { alertReducer } from './alert/alert.reducer';
+import alertReducer from './alert/alertSlice';
 import orderReducer from './order/orderSlice';
 import categoryReducer from './category/categorySlice';
 import promotionReducer from './promotions/promotionsSlice';

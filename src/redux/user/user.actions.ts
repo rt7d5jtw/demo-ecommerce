@@ -11,7 +11,6 @@ import {
 } from '../../services/user.service';
 import { loginUser, logoutUser } from '../../services/auth.service';
 import { AppDispatch } from '../store';
-import { ProductConstants } from '../product/product.constants';
 import { authHeader } from '../../services/auth-header';
 import axios from 'axios';
 

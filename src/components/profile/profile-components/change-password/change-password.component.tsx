@@ -2,7 +2,7 @@ import * as React from 'react';
 import './change-password.css';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
-import { passwordChange } from '../../../../redux/user/user.actions';
+import { changePassword } from '../../../../redux/user/userSlice';
 
 type FormValues = {
   currentPassword: string;
@@ -18,7 +18,7 @@ const ChangePassword = (): JSX.Element => {
   } = useForm<FormValues>();
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    dispatch(passwordChange(data));
+    dispatch(changePassword(data));
   };
 
   return (
