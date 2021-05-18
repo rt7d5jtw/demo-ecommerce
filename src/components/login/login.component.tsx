@@ -2,7 +2,7 @@ import * as React from 'react';
 import './login.css';
 import { Link, useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { loginRequest } from '../../redux/user/user.actions';
+import { login } from '../../redux/user/userSlice';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { userLogged } from '../../redux/alert/alertSlice';
 
@@ -21,7 +21,7 @@ export const Login = (): JSX.Element => {
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     console.log(data);
     push('/');
-    dispatch(loginRequest(data));
+    dispatch(login(data));
     dispatch(userLogged());
   };
 

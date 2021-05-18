@@ -16,12 +16,11 @@ export const Register = (): JSX.Element => {
   } = useForm<any>();
   const onSubmit: SubmitHandler<any> = (data) => {
     console.log(data);
-    //push('/login');
+    push('/login');
     dispatch(registerRequest(data));
     dispatch(registered());
   };
 
-  const { requesting } = useSelector((state: any) => state.user.requesting);
   const dispatch = useDispatch();
 
   return (

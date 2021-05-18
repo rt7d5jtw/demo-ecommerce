@@ -1,4 +1,3 @@
-/*
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
 import axios, { AxiosError } from 'axios';
@@ -49,27 +48,31 @@ export const register = createAsyncThunk(
 
 export const login = createAsyncThunk(
   'user/login',
-  async (payload: LoginCredentials, { rejectWithValue }) => {
-    try {
-      const response = await axios.post(LOGIN_URL, payload);
-      if (response.data.accessToken) {
-        localStorage.setItem('user', JSON.stringify(response.data));
-      }
-      return response.data;
-    } catch (err) {
-      const error: AxiosError<ValidationErrors> = err;
-      if (!error.response) {
-        throw err;
-      }
-      return rejectWithValue(error.response.data);
-    }
+  async (userData: LoginCredentials, { rejectWithValue }) => {
+    return axios
+      .post(LOGIN_URL, userData)
+      .then((res) => {
+        if (res.data.accessToken) {
+          localStorage.setItem('user', JSON.stringify(res.data));
+        }
+        return res.data;
+      })
+      .catch((err) => {
+        const error: AxiosError<ValidationErrors> = err;
+        if (!error.response) {
+          throw err;
+        }
+        return rejectWithValue(error.response.data);
+      });
   }
 );
 
-export const fetchRole = createAsyncThunk('user/fetchRole', async () => {
-  const response = axios.get(REGISTER_URL + 'role', { headers: authHeader() });
-  return response;
-});
+export const fetchRole = createAsyncThunk(
+  'user/fetchRole',
+  async (): Promise<UserRole> => {
+    return axios.get(REGISTER_URL + 'role', { headers: authHeader() });
+  }
+);
 
 export const changePassword = createAsyncThunk(
   'user/changePassword',
@@ -117,18 +120,31 @@ export const logoutUser = () => {
   window.location.reload();
 };
 
+interface IInitialState {
+  currentUser: null | any;
+  loggedIn: boolean;
+  loading: boolean;
+  role: UserRole;
+  hash: string;
+  users: User[];
+  errors: string[] | unknown;
+  email: string;
+}
+
+const initialState: IInitialState = {
+  currentUser: null,
+  loggedIn: false,
+  loading: false,
+  role: UserRole.USER,
+  hash: '',
+  users: [],
+  errors: [],
+  email: '',
+};
+
 export const userSlice = createSlice({
   name: 'user',
-  initialState: {
-    currentUser: null,
-    loggedIn: false,
-    loading: false,
-    role: UserRole.USER,
-    hash: '',
-    users: [],
-    errors: [],
-    email: '',
-  },
+  initialState: initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(register.pending, (state) => {
@@ -141,17 +157,16 @@ export const userSlice = createSlice({
       state.loading = false;
       state.errors = action.payload;
     }),
-      builder.addCase(login.pending, (state) => {
+      builder.addCase(login.pending, (state, { payload }) => {
         state.loading = true;
       }),
-      builder.addCase(login.fulfilled, (state, action) => {
+      builder.addCase(login.fulfilled, (state, { payload }) => {
+        state.currentUser = payload;
         state.loading = false;
         state.loggedIn = true;
-        state.currentUser = action.payload;
       }),
       builder.addCase(login.rejected, (state, action) => {
         state.loading = false;
-        state.errors = action.payload;
       }),
       builder.addCase(logout.pending, (state) => {
         state.loading = true;
@@ -224,4 +239,5 @@ export const selectLoggedIn = createSelector([selectUser], (user: UserState) => 
 export const selectRole = createSelector([selectUser], (user: UserState) => user.role);
 
 export const selectUsers = createSelector([selectUser], (user: UserState) => user.users);
-*/
+
+export default userSlice.reducer;

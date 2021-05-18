@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { userReducer } from './user/user.reducer';
+import userReducer from './user/userSlice';
 import productReducer from './product/productSlice';
 import cartReducer from './cart/cartSlice';
 import alertReducer from './alert/alertSlice';

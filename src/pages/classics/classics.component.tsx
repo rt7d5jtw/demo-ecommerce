@@ -7,7 +7,7 @@ import { userLogged, registered } from '../../redux/alert/alertSlice';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { selectMessage } from '../../redux/alert/alertSlice';
-import { getRole, listUsers } from '../../redux/user/user.actions';
+import { getRole, listUsers, loginRequest } from '../../redux/user/user.actions';
 import { fetchAll, fetch as fetchOrders } from '../../redux/order/orderSlice';
 import { UserViewer } from '../../components/user-viewer/user-viewer.component';
 import { fetch as fetchCategories, update } from '../../redux/category/categorySlice';
@@ -17,6 +17,7 @@ import PromotionCard from '../../components/promotion-card/promotion-card.compon
 import { PreviewCategory } from '../../components/preview-category/preview-category.component';
 import Promotions from '../../components/promotions/promotions.component';
 import { SingleProductPage } from '../single-product/single-product.component';
+import { login } from '../../redux/user/userSlice';
 
 interface IClassics {
   message: string;
@@ -57,6 +58,10 @@ const Classics = ({ message }: IClassics) => {
       <button className='cl-btn' onClick={() => console.log(dispatch(fetch()))}>
         Get products
       </button>
+      <button className='cl-btn' onClick={() => console.log(dispatch(login({ email: 'miumau@gmail.com', password: 'habbo123' })))}>
+        Login
+      </button>
+
     </div>
   );
 };
