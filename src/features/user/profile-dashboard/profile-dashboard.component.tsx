@@ -1,5 +1,5 @@
 import * as React from 'react';
-import './profile.css';
+import './profile-dashboard.css';
 import { withRouter } from 'react-router-dom';
 import { ProfileHeader } from './profile-header/profile-header.component';
 import ProfileMain from './profile-main/profile-main.component';
@@ -9,7 +9,7 @@ import { MyOrders } from './profile-components/my-orders/my-orders.component';
 import ChangePassword from './profile-components/change-password/change-password.component';
 import ChangeEmail from './profile-components/change-email/change-email.component';
 
-const Profile = () => {
+const ProfileDashboard = () => {
   return (
     <div className='profile-page'>
       <div className='profile-information'>
@@ -38,4 +38,4 @@ function ConditionalPaging() {
   }
 }
 
-export default withRouter(Profile);
+export default withRouter(ProfileDashboard);

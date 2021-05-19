@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { connect, useSelector } from 'react-redux';
 import { selectCurrentUser, selectLoggedIn, selectRole } from '../userSlice';
 import { RootState } from '../../../app/store';
-import { IUser, UserRole, logout, AccessTokenDTO } from '../userSlice';
+import { UserRole, logout, AccessTokenDTO } from '../userSlice';
 import { createStructuredSelector } from 'reselect';
 import { useDispatch } from 'react-redux';
 import { useState, useEffect, useRef } from 'react';

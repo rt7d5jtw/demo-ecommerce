@@ -11,11 +11,14 @@
   display: flex;
   justify-content: flex-start;
   margin-left: 0.5em;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
   font-size: 1em;
 }
 
 .user-viewer .user-id {
   margin-left: 0.5em;
+  margin-bottom: 0.5em;
   font-size: 0.8em;
 }
 

@@ -9,7 +9,8 @@ function AdminCreator(): JSX.Element {
     <div className='admin-creator'>
       <CreatorHeader />
       <CreatorSidebar />
-      <CreatorMain></CreatorMain>
+      <CreatorMain>
+      </CreatorMain>
     </div>
   );
 }
