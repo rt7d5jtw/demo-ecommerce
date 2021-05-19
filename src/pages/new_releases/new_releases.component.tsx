@@ -2,21 +2,14 @@ import * as React from 'react';
 import { useState } from 'react';
 import './new_releases.css';
 import { NEW_RELEASES_DATA } from './new_releases.data';
-import ProductCard from '../../components/product-card/product-card.component';
-import Sidebar from '../../components/sidebar/sidebar.component';
-import { Navbar } from '../../components/navbar/navbar.component';
-import { Footer } from '../../components/footer/footer.component';
-import Main from '../main/main.component';
+import ProductCard from '../../features/product/product-card/product-card.component';
+import Sidebar from '../../features/homepage-components/sidebar/sidebar.component';
+import { Navbar } from '../../features/homepage-components/navbar/navbar.component';
+import { Footer } from '../../features/homepage-components/footer/footer.component';
+import Main from '../../features/homepage-components/main/main.component';
 
-interface INewReleases {
-  title: string;
-  image: string;
-  price: number;
-  id: number;
-}
-
-export const NewReleases = ({ title, price, image, id }: INewReleases): JSX.Element => {
-  const [products, setProducts] = useState(NEW_RELEASES_DATA);
+export const NewReleases = (): JSX.Element => {
+  const [products] = useState(NEW_RELEASES_DATA);
 
   return (
     <div className='homepage'>

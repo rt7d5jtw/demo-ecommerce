@@ -1,8 +1,8 @@
 import * as React from 'react';
 import './admin-creator-page.css';
-import CreatorHeader from '../../components/admin-creator/creator-header/creator-header.component';
-import CreatorSidebar from '../../components/admin-creator/creator-sidebar/creator-sidebar.component';
-import CreatorMain from '../../components/admin-creator/creator-main/creator-main.component';
+import CreatorHeader from '../../features/admin/admin-creator/creator-header/creator-header.component';
+import CreatorSidebar from '../../features/admin/admin-creator/creator-sidebar/creator-sidebar.component';
+import CreatorMain from '../../features/admin/admin-creator/creator-main/creator-main.component';
 import { Switch, Route, useRouteMatch, useParams } from 'react-router-dom';
 import ProductsCreate from './products/products-create.component';
 import CategoryCreate from './categories/category-create.component';

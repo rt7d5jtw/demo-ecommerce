@@ -1,14 +1,13 @@
 import * as React from 'react';
 import './products-edit.css';
-import { useDispatch, useSelector } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { useState, useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { selectCategories } from '../../../redux/category/categorySlice';
-import { fetch } from '../../../redux/category/categorySlice';
-import { fetch as fetchProducts, update } from '../../../redux/product/productSlice';
-import { selectItems } from '../../../redux/product/productSlice';
-import { Product } from '../../../redux/types';
-import { getProducts, PRODUCT_URL } from '../../../services/product.service';
+import { selectCategories } from '../../../features/category/categorySlice';
+import { fetch } from '../../../features/category/categorySlice';
+import { fetch as fetchProducts, update } from '../../../features/product/productSlice';
+import { selectItems } from '../../../features/product/productSlice';
+import { Product } from '../../../app/types';
 
 type FormValues = {
   title: string;
@@ -19,8 +18,8 @@ type FormValues = {
   id: string;
 };
 
-function ProductsEdit() {
-  const dispatch = useDispatch();
+function ProductsEdit(): JSX.Element {
+  const dispatch = useAppDispatch();
   const {
     register,
     handleSubmit,
@@ -32,8 +31,8 @@ function ProductsEdit() {
   useEffect(() => {
     dispatch(fetchProducts());
   }, [dispatch]);
-  const categories = useSelector(selectCategories);
-  const products = useSelector(selectItems);
+  const categories = useAppSelector(selectCategories);
+  const products = useAppSelector(selectItems);
   return (
     <div className='edit-products'>
       <div className='product-editor'>

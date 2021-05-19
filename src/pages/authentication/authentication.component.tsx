@@ -1,7 +1,7 @@
 import * as React from 'react';
 import './authentication.css';
-import { Login } from '../../components/login/login.component';
-import Alert from '../../components/alert/alert.component';
+import { Login } from '../../features/user/login/login.component';
+import Alert from '../../features/alert/alert/alert.component';
 
 export const AuthenticationPage = (): JSX.Element => {
   return (

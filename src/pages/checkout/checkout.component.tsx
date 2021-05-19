@@ -1,17 +1,17 @@
 import * as React from 'react';
 import './checkout.css';
-import { Footer } from '../../components/footer/footer.component';
-import { Navbar } from '../../components/navbar/navbar.component';
-import Sidebar from '../../components/sidebar/sidebar.component';
-import __CartItem from '../../components/cart-item/cart-item.component';
+import { Footer } from '../../features/homepage-components/footer/footer.component';
+import { Navbar } from '../../features/homepage-components/navbar/navbar.component';
+import Sidebar from '../../features/homepage-components/sidebar/sidebar.component';
+import __CartItem from '../../features/cart/cart-item/cart-item.component';
 import { connect } from 'react-redux';
-import { selectCartItems, selectCartTotal } from '../../redux/cart/cartSlice';
+import { selectCartItems, selectCartTotal } from '../../features/cart/cartSlice';
 import { createStructuredSelector } from 'reselect';
-import { RootState } from '../../redux/root-reducer';
-import { CartItem } from '../../redux/types';
-import Alert from '../../components/alert/alert.component';
-import { StripeButton } from '../../components/stripe-button/stripe-button.component';
-import Main from '../main/main.component';
+import { RootState } from '../../app/store';
+import { CartItem } from '../../app/types';
+import Alert from '../../features/alert/alert/alert.component';
+import { StripeButton } from '../../features/order/stripe-button/stripe-button.component';
+import Main from '../../features/homepage-components/main/main.component';
 
 interface ICheckout {
   items: CartItem[];

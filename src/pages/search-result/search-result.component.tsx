@@ -1,14 +1,14 @@
 import * as React from 'react';
-import { Footer } from '../../components/footer/footer.component';
-import { Navbar } from '../../components/navbar/navbar.component';
-import Sidebar from '../../components/sidebar/sidebar.component';
+import { Footer } from '../../features/homepage-components/footer/footer.component';
+import { Navbar } from '../../features/homepage-components/navbar/navbar.component';
+import Sidebar from '../../features/homepage-components/sidebar/sidebar.component';
 import { connect } from 'react-redux';
-import ProductCard from '../../components/product-card/product-card.component';
+import ProductCard from '../../features/product/product-card/product-card.component';
 import { createStructuredSelector } from 'reselect';
-import { RootState } from '../../redux/root-reducer';
-import { Product } from '../../redux/types';
-import { selectItems, selectSearch, selectSearchItems } from '../../redux/product/productSlice';
-import Main from '../main/main.component';
+import { RootState } from '../../app/store';
+import { Product } from '../../app/types';
+import { selectSearch, selectSearchItems } from '../../features/product/productSlice';
+import Main from '../../features/homepage-components/main/main.component';
 
 interface ISearchPage {
   searchItems: Product[];

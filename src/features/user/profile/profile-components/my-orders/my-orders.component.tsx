@@ -1,0 +1,21 @@
+import * as React from 'react';
+import './my-orders.css';
+import { OrderCard } from '../../../../order/order-card/order-card.component';
+import { useSelector } from 'react-redux';
+import { selectOrders } from '../../../../order/orderSlice';
+
+export const MyOrders = (): JSX.Element => {
+  const orders = useSelector(selectOrders);
+  return (
+    <div className='profile-overview'>
+      <div className='profile-myorders-wrapper'>
+        <h1>Browse your orders</h1>
+        <div className='order-wrapper'>
+          {orders.map(({ id, date, ...props }) => (
+            <OrderCard key={id} id={id} date={date} {...props} />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};

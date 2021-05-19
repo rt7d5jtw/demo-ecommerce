@@ -1,9 +1,9 @@
 import * as React from 'react';
 import './category-edit.css';
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetch, update } from '../../../redux/category/categorySlice';
-import { selectCategories } from '../../../redux/category/categorySlice';
+import { useAppDispatch, useAppSelector } from '../../../app/hooks';
+import { fetch, update } from '../../../features/category/categorySlice';
+import { selectCategories } from '../../../features/category/categorySlice';
 import { useForm, SubmitHandler } from 'react-hook-form';
 
 type FormValues = {
@@ -12,8 +12,8 @@ type FormValues = {
 };
 
 export const CategoryEdit = (): JSX.Element => {
-  const categories = useSelector(selectCategories);
-  const dispatch = useDispatch();
+  const categories = useAppSelector(selectCategories);
+  const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(fetch());
   }, [dispatch]);

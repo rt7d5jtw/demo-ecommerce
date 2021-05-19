@@ -1,18 +1,14 @@
 import * as React from 'react';
 import './single-product.css';
-import { useSelector } from 'react-redux';
-import { selectItems } from '../../redux/product/productSlice';
+import { useAppSelector } from '../../app/hooks';
+import { selectItems } from '../../features/product/productSlice';
 import { useParams } from 'react-router';
-import { ProductwithID } from '../../redux/types';
+import { Product } from '../../features/product/productSlice';
 
-interface ISingleProductPage {
-  match?: string;
-}
-
-export const SingleProductPage = ({ match }: ISingleProductPage): JSX.Element => {
+export const SingleProductPage = (): JSX.Element => {
   const { bookId } = useParams<{ bookId?: string }>();
-  const products = useSelector(selectItems);
-  const product = products.find((book: ProductwithID) => book.id === parseInt(bookId, 10));
+  const products: Product[] = useAppSelector(selectItems);
+  const product = products.find((book: Product) => book.id === parseInt(bookId, 10));
   return (
     <div className='single-product'>
       <div className='product-col-1'>

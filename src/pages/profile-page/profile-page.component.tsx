@@ -1,12 +1,12 @@
 import * as React from 'react';
 import './profile-page.css';
 import { Route, RouteComponentProps, Switch, withRouter } from 'react-router-dom';
-import ChangeEmail from '../../components/profile/profile-components/change-email/change-email.component';
-import ChangePassword from '../../components/profile/profile-components/change-password/change-password.component';
-import { MyOrders } from '../../components/profile/profile-components/my-orders/my-orders.component';
-import Profile from '../../components/profile/profile.component';
+import ChangeEmail from '../../features/user/profile/profile-components/change-email/change-email.component';
+import ChangePassword from '../../features/user/profile/profile-components/change-password/change-password.component';
+import { MyOrders } from '../../features/user/profile/profile-components/my-orders/my-orders.component';
+import Profile from '../../features/user/profile/profile.component';
 
-type IProfilePage = {} & RouteComponentProps;
+type IProfilePage = RouteComponentProps;
 
 const ProfilePage = ({ match }: IProfilePage) => {
   return (

@@ -1,9 +1,9 @@
 import * as React from 'react';
 import './category-delete.css';
 import { useState, useEffect } from 'react';
-import { connect, useDispatch, useSelector } from 'react-redux';
-import { add, fetch, remove, update } from '../../../redux/category/categorySlice';
-import { selectCategories } from '../../../redux/category/categorySlice';
+import { useAppDispatch, useAppSelector } from '../../../app/hooks';
+import { add, fetch, remove, update } from '../../../features/category/categorySlice';
+import { selectCategories } from '../../../features/category/categorySlice';
 import { useForm, SubmitHandler } from 'react-hook-form';
 
 type FormValues = {
@@ -11,8 +11,8 @@ type FormValues = {
 };
 
 export const CategoryDelete = (): JSX.Element => {
-  const categories = useSelector(selectCategories);
-  const dispatch = useDispatch();
+  const categories = useAppSelector(selectCategories);
+  const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(fetch());
   }, [dispatch]);

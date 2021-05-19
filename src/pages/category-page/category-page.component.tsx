@@ -1,17 +1,17 @@
 import * as React from 'react';
 import './category-page.css';
-import { Footer } from '../../components/footer/footer.component';
-import { Navbar } from '../../components/navbar/navbar.component';
-import Sidebar from '../../components/sidebar/sidebar.component';
-import { Category, Product } from '../../redux/types';
-import ProductCard from '../../components/product-card/product-card.component';
-import { connect, useSelector } from 'react-redux';
+import { Footer } from '../../features/homepage-components/footer/footer.component';
+import { Navbar } from '../../features/homepage-components/navbar/navbar.component';
+import Sidebar from '../../features/homepage-components/sidebar/sidebar.component';
+import { Category, Product } from '../../app/types';
+import ProductCard from '../../features/product/product-card/product-card.component';
+import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import { RootState } from '../../redux/root-reducer';
-import { selectItems } from '../../redux/product/productSlice';
-import { selectCategories } from '../../redux/category/categorySlice';
-import { Route, useLocation, useParams, useRouteMatch } from 'react-router-dom';
-import Main from '../main/main.component';
+import { RootState } from '../../app/store';
+import { selectItems } from '../../features/product/productSlice';
+import { selectCategories } from '../../features/category/categorySlice';
+import { Route, useParams, useRouteMatch } from 'react-router-dom';
+import Main from '../../features/homepage-components/main/main.component';
 import { SingleProductPage } from '../single-product/single-product.component';
 import { useEffect } from 'react';
 
