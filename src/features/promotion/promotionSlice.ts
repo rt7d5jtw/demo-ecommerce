@@ -11,6 +11,10 @@ export type _Promotions = {
   url: string;
 };
 
+export interface IPromotionsCard extends _Promotions {
+  length: number;
+}
+
 export interface ValidationErrors {
   errorMessage: string;
   field_errors: Record<string, string>;

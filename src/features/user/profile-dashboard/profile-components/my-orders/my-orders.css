@@ -1,0 +1,32 @@
+.profile-myorders-wrapper {
+  position: absolute;
+  height: 75%;
+  width: 55%;
+  max-height: 85%;
+  max-width: 75%;
+  background: white;
+}
+
+.profile-myorders-wrapper h1 {
+  text-align: center;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 380;
+  font-size: 1.2em;
+  color: #131313;
+  margin: 1em;
+}
+
+.order-wrapper {
+  position: absolute;
+  left: 7%;
+  top: 7%;
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  max-width: 85%;
+  max-height: 85%;
+  width: 85%;
+  height: 85%;
+}

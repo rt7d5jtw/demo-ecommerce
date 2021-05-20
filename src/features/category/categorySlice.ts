@@ -1,4 +1,5 @@
-import { createSlice, createAsyncThunk, createSelector } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSelector } from 'reselect';
 import axios from 'axios';
 import { RootState } from '../../app/store';
 

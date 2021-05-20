@@ -10,11 +10,9 @@ import { createStructuredSelector } from 'reselect';
 import { selectCartItems } from '../../cart/cartSlice';
 import { useHistory, useParams } from 'react-router';
 
-export interface IProductCard {
-  cartItems: CartItem[];
-}
+export type ProductCardValues = Omit<Product, 'category' | 'author' | 'description'>;
 
-const ProductCard = (item: Product) => {
+const ProductCard = (item: ProductCardValues) => {
   const dispatch = useDispatch();
   const { push } = useHistory();
   const params = useParams<{ categoryId?: string }>();
@@ -58,7 +56,11 @@ const ProductCard = (item: Product) => {
   );
 };
 
-const mapStateToProps = createStructuredSelector<RootState, IProductCard>({
+interface IMapStateToProps {
+  cartItems: CartItem[];
+}
+
+const mapStateToProps = createStructuredSelector<RootState, IMapStateToProps>({
   cartItems: selectCartItems,
 });
 

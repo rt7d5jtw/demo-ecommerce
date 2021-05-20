@@ -13,7 +13,7 @@ footer .row {
   margin: 1% 0%;
   padding: 0.6% 0%;
   color: #131313;
-  font-size: 0.8em;
+  font-size: 1em;
   text-align: center;
 }
 
@@ -43,8 +43,8 @@ footer .row ul li {
 }
 
 footer .row a i {
-  font-size: 2em;
-  margin: 0% 1%;
+  font-size: 2.5em;
+  margin: 0% 2%;
 }
 
 @media (max-width: 720px) {

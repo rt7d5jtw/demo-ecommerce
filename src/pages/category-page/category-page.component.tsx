@@ -3,20 +3,20 @@ import './category-page.css';
 import { Footer } from '../../features/homepage-components/footer/footer.component';
 import { Navbar } from '../../features/homepage-components/navbar/navbar.component';
 import Sidebar from '../../features/homepage-components/sidebar/sidebar.component';
-import { Category, Product } from '../../app/types';
+import { Product } from '../../features/product/productSlice';
 import ProductCard from '../../features/product/product-card/product-card.component';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { RootState } from '../../app/store';
 import { selectItems } from '../../features/product/productSlice';
-import { selectCategories } from '../../features/category/categorySlice';
+import { selectCategories, Category } from '../../features/category/categorySlice';
 import { Route, useParams, useRouteMatch } from 'react-router-dom';
 import Main from '../../features/homepage-components/main/main.component';
 import { SingleProductPage } from '../single-product/single-product.component';
 import { useEffect } from 'react';
 
 interface ICategoryPage {
-  categories: any;
+  categories: Category[];
   products: Product[];
 }
 

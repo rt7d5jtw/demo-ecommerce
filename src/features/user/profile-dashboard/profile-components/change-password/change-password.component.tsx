@@ -23,7 +23,7 @@ const ChangePassword = (): JSX.Element => {
 
   return (
     <div className='profile-overview'>
-      <div className='profile-overview-wrapper'>
+      <div className='profile-details-wrapper'>
         <div className='profile-password'>
           <h1>Change my password</h1>
           <form className='profile-form' onSubmit={handleSubmit(onSubmit)}>

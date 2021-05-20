@@ -1,6 +1,6 @@
 import * as React from 'react';
 import './register.css';
-import { useAppDispatch } from '../../../app/hooks';
+import { useDispatch } from 'react-redux';
 import { IUserCredentials, register } from '../userSlice';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
@@ -13,7 +13,7 @@ type FormValues = {
 
 export const Register = (): JSX.Element => {
   const { push } = useHistory();
-  const dispatch = useAppDispatch();
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,

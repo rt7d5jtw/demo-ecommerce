@@ -5,7 +5,7 @@ import { Preview } from '../../features/category/preview/preview.component';
 import { Footer } from '../../features/homepage-components/footer/footer.component';
 import Sidebar from '../../features/homepage-components/sidebar/sidebar.component';
 import { useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { useDispatch, useSelector } from 'react-redux';
 import { fetch as fetchCategories } from '../../features/category/categorySlice';
 import { fetch } from '../../features/product/productSlice';
 import Promotions from '../../features/promotion/promotions/promotions.component';
@@ -19,9 +19,9 @@ import {
 import { Route, Switch } from 'react-router';
 
 function Homepage(): JSX.Element {
-  const dispatch = useAppDispatch();
-  const isLoading = useAppSelector(checkIfLoading);
-  const promotions = useAppSelector(selectPromotionItems);
+  const dispatch = useDispatch();
+  const isLoading = useSelector(checkIfLoading);
+  const promotions = useSelector(selectPromotionItems);
   useEffect(() => {
     /* fetch categories and products for state */
     dispatch(fetchCategories());

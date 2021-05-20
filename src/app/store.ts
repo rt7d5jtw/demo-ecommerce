@@ -5,6 +5,7 @@ import logger from 'redux-logger';
 import thunk from 'redux-thunk';
 import storage from 'redux-persist/lib/storage';
 import { rootReducer } from './root-reducer';
+import { useDispatch } from 'react-redux';
 
 export const persistConfig = {
   key: 'root',
@@ -24,5 +25,6 @@ export const store = configureStore({
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
+export const useAppDispatch = () => useDispatch<AppDispatch>();
 
 export const persistor = persistStore(store);

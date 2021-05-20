@@ -9,7 +9,7 @@ export const MyOrders = (): JSX.Element => {
   return (
     <div className='profile-overview'>
       <div className='profile-myorders-wrapper'>
-        <h1>Browse your orders</h1>
+        <h1 id='order-title'>Browse your orders</h1>
         <div className='order-wrapper'>
           {orders.map(({ id, date, ...props }) => (
             <OrderCard key={id} id={id} date={date} {...props} />

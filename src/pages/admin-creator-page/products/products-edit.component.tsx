@@ -1,6 +1,6 @@
 import * as React from 'react';
 import './products-edit.css';
-import { useAppDispatch, useAppSelector } from '../../../app/hooks';
+import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { fetch as fetchProducts, update } from '../../../features/product/productSlice';
@@ -19,7 +19,7 @@ type FormValues = {
 };
 
 function ProductsEdit(): JSX.Element {
-  const dispatch = useAppDispatch();
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
@@ -31,7 +31,7 @@ function ProductsEdit(): JSX.Element {
   useEffect(() => {
     dispatch(fetchProducts());
   }, [dispatch]);
-  const products = useAppSelector(selectItems);
+  const products = useSelector(selectItems);
   return (
     <div className='edit-products'>
       <div className='product-editor'>
