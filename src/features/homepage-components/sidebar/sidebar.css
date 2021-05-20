@@ -21,19 +21,21 @@
   color: #efcba7;
   width: 3em;
   height: 2.5em;
-  transition: filter 300ms;
+  transition: 0.5s;
 }
 
 .close-btn-closed {
   top: 1em;
+  transform: translateX(-15.3125em);
+  left: 15.5em;
   position: fixed;
   cursor: pointer;
   color: #efcba7;
   background: #131313;
   width: 3em;
   height: 2.5em;
-  transition: filter 300ms;
   border-radius: .3em;
+  transition: 0.5s;
 }
 
 .sidebar-closed {
