@@ -1,7 +1,7 @@
 import * as React from 'react';
 import './view-orders.css';
-import { useState, useEffect } from 'react';
-import { connect, useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectOrders } from '../../../../order/orderSlice';
 import { fetchAll } from '../../../../order/orderSlice';
 import { OrderCard } from '../../../../order/order-card/order-card.component';

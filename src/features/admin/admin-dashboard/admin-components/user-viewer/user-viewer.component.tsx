@@ -7,7 +7,7 @@ interface IUserViewer {
   date: string;
 }
 
-export const UserViewer = ({ email, id, date }: IUserViewer) => {
+export const UserViewer = ({ email, id, date }: IUserViewer): JSX.Element => {
   return (
     <div className='user-viewer'>
       <div className='user-info-wrapper'>

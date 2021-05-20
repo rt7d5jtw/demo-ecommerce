@@ -10,9 +10,7 @@ interface MatchParams {
   name: string;
 }
 
-type MatchProps = RouteComponentProps<MatchParams>;
-
-type IAdminPage = RouteComponentProps;
+type IAdminPage = RouteComponentProps<MatchParams>;
 
 const AdminPage = ({ match }: IAdminPage) => {
   return (

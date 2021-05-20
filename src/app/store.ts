@@ -17,7 +17,7 @@ const middlewares = [logger, thunk];
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-export const store: any = configureStore({
+export const store = configureStore({
   reducer: persistedReducer,
   middleware: [...middlewares],
 });

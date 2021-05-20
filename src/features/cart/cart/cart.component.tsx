@@ -2,24 +2,24 @@ import * as React from 'react';
 import './cart.css';
 import { TiShoppingCart } from 'react-icons/ti';
 import { connect } from 'react-redux';
-import { RootState } from '../../../app/root-reducer';
+import { RootState } from '../../../app/store';
 import {
   cartToggle,
   clearCart,
   selectOpen,
   selectCartItems,
   selectQuantity,
+  CartItem,
 } from '../../cart/cartSlice';
 import { useDispatch } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import { Product, ProductwithID, Product_for_CartItem } from '../../../app/types';
 import __CartItem from '../cart-item/cart-item.component';
 import { useHistory } from 'react-router-dom';
 import { useRef, useEffect } from 'react';
 
 interface ICart {
   isOpen: boolean;
-  items: Product_for_CartItem[];
+  items: CartItem[];
   quantity: number;
 }
 
@@ -29,12 +29,12 @@ const Cart = ({ isOpen, items, quantity }: ICart) => {
   const iconRef = useRef<HTMLDivElement>(null);
   const { push } = useHistory();
 
-  const handleClickOutside = (event: any) => {
+  const handleClickOutside = (event: Event) => {
     if (
       wrappedRef.current &&
       iconRef.current &&
-      !iconRef.current.contains(event.target) &&
-      !wrappedRef.current.contains(event.target)
+      !iconRef.current.contains(event.target as Node) &&
+      !wrappedRef.current.contains(event.target as Node)
     ) {
       dispatch(cartToggle(isOpen));
     }

@@ -1,15 +1,6 @@
-import { createSlice, createAsyncThunk, createAction } from '@reduxjs/toolkit';
+import { createSlice, createAction } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
-import axios, { AxiosError } from 'axios';
 import { RootState } from '../../app/store';
-import { CartItem, CartState } from '../../app/types';
-
-type SliceState = {
-  isOpen: boolean;
-  items: CartItem[];
-  quantity: number;
-  price: number;
-};
 
 export const clearCart = createAction('cart/clearCart');
 
@@ -19,14 +10,31 @@ export const addItem = createAction<CartItem>('cart/addItem');
 
 export const removeItem = createAction<CartItem>('cart/removeItem');
 
+export interface CartItem {
+  title: string;
+  quantity: number;
+  price: number;
+  image: string;
+  id?: string;
+}
+
+export interface CartState {
+  isOpen: boolean;
+  items: CartItem[];
+  quantity: number;
+  price: number;
+}
+
+const initialState: CartState = {
+  isOpen: false,
+  items: [],
+  quantity: 0,
+  price: 0,
+};
+
 export const cartSlice = createSlice({
   name: 'cart',
-  initialState: {
-    isOpen: false,
-    items: [],
-    quantity: 0,
-    price: 0,
-  },
+  initialState: initialState,
   reducers: {
     clearCart: (state) => {
       state.items = [];
@@ -55,21 +63,21 @@ export const selectOpen = createSelector([selectRoot], (cart: CartState) => cart
 
 export const selectQuantity = createSelector([selectRoot], (cart: CartState) => cart.quantity);
 
-export const selectCartTotal = createSelector([selectCartItems], (items: any[]) =>
+export const selectCartTotal = createSelector([selectCartItems], (items: CartItem[]) =>
   items.reduce((accumulator, cartItem) => accumulator + cartItem.price * cartItem.quantity, 0)
 );
 
-export const addItemToCart = (cartItems: CartItem[], cartItem: CartItem) => {
+export const addItemToCart = (cartItems: CartItem[], cartItem: CartItem): CartItem[] => {
   const existingItem = cartItems.find((item: CartItem) => item.id == cartItem.id);
   if (existingItem) {
-    return cartItems.map((item: any) =>
+    return cartItems.map((item: CartItem) =>
       item.id == cartItem.id ? { ...item, quantity: item.quantity + 1 } : item
     );
   }
   return [...cartItems, { ...cartItem, quantity: 1 }];
 };
 
-export const removeItemFromCart = (cartItems: CartItem[], cartItem: CartItem) => {
+export const removeItemFromCart = (cartItems: CartItem[], cartItem: CartItem): CartItem[] => {
   const existingItem = cartItems.find((item: CartItem) => item.id == cartItem.id);
 
   if (existingItem && existingItem.quantity === 1) {

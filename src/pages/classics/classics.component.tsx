@@ -7,8 +7,7 @@ import { userLogged, registered, selectMessage } from '../../features/alert/aler
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { fetchAll, fetch as fetchOrders } from '../../features/order/orderSlice';
-import { UserViewer } from '../../features/admin/admin-dashboard/admin-components/user-viewer/user-viewer.component';
-import { fetch as fetchCategories, update } from '../../features/category/categorySlice';
+import { fetch as fetchCategories } from '../../features/category/categorySlice';
 //import { fetch } from '../../redux/promotions/promotions.actions';
 import { fetchRole } from '../../features/user/userSlice';
 

@@ -9,7 +9,7 @@ interface IStripeButton {
   clearCart: () => void;
 }
 
-export function StripeButton({ price, clearCart }: IStripeButton) {
+export function StripeButton({ price, clearCart }: IStripeButton): JSX.Element {
   const dispatch = useDispatch();
   const amount = price * 100;
   const publishableKey =

@@ -5,20 +5,6 @@ import { RootState } from '../../app/store';
 
 export const PRODUCT_URL = 'http://localhost:3000/product';
 
-export interface Product {
-  id: string;
-  category: string;
-  title: string;
-  quantity: number;
-  image: string;
-  price: number;
-  author: string;
-  description: string;
-  categoryId?: string;
-}
-
-export type ProductOptional = Partial<Product>;
-
 export const fetch = createAsyncThunk('product/fetchProducts', async () => {
   const { data } = await axios.get(PRODUCT_URL);
   return data;
@@ -77,6 +63,20 @@ export const search = createAsyncThunk('product/search', async (search: string) 
   return { search, data };
 });
 
+export interface Product {
+  id: string;
+  category: string;
+  title: string;
+  quantity: number;
+  image: string;
+  price: number;
+  author: string;
+  description: string;
+  categoryId?: string;
+}
+
+export type ProductOptional = Partial<Product>;
+
 export interface ProductState {
   items: Product[];
   search: string;
@@ -106,6 +106,7 @@ export const productSlice = createSlice({
         state.items = action.payload;
       }),
       builder.addCase(fetch.rejected, (state, action) => {
+        state.errors = action.payload;
         state.loading = false;
       }),
       builder.addCase(add.pending, (state) => {
@@ -116,6 +117,7 @@ export const productSlice = createSlice({
         state.loading = false;
       }),
       builder.addCase(add.rejected, (state, action) => {
+        state.errors = action.payload;
         state.loading = false;
       }),
       builder.addCase(remove.pending, (state) => {
@@ -131,7 +133,7 @@ export const productSlice = createSlice({
       builder.addCase(update.pending, (state) => {
         state.loading = true;
       }),
-      builder.addCase(update.fulfilled, (state, action) => {
+      builder.addCase(update.fulfilled, (state) => {
         state.items;
         state.loading = false;
       }),

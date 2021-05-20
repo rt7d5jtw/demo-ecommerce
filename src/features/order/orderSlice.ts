@@ -1,8 +1,7 @@
 import { createSlice, createAsyncThunk, createSelector } from '@reduxjs/toolkit';
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 import { authHeader } from '../user/userSlice';
 import { RootState } from '../../app/store';
-import { Order, OrderState } from '../../app/types';
 
 export const ORDER_URL = 'http://localhost:3000/orders/';
 
@@ -38,12 +37,30 @@ export const remove = createAsyncThunk(
   }
 );
 
+export interface Order {
+  address: string;
+  date: string;
+  id: string;
+  status: string;
+  total_price: number;
+  userId: string;
+}
+
+export interface OrderState {
+  orders: Order[];
+  loading: boolean;
+  errors: unknown;
+}
+
+const initialState: OrderState = {
+  orders: [],
+  loading: false,
+  errors: [],
+};
+
 export const orderSlice = createSlice({
   name: 'order',
-  initialState: {
-    orders: [],
-    loading: false,
-  },
+  initialState: initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(fetch.pending, (state) => {
@@ -54,6 +71,7 @@ export const orderSlice = createSlice({
         state.loading = false;
       }),
       builder.addCase(fetch.rejected, (state, action) => {
+        state.errors = action.payload;
         state.loading = false;
       }),
       builder.addCase(fetchAll.pending, (state) => {
@@ -64,6 +82,7 @@ export const orderSlice = createSlice({
         state.orders = action.payload;
       }),
       builder.addCase(fetchAll.rejected, (state, action) => {
+        state.errors = action.payload;
         state.loading = false;
       }),
       builder.addCase(add.pending, (state) => {
@@ -74,23 +93,24 @@ export const orderSlice = createSlice({
         state.loading = false;
       }),
       builder.addCase(add.rejected, (state, action) => {
+        state.errors = action.payload;
         state.loading = false;
       }),
       builder.addCase(remove.pending, (state) => {
         state.loading = false;
       }),
-      builder.addCase(remove.fulfilled, (state, action) => {
-        state.orders;
+      builder.addCase(remove.fulfilled, (state) => {
         state.loading = false;
       }),
       builder.addCase(remove.rejected, (state, action) => {
+        state.errors = action.payload;
         state.loading = false;
       });
   },
 });
 
-export const selectRoot = (state: RootState) => state.order;
+export const selectOrder = (state: RootState): OrderState => state.order;
 
-export const selectOrders = createSelector([selectRoot], (order: OrderState) => order.orders);
+export const selectOrders = createSelector([selectOrder], (order: OrderState) => order.orders);
 
 export default orderSlice.reducer;

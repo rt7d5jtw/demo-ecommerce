@@ -1,6 +1,6 @@
 import * as React from 'react';
 import './cart-item.css';
-import { CartItem } from '../../../app/types';
+import { CartItem } from '../../../features/cart/cartSlice';
 import { connect, useDispatch } from 'react-redux';
 import { removeItem } from '../../cart/cartSlice';
 

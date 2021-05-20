@@ -22,7 +22,7 @@ interface ICategoryPage {
 
 function CategoryPage({ categories, products }: ICategoryPage): JSX.Element {
   const { categoryId } = useParams<{ categoryId?: string }>();
-  const { path, url } = useRouteMatch();
+  const { url } = useRouteMatch();
   useEffect(() => console.log(products));
   return (
     <div className='homepage'>

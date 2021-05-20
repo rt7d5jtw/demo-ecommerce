@@ -13,7 +13,7 @@ type FormValues = {
 
 export const Register = (): JSX.Element => {
   const { push } = useHistory();
-
+  const dispatch = useAppDispatch();
   const {
     register,
     handleSubmit,
@@ -25,9 +25,6 @@ export const Register = (): JSX.Element => {
     dispatch(register(data));
     dispatch(registered());
   };
-
-  const dispatch = useAppDispatch();
-
   return (
     <div className='register'>
       <div

@@ -1,13 +1,11 @@
 import * as React from 'react';
 import './products-edit.css';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { selectCategories } from '../../../features/category/categorySlice';
-import { fetch } from '../../../features/category/categorySlice';
 import { fetch as fetchProducts, update } from '../../../features/product/productSlice';
 import { selectItems } from '../../../features/product/productSlice';
-import { Product } from '../../../app/types';
+import { Product } from '../../../features/product/productSlice';
 
 type FormValues = {
   title: string;
@@ -16,6 +14,8 @@ type FormValues = {
   description: string;
   author: string;
   id: string;
+  quantity: 1;
+  category: string;
 };
 
 function ProductsEdit(): JSX.Element {
@@ -31,7 +31,6 @@ function ProductsEdit(): JSX.Element {
   useEffect(() => {
     dispatch(fetchProducts());
   }, [dispatch]);
-  const categories = useAppSelector(selectCategories);
   const products = useAppSelector(selectItems);
   return (
     <div className='edit-products'>

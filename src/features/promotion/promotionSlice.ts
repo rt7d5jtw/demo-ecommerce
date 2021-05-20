@@ -77,13 +77,15 @@ export const update = createAsyncThunk(
 );
 
 export interface PromotionState {
-  items: _Promotions[] | [];
+  items: _Promotions[];
   loading: boolean;
+  errors: [] | unknown;
 }
 
 const initialState: PromotionState = {
   items: [],
   loading: true,
+  errors: [],
 };
 
 export const promotionSlice = createSlice({
@@ -99,6 +101,7 @@ export const promotionSlice = createSlice({
         state.loading = false;
       }),
       builder.addCase(fetchPromotions.rejected, (state, action) => {
+        state.errors = action.payload;
         state.loading = false;
       }),
       builder.addCase(add.pending, (state) => {
@@ -109,26 +112,27 @@ export const promotionSlice = createSlice({
         state.loading = false;
       }),
       builder.addCase(add.rejected, (state, action) => {
+        state.errors = action.payload;
         state.loading = false;
       }),
       builder.addCase(remove.pending, (state) => {
         state.loading = true;
       }),
-      builder.addCase(remove.fulfilled, (state, action) => {
-        state.items;
+      builder.addCase(remove.fulfilled, (state) => {
         state.loading = false;
       }),
       builder.addCase(remove.rejected, (state, action) => {
+        state.errors = action.payload;
         state.loading = false;
       });
     builder.addCase(update.pending, (state) => {
       state.loading = true;
     }),
-      builder.addCase(update.fulfilled, (state, action) => {
-        state.items;
+      builder.addCase(update.fulfilled, (state) => {
         state.loading = false;
       }),
       builder.addCase(update.rejected, (state, action) => {
+        state.errors = action.payload;
         state.loading = false;
       });
   },

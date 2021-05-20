@@ -6,11 +6,11 @@ interface IOrderCard {
   date: string;
 }
 
-export const OrderCard = ({ id, date }: IOrderCard) => {
-  function OrderImage(): JSX.Element {
+export const OrderCard = ({ id, date }: IOrderCard): JSX.Element => {
+  function OrderImage(image: string): JSX.Element {
     return (
       <div className='order-card'>
-        <div className='image' style={{ backgroundImage: `url()` }}></div>
+        <div className='image' style={{ backgroundImage: `url(${image})` }}></div>
         <span className='order-title'>{}</span>
       </div>
     );

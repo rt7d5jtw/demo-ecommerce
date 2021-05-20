@@ -1,16 +1,17 @@
 import * as React from 'react';
 import './product-card.css';
 import { connect } from 'react-redux';
-import { RootState } from '../../../app/root-reducer';
+import { RootState } from '../../../app/store';
 import { addItem } from '../../cart/cartSlice';
 import { useDispatch } from 'react-redux';
-import { CartItem, Product } from '../../../app/types';
+import { CartItem } from '../../../features/cart/cartSlice';
+import { Product } from '../../../features/product/productSlice';
 import { createStructuredSelector } from 'reselect';
 import { selectCartItems } from '../../cart/cartSlice';
 import { useHistory, useParams } from 'react-router';
 
 export interface IProductCard {
-  CartItems: Array<CartItem>;
+  cartItems: CartItem[];
 }
 
 const ProductCard = (item: Product) => {
@@ -57,7 +58,7 @@ const ProductCard = (item: Product) => {
   );
 };
 
-const mapStateToProps = createStructuredSelector<RootState, any>({
+const mapStateToProps = createStructuredSelector<RootState, IProductCard>({
   cartItems: selectCartItems,
 });
 

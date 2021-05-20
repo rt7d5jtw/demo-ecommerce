@@ -1,8 +1,8 @@
 import * as React from 'react';
 import './category-delete.css';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import { add, fetch, remove, update } from '../../../features/category/categorySlice';
+import { fetch, remove } from '../../../features/category/categorySlice';
 import { selectCategories } from '../../../features/category/categorySlice';
 import { useForm, SubmitHandler } from 'react-hook-form';
 

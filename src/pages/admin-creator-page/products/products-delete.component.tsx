@@ -3,7 +3,7 @@ import './products-delete.css';
 import { useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import { selectItems } from '../../../features/product/productSlice';
+import { Product, selectItems } from '../../../features/product/productSlice';
 import { fetch, remove } from '../../../features/product/productSlice';
 
 type FormValues = {
@@ -26,7 +26,7 @@ function ProductsDelete(): JSX.Element {
         <form onSubmit={handleSubmit(onSubmit)}>
           <label>Delete a product</label>
           <select {...register('id')} id='products'>
-            {products.map(({ id, title }: any) => (
+            {products.map(({ id, title }: Product) => (
               <option value={id} key={id}>
                 {title}
               </option>

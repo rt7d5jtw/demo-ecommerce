@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk, createSelector } from '@reduxjs/toolkit';
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 import { RootState } from '../../app/store';
-import { Category, CategoryState } from '../../app/types';
 
 export const CATEGORY_URL = 'http://localhost:3000/category/';
 
@@ -37,17 +36,26 @@ export const update = createAsyncThunk(
   }
 );
 
-interface initialState {
+export interface Category {
+  cname: string;
+  id: string;
+}
+
+export interface CategoryState {
   categories: Category[];
   loading: boolean;
+  errors: unknown;
 }
+
+const initialState: CategoryState = {
+  categories: [],
+  loading: false,
+  errors: [],
+};
 
 export const categorySlice = createSlice({
   name: 'category',
-  initialState: {
-    categories: [],
-    loading: false,
-  },
+  initialState: initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(fetch.pending, (state) => {
@@ -58,41 +66,44 @@ export const categorySlice = createSlice({
         state.loading = false;
       }),
       builder.addCase(fetch.rejected, (state, action) => {
+        state.errors = action.payload;
         state.loading = false;
       }),
       builder.addCase(add.pending, (state) => {
         state.loading = true;
       }),
       builder.addCase(add.fulfilled, (state, action) => {
-        state.categories = action.payload;
+        state.categories.push(action.payload);
         state.loading = false;
       }),
       builder.addCase(add.rejected, (state, action) => {
+        state.errors = action.payload;
         state.loading = false;
       }),
       builder.addCase(remove.pending, (state) => {
         state.loading = true;
       }),
-      builder.addCase(remove.fulfilled, (state, action) => {
+      builder.addCase(remove.fulfilled, (state) => {
         state.loading = false;
       }),
       builder.addCase(remove.rejected, (state, action) => {
+        state.errors = action.payload;
         state.loading = false;
       }),
       builder.addCase(update.pending, (state) => {
         state.loading = true;
       }),
-      builder.addCase(update.fulfilled, (state, action) => {
-        state.categories = action.payload;
+      builder.addCase(update.fulfilled, (state) => {
         state.loading = false;
       }),
       builder.addCase(update.rejected, (state, action) => {
+        state.errors = action.payload;
         state.loading = false;
       });
   },
 });
 
-export const selectRoot = (state: RootState) => state.category;
+export const selectRoot = (state: RootState): CategoryState => state.category;
 
 export const selectCategories = createSelector(
   [selectRoot],

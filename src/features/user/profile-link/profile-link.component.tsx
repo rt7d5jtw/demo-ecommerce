@@ -38,12 +38,12 @@ export const LoggedIn = (): JSX.Element => {
   const menuRef = useRef<HTMLDivElement>(null);
   const menuRef2 = useRef<HTMLDivElement>(null);
 
-  const handleClickOutside = (event: { target: any }) => {
+  const handleClickOutside = (event: Event) => {
     if (
       menuRef.current &&
       menuRef2.current &&
-      !menuRef2.current.contains(event.target) &&
-      !menuRef.current.contains(event.target)
+      !menuRef2.current.contains(event.target as Node) &&
+      !menuRef.current.contains(event.target as Node)
     ) {
       setOpen(false);
     }

@@ -2,7 +2,7 @@ import * as React from 'react';
 import './delete-promotions.css';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import { selectPromotionItems } from '../../../features/promotion/promotionSlice';
+import { selectPromotionItems, _Promotions } from '../../../features/promotion/promotionSlice';
 import { remove } from '../../../features/promotion/promotionSlice';
 
 type FormValues = {
@@ -21,7 +21,7 @@ function PromotionsDelete(): JSX.Element {
       <form onSubmit={handleSubmit(onSubmit)}>
         <label>Delete a product</label>
         <select {...register('id')} id='promotions'>
-          {promotions.map(({ id, title }: any) => (
+          {promotions.map(({ id, title }: _Promotions) => (
             <option value={id} key={id}>
               {title}
             </option>

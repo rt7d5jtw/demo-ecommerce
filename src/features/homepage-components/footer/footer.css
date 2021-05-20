@@ -1,6 +1,6 @@
 footer {
   display: grid;
-  grid-area: 12 / 3 / 13 / 13;
+  grid-area: 12 / 1 / 13 / 13;
 
   place-items: center center;
   font-family: 'Play', sans-serif;

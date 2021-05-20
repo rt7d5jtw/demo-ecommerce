@@ -20,7 +20,6 @@ export const CategoryEdit = (): JSX.Element => {
 
   const { register, handleSubmit } = useForm<FormValues>();
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    const { id, cname } = data;
     dispatch(update(data));
   };
 
