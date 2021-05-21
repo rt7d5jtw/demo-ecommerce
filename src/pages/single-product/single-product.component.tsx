@@ -12,18 +12,18 @@ export const SingleProductPage = (): JSX.Element => {
   return (
     <div className='single-product'>
       <div className='product-col-1'>
-        <div className='product-image' style={{ backgroundImage: `url(${product.image})` }}></div>
+        <div className='product-image' style={{ backgroundImage: `url(${product?.image})` }}></div>
         <div className='product-col-1__col'>
-          <h1>Author: {product.author}</h1>
-          <h1>Book: {product.title}</h1>
-          <h1>${product.price}</h1>
+          <h1>Author: {product?.author}</h1>
+          <h1>Book: {product?.title}</h1>
+          <h1>${product?.price}</h1>
           <button className='card-button' onClick={() => console.log(product)}>
             Add to Cart
           </button>
         </div>
       </div>
       <div className='product-col-2'>
-        <p>{product.description}</p>
+        <p>{product?.description}</p>
       </div>
     </div>
   );

@@ -2,7 +2,7 @@ import * as React from 'react';
 import './login.css';
 import { Link, useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { login } from '../../user/userSlice';
+import { loginRequest } from '../../user/userSlice';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { userLogged } from '../../alert/alertSlice';
 
@@ -21,7 +21,7 @@ export const Login = (): JSX.Element => {
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     console.log(data);
     push('/');
-    dispatch(login(data));
+    dispatch(loginRequest(data));
     dispatch(userLogged());
   };
 
@@ -44,7 +44,7 @@ export const Login = (): JSX.Element => {
             {...register('email', { required: true })}
             id='email'
           />
-          {errors?.email && <p className='register-text'>{errors.email.message}</p>}
+          {errors?.email && <p className='login-text'>{errors.email.message}</p>}
           <div>
             <label>Password</label>
             <input
@@ -53,7 +53,7 @@ export const Login = (): JSX.Element => {
               {...register('password', { required: true })}
               id='password'
             />
-            {errors?.password && <p className='register-text'>{errors.password.message}</p>}
+            {errors?.password && <p className='login-text'>{errors.password.message}</p>}
           </div>
           <input type='submit' value='Login' />
           <Link to='/register'>

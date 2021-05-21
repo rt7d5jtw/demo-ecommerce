@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import ProductCard from '../../features/product/product-card/product-card.component';
 import { createStructuredSelector } from 'reselect';
 import { RootState } from '../../app/store';
-import { Product } from '../../app/types';
+import { Product } from '../../features/product/productSlice';
 import { selectSearch, selectSearchItems } from '../../features/product/productSlice';
 import Main from '../../features/homepage-components/main/main.component';
 

@@ -39,7 +39,7 @@ export interface IUser {
   createdAt: string;
 }
 
-export type IUserCredentials = Omit<IUser, 'id, role, salt, createdAt'>;
+export type IUserCredentials = Omit<IUser, 'id' | 'role' | 'salt' | 'createdAt'>;
 
 export interface UserState {
   currentUser: null | AccessTokenDTO;
@@ -62,23 +62,26 @@ export type EmailObj = {
   newEmail: string;
 };
 
-export const register = createAsyncThunk(
+export const registerRequest = createAsyncThunk(
   'user/register',
   async (userData: IUserCredentials, { rejectWithValue }) => {
-    try {
-      const response = await axios.post(REGISTER_URL, userData);
-      return response.data;
-    } catch (err) {
-      const error: AxiosError<ValidationErrors> = err;
-      if (!error.response) {
-        throw err;
-      }
-      return rejectWithValue(error.response.data);
-    }
+    const { password, email } = userData;
+    return axios
+      .post(REGISTER_URL, { password: password, email: email })
+      .then((res) => {
+        return res.data;
+      })
+      .catch((err) => {
+        const error: AxiosError<ValidationErrors> = err;
+        if (!error.response) {
+          throw err;
+        }
+        return rejectWithValue(error.response.data);
+      });
   }
 );
 
-export const login = createAsyncThunk(
+export const loginRequest = createAsyncThunk(
   'user/login',
   async (userData: IUserCredentials, { rejectWithValue }) => {
     return axios
@@ -170,25 +173,25 @@ export const userSlice = createSlice({
   initialState: initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(register.pending, (state) => {
+    builder.addCase(registerRequest.pending, (state) => {
       state.loading = true;
     }),
-      builder.addCase(register.fulfilled, (state) => {
+      builder.addCase(registerRequest.fulfilled, (state) => {
         state.loading = false;
       });
-    builder.addCase(register.rejected, (state, action) => {
+    builder.addCase(registerRequest.rejected, (state, action) => {
       state.loading = false;
       state.errors = action.payload;
     }),
-      builder.addCase(login.pending, (state) => {
+      builder.addCase(loginRequest.pending, (state) => {
         state.loading = true;
       }),
-      builder.addCase(login.fulfilled, (state, { payload }) => {
+      builder.addCase(loginRequest.fulfilled, (state, { payload }) => {
         state.currentUser = payload;
         state.loading = false;
         state.loggedIn = true;
       }),
-      builder.addCase(login.rejected, (state, action) => {
+      builder.addCase(loginRequest.rejected, (state, action) => {
         state.errors = action.payload;
         state.loading = false;
       }),

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import './register.css';
 import { useDispatch } from 'react-redux';
-import { IUserCredentials, register } from '../userSlice';
+import { IUserCredentials, login, registerRequest } from '../userSlice';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import { registered } from '../../alert/alertSlice';
@@ -22,7 +22,7 @@ export const Register = (): JSX.Element => {
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     console.log(data);
     push('/login');
-    dispatch(register(data));
+    dispatch(registerRequest(data));
     dispatch(registered());
   };
   return (
@@ -40,7 +40,6 @@ export const Register = (): JSX.Element => {
             placeholder='Email'
             {...register('email', { required: true })}
             id='email'
-            required
           />
           {errors?.email && <p className='register-text'>{errors.email.message}</p>}
           <div>
@@ -53,7 +52,7 @@ export const Register = (): JSX.Element => {
                 minLength: { value: 6, message: 'Passwords must have at least 6 characters' },
                 maxLength: 150,
               })}
-              required
+              id='password'
             />
             {errors?.password && <p className='register-text'>{errors.password.message}</p>}
           </div>

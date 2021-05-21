@@ -86,3 +86,14 @@ a {
   border: 1px solid transparent;
   opacity: 0.8;
 }
+
+.login-text {
+  font-family: 'Roboto', sans-serif;
+  font-size: 18px;
+  color: #d41528;
+}
+
+.login-text::before {
+  display: inline;
+  content: '⚠ ';
+}

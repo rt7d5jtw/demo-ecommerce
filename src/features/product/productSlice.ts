@@ -64,7 +64,7 @@ export const search = createAsyncThunk('product/search', async (search: string) 
 });
 
 export interface Product {
-  id: string;
+  id: number;
   category: string;
   title: string;
   quantity: number;
