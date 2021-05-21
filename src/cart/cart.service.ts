@@ -80,7 +80,9 @@ export class CartService {
     cartItem.quantity = quantity;
     cartItem.price = price * quantity;
     cartItem.productId = id;
-    await cartItem.save();
+
+    //const cartItems = this.getCartItems(user)
+    // make comparison here looking for items with same ids
 
     return cartItem;
   };
