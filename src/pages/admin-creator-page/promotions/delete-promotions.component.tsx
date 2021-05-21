@@ -1,17 +1,17 @@
 import * as React from 'react';
 import './delete-promotions.css';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { selectPromotionItems, _Promotions } from '../../../features/promotion/promotionSlice';
 import { remove } from '../../../features/promotion/promotionSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 type FormValues = {
   id: string;
 };
 
 function PromotionsDelete(): JSX.Element {
-  const dispatch = useAppDispatch();
-  const promotions = useAppSelector(selectPromotionItems);
+  const dispatch = useDispatch();
+  const promotions = useSelector(selectPromotionItems);
   const { register, handleSubmit } = useForm<FormValues>();
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     dispatch(remove(data.id));

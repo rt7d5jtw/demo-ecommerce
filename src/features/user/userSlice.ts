@@ -6,6 +6,7 @@ import { ValidationErrors } from '../promotion/promotionSlice';
 
 export const REGISTER_URL = 'http://localhost:3000/users/';
 export const LOGIN_URL = 'http://localhost:3000/auth/signin';
+export const CART_URL = 'http://localhost:3000/cart/';
 
 export interface AccessTokenDTO {
   accessToken: string;
@@ -69,6 +70,8 @@ export const registerRequest = createAsyncThunk(
     return axios
       .post(REGISTER_URL, { password: password, email: email })
       .then((res) => {
+        // creates the cart for user
+        //axios.post(CART_URL, { headers: authHeader() });
         return res.data;
       })
       .catch((err) => {
@@ -90,6 +93,11 @@ export const loginRequest = createAsyncThunk(
         if (res.data.accessToken) {
           localStorage.setItem('user', JSON.stringify(res.data));
         }
+        axios.get(CART_URL, { headers: authHeader() }).then((res) => {
+          res.data.length === 0
+            ? axios.post(CART_URL, {}, { headers: authHeader() })
+            : console.log('Cart already exists');
+        });
         return res.data;
       })
       .catch((err) => {

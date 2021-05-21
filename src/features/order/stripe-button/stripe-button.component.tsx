@@ -3,6 +3,7 @@ import StripeCheckout, { Token } from 'react-stripe-checkout';
 import axios from 'axios';
 import { clearCart } from '../../cart/cartSlice';
 import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router';
 
 interface IStripeButton {
   price: number;
@@ -10,6 +11,7 @@ interface IStripeButton {
 }
 
 export function StripeButton({ price, clearCart }: IStripeButton): JSX.Element {
+  const { push } = useHistory();
   const dispatch = useDispatch();
   const amount = price * 100;
   const publishableKey =
@@ -27,6 +29,7 @@ export function StripeButton({ price, clearCart }: IStripeButton): JSX.Element {
       .then((res) => {
         alert('Thanks for the payment!');
         dispatch(clearCart());
+
       })
       .catch((error) => {
         console.log('There was an error in the payment process: ' + error);

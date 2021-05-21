@@ -5,7 +5,7 @@ import { RootState } from '../../app/store';
 const PROMOTION_URL = 'http://localhost:3000/promotions';
 
 export type _Promotions = {
-  id?: number;
+  id: number;
   image: string;
   title: string;
   url: string;

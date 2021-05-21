@@ -1,11 +1,11 @@
 import * as React from 'react';
 import './products-create.css';
-import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { selectCategories } from '../../../features/category/categorySlice';
 import { fetch } from '../../../features/category/categorySlice';
 import { add } from '../../../features/product/productSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 type FormValues = {
   title: string;
@@ -15,12 +15,12 @@ type FormValues = {
   author: string;
   category: string;
   quantity: 1;
-  id: string;
+  id: number;
 };
 
 function ProductsCreate(): JSX.Element {
-  const categories = useAppSelector(selectCategories);
-  const dispatch = useAppDispatch();
+  const categories = useSelector(selectCategories);
+  const dispatch = useDispatch();
   const { register, handleSubmit } = useForm<FormValues>();
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     dispatch(add(data));

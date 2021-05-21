@@ -27,7 +27,6 @@ function Homepage(): JSX.Element {
     dispatch(fetchCategories());
     dispatch(fetch());
     dispatch(fetchPromotions());
-    console.log();
   }, [dispatch]);
 
   if (isLoading) {

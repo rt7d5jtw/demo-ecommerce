@@ -5,7 +5,7 @@ import './promotion-card.css';
 interface IPromotionCard {
   image: string;
   url: string;
-  id: string;
+  id: number;
 }
 
 const PromotionCard = ({ image, url }: IPromotionCard): JSX.Element => {

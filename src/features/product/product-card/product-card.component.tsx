@@ -2,7 +2,7 @@ import * as React from 'react';
 import './product-card.css';
 import { connect } from 'react-redux';
 import { RootState } from '../../../app/store';
-import { addItem } from '../../cart/cartSlice';
+import { addItem, addItemDB } from '../../cart/cartSlice';
 import { useDispatch } from 'react-redux';
 import { CartItem } from '../../../features/cart/cartSlice';
 import { Product } from '../../../features/product/productSlice';
@@ -13,6 +13,7 @@ import { useHistory, useParams } from 'react-router';
 export type ProductCardValues = Omit<Product, 'category' | 'author' | 'description'>;
 
 const ProductCard = (item: ProductCardValues) => {
+  const user = JSON.parse(localStorage.getItem('user') || '{}');
   const dispatch = useDispatch();
   const { push } = useHistory();
   const params = useParams<{ categoryId?: string }>();
@@ -21,7 +22,7 @@ const ProductCard = (item: ProductCardValues) => {
     quantity: 1,
     price: 0,
     image: '',
-    id: '',
+    id: 0,
   };
 
   const buttonHandler = () => {
@@ -33,6 +34,11 @@ const ProductCard = (item: ProductCardValues) => {
     //dispatch(addItemToCart(cartItems, cart_item))
     dispatch(addItem(cart_item));
     console.log(cart_item);
+    if (user && user.accessToken) {
+      dispatch(addItemDB(cart_item.id))
+    } else {
+      console.log('User doesnt exists')
+    }
   };
 
   return (

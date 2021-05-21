@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import { selectCartItems, selectCartTotal } from '../../features/cart/cartSlice';
 import { createStructuredSelector } from 'reselect';
 import { RootState } from '../../app/store';
-import { CartItem } from '../../app/types';
+import { CartItem } from '../../features/cart/cartSlice';
 import Alert from '../../features/alert/alert/alert.component';
 import { StripeButton } from '../../features/order/stripe-button/stripe-button.component';
 import Main from '../../features/homepage-components/main/main.component';

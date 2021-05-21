@@ -1,7 +1,7 @@
 import * as React from 'react';
 import './register.css';
 import { useDispatch } from 'react-redux';
-import { IUserCredentials, login, registerRequest } from '../userSlice';
+import { registerRequest } from '../userSlice';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import { registered } from '../../alert/alertSlice';

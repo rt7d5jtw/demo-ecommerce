@@ -1,17 +1,18 @@
 import * as React from 'react';
 import './add-promotions.css';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { useAppDispatch } from '../../../app/hooks';
 import { add } from '../../../features/promotion/promotionSlice';
+import { useDispatch } from 'react-redux';
 
 type FormValues = {
   title: string;
   image: string;
   url: string;
+  id: number;
 };
 
 function PromotionsAdd(): JSX.Element {
-  const dispatch = useAppDispatch();
+  const dispatch = useDispatch();
   const { register, handleSubmit } = useForm<FormValues>();
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     console.log(data);

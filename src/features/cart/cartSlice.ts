@@ -1,6 +1,11 @@
-import { createSlice, createAction } from '@reduxjs/toolkit';
+import { createSlice, createAction, createAsyncThunk } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
 import { RootState } from '../../app/store';
+import axios, { AxiosError } from 'axios';
+import { authHeader } from '../user/userSlice';
+import { ValidationErrors } from '../promotion/promotionSlice';
+
+export const CART_URL = 'http://localhost:3000/cart/';
 
 export const clearCart = createAction('cart/clearCart');
 
@@ -10,19 +15,41 @@ export const addItem = createAction<CartItem>('cart/addItem');
 
 export const removeItem = createAction<CartItem>('cart/removeItem');
 
+export const addItemDB = createAsyncThunk(
+  'cart/addItemDB',
+  async (id: number, { rejectWithValue }) => {
+    await axios
+      .post(CART_URL + id, { quantity: 1 }, { headers: authHeader() })
+      .then((res) => {
+        return res.data;
+      })
+      .catch((err) => {
+        const error: AxiosError<ValidationErrors> = err;
+        if (!error.response) {
+          throw err;
+        }
+        return rejectWithValue(error.response.data);
+      });
+  }
+);
+
 export interface CartItem {
   title: string;
   quantity: number;
   price: number;
   image: string;
-  id?: string;
+  id?: number;
 }
+
+//type CartData = Pick<CartItem, 'id' | 'quantity'>;
 
 export interface CartState {
   isOpen: boolean;
   items: CartItem[];
   quantity: number;
   price: number;
+  loading: boolean;
+  errors: [] | unknown;
 }
 
 const initialState: CartState = {
@@ -30,6 +57,8 @@ const initialState: CartState = {
   items: [],
   quantity: 0,
   price: 0,
+  loading: false,
+  errors: [],
 };
 
 export const cartSlice = createSlice({
@@ -52,7 +81,18 @@ export const cartSlice = createSlice({
       state.quantity = state.quantity - 1;
     },
   },
-  extraReducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(addItemDB.pending, (state) => {
+      state.loading = true;
+    }),
+      builder.addCase(addItemDB.fulfilled, (state) => {
+        state.loading = false;
+      }),
+      builder.addCase(addItemDB.rejected, (state, { payload }) => {
+        state.errors = payload;
+        state.loading = false;
+      });
+  },
 });
 
 const selectRoot = (state: RootState) => state.cart;

@@ -3,10 +3,10 @@ import { useState } from 'react';
 import './promotions.css';
 import PromotionCard from '../promotion-card/promotion-card.component';
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
-import { IPromotionsCard } from '../promotionSlice';
+import { _Promotions } from '../promotionSlice';
 
 interface IPromotions {
-  promotions: IPromotionsCard;
+  promotions: _Promotions[];
 }
 
 const Promotions = ({ promotions }: IPromotions): JSX.Element => {

@@ -9,7 +9,8 @@ import { connect } from 'react-redux';
 import { fetchAll, fetch as fetchOrders } from '../../features/order/orderSlice';
 import { fetch as fetchCategories } from '../../features/category/categorySlice';
 //import { fetch } from '../../redux/promotions/promotions.actions';
-import { fetchRole } from '../../features/user/userSlice';
+import { authHeader, CART_URL, fetchRole } from '../../features/user/userSlice';
+import axios from 'axios';
 
 interface IClassics {
   message: string;
@@ -37,6 +38,9 @@ const Classics = () => {
       </button>
       <button className='cl-btn' onClick={() => dispatch(fetchRole())}>
         Fetch my role
+      </button>
+      <button className='cl-btn' onClick={() => axios.post(CART_URL, {}, { headers: authHeader() })}>
+        Create a cart
       </button>
     </div>
   );

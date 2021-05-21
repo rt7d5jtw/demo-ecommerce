@@ -13,18 +13,14 @@ type FormValues = {
   price: number;
   description: string;
   author: string;
-  id: string;
+  id: number;
   quantity: 1;
   category: string;
 };
 
 function ProductsEdit(): JSX.Element {
   const dispatch = useDispatch();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormValues>();
+  const { register, handleSubmit } = useForm<FormValues>();
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     dispatch(update(data));
   };

@@ -2,7 +2,7 @@ import * as React from 'react';
 import './products-delete.css';
 import { useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { useAppDispatch, useAppSelector } from '../../../app/hooks';
+import { useDispatch, useSelector } from 'react-redux';
 import { Product, selectItems } from '../../../features/product/productSlice';
 import { fetch, remove } from '../../../features/product/productSlice';
 
@@ -11,8 +11,8 @@ type FormValues = {
 };
 
 function ProductsDelete(): JSX.Element {
-  const products = useAppSelector(selectItems);
-  const dispatch = useAppDispatch();
+  const products = useSelector(selectItems);
+  const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetch());
   }, [dispatch]);
