@@ -81,9 +81,18 @@ export class CartService {
     cartItem.price = price * quantity;
     cartItem.productId = id;
 
-    //const cartItems = this.getCartItems(user)
-    // make comparison here looking for items with same ids
-
+    /* checks if Cart Items with same productId and cartId exists in the Cart Item table
+     * if so it sums quantity and price of the two objects and removes the redundant copy 'cart_copy' */
+    const cartItems = await this.getCartItems(user)
+    for (let i = 0; i < cartItems.length; i++) {
+      if (cartItems[i].cartId === cartItem.cartId && cartItems[i].productId === cartItem.productId) {
+        let cart_copy = await cartItems[i].id
+        cartItem.quantity = cartItems[i].quantity + cartItem.quantity;
+        cartItem.price = cartItems[i].price + cartItem.price;
+        this.removeCartItem(cart_copy, user)
+      }
+    }
+    await cartItem.save();
     return cartItem;
   };
 
