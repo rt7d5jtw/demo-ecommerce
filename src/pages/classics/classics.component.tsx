@@ -42,6 +42,9 @@ const Classics = () => {
       <button className='cl-btn' onClick={() => axios.post(CART_URL, {}, { headers: authHeader() })}>
         Create a cart
       </button>
+      <button className='cl-btn' onClick={() => console.log(axios.post(CART_URL + 8, { quantity: 1 }, { headers: authHeader() }))}>
+        Add Item to Cart
+      </button>
     </div>
   );
 };
