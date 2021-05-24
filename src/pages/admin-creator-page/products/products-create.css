@@ -13,6 +13,7 @@
 }
 
 .product-creator h1 {
+  font-family: 'Montserrat', sans-serif;
   font-size: 1.7em;
   font-weight: bold;
   margin-bottom: 1em;
@@ -23,7 +24,9 @@
   display: flex;
   justify-content: flex-start;
   flex-direction: column;
+  width: 45%;
 }
+
 
 .product-creator input {
   display: grid;
