@@ -11,6 +11,7 @@ import { fetch as fetchCategories } from '../../features/category/categorySlice'
 //import { fetch } from '../../redux/promotions/promotions.actions';
 import { authHeader, CART_URL, fetchRole } from '../../features/user/userSlice';
 import axios from 'axios';
+import { fetchCartState } from '../../features/cart/cartSlice';
 
 interface IClassics {
   message: string;
@@ -44,6 +45,9 @@ const Classics = () => {
       </button>
       <button className='cl-btn' onClick={() => console.log(axios.post(CART_URL + 8, { quantity: 1 }, { headers: authHeader() }))}>
         Add Item to Cart
+      </button>
+      <button className='cl-btn' onClick={() => dispatch(fetchCartState())}>
+        fetch Cart state
       </button>
     </div>
   );

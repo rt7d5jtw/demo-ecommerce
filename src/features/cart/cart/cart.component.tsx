@@ -10,6 +10,7 @@ import {
   selectCartItems,
   selectQuantity,
   CartItem,
+  clearCartDB,
 } from '../../cart/cartSlice';
 import { useDispatch } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -24,6 +25,7 @@ interface ICart {
 }
 
 const Cart = ({ isOpen, items, quantity }: ICart) => {
+  const user = JSON.parse(localStorage.getItem('user') || '{}');
   const dispatch = useDispatch();
   const wrappedRef = useRef<HTMLDivElement>(null);
   const iconRef = useRef<HTMLDivElement>(null);
@@ -54,6 +56,9 @@ const Cart = ({ isOpen, items, quantity }: ICart) => {
 
   function cartClear() {
     dispatch(clearCart());
+    if (user && user.accessToken) {
+      dispatch(clearCartDB())
+    }
   }
 
   return (

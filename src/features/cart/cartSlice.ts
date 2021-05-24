@@ -15,6 +15,14 @@ export const addItem = createAction<CartItem>('cart/addItem');
 
 export const removeItem = createAction<CartItem>('cart/removeItem');
 
+export const fetchCartState = createAsyncThunk(
+  'cart/fetch',
+  async (): Promise<CartItem[]> => {
+    const { data } = await axios.get(CART_URL + 'cartInfo', { headers: authHeader() });
+    return data;
+  }
+);
+
 export const addItemDB = createAsyncThunk(
   'cart/addItemDB',
   async (id: number, { rejectWithValue }) => {
@@ -29,6 +37,41 @@ export const addItemDB = createAsyncThunk(
           throw err;
         }
         return rejectWithValue(error.response.data);
+      });
+  }
+);
+
+export const removeItemDB = createAsyncThunk(
+  'cart/removeItemDB',
+  async (id: string, { rejectWithValue }) => {
+    await axios
+      .delete(CART_URL + id, { headers: authHeader() })
+      .then((res) => {
+        return res.data;
+      })
+      .catch((err) => {
+        const error: AxiosError<ValidationErrors> = err;
+        if (!error.response) {
+          throw err;
+        }
+        return rejectWithValue(error.response.data);
+      });
+  }
+);
+
+export const clearCartDB = createAsyncThunk(
+  'cart/clearCartDB',
+  async (): Promise<void> => {
+    await axios
+      .delete(CART_URL, { headers: authHeader() })
+      .then((res) => {
+        return res.data;
+      })
+      .catch((err) => {
+        const error: AxiosError<ValidationErrors> = err;
+        if (!error.response) {
+          throw err;
+        }
       });
   }
 );
@@ -82,13 +125,46 @@ export const cartSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(addItemDB.pending, (state) => {
+    builder.addCase(fetchCartState.pending, (state) => {
       state.loading = true;
     }),
+      builder.addCase(fetchCartState.fulfilled, (state, { payload }) => {
+        state.items = payload;
+        state.quantity = payload.reduce((acc: number, curr: CartItem) => acc + curr.quantity, 0);
+        state.loading = false;
+      }),
+      builder.addCase(fetchCartState.rejected, (state, { payload }) => {
+        state.errors = payload;
+        state.loading = false;
+      }),
+      builder.addCase(addItemDB.pending, (state) => {
+        state.loading = true;
+      }),
       builder.addCase(addItemDB.fulfilled, (state) => {
         state.loading = false;
       }),
       builder.addCase(addItemDB.rejected, (state, { payload }) => {
+        state.errors = payload;
+        state.loading = false;
+      }),
+      builder.addCase(removeItemDB.pending, (state) => {
+        state.loading = true;
+      }),
+      builder.addCase(removeItemDB.fulfilled, (state) => {
+        state.loading = false;
+      }),
+      builder.addCase(removeItemDB.rejected, (state, { payload }) => {
+        state.errors = payload;
+        state.loading = false;
+      }),
+      builder.addCase(clearCartDB.pending, (state) => {
+        state.loading = true;
+      }),
+      builder.addCase(clearCartDB.fulfilled, (state) => {
+        state.quantity = 0;
+        state.loading = false;
+      }),
+      builder.addCase(clearCartDB.rejected, (state, { payload }) => {
         state.errors = payload;
         state.loading = false;
       });

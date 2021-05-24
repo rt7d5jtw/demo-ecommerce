@@ -3,6 +3,7 @@ import { createSelector } from 'reselect';
 import axios, { AxiosError } from 'axios';
 import { RootState } from '../../app/store';
 import { ValidationErrors } from '../promotion/promotionSlice';
+import { fetchCartState } from '../cart/cartSlice';
 
 export const REGISTER_URL = 'http://localhost:3000/users/';
 export const LOGIN_URL = 'http://localhost:3000/auth/signin';
@@ -86,7 +87,7 @@ export const registerRequest = createAsyncThunk(
 
 export const loginRequest = createAsyncThunk(
   'user/login',
-  async (userData: IUserCredentials, { rejectWithValue }) => {
+  async (userData: IUserCredentials, thunkAPI) => {
     return axios
       .post(LOGIN_URL, userData)
       .then((res) => {
@@ -98,6 +99,7 @@ export const loginRequest = createAsyncThunk(
             ? axios.post(CART_URL, {}, { headers: authHeader() })
             : console.log('Cart already exists');
         });
+        thunkAPI.dispatch(fetchCartState());
         return res.data;
       })
       .catch((err) => {
@@ -105,7 +107,7 @@ export const loginRequest = createAsyncThunk(
         if (!error.response) {
           throw err;
         }
-        return rejectWithValue(error.response.data);
+        return thunkAPI.rejectWithValue(error.response.data);
       });
   }
 );
