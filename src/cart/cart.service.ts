@@ -3,10 +3,10 @@ import { Cart } from './cart.entity';
 import { CartItem } from './cart-item.entity';
 import { CartRepository } from './cart.repository';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CartItemDto } from './dto/cart.dto';
+import { CartItemDto, CartItemInfo } from './dto/cart.dto';
 import { User } from '../users/user.entity';
 import { Product } from '../product/product.entity';
-import { getRepository } from 'typeorm';
+import { getRepository, getManager } from 'typeorm';
 
 @Injectable()
 export class CartService {
@@ -54,6 +54,26 @@ export class CartService {
     return cartItem;
   }
 
+  async getCartInfo(user: User): Promise<CartItemInfo> {
+    /* get cart id */
+    const userId = user["id"];
+    const cartId = await this.cartRepository.find({
+      where: [
+        { "userId": userId }
+      ]
+    });
+
+    const manager = getManager();
+    const rawData = await manager.query(`
+      SELECT ct."cartId", ct."productId", ct."id", prods."title", 
+      prods."image", prods."price", ct."quantity" FROM "cart-item" as ct
+      JOIN "products" as prods
+        ON prods."id" = ct."productId"
+      WHERE ct."cartId" = '${cartId[0].id}';
+      `);
+    return rawData;
+  }
+
   async getProductPrice(id: number): Promise<number> {
     const productRepository = getRepository(Product);
     const product = await productRepository.findOne(id);
@@ -86,7 +106,7 @@ export class CartService {
     const cartItems = await this.getCartItems(user)
     for (let i = 0; i < cartItems.length; i++) {
       if (cartItems[i].cartId === cartItem.cartId && cartItems[i].productId === cartItem.productId) {
-        let cart_copy = await cartItems[i].id
+        let cart_copy = cartItems[i].productId
         cartItem.quantity = cartItems[i].quantity + cartItem.quantity;
         cartItem.price = cartItems[i].price + cartItem.price;
         this.removeCartItem(cart_copy, user)
@@ -96,7 +116,7 @@ export class CartService {
     return cartItem;
   };
 
-  async removeCartItem(id: string, user: User): Promise<void | string> {
+  async removeCartItem(productId: number, user: User): Promise<void | string> {
     /* get cart id */
     const userId = user["id"];
     const cartId = await this.cartRepository.find({
@@ -108,19 +128,20 @@ export class CartService {
     const cartItem = await getRepository(CartItem)
       .createQueryBuilder("cartItem")
       .where("cartItem.cartId = :cartId", { cartId: cartId[0].id })
-      .andWhere("cartItem.id = :id", { id: id })
+      .andWhere("cartItem.productId = :productId", { productId: productId })
       .getOne()
 
     if (cartItem == null) {
-      throw new NotFoundException(`Cart Item with ID "${id}" not found`);
+      throw new NotFoundException(`Cart Item with ID "${productId}" not found`);
     }
 
+    const deletion_id = await cartItem.id
     /* compare cartids */
     const cartIdCmp = cartId[0].id;
     const cartIdCmp2 = cartItem["cartId"];
 
     if (cartIdCmp === cartIdCmp2) {
-      getRepository(CartItem).delete(id);
+      getRepository(CartItem).delete(deletion_id);
     } else if (cartIdCmp !== cartIdCmp2) {
       return "Item is not in user's cart or item does not exist";
     }

@@ -4,9 +4,16 @@ export class CartDto {
   CartItemId: string;
 }
 
-export class CartItemDto {
+export interface CartItemDto {
   title: string;
   productId: number;
   quantity: number;
   price: number;
+}
+
+export interface CartItemInfo extends CartItemDto {
+  cartId: string;
+  id: string;
+  title: string;
+  image: string;
 }

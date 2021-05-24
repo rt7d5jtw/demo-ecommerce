@@ -1,7 +1,7 @@
 import { Controller, Get, Body, Param, Post, Delete, ValidationPipe, UsePipes, ParseIntPipe, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { CartService } from './cart.service';
-import { CartItemDto } from './dto/cart.dto';
+import { CartItemDto, CartItemInfo } from './dto/cart.dto';
 import { CartItem } from './cart-item.entity';
 import { Cart } from './cart.entity';
 import { GetUser } from '../users/get_user.decorator';
@@ -28,6 +28,14 @@ export class CartController {
     @GetUser() user: User,
   ): Promise<CartItem[]> {
     return this.cartService.getCartItems(user);
+  }
+
+  /* fetches title and image for cart items */
+  @Get('/cartInfo')
+  getCartInfo(
+    @GetUser() user: User,
+  ): Promise<CartItemInfo> {
+    return this.cartService.getCartInfo(user);
   }
 
   /* get cart item based on id */
@@ -78,12 +86,12 @@ export class CartController {
   }*/
 
   /* deletes item from user's cart */
-  @Delete(':id')
+  @Delete(':productId')
   removeCartItem(
-    @Param('id') id: string,
+    @Param('productId', ParseIntPipe) productId: number,
     @GetUser() user: User,
   ): Promise<void | string> {
-    return this.cartService.removeCartItem(id, user);
+    return this.cartService.removeCartItem(productId, user);
   }
 
   /* clears user's cart items */
