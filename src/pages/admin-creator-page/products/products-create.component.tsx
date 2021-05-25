@@ -42,11 +42,18 @@ function ProductsCreate(): JSX.Element {
             required
           />
           <label>Product image</label>
+          <p className='admin-product-text'>Use image url or upload an image to use as product image</p>
           <input
             type='text'
             placeholder='Product image'
             {...register('image', { required: 'You must specify a image' })}
             required
+          />
+          <p id='product-or-text'>or</p>
+          <input
+            type='file'
+            name='image'
+            id='image'
           />
           <label>Product price</label>
           <input
@@ -74,6 +81,7 @@ function ProductsCreate(): JSX.Element {
           <textarea
             {...register('description')}
             name='description'
+            placeholder='Product description'
             form='create-product'
           ></textarea>
           <input type='submit' value='Create' />
