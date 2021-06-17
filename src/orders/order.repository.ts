@@ -1,6 +1,6 @@
 import { Order, OrderStatus } from './order.entity';
 import { User } from '../users/user.entity';
-import { EntityRepository, getManager, getRepository, Repository } from 'typeorm';
+import { EntityRepository, getConnection, getManager, getRepository, Repository } from 'typeorm';
 import { CreateOrderDto, OrderIdDto, OrderItemDto } from './dto/order.do';
 import { SearchOrdersDto } from './dto/search-orders.dto';
 import { generateInvoiceInformation, generateInvoiceTable } from './invoice';
@@ -132,13 +132,29 @@ export class OrderRepository extends Repository<Order> {
       WHERE ct."cartId" = '${cartId[0].id}';
       `)
 
+    const orders = [];
     for (let i = 0; i < cartItems.length; i++) {
-      orderItem.orderId = orderIdDto.orderId;
-      orderItem.price = cartItems[i].price;
-      orderItem.quantity = cartItems[i].quantity;
-      orderItem.product = cartItems[i].productId;
-      orderItem.save();
+      /* iterates all the cart items into orders-array */
+      let order = {
+        orderId: null,
+        price: null,
+        quantity: null,
+        product: null
+      }
+      order.orderId = orderIdDto.orderId;
+      order.price = cartItems[i].price;
+      order.quantity = cartItems[i].quantity;
+      order.product = cartItems[i].productId;
+      orders.push(order)
     }
+    /* insert to the array to database */
+    await getConnection()
+      .createQueryBuilder()
+      .insert()
+      .into(OrderItem)
+      .values(orders)
+      .execute();
+
     return cartItems;
   }
 }
