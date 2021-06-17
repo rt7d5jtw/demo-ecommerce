@@ -7,6 +7,7 @@ import { CartItemDto, CartItemInfo } from './dto/cart.dto';
 import { User } from '../users/user.entity';
 import { Product } from '../product/product.entity';
 import { getRepository, getManager } from 'typeorm';
+import * as fs from 'fs';
 
 @Injectable()
 export class CartService {
@@ -39,6 +40,7 @@ export class CartService {
   }
 
   async getCartItem(user: User, id: string): Promise<CartItem> {
+    /* get cartId */
     const userId = user["id"];
     const cartId = await this.cartRepository.find({
       where: [
@@ -82,6 +84,13 @@ export class CartService {
 
   async createCart(user: User): Promise<Cart> {
     return this.cartRepository.createCart(user)
+  }
+
+  async copyFile(file: Express.Multer.File) {
+    let buffer = Buffer.from(file);
+    fs.copyFile(buffer, 'stuff.jpg', (err) => {
+      if (err) throw err;
+    })
   }
 
   // adds a cartItemId to Cart entity and adds product to cart-item entity

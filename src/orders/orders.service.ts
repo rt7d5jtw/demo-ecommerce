@@ -1,13 +1,16 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CreateOrderDto } from './dto/order.do';
+import { CreateOrderDto, OrderIdDto, OrderItemDto } from './dto/order.do';
 import { SearchOrdersDto } from './dto/search-orders.dto';
 import { Order } from './order.entity';
 import { User } from '../users/user.entity';
 import { OrderRepository } from './order.repository';
 import { OrderItem } from './order-item.entity';
 import { getRepository } from 'typeorm';
+import { PaymentDto } from './dto/payment.dto';
+import Stripe from 'stripe';
 
+const stripe = require('stripe')('sk_test_51HUuCuDiJxi7nioJcrisEWkl6dtdxpbeKEF6DoQFbGxwlvqwCLfITvmxQPagXFAy8MpRzSO3GmgYXq91ir5sbNef00up3ewzgb')
 
 @Injectable()
 export class OrdersService {
@@ -51,6 +54,31 @@ export class OrdersService {
     return orderItem;
   }
 
+  async addPaymentIntent(
+    paymentDto: PaymentDto,
+    user: User,
+  ): Promise<Stripe.PaymentIntent> {
+    const { amount, currency, payment_method_types, metadata } = paymentDto;
+    const params: Stripe.PaymentIntentCreateParams = {
+      // Stripe's API assumes amount in smallest currency unit
+      // 100 is 1$
+      amount: amount * 100,
+      currency,
+      payment_method_types: [payment_method_types],
+      metadata
+    }
+    const paymentIntent: Stripe.PaymentIntent = await stripe.paymentIntents.create(
+      params
+    );
+    return paymentIntent;
+  }
+
+  async createInvoice(
+    user: User,
+  ): Promise<Buffer> {
+    return this.orderRepository.createInvoice(user)
+  }
+
   async createOrder(
     createOrderDto: CreateOrderDto,
     user: User,
@@ -74,4 +102,12 @@ export class OrdersService {
       throw new NotFoundException(`Order with ID "${id}" not found`);
     }
   }
+
+  async addOrderItems(
+    orderIdDto: OrderIdDto,
+    user: User,
+  ): Promise<OrderItem[]> {
+    return this.orderRepository.addOrderItems(orderIdDto, user)
+  }
+
 }

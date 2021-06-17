@@ -1,4 +1,4 @@
-import { Entity, BaseEntity, Column, PrimaryGeneratedColumn, CreateDateColumn, ManyToOne } from 'typeorm';
+import { Entity, BaseEntity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 import { Order } from './order.entity';
 import { Product } from '../product/product.entity';
 
@@ -10,17 +10,11 @@ export class OrderItem extends BaseEntity {
   @Column()
   orderId: string;
 
-  @Column()
-  ProductId: number;
-
-  @Column()
+  @Column({ type: 'float' })
   price: number
 
   @Column()
   quantity: number;
-
-  @CreateDateColumn({ name: 'Order_Date' })
-  createdAt: Date
 
   @ManyToOne(() => Order, order => order.orderitems)
   order: Order;

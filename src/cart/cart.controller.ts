@@ -1,4 +1,4 @@
-import { Controller, Get, Body, Param, Post, Delete, ValidationPipe, UsePipes, ParseIntPipe, UseGuards } from '@nestjs/common';
+import { Controller, Get, Body, Param, Post, Delete, ValidationPipe, UsePipes, ParseIntPipe, UseGuards, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { CartService } from './cart.service';
 import { CartItemDto, CartItemInfo } from './dto/cart.dto';
@@ -7,6 +7,7 @@ import { Cart } from './cart.entity';
 import { GetUser } from '../users/get_user.decorator';
 import { User } from '../users/user.entity';
 import { Logger } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('cart')
 @UseGuards(AuthGuard())
@@ -62,6 +63,16 @@ export class CartController {
     @GetUser() user: User,
   ): Promise<Cart> {
     return this.cartService.createCart(user);
+  }
+
+  @Post('test')
+  @UseInterceptors(FileInterceptor('file', {
+    dest: './images/'
+  }))
+  uploadFile(
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    return this.cartService.copyFile(file)
   }
 
   /* puts a product in the cart */

@@ -15,11 +15,20 @@ export class Order extends BaseEntity {
   @Column({ type: 'uuid' })
   userId: string;
 
-  @Column()
+  @Column({ type: 'float' })
   total_price: number;
 
   @Column()
   address: string;
+
+  @Column()
+  country: string;
+
+  @Column()
+  city: string;
+
+  @Column()
+  postalcode: number;
 
   @Column()
   status: OrderStatus;
