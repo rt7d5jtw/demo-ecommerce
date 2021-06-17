@@ -24,9 +24,29 @@ export const fetchAll = createAsyncThunk(
 
 export const add = createAsyncThunk(
   'order/add',
-  async (data: Order): Promise<Order> => {
-    const response = await axios.post(ORDER_URL, data);
+  async (data: OrderDTO): Promise<OrderDTO> => {
+    const response = await axios.post(ORDER_URL, data, { headers: authHeader() });
     return response.data;
+  }
+);
+
+export const addItems = createAsyncThunk(
+  'order/addItems',
+  async (data: OrderItem[]): Promise<OrderItem[]> => {
+    const response = await axios.post(ORDER_URL + 'items', data, { headers: authHeader() });
+    return response.data;
+  }
+);
+
+/* calls api to create a payment intent */
+export const createIntent = createAsyncThunk(
+  'order/createIntent',
+  async (req: any): Promise<any> => {
+    const { data } = await axios.post(ORDER_URL + 'create-payment-intent', req, {
+      headers: authHeader(),
+    });
+    // returns client secret
+    return data;
   }
 );
 
@@ -37,13 +57,31 @@ export const remove = createAsyncThunk(
   }
 );
 
+export enum OrderStatus {
+  UNPAID = 'UNPAID',
+  PAID = 'PAID',
+  SHIPPED = 'SHIPPED',
+}
+
 export interface Order {
-  address: string;
-  date: string;
-  id: string;
-  status: string;
   total_price: number;
-  userId: string;
+  address: string;
+  country: string;
+  city: string;
+  postalcode: number | null;
+  status: OrderStatus;
+  date?: string;
+  id?: string;
+  userId?: string;
+}
+
+export type OrderDTO = Omit<Order, 'date' | 'id' | 'userId'>;
+
+export interface OrderItem {
+  orderId: string;
+  price: number;
+  quantity: number;
+  productId: number;
 }
 
 export interface OrderState {
@@ -93,6 +131,26 @@ export const orderSlice = createSlice({
         state.loading = false;
       }),
       builder.addCase(add.rejected, (state, action) => {
+        state.errors = action.payload;
+        state.loading = false;
+      }),
+      builder.addCase(addItems.pending, (state) => {
+        state.loading = false;
+      }),
+      builder.addCase(addItems.fulfilled, (state) => {
+        state.loading = false;
+      }),
+      builder.addCase(addItems.rejected, (state, action) => {
+        state.errors = action.payload;
+        state.loading = false;
+      }),
+      builder.addCase(createIntent.pending, (state) => {
+        state.loading = false;
+      }),
+      builder.addCase(createIntent.fulfilled, (state) => {
+        state.loading = false;
+      }),
+      builder.addCase(createIntent.rejected, (state, action) => {
         state.errors = action.payload;
         state.loading = false;
       }),

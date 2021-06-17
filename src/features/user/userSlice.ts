@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
 import axios, { AxiosError } from 'axios';
 import { RootState } from '../../app/store';
@@ -51,6 +51,7 @@ export interface UserState {
   hash: string | null;
   users: IUser[];
   errors: Array<string> | unknown;
+  shippingInfo: shippingInformation;
   email: string;
 }
 
@@ -167,6 +168,17 @@ export const logout = createAsyncThunk(
   }
 );
 
+interface shippingInformation {
+  address: string;
+  country: string;
+  city: string;
+  postalcode: number | null;
+}
+
+export const addShippingInformation = createAction<shippingInformation>(
+  'user/addShippingInformation'
+);
+
 const initialState: UserState = {
   currentUser: null,
   loggedIn: false,
@@ -175,13 +187,23 @@ const initialState: UserState = {
   hash: '',
   users: [],
   errors: [],
+  shippingInfo: {
+    address: '',
+    country: '',
+    city: '',
+    postalcode: null,
+  },
   email: '',
 };
 
 export const userSlice = createSlice({
   name: 'user',
   initialState: initialState,
-  reducers: {},
+  reducers: {
+    addShippingInformation: (state, { payload }) => {
+      state.shippingInfo = payload;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(registerRequest.pending, (state) => {
       state.loading = true;
@@ -276,5 +298,10 @@ export const selectLoggedIn = createSelector([selectUser], (user: UserState) => 
 export const selectRole = createSelector([selectUser], (user: UserState) => user.role);
 
 export const selectUsers = createSelector([selectUser], (user: UserState) => user.users);
+
+export const selectShippingInfo = createSelector(
+  [selectUser],
+  (user: UserState) => user.shippingInfo
+);
 
 export default userSlice.reducer;

@@ -21,6 +21,8 @@
   "author": "",
   "dependencies": {
     "@reduxjs/toolkit": "^1.5.1",
+    "@stripe/react-stripe-js": "^1.4.1",
+    "@stripe/stripe-js": "^1.15.0",
     "axios": "^0.21.1",
     "babel-loader": "^8.2.2",
     "react": "^17.0.2",
@@ -28,7 +30,6 @@
     "react-icons": "^4.2.0",
     "react-redux": "^7.2.4",
     "react-router-dom": "^5.2.0",
-    "react-stripe-checkout": "^2.6.3",
     "redux": "^4.1.0",
     "redux-devtools-extension": "^2.13.9",
     "redux-logger": "^3.0.6",

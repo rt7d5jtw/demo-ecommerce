@@ -1,0 +1,40 @@
+.purchase-confirmed {
+  display: grid;
+  place-items: center auto;
+  grid-auto-flow: column;
+  width: 90%;
+  height: 95%;
+  margin-top: 3em;
+  margin-left: 2em;
+}
+
+.purchase-confirmed p {
+  font-size: 0.9em;
+  margin-top: 1em;
+  margin-bottom: 3em;
+}
+
+.purchase-confirmed h1, p {
+  font-family: 'Montserrat', sans-serif;
+}
+
+.purchase-col-1 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.purchase-col-2 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.purchase-col-2 a, p {
+  font-family: 'Montserrat', sans-serif;
+  margin-top: 0.7em;
+}

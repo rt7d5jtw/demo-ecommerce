@@ -57,7 +57,7 @@ const Cart = ({ isOpen, items, quantity }: ICart) => {
   function cartClear() {
     dispatch(clearCart());
     if (user && user.accessToken) {
-      dispatch(clearCartDB())
+      dispatch(clearCartDB());
     }
   }
 

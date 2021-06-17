@@ -1,0 +1,181 @@
+.order-payment {
+  display: grid;
+  place-items: center center;
+  height: 100vh;
+}
+
+.payment-col-wrapper {
+  display: grid;
+  place-items: center center;
+  grid-auto-flow: column;
+  width: 95%;
+  height: 90vh;
+}
+
+.payment-col-1 {
+  display: flex;
+  height: 100%; 
+  width: 100%;
+}
+
+.ordered-items {
+  display: flex;
+  justify-content: center;
+  height: 40em;
+  width: 100%;
+  overflow: auto;
+  border: 5px solid black;
+}
+
+.ordered-items p {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1em;
+  margin-top: 0.3em;
+}
+
+.ordered-items table {
+  border-collapse: collapse;
+  width: 100%;
+  height: 100%;
+}
+
+.ordered-items table td:first-child {
+  height: 30%;
+  width: 30%;
+}
+
+.ordered-items table, th, td {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.ordered-items table td {
+  border-top: 1px solid black;
+}
+
+.payment-col-2 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: transparent;
+  height: 100%; 
+  width: 100%;
+}
+
+.order-details {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  height: 25%;
+  width: 45%;
+  font-family: 'Montserrat', sans-serif;
+  margin-top: 2em;
+  background: #d3d3d3;
+}
+
+.order-details h2 {
+  text-align: center;
+  font-size: 2em;
+  font-weight: bold;
+  margin: 0.3em;
+}
+
+.order-details p {
+  display: flex;
+  text-indent: 1em;
+  justify-content: center;
+  align-items: center;
+  border-top: 1px solid white;
+  background: black;
+  color: white;
+  height: 2em;
+  width: 90%;
+  font-size: 1.3em;
+  font-weight: 500;
+}
+
+.shipping-details {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 3em;
+}
+
+.shipping-details p {
+  font-family: 'Montserrat', sans-serif;
+  display: flex;
+  text-indent: 1em;
+  align-items: center;
+  background: #d3d3d3;
+  color: black;
+  height: 1.7em;
+  width: 100%;
+  font-size: 1.3em;
+  font-weight: 400;
+}
+
+.shipping-details h2 {
+  text-align: center;
+  font-size: 1.3em;
+  font-weight: 500;
+  margin: 0.5em;
+}
+
+.ordered-items td img {
+  vertical-align: top;
+  width: 75%;
+  height: 200px;
+}
+
+.ordered-items th {
+  height: 1%;
+  padding: 0.2em;
+}
+
+#stripe-wrapper p {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.9em;
+  margin-bottom: 1em;
+}
+
+.payment-col-2 form {
+  border: 2px solid red;
+  padding: 15px 15px;
+  width: 25em;
+  height: 10em;
+  position: absolute;
+  top: 75%;
+  text-align: center;
+  -webkit-box-shadow: 5px 5px 10px 3px #000000; 
+  box-shadow: 5px 5px 10px 3px #000000;
+}
+
+.payment-col-2 form button {
+  font-size: 1em;
+  margin-top: 2em;
+  border: none;
+  height: 3em;
+  width: 75%;
+  background: #228b22;
+  color: white;
+  transition: 1.5s;
+}
+
+.payment-col-2 form button:hover {
+  cursor: pointer;
+  background: #2c6b2c;
+}
+
+.payment-col-2 form button:active {
+  transform: translateY(2px);
+}
+
+#stripe__p {
+  font-family: 'Montserrat', sans-serif;
+  margin-bottom: 0.5em;
+}
+
+.payment-col-2 h2 {
+  font-family: 'Montserrat', sans-serif;
+  margin-top: 1em;
+}

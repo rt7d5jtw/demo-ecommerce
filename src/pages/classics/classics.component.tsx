@@ -12,6 +12,8 @@ import { fetch as fetchCategories } from '../../features/category/categorySlice'
 import { authHeader, CART_URL, fetchRole } from '../../features/user/userSlice';
 import axios from 'axios';
 import { fetchCartState } from '../../features/cart/cartSlice';
+import { fetchPromotions } from '../../features/promotion/promotionSlice';
+import { PurchaseConfirmed } from '../purchase-confirmed/purchase-confirmed';
 
 interface IClassics {
   message: string;
@@ -40,14 +42,25 @@ const Classics = () => {
       <button className='cl-btn' onClick={() => dispatch(fetchRole())}>
         Fetch my role
       </button>
-      <button className='cl-btn' onClick={() => axios.post(CART_URL, {}, { headers: authHeader() })}>
+      <button
+        className='cl-btn'
+        onClick={() => axios.post(CART_URL, {}, { headers: authHeader() })}
+      >
         Create a cart
       </button>
-      <button className='cl-btn' onClick={() => console.log(axios.post(CART_URL + 8, { quantity: 1 }, { headers: authHeader() }))}>
+      <button
+        className='cl-btn'
+        onClick={() =>
+          console.log(axios.post(CART_URL + 8, { quantity: 1 }, { headers: authHeader() }))
+        }
+      >
         Add Item to Cart
       </button>
       <button className='cl-btn' onClick={() => dispatch(fetchCartState())}>
         fetch Cart state
+      </button>
+      <button className='cl-btn' onClick={() => dispatch(fetchPromotions())}>
+        fetch Promotions
       </button>
     </div>
   );

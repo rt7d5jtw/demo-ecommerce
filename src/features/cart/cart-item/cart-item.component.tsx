@@ -13,7 +13,7 @@ const __CartItem = (cartItem: CartItem) => {
     dispatch(removeItem(cartItem));
     if (user && user.accessToken) {
       if (cartItem.id != undefined) {
-        dispatch(removeItemDB(cartItem.id))
+        dispatch(removeItemDB(cartItem.id));
       }
     }
   }

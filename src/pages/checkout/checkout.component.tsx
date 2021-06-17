@@ -4,14 +4,18 @@ import { Footer } from '../../features/homepage-components/footer/footer.compone
 import { Navbar } from '../../features/homepage-components/navbar/navbar.component';
 import Sidebar from '../../features/homepage-components/sidebar/sidebar.component';
 import __CartItem from '../../features/cart/cart-item/cart-item.component';
-import { connect } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import { selectCartItems, selectCartTotal } from '../../features/cart/cartSlice';
 import { createStructuredSelector } from 'reselect';
 import { RootState } from '../../app/store';
 import { CartItem } from '../../features/cart/cartSlice';
+import { addShippingInformation, selectShippingInfo } from '../../features/user/userSlice';
+import { add, OrderStatus } from '../../features/order/orderSlice';
 import Alert from '../../features/alert/alert/alert.component';
-import { StripeButton } from '../../features/order/stripe-button/stripe-button.component';
 import Main from '../../features/homepage-components/main/main.component';
+import { useHistory } from 'react-router';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { useState } from 'react';
 
 interface ICheckout {
   items: CartItem[];
@@ -19,7 +23,45 @@ interface ICheckout {
   clearCart: () => void;
 }
 
-const Checkout = ({ items, total, clearCart }: ICheckout) => {
+type FormValues = {
+  address: string;
+  country: string;
+  city: string;
+  postalcode: number;
+};
+
+const Checkout = ({ items, total }: ICheckout) => {
+  const dispatch = useDispatch();
+  const shippingInfo = useSelector(selectShippingInfo);
+  const { push } = useHistory();
+  const { register, handleSubmit } = useForm<FormValues>();
+  const [warning, setWarning] = useState<string>();
+  function handleOrder() {
+    if (
+      shippingInfo.address.length !== 0 &&
+      shippingInfo.postalcode !== null &&
+      shippingInfo.country.length !== 0 &&
+      shippingInfo.city.length !== 0
+    ) {
+      dispatch(
+        add({
+          total_price: total,
+          status: OrderStatus.UNPAID,
+          address: shippingInfo.address,
+          country: shippingInfo.country,
+          city: shippingInfo.city,
+          postalcode: shippingInfo.postalcode,
+        })
+      );
+      push('/payment');
+    } else {
+      setWarning('Provide shipping information!');
+    }
+  }
+  const onSubmit: SubmitHandler<FormValues> = (data) => {
+    console.log(data);
+    dispatch(addShippingInformation(data));
+  };
   return (
     <div className='homepage'>
       <Alert />
@@ -28,16 +70,41 @@ const Checkout = ({ items, total, clearCart }: ICheckout) => {
       <Main>
         <div className='checkout'>
           <div className='order-information'>
-            <h1> Checkout </h1>
-            <form className='order-form'>
-              <label>Order information</label>
-              <input type='address' name='address' placeholder='Order address' required />
-              <input type='name' name='name' placeholder='Name' required />
-              <input type='email' name='email' placeholder='Email' required />
+            <h1>Checkout</h1>
+            <form className='order-form' onSubmit={handleSubmit(onSubmit)}>
+              <label>Shipping information</label>
+              <input
+                type='address'
+                placeholder='Shipping address'
+                {...register('address', { required: true })}
+                required
+              />
+              <input
+                type='text'
+                placeholder='Country'
+                {...register('country', { required: true })}
+                required
+              />
+              <input
+                type='text'
+                placeholder='City'
+                {...register('city', { required: true })}
+                required
+              />
+              <input
+                type='text'
+                placeholder='Postal Code'
+                {...register('postalcode', { required: true })}
+                required
+              />
+              <input type='submit' value='Add Shipping Information' />
             </form>
             <h1>Order Summary</h1>
             <h1>Total price: ${total}</h1>
-            <StripeButton price={total} clearCart={clearCart} />
+            <button className='order-btn' onClick={() => handleOrder()}>
+              Place Order
+            </button>
+            <p>{warning}</p>
           </div>
 
           {items.length ? (

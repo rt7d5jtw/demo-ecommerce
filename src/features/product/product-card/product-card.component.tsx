@@ -35,9 +35,9 @@ const ProductCard = (item: ProductCardValues) => {
     dispatch(addItem(cart_item));
     console.log(cart_item);
     if (user && user.accessToken) {
-      dispatch(addItemDB(cart_item.id))
+      dispatch(addItemDB(cart_item.id));
     } else {
-      console.log('User doesnt exists')
+      console.log('User doesnt exists');
     }
   };
 

@@ -88,7 +88,7 @@ export interface PromotionState {
 
 const initialState: PromotionState = {
   items: [],
-  loading: true,
+  loading: false,
   errors: [],
 };
 

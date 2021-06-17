@@ -22,17 +22,17 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 25px;
+  border-radius: 1.5625em;
 
   position: absolute;
   top: 2.1em;
   right: 9.5em;
 
-  width: 25px;
-  height: 25px;
+  width: 1.5em;
+  height: 1.5em;
   background: #ff8c00;
   color: black;
-  font-size: 22px;
+  font-size: 1em;
   font-weight: bold;
 }
 

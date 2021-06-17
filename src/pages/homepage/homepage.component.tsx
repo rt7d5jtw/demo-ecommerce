@@ -10,7 +10,6 @@ import { fetch as fetchCategories } from '../../features/category/categorySlice'
 import { fetch } from '../../features/product/productSlice';
 import Promotions from '../../features/promotion/promotions/promotions.component';
 import Main from '../../features/homepage-components/main/main.component';
-//import { fetch as pfetch } from '../../redux/promotions/promotions.actions';
 import {
   checkIfLoading,
   fetchPromotions,
@@ -29,7 +28,8 @@ function Homepage(): JSX.Element {
     dispatch(fetchPromotions());
   }, [dispatch]);
 
-  if (isLoading) {
+  if (isLoading || promotions[0] == undefined) {
+    dispatch(fetchPromotions());
     return <p>Loading...</p>;
   }
 

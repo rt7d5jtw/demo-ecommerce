@@ -23,7 +23,8 @@ function ProductsCreate(): JSX.Element {
   const dispatch = useDispatch();
   const { register, handleSubmit } = useForm<FormValues>();
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    dispatch(add(data));
+    console.log(data);
+    //dispatch(add(data));
   };
   useEffect(() => {
     dispatch(fetch());
@@ -42,17 +43,14 @@ function ProductsCreate(): JSX.Element {
             required
           />
           <label>Product image</label>
-          <p className='admin-product-text'>Use image url or upload an image to use as product image</p>
-          <input
-            type='text'
-            placeholder='Product image'
-            {...register('image', { required: 'You must specify a image' })}
-            required
-          />
+          <p className='admin-product-text'>
+            Use image url or upload an image to use as product image
+          </p>
+          <input type='text' placeholder='Product image' {...register('image')} />
           <p id='product-or-text'>or</p>
           <input
             type='file'
-            name='image'
+            {...register('image', { required: 'You must specify an image' })}
             id='image'
           />
           <label>Product price</label>

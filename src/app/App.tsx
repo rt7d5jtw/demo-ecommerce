@@ -16,6 +16,8 @@ import AdminPage from '../pages/admin-page/admin-page.component';
 import AdminCreatorPage from '../pages/admin-creator-page/admin-creator-page.component';
 import ProfilePage from '../pages/profile-page/profile-page.component';
 import CategoryPage from '../pages/category-page/category-page.component';
+import { StripeOrderWrapper } from '../pages/wrapper/wrapper';
+import { PurchaseConfirmed } from '../pages/purchase-confirmed/purchase-confirmed';
 
 const App = (): JSX.Element => {
   const currentUser = useSelector(selectCurrentUser);
@@ -32,6 +34,8 @@ const App = (): JSX.Element => {
         <Route path='/classics' component={Classics} />
         <Route path='/search-result' component={SearchPage} />
         <Route exact path='/checkout' component={Checkout} />
+        <Route exact path='/payment' component={StripeOrderWrapper} />
+        <Route path='/purchase-confirmed' component={PurchaseConfirmed} />
         <Route
           path='/register'
           component={() => (currentUser ? <Redirect to='/' /> : <AuthorizationPage />)}
