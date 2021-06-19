@@ -13,7 +13,7 @@ import { authHeader, CART_URL, fetchRole } from '../../features/user/userSlice';
 import axios from 'axios';
 import { fetchCartState } from '../../features/cart/cartSlice';
 import { fetchPromotions } from '../../features/promotion/promotionSlice';
-import { PurchaseConfirmed } from '../purchase-confirmed/purchase-confirmed';
+//import { PurchaseConfirmed } from '../purchase-confirmed/purchase-confirmed';
 
 interface IClassics {
   message: string;

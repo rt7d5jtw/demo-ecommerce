@@ -8,11 +8,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { selectCartItems, selectCartTotal, clearCart } from '../../features/cart/cartSlice';
 import { authHeader, selectShippingInfo } from '../../features/user/userSlice';
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
-import {
-  createIntent,
-  fetchAll as fetchAllOrders,
-  ORDER_URL,
-} from '../../features/order/orderSlice';
+import { fetchAll as fetchAllOrders, ORDER_URL } from '../../features/order/orderSlice';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router';
@@ -70,7 +66,8 @@ const OrderPayment = (): JSX.Element => {
     });
     if (paymentConfirmed) {
       setSuccess(!success);
-      setTimeout(() => push('/purchase-confirmed'), 5000);
+      dispatch(clearCart());
+      setTimeout(() => push('/purchase-confirmed'), 2500);
     }
   };
   const dispatch = useDispatch();

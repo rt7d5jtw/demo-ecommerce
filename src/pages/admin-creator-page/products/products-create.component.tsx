@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { selectCategories } from '../../../features/category/categorySlice';
 import { fetch } from '../../../features/category/categorySlice';
-import { add } from '../../../features/product/productSlice';
+import { add as addProduct } from '../../../features/product/productSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 type FormValues = {
@@ -24,7 +24,7 @@ function ProductsCreate(): JSX.Element {
   const { register, handleSubmit } = useForm<FormValues>();
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     console.log(data);
-    //dispatch(add(data));
+    dispatch(addProduct(data));
   };
   useEffect(() => {
     dispatch(fetch());

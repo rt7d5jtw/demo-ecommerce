@@ -7,15 +7,6 @@ interface IOrderCard {
 }
 
 export const OrderCard = ({ id, date }: IOrderCard): JSX.Element => {
-  function OrderImage(image: string): JSX.Element {
-    return (
-      <div className='order-card'>
-        <div className='image' style={{ backgroundImage: `url(${image})` }}></div>
-        <span className='order-title'>{}</span>
-      </div>
-    );
-  }
-
   return (
     <>
       <div className='order'>

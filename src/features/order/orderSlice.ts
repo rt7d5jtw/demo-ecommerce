@@ -41,7 +41,7 @@ export const addItems = createAsyncThunk(
 /* calls api to create a payment intent */
 export const createIntent = createAsyncThunk(
   'order/createIntent',
-  async (req: any): Promise<any> => {
+  async (req: PaymentIntentDTO): Promise<PaymentIntentDTO> => {
     const { data } = await axios.post(ORDER_URL + 'create-payment-intent', req, {
       headers: authHeader(),
     });
@@ -62,6 +62,12 @@ export enum OrderStatus {
   PAID = 'PAID',
   SHIPPED = 'SHIPPED',
 }
+
+export type PaymentIntentDTO = {
+  amount: number;
+  currency: string;
+  payment_method_types: string;
+};
 
 export interface Order {
   total_price: number;

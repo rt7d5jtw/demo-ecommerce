@@ -6,11 +6,11 @@ import Sidebar from '../../features/homepage-components/sidebar/sidebar.componen
 import './purchase-confirmed.css';
 import { useSelector } from 'react-redux';
 import { selectCartItems } from '../../features/cart/cartSlice';
-import { selectOrders } from '../../features/order/orderSlice';
+//import { selectOrders } from '../../features/order/orderSlice';
 
 export const PurchaseConfirmed = (): JSX.Element => {
   const cartItems = useSelector(selectCartItems);
-  const orders = useSelector(selectOrders);
+  //const orders = useSelector(selectOrders);
   return (
     <div className='homepage'>
       <Navbar />
