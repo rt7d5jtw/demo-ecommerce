@@ -2,7 +2,7 @@ import * as React from 'react';
 import './App.css';
 import { Switch, Route, Redirect, useRouteMatch } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { selectCurrentUser } from '../features/user/userSlice';
+import { selectCurrentUser } from '../features/user/selectors';
 
 // pages
 import Homepage from '../pages/homepage/homepage.component';

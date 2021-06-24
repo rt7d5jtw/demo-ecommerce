@@ -6,12 +6,13 @@ import Sidebar from '../../features/homepage-components/sidebar/sidebar.componen
 import Main from '../../features/homepage-components/main/main.component';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectCartItems, selectCartTotal, clearCart } from '../../features/cart/cartSlice';
-import { authHeader, selectShippingInfo } from '../../features/user/userSlice';
+import { authHeader } from '../../features/user/userSlice';
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import { fetchAll as fetchAllOrders, ORDER_URL } from '../../features/order/orderSlice';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router';
+import { selectShippingInfo } from '../../features/user/selectors';
 
 const CARD_OPTIONS = {
   iconStyle: 'solid' as const,

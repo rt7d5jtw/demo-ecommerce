@@ -1,19 +1,18 @@
 import { createAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { createSelector } from 'reselect';
-import axios, { AxiosError } from 'axios';
-import { RootState } from '../../app/store';
-import { ValidationErrors } from '../promotion/promotionSlice';
-import { fetchCartState } from '../cart/cartSlice';
-
-export const REGISTER_URL = 'http://localhost:3000/users/';
-export const LOGIN_URL = 'http://localhost:3000/auth/signin';
-export const CART_URL = 'http://localhost:3000/cart/';
+import {
+  registerRequest,
+  loginRequest,
+  assignRole,
+  changePassword,
+  changeEmail,
+  fetch,
+} from './thunks';
 
 export interface AccessTokenDTO {
   accessToken: string;
 }
 
-interface AuthorizationDTO {
+export interface AuthorizationDTO {
   Authorization: string;
 }
 
@@ -41,6 +40,8 @@ export interface IUser {
   createdAt: string;
 }
 
+export type IRegisterSuccess = Pick<IUser, 'email' | 'id'>;
+
 export type IUserCredentials = Omit<IUser, 'id' | 'role' | 'salt' | 'createdAt'>;
 
 export interface UserState {
@@ -49,7 +50,7 @@ export interface UserState {
   loading: boolean;
   role: UserRole;
   hash: string | null;
-  users: IUser[];
+  users: IRegisterSuccess[];
   errors: Array<string> | unknown;
   shippingInfo: shippingInformation;
   email: string;
@@ -65,27 +66,7 @@ export type EmailObj = {
   newEmail: string;
 };
 
-export const registerRequest = createAsyncThunk(
-  'user/register',
-  async (userData: IUserCredentials, { rejectWithValue }) => {
-    const { password, email } = userData;
-    return axios
-      .post(REGISTER_URL, { password: password, email: email })
-      .then((res) => {
-        // creates the cart for user
-        //axios.post(CART_URL, { headers: authHeader() });
-        return res.data;
-      })
-      .catch((err) => {
-        const error: AxiosError<ValidationErrors> = err;
-        if (!error.response) {
-          throw err;
-        }
-        return rejectWithValue(error.response.data);
-      });
-  }
-);
-
+/*
 export const loginRequest = createAsyncThunk(
   'user/login',
   async (userData: IUserCredentials, thunkAPI) => {
@@ -112,53 +93,7 @@ export const loginRequest = createAsyncThunk(
       });
   }
 );
-
-export const fetchRole = createAsyncThunk(
-  'user/fetchRole',
-  async (): Promise<UserRole> => {
-    const { data } = await axios.get(REGISTER_URL + 'role', { headers: authHeader() });
-    return data;
-  }
-);
-
-export const changePassword = createAsyncThunk(
-  'user/changePassword',
-  async (passwords: PasswordObj, { rejectWithValue }) => {
-    try {
-      const { data } = await axios.patch(REGISTER_URL + 'changepw', passwords, {
-        headers: authHeader(),
-      });
-      return data;
-    } catch (err) {
-      const error: AxiosError<ValidationErrors> = err;
-      if (!error.response) {
-        throw err;
-      }
-      return rejectWithValue(error.response.data);
-    }
-  }
-);
-
-export const changeEmail = createAsyncThunk(
-  'user/changeEmail',
-  async (emails: EmailObj, { rejectWithValue }) => {
-    try {
-      const { data } = await axios.patch(REGISTER_URL + 'email', emails, { headers: authHeader() });
-      return data;
-    } catch (err) {
-      const error: AxiosError<ValidationErrors> = err;
-      if (!error.response) {
-        throw err;
-      }
-      return rejectWithValue(error.response.data);
-    }
-  }
-);
-
-export const fetch = createAsyncThunk('user/fetch', async () => {
-  const { data } = await axios.get(REGISTER_URL);
-  return data;
-});
+*/
 
 export const logout = createAsyncThunk(
   'user/logout',
@@ -168,7 +103,7 @@ export const logout = createAsyncThunk(
   }
 );
 
-interface shippingInformation {
+export interface shippingInformation {
   address: string;
   country: string;
   city: string;
@@ -208,8 +143,9 @@ export const userSlice = createSlice({
     builder.addCase(registerRequest.pending, (state) => {
       state.loading = true;
     }),
-      builder.addCase(registerRequest.fulfilled, (state) => {
+      builder.addCase(registerRequest.fulfilled, (state, { payload }) => {
         state.loading = false;
+        state.users = [...state.users, payload];
       });
     builder.addCase(registerRequest.rejected, (state, action) => {
       state.loading = false;
@@ -239,14 +175,14 @@ export const userSlice = createSlice({
         state.loading = false;
         state.errors = action.payload;
       }),
-      builder.addCase(fetchRole.pending, (state) => {
+      builder.addCase(assignRole.pending, (state) => {
         state.loading = true;
       }),
-      builder.addCase(fetchRole.fulfilled, (state, action) => {
+      builder.addCase(assignRole.fulfilled, (state, action) => {
         state.loading = false;
         state.role = action.payload;
       }),
-      builder.addCase(fetchRole.rejected, (state, action) => {
+      builder.addCase(assignRole.rejected, (state, action) => {
         state.loading = false;
         state.errors = action.payload;
       }),
@@ -275,9 +211,9 @@ export const userSlice = createSlice({
       builder.addCase(fetch.pending, (state) => {
         state.loading = true;
       }),
-      builder.addCase(fetch.fulfilled, (state, action) => {
+      builder.addCase(fetch.fulfilled, (state, { payload }) => {
         state.loading = false;
-        state.users = action.payload;
+        state.users = [...state.users, payload];
       }),
       builder.addCase(fetch.rejected, (state, action) => {
         state.loading = false;
@@ -285,23 +221,5 @@ export const userSlice = createSlice({
       });
   },
 });
-
-const selectUser = (state: RootState) => state.user;
-
-export const selectCurrentUser = createSelector(
-  [selectUser],
-  (user: UserState) => user.currentUser
-);
-
-export const selectLoggedIn = createSelector([selectUser], (user: UserState) => user.loggedIn);
-
-export const selectRole = createSelector([selectUser], (user: UserState) => user.role);
-
-export const selectUsers = createSelector([selectUser], (user: UserState) => user.users);
-
-export const selectShippingInfo = createSelector(
-  [selectUser],
-  (user: UserState) => user.shippingInfo
-);
 
 export default userSlice.reducer;

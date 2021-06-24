@@ -2,7 +2,7 @@ import * as React from 'react';
 import './change-email.css';
 import { useDispatch } from 'react-redux';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { changeEmail } from '../../../userSlice';
+import { changeEmail } from '../../../thunks';
 
 type FormValues = {
   currentEmail: string;

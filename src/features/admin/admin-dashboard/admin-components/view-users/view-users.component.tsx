@@ -2,7 +2,8 @@ import * as React from 'react';
 import './view-users.css';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectUsers, fetch } from '../../../../user/userSlice';
+import { fetch } from '../../../../user/thunks';
+import { selectUsers } from '../../../../user/selectors';
 import { UserViewer } from '../user-viewer/user-viewer.component';
 
 export const ViewUsers = (): JSX.Element => {

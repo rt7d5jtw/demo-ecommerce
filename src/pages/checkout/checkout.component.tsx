@@ -9,13 +9,14 @@ import { selectCartItems, selectCartTotal } from '../../features/cart/cartSlice'
 import { createStructuredSelector } from 'reselect';
 import { RootState } from '../../app/store';
 import { CartItem } from '../../features/cart/cartSlice';
-import { addShippingInformation, selectShippingInfo } from '../../features/user/userSlice';
+import { addShippingInformation } from '../../features/user/userSlice';
 import { add, OrderStatus } from '../../features/order/orderSlice';
 import Alert from '../../features/alert/alert/alert.component';
 import Main from '../../features/homepage-components/main/main.component';
 import { useHistory } from 'react-router';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useState } from 'react';
+import { selectShippingInfo } from '../../features/user/selectors';
 
 interface ICheckout {
   items: CartItem[];

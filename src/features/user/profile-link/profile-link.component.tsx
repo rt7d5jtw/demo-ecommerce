@@ -2,7 +2,7 @@ import * as React from 'react';
 import './profile-link.css';
 import { Link } from 'react-router-dom';
 import { connect, useSelector } from 'react-redux';
-import { selectCurrentUser, selectLoggedIn, selectRole } from '../userSlice';
+import { selectCurrentUser, selectLoggedIn, selectRole } from '../selectors';
 import { RootState } from '../../../app/store';
 import { UserRole, logout, AccessTokenDTO } from '../userSlice';
 import { createStructuredSelector } from 'reselect';

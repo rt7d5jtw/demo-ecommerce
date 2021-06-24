@@ -9,11 +9,13 @@ import { connect } from 'react-redux';
 import { fetchAll, fetch as fetchOrders } from '../../features/order/orderSlice';
 import { fetch as fetchCategories } from '../../features/category/categorySlice';
 //import { fetch } from '../../redux/promotions/promotions.actions';
-import { authHeader, CART_URL, fetchRole } from '../../features/user/userSlice';
+import { authHeader, CART_URL, assignRole, changePassword } from '../../features/user/userSlice';
 import axios from 'axios';
-import { fetchCartState } from '../../features/cart/cartSlice';
-import { fetchPromotions } from '../../features/promotion/promotionSlice';
+//import { fetchCartState } from '../../features/cart/cartSlice';
+//import { fetchPromotions } from '../../features/promotion/promotionSlice';
 //import { PurchaseConfirmed } from '../purchase-confirmed/purchase-confirmed';
+import { register, login, updatePassword, updateEmail } from '../../features/user/api';
+import { fetchCartState } from '../../features/cart/cartSlice';
 
 interface IClassics {
   message: string;
@@ -25,10 +27,10 @@ const Classics = () => {
     <div className='classics'>
       <Alert />
       <button className='cl-btn' onClick={() => dispatch(userLogged())}>
-        Log in
+        Log in alert
       </button>
       <button className='cl-btn' onClick={() => dispatch(registered())}>
-        Register
+        Register alert
       </button>
       <button className='cl-btn' onClick={() => dispatch(fetchOrders())}>
         Get Orders
@@ -36,31 +38,13 @@ const Classics = () => {
       <button className='cl-btn' onClick={() => dispatch(fetchAll())}>
         Test all orders
       </button>
-      <button className='cl-btn' onClick={() => dispatch(fetchCategories())}>
-        Fetch categories
-      </button>
-      <button className='cl-btn' onClick={() => dispatch(fetchRole())}>
-        Fetch my role
-      </button>
-      <button
-        className='cl-btn'
-        onClick={() => axios.post(CART_URL, {}, { headers: authHeader() })}
-      >
-        Create a cart
-      </button>
       <button
         className='cl-btn'
         onClick={() =>
-          console.log(axios.post(CART_URL + 8, { quantity: 1 }, { headers: authHeader() }))
+          console.log(updatePassword({ currentPassword: 'habbo123', newPassword: 'habbo1234' }))
         }
       >
-        Add Item to Cart
-      </button>
-      <button className='cl-btn' onClick={() => dispatch(fetchCartState())}>
-        fetch Cart state
-      </button>
-      <button className='cl-btn' onClick={() => dispatch(fetchPromotions())}>
-        fetch Promotions
+        Fetch categories
       </button>
     </div>
   );

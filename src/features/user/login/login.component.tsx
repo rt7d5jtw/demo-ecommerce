@@ -2,7 +2,7 @@ import * as React from 'react';
 import './login.css';
 import { Link, useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { loginRequest } from '../../user/userSlice';
+import { loginRequest } from '../../user/thunks';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { userLogged } from '../../alert/alertSlice';
 

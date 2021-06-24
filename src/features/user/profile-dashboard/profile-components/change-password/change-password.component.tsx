@@ -2,7 +2,7 @@ import * as React from 'react';
 import './change-password.css';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
-import { changePassword } from '../../../userSlice';
+import { changePassword } from '../../../thunks';
 
 type FormValues = {
   currentPassword: string;
