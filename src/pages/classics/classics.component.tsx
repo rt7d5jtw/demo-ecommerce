@@ -6,16 +6,21 @@ import { RootState } from '../../app/store';
 import { userLogged, registered, selectMessage } from '../../features/alert/alertSlice';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
-import { fetchAll, fetch as fetchOrders } from '../../features/order/orderSlice';
-import { fetch as fetchCategories } from '../../features/category/categorySlice';
+import { fetchAll, fetch as fetchOrders } from '../../features/order/thunks';
+import { fetch as fetchCategories } from '../../features/category/thunks';
 //import { fetch } from '../../redux/promotions/promotions.actions';
-import { authHeader, CART_URL, assignRole, changePassword } from '../../features/user/userSlice';
+import { authHeader } from '../../features/user/userSlice';
 import axios from 'axios';
 //import { fetchCartState } from '../../features/cart/cartSlice';
 //import { fetchPromotions } from '../../features/promotion/promotionSlice';
 //import { PurchaseConfirmed } from '../purchase-confirmed/purchase-confirmed';
 import { register, login, updatePassword, updateEmail } from '../../features/user/api';
-import { fetchCartState } from '../../features/cart/cartSlice';
+import {
+  addItemToCartDB,
+  checkIfCart,
+  clearCartState,
+  fetchCartInfo,
+} from '../../features/cart/api';
 
 interface IClassics {
   message: string;
@@ -30,7 +35,7 @@ const Classics = () => {
         Log in alert
       </button>
       <button className='cl-btn' onClick={() => dispatch(registered())}>
-        Register alert
+        Register aler
       </button>
       <button className='cl-btn' onClick={() => dispatch(fetchOrders())}>
         Get Orders
@@ -38,12 +43,7 @@ const Classics = () => {
       <button className='cl-btn' onClick={() => dispatch(fetchAll())}>
         Test all orders
       </button>
-      <button
-        className='cl-btn'
-        onClick={() =>
-          console.log(updatePassword({ currentPassword: 'habbo123', newPassword: 'habbo1234' }))
-        }
-      >
+      <button className='cl-btn' onClick={() => console.log(clearCartState())}>
         Fetch categories
       </button>
     </div>

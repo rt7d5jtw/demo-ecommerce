@@ -3,7 +3,7 @@ import { ChangeEvent, useState } from 'react';
 import './search.css';
 import { useDispatch } from 'react-redux';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { search } from '../../product/productSlice';
+import { search } from '../../product/thunks';
 import { useHistory } from 'react-router';
 
 type Inputs = {

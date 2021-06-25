@@ -1,61 +1,6 @@
-import { createSlice, createAsyncThunk, createSelector } from '@reduxjs/toolkit';
-import axios from 'axios';
-import { authHeader } from '../user/userSlice';
+import { createSlice, createSelector } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
-
-export const ORDER_URL = 'http://localhost:3000/orders/';
-
-// this gets user's orders
-export const fetch = createAsyncThunk(
-  'order/fetch',
-  async (): Promise<Order[]> => {
-    const { data } = await axios.get(ORDER_URL, { headers: authHeader() });
-    return data;
-  }
-);
-
-export const fetchAll = createAsyncThunk(
-  'order/fetchAll',
-  async (): Promise<Order[]> => {
-    const { data } = await axios.get(ORDER_URL + 'all', { headers: authHeader() });
-    return data;
-  }
-);
-
-export const add = createAsyncThunk(
-  'order/add',
-  async (data: OrderDTO): Promise<OrderDTO> => {
-    const response = await axios.post(ORDER_URL, data, { headers: authHeader() });
-    return response.data;
-  }
-);
-
-export const addItems = createAsyncThunk(
-  'order/addItems',
-  async (data: OrderItem[]): Promise<OrderItem[]> => {
-    const response = await axios.post(ORDER_URL + 'items', data, { headers: authHeader() });
-    return response.data;
-  }
-);
-
-/* calls api to create a payment intent */
-export const createIntent = createAsyncThunk(
-  'order/createIntent',
-  async (req: PaymentIntentDTO): Promise<PaymentIntentDTO> => {
-    const { data } = await axios.post(ORDER_URL + 'create-payment-intent', req, {
-      headers: authHeader(),
-    });
-    // returns client secret
-    return data;
-  }
-);
-
-export const remove = createAsyncThunk(
-  'order/remove',
-  async (id: string): Promise<void> => {
-    axios.delete(ORDER_URL + id);
-  }
-);
+import { fetch, fetchAll, add, addItems, remove, createIntent } from './thunks';
 
 export enum OrderStatus {
   UNPAID = 'UNPAID',

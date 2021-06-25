@@ -1,80 +1,11 @@
-import { createSlice, createAction, createAsyncThunk } from '@reduxjs/toolkit';
-import { createSelector } from 'reselect';
-import { RootState } from '../../app/store';
-import axios, { AxiosError } from 'axios';
-import { authHeader } from '../user/userSlice';
-import { ValidationErrors } from '../promotion/promotionSlice';
-
-export const CART_URL = 'http://localhost:3000/cart/';
+import { createSlice, createAction } from '@reduxjs/toolkit';
+import { fetchCartState, addItemDB, removeItemDB, clearCartDB } from './thunks';
+import { addItemToCart, removeItemFromCart } from './selectors';
 
 export const clearCart = createAction('cart/clearCart');
-
 export const cartToggle = createAction<boolean>('cart/cartToggle');
-
 export const addItem = createAction<CartItem>('cart/addItem');
-
 export const removeItem = createAction<CartItem>('cart/removeItem');
-
-export const fetchCartState = createAsyncThunk(
-  'cart/fetch',
-  async (): Promise<CartItem[]> => {
-    const { data } = await axios.get(CART_URL + 'cartInfo', { headers: authHeader() });
-    return data;
-  }
-);
-
-export const addItemDB = createAsyncThunk(
-  'cart/addItemDB',
-  async (id: number, { rejectWithValue }) => {
-    await axios
-      .post(CART_URL + id, { quantity: 1 }, { headers: authHeader() })
-      .then((res) => {
-        return res.data;
-      })
-      .catch((err) => {
-        const error: AxiosError<ValidationErrors> = err;
-        if (!error.response) {
-          throw err;
-        }
-        return rejectWithValue(error.response.data);
-      });
-  }
-);
-
-export const removeItemDB = createAsyncThunk(
-  'cart/removeItemDB',
-  async (id: string, { rejectWithValue }) => {
-    await axios
-      .delete(CART_URL + id, { headers: authHeader() })
-      .then((res) => {
-        return res.data;
-      })
-      .catch((err) => {
-        const error: AxiosError<ValidationErrors> = err;
-        if (!error.response) {
-          throw err;
-        }
-        return rejectWithValue(error.response.data);
-      });
-  }
-);
-
-export const clearCartDB = createAsyncThunk(
-  'cart/clearCartDB',
-  async (): Promise<void> => {
-    await axios
-      .delete(CART_URL, { headers: authHeader() })
-      .then((res) => {
-        return res.data;
-      })
-      .catch((err) => {
-        const error: AxiosError<ValidationErrors> = err;
-        if (!error.response) {
-          throw err;
-        }
-      });
-  }
-);
 
 export interface CartItem {
   title: string;
@@ -170,39 +101,5 @@ export const cartSlice = createSlice({
       });
   },
 });
-
-const selectRoot = (state: RootState) => state.cart;
-
-export const selectCartItems = createSelector([selectRoot], (cart: CartState) => cart.items);
-
-export const selectOpen = createSelector([selectRoot], (cart: CartState) => cart.isOpen);
-
-export const selectQuantity = createSelector([selectRoot], (cart: CartState) => cart.quantity);
-
-export const selectCartTotal = createSelector([selectCartItems], (items: CartItem[]) =>
-  items.reduce((accumulator, cartItem) => accumulator + cartItem.price * cartItem.quantity, 0)
-);
-
-export const addItemToCart = (cartItems: CartItem[], cartItem: CartItem): CartItem[] => {
-  const existingItem = cartItems.find((item: CartItem) => item.id == cartItem.id);
-  if (existingItem) {
-    return cartItems.map((item: CartItem) =>
-      item.id == cartItem.id ? { ...item, quantity: item.quantity + 1 } : item
-    );
-  }
-  return [...cartItems, { ...cartItem, quantity: 1 }];
-};
-
-export const removeItemFromCart = (cartItems: CartItem[], cartItem: CartItem): CartItem[] => {
-  const existingItem = cartItems.find((item: CartItem) => item.id == cartItem.id);
-
-  if (existingItem && existingItem.quantity === 1) {
-    return cartItems.filter((item) => item.id !== cartItem.id);
-  }
-
-  return cartItems.map((item) =>
-    item.id == cartItem.id ? { ...item, quantity: item.quantity - 1 } : item
-  );
-};
 
 export default cartSlice.reducer;

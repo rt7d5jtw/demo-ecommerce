@@ -7,7 +7,7 @@ import ProductCard from '../../features/product/product-card/product-card.compon
 import { createStructuredSelector } from 'reselect';
 import { RootState } from '../../app/store';
 import { Product } from '../../features/product/productSlice';
-import { selectSearch, selectSearchItems } from '../../features/product/productSlice';
+import { selectSearch, selectSearchItems } from '../../features/product/selectors';
 import Main from '../../features/homepage-components/main/main.component';
 
 interface ISearchPage {

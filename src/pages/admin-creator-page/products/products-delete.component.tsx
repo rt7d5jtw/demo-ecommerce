@@ -3,8 +3,9 @@ import './products-delete.css';
 import { useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { Product, selectItems } from '../../../features/product/productSlice';
-import { fetch, remove } from '../../../features/product/productSlice';
+import { selectItems } from '../../../features/product/selectors';
+import { fetch, remove } from '../../../features/product/thunks';
+import { Product } from '../../../features/product/productSlice';
 
 type FormValues = {
   id: string;

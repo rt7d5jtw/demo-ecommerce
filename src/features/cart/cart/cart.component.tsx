@@ -3,15 +3,9 @@ import './cart.css';
 import { TiShoppingCart } from 'react-icons/ti';
 import { connect } from 'react-redux';
 import { RootState } from '../../../app/store';
-import {
-  cartToggle,
-  clearCart,
-  selectOpen,
-  selectCartItems,
-  selectQuantity,
-  CartItem,
-  clearCartDB,
-} from '../../cart/cartSlice';
+import { cartToggle, clearCart, CartItem } from '../../cart/cartSlice';
+import { selectOpen, selectCartItems, selectQuantity } from '../../cart/selectors';
+import { clearCartDB } from '../../cart/thunks';
 import { useDispatch } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import __CartItem from '../cart-item/cart-item.component';

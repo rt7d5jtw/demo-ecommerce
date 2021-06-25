@@ -1,6 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
-import { fetchCartState } from '../cart/cartSlice';
+import { checkIfCart } from '../cart/api';
+import { fetchCartState } from '../cart/thunks';
 import { ValidationErrors } from '../promotion/promotionSlice';
 import { register, login, fetchRole, updatePassword, updateEmail, fetchUser } from './api';
 import { EmailObj, IUserCredentials, PasswordObj, UserRole } from './userSlice';
@@ -24,6 +25,8 @@ export const loginRequest = createAsyncThunk(
   'user/login',
   async (arg: IUserCredentials, { dispatch }) => {
     const data = await login(arg);
+    /* checks if user has a cart and conditionally creates one */
+    await checkIfCart();
     await dispatch(fetchCartState());
     return data;
   }

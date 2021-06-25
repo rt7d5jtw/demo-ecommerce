@@ -1,6 +1,7 @@
 import * as React from 'react';
 import './cart-item.css';
-import { CartItem, removeItemDB } from '../../../features/cart/cartSlice';
+import { CartItem } from '../../../features/cart/cartSlice';
+import { removeItemDB } from '../../../features/cart/thunks';
 import { connect, useDispatch } from 'react-redux';
 import { removeItem } from '../../cart/cartSlice';
 

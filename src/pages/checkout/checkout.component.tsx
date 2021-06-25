@@ -5,18 +5,19 @@ import { Navbar } from '../../features/homepage-components/navbar/navbar.compone
 import Sidebar from '../../features/homepage-components/sidebar/sidebar.component';
 import __CartItem from '../../features/cart/cart-item/cart-item.component';
 import { connect, useDispatch, useSelector } from 'react-redux';
-import { selectCartItems, selectCartTotal } from '../../features/cart/cartSlice';
+import { selectCartItems, selectCartTotal } from '../../features/cart/selectors';
 import { createStructuredSelector } from 'reselect';
 import { RootState } from '../../app/store';
 import { CartItem } from '../../features/cart/cartSlice';
 import { addShippingInformation } from '../../features/user/userSlice';
-import { add, OrderStatus } from '../../features/order/orderSlice';
+import { add } from '../../features/order/thunks';
 import Alert from '../../features/alert/alert/alert.component';
 import Main from '../../features/homepage-components/main/main.component';
 import { useHistory } from 'react-router';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useState } from 'react';
 import { selectShippingInfo } from '../../features/user/selectors';
+import { OrderStatus } from '../../features/order/orderSlice';
 
 interface ICheckout {
   items: CartItem[];

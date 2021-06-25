@@ -8,7 +8,7 @@ import ProductCard from '../../features/product/product-card/product-card.compon
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { RootState } from '../../app/store';
-import { selectItems } from '../../features/product/productSlice';
+import { selectItems } from '../../features/product/selectors';
 import { selectCategories, Category } from '../../features/category/categorySlice';
 import { Route, useParams, useRouteMatch } from 'react-router-dom';
 import Main from '../../features/homepage-components/main/main.component';

@@ -3,8 +3,8 @@ import './products-edit.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { fetch as fetchProducts, update } from '../../../features/product/productSlice';
-import { selectItems } from '../../../features/product/productSlice';
+import { fetch as fetchProducts, update } from '../../../features/product/thunks';
+import { selectItems } from '../../../features/product/selectors';
 import { Product } from '../../../features/product/productSlice';
 
 type FormValues = {

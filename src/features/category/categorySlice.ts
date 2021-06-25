@@ -1,41 +1,7 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
-import axios from 'axios';
 import { RootState } from '../../app/store';
-
-export const CATEGORY_URL = 'http://localhost:3000/category/';
-
-export const fetch = createAsyncThunk(
-  'category/fetch',
-  async (): Promise<Category[]> => {
-    const { data } = await axios.get(CATEGORY_URL);
-    return data;
-  }
-);
-
-export const add = createAsyncThunk(
-  'category/add',
-  async (cname: string): Promise<Category> => {
-    const { data } = await axios.post(CATEGORY_URL, { cname: cname });
-    return data;
-  }
-);
-
-export const remove = createAsyncThunk(
-  'category/remove',
-  async (id: string): Promise<void> => {
-    return axios.delete(CATEGORY_URL + id);
-  }
-);
-
-export const update = createAsyncThunk(
-  'category/update',
-  async (data: Category): Promise<Category> => {
-    const { id, cname } = data;
-    const response = await axios.patch(CATEGORY_URL + id, cname);
-    return response.data;
-  }
-);
+import { fetch, add, remove, update } from './thunks';
 
 export interface Category {
   cname: string;

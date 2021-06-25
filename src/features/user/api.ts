@@ -9,7 +9,7 @@ import {
 } from './userSlice';
 import axios, { AxiosError, AxiosInstance } from 'axios';
 import { ValidationErrors } from '../promotion/promotionSlice';
-import { CART_URL } from '../cart/cartSlice';
+import { CART_URL, checkIfCart } from '../cart/api';
 
 export const REGISTER_URL = 'http://localhost:3000/users/';
 export const LOGIN_URL = 'http://localhost:3000/auth/signin';
@@ -42,19 +42,12 @@ export async function register(arg: IUserCredentials): Promise<IRegisterSuccess>
 
 export async function login(arg: IUserCredentials): Promise<AccessTokenDTO> {
   const client = useAPIClientNoAuth();
-  const authClient = useHTTPClient();
   const data = await client
     .post(LOGIN_URL, arg)
     .then((res) => {
       if (res.data.accessToken) {
         localStorage.setItem('user', JSON.stringify(res.data));
       }
-      /* if user doesn't have a cart, create one */
-      authClient.get(CART_URL, { headers: authHeader() }).then((res) => {
-        res.data.length === 0
-          ? authClient.post(CART_URL, {}, { headers: authHeader() })
-          : console.warn('Cart already exists');
-      });
       return res.data;
     })
     .catch((err) => {

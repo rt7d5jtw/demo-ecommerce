@@ -2,12 +2,13 @@ import * as React from 'react';
 import './product-card.css';
 import { connect } from 'react-redux';
 import { RootState } from '../../../app/store';
-import { addItem, addItemDB } from '../../cart/cartSlice';
+import { addItem } from '../../cart/cartSlice';
+import { addItemDB } from '../../cart/thunks';
 import { useDispatch } from 'react-redux';
 import { CartItem } from '../../../features/cart/cartSlice';
 import { Product } from '../../../features/product/productSlice';
 import { createStructuredSelector } from 'reselect';
-import { selectCartItems } from '../../cart/cartSlice';
+import { selectCartItems } from '../../cart/selectors';
 import { useHistory, useParams } from 'react-router';
 
 export type ProductCardValues = Omit<Product, 'category' | 'author' | 'description'>;

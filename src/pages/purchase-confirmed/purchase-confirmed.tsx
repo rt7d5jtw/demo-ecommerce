@@ -5,7 +5,7 @@ import { Navbar } from '../../features/homepage-components/navbar/navbar.compone
 import Sidebar from '../../features/homepage-components/sidebar/sidebar.component';
 import './purchase-confirmed.css';
 import { useSelector } from 'react-redux';
-import { selectCartItems } from '../../features/cart/cartSlice';
+import { selectCartItems } from '../../features/cart/selectors';
 //import { selectOrders } from '../../features/order/orderSlice';
 
 export const PurchaseConfirmed = (): JSX.Element => {

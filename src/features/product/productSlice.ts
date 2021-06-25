@@ -1,67 +1,5 @@
-import { createSlice, createAsyncThunk, createSelector } from '@reduxjs/toolkit';
-import axios, { AxiosError } from 'axios';
-import { ValidationErrors } from '../promotion/promotionSlice';
-import { RootState } from '../../app/store';
-
-export const PRODUCT_URL = 'http://localhost:3000/product';
-
-export const fetch = createAsyncThunk('product/fetchProducts', async () => {
-  const { data } = await axios.get(PRODUCT_URL);
-  return data;
-});
-
-export const add = createAsyncThunk(
-  'product/addProducts',
-  async (data: Product, { rejectWithValue }) => {
-    try {
-      const response = await axios.post(PRODUCT_URL, data);
-      return response.data;
-    } catch (err) {
-      const error: AxiosError<ValidationErrors> = err;
-      if (!error.response) {
-        throw err;
-      }
-      return rejectWithValue(error.response.data);
-    }
-  }
-);
-
-export const remove = createAsyncThunk(
-  'product/removeProducts',
-  async (id: string, { rejectWithValue }) => {
-    try {
-      await axios.delete(PRODUCT_URL.concat('/' + id));
-      return id;
-    } catch (err) {
-      const error: AxiosError<ValidationErrors> = err;
-      if (!error.response) {
-        throw err;
-      }
-      return rejectWithValue(error.response.data);
-    }
-  }
-);
-
-export const update = createAsyncThunk(
-  'product/updateProducts',
-  async ({ id, ...updateProps }: Product, { rejectWithValue }) => {
-    try {
-      const response = await axios.patch(PRODUCT_URL.concat('/' + id), { ...updateProps });
-      return response.data;
-    } catch (err) {
-      const error: AxiosError<ValidationErrors> = err;
-      if (!error.response) {
-        throw err;
-      }
-      return rejectWithValue(error.response.data);
-    }
-  }
-);
-
-export const search = createAsyncThunk('product/search', async (search: string) => {
-  const { data } = await axios.get(PRODUCT_URL.concat('?search=' + search));
-  return { search, data };
-});
+import { createSlice } from '@reduxjs/toolkit';
+import { fetch, add, remove, update, search } from './thunks';
 
 export interface Product {
   id: number;
@@ -155,16 +93,5 @@ export const productSlice = createSlice({
       });
   },
 });
-
-export const selectRoot = (state: RootState): ProductState => state.product;
-
-export const selectItems = createSelector([selectRoot], (product: ProductState) => product.items);
-
-export const selectSearch = createSelector([selectRoot], (product: ProductState) => product.search);
-
-export const selectSearchItems = createSelector(
-  [selectRoot],
-  (product: ProductState) => product.searchItems
-);
 
 export default productSlice.reducer;

@@ -6,8 +6,8 @@ import { Footer } from '../../features/homepage-components/footer/footer.compone
 import Sidebar from '../../features/homepage-components/sidebar/sidebar.component';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetch as fetchCategories } from '../../features/category/categorySlice';
-import { fetch } from '../../features/product/productSlice';
+import { fetch as fetchCategories } from '../../features/category/thunks';
+import { fetch } from '../../features/product/thunks';
 import Promotions from '../../features/promotion/promotions/promotions.component';
 import Main from '../../features/homepage-components/main/main.component';
 import {

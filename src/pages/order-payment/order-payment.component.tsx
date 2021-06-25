@@ -5,14 +5,16 @@ import { Navbar } from '../../features/homepage-components/navbar/navbar.compone
 import Sidebar from '../../features/homepage-components/sidebar/sidebar.component';
 import Main from '../../features/homepage-components/main/main.component';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectCartItems, selectCartTotal, clearCart } from '../../features/cart/cartSlice';
+import { selectCartItems, selectCartTotal } from '../../features/cart/selectors';
 import { authHeader } from '../../features/user/userSlice';
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
-import { fetchAll as fetchAllOrders, ORDER_URL } from '../../features/order/orderSlice';
+import { fetchAll as fetchAllOrders } from '../../features/order/thunks';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router';
 import { selectShippingInfo } from '../../features/user/selectors';
+import { clearCart } from '../../features/cart/cartSlice';
+import { ORDER_URL } from '../../features/order/api';
 
 const CARD_OPTIONS = {
   iconStyle: 'solid' as const,

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import './single-product.css';
 import { useAppSelector } from '../../app/hooks';
-import { selectItems } from '../../features/product/productSlice';
+import { selectItems } from '../../features/product/selectors';
 import { useParams } from 'react-router';
 import { Product } from '../../features/product/productSlice';
 

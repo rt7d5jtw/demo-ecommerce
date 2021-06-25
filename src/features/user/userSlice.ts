@@ -44,18 +44,6 @@ export type IRegisterSuccess = Pick<IUser, 'email' | 'id'>;
 
 export type IUserCredentials = Omit<IUser, 'id' | 'role' | 'salt' | 'createdAt'>;
 
-export interface UserState {
-  currentUser: null | AccessTokenDTO;
-  loggedIn: boolean;
-  loading: boolean;
-  role: UserRole;
-  hash: string | null;
-  users: IRegisterSuccess[];
-  errors: Array<string> | unknown;
-  shippingInfo: shippingInformation;
-  email: string;
-}
-
 export type PasswordObj = {
   currentPassword: string;
   newPassword: string;
@@ -113,6 +101,18 @@ export interface shippingInformation {
 export const addShippingInformation = createAction<shippingInformation>(
   'user/addShippingInformation'
 );
+
+export interface UserState {
+  currentUser: null | AccessTokenDTO;
+  loggedIn: boolean;
+  loading: boolean;
+  role: UserRole;
+  hash: string | null;
+  users: IRegisterSuccess[];
+  errors: Array<string> | unknown;
+  shippingInfo: shippingInformation;
+  email: string;
+}
 
 const initialState: UserState = {
   currentUser: null,
