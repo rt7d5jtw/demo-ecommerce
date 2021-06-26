@@ -92,6 +92,7 @@ export const cartSlice = createSlice({
         state.loading = true;
       }),
       builder.addCase(clearCartDB.fulfilled, (state) => {
+        state.items = [];
         state.quantity = 0;
         state.loading = false;
       }),

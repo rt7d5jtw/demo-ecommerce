@@ -23,12 +23,21 @@ export const registerRequest = createAsyncThunk(
 
 export const loginRequest = createAsyncThunk(
   'user/login',
-  async (arg: IUserCredentials, { dispatch }) => {
-    const data = await login(arg);
+  async (arg: IUserCredentials, { rejectWithValue, dispatch }) => {
+    return login(arg)
+      .then((res) => {
+        checkIfCart();
+        dispatch(fetchCartState());
+        return res;
+      })
+      .catch((err) => {
+        const error: AxiosError<ValidationErrors> = err;
+        if (!error.response) {
+          throw err;
+        }
+        return rejectWithValue(err.response.data);
+      });
     /* checks if user has a cart and conditionally creates one */
-    await checkIfCart();
-    await dispatch(fetchCartState());
-    return data;
   }
 );
 

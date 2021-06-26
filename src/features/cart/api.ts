@@ -1,26 +1,15 @@
-import axios, { AxiosError, AxiosInstance } from 'axios';
+import axios, { AxiosError } from 'axios';
 import { ValidationErrors } from '../promotion/promotionSlice';
 import { authHeader } from '../user/api';
 import { CartItem } from './cartSlice';
 
 export const CART_URL = 'http://localhost:3000/cart/';
 
-export function useHTTPClient(): AxiosInstance {
-  return axios.create({ baseURL: CART_URL, headers: authHeader() });
-}
-
-export function useAPIClientNoAuth(): AxiosInstance {
-  const instance = axios.create({ baseURL: CART_URL });
-  instance.interceptors.response.use((res) => res);
-  return instance;
-}
-
 export async function checkIfCart(): Promise<void> {
-  const client = useHTTPClient();
-  await client
+  await axios
     .get(CART_URL, { headers: authHeader() })
     .then((res) => {
-      res.data.length === 0 ? client.post(CART_URL, {}, { headers: authHeader() }) : null;
+      res.data.length === 0 ? axios.post(CART_URL, {}, { headers: authHeader() }) : null;
     })
     .catch((err) => {
       const error: AxiosError<ValidationErrors> = err;

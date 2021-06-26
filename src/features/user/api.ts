@@ -9,7 +9,6 @@ import {
 } from './userSlice';
 import axios, { AxiosError, AxiosInstance } from 'axios';
 import { ValidationErrors } from '../promotion/promotionSlice';
-import { CART_URL, checkIfCart } from '../cart/api';
 
 export const REGISTER_URL = 'http://localhost:3000/users/';
 export const LOGIN_URL = 'http://localhost:3000/auth/signin';
@@ -55,7 +54,7 @@ export async function login(arg: IUserCredentials): Promise<AccessTokenDTO> {
       if (!error.response) {
         throw err;
       }
-      return error.response.data;
+      throw error.response.data;
     });
   return data;
 }

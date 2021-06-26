@@ -24,11 +24,10 @@ export async function addOrderItems(data: OrderItem[]): Promise<OrderItem[]> {
   return res.data;
 }
 
-export async function stripeCreateIntent(req: PaymentIntentDTO): Promise<any> {
-  const { data } = await axios.post(ORDER_URL + 'create-payment-intent', req, {
+export async function stripeCreateIntent(req: PaymentIntentDTO): Promise<void> {
+  return axios.post(ORDER_URL + 'create-payment-intent', req, {
     headers: authHeader(),
   });
-  return data;
 }
 
 export async function removeOrder(id: string): Promise<void> {

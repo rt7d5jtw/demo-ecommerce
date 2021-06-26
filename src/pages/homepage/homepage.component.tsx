@@ -16,16 +16,23 @@ import {
   selectPromotionItems,
 } from '../../features/promotion/promotionSlice';
 import { Route, Switch } from 'react-router';
+import { selectLoggedIn } from '../../features/user/selectors';
+import { logout } from '../../features/user/userSlice';
 
 function Homepage(): JSX.Element {
   const dispatch = useDispatch();
   const isLoading = useSelector(checkIfLoading);
+  const loggedIn = useSelector(selectLoggedIn);
   const promotions = useSelector(selectPromotionItems);
   useEffect(() => {
     /* fetch categories and products for state */
     dispatch(fetchCategories());
     dispatch(fetch());
     dispatch(fetchPromotions());
+
+    if (localStorage.getItem('user') === null && loggedIn === true) {
+      dispatch(logout());
+    }
   }, [dispatch]);
 
   if (isLoading || promotions[0] == undefined) {

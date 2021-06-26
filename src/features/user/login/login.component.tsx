@@ -1,10 +1,11 @@
 import * as React from 'react';
 import './login.css';
 import { Link, useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { loginRequest } from '../../user/thunks';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { userLogged } from '../../alert/alertSlice';
+import { selectLoggedIn } from '../selectors';
 
 type FormValues = {
   email: string;
@@ -15,14 +16,21 @@ export const Login = (): JSX.Element => {
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm<FormValues>();
 
+  const loggedIn = useSelector(selectLoggedIn);
+
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    console.log(data);
-    push('/');
     dispatch(loginRequest(data));
-    dispatch(userLogged());
+    if (loggedIn === true) {
+      console.log(data);
+      push('/');
+      dispatch(userLogged());
+    } else {
+      setError('password', { type: 'manual', message: 'No such user exists' });
+    }
   };
 
   const { push } = useHistory();
@@ -41,7 +49,7 @@ export const Login = (): JSX.Element => {
           <input
             type='email'
             placeholder='Email'
-            {...register('email', { required: true })}
+            {...register('email', { required: 'Please input valid email' })}
             id='email'
           />
           {errors?.email && <p className='login-text'>{errors.email.message}</p>}
@@ -50,7 +58,7 @@ export const Login = (): JSX.Element => {
             <input
               type='password'
               placeholder='Password'
-              {...register('password', { required: true })}
+              {...register('password', { required: 'Please input valid password' })}
               id='password'
             />
             {errors?.password && <p className='login-text'>{errors.password.message}</p>}
