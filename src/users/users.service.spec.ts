@@ -29,7 +29,7 @@ const mockUserRepository = () => ({
   updateUser: jest.fn(),
   delete: jest.fn(),
   changePassword: jest.fn(),
-  hashPassword: jest.fn(),
+  validateUserPassword: jest.fn(),
 });
 
 describe('UsersService', () => {

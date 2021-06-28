@@ -28,7 +28,7 @@ export class UserRepository extends Repository<User> {
   async createUser(createUserDto: CreateUserDto): Promise<User> {
     const { password, email } = createUserDto;
 
-    const user = new User();
+    const user = this.create();
     user.salt = await bcrypt.genSalt();
     user.password = await this.hashPassword(password, user.salt);
     user.email = email;
@@ -37,8 +37,8 @@ export class UserRepository extends Repository<User> {
     try {
       await user.save();
     } catch (error) {
-      if (error.code === '23505') { // duplicate username
-        throw new ConflictException('Username already exists');
+      if (error.code === '23505') { // duplicate email
+        throw new ConflictException('Email already exists');
       } else if (error.code === '23505') {
         throw new InternalServerErrorException();
       }
