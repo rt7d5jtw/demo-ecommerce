@@ -1,15 +1,22 @@
 import { store } from '../../app/store';
-import { IRegisterSuccess, IUserCredentials } from './userSlice';
+import { IRegisterSuccess, IUserCredentials, IUser } from './userSlice';
 import { AsyncThunkAction, Dispatch } from '@reduxjs/toolkit';
-import axios from 'axios';
 import { registerRequest } from './thunks';
-
-jest.mock('axios');
+import * as selectorModule from './selectors';
+import { register, foo } from './api';
 
 describe('User testing', () => {
-  afterAll(() => {
-    jest.unmock('axios');
+  let selectors: jest.Mocked<typeof selectorModule>;
+
+  beforeAll(() => {
+    selectors = selectorModule as any;
   });
+
+  afterAll(() => {
+    jest.unmock('./api');
+    jest.unmock('./selectors');
+  });
+
   describe('register', () => {
     let action: AsyncThunkAction<IRegisterSuccess, IUserCredentials, Record<string, unknown>>;
     let dispatch: Dispatch;
@@ -22,15 +29,19 @@ describe('User testing', () => {
       dispatch = jest.fn();
       getState = jest.fn();
 
+      //api.register.mockClear();
+      //api.register.mockResolvedValue(result);
+
       arg = { email: 'test@testing.com', password: 'du62VJQVn6rMMh43' };
-      result = { email: 'test@testing.com', id: '' };
+      result = { email: 'test@testing.com', id: '0238527d-94b4-4a64-8278-7e16fa286a65' };
 
       action = registerRequest(arg);
     });
 
     it('calls the api correctly', async () => {
-      await action(dispatch, getState, undefined);
-      expect(axios.post).toHaveBeenCalledWith(arg);
+      expect(foo(2)(3)).toEqual(5);
+      //await action(dispatch, getState, undefined);
+      //expect(api.register).toHaveBeenCalledWith(arg);
     });
   });
 });
