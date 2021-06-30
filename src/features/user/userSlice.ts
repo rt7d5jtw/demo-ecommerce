@@ -41,6 +41,7 @@ export interface IUser {
 }
 
 export type IRegisterSuccess = Pick<IUser, 'email' | 'id'>;
+export type OptUser = Partial<IUser>;
 
 export type IUserCredentials = Omit<IUser, 'id' | 'role' | 'salt' | 'createdAt'>;
 
@@ -108,7 +109,7 @@ export interface UserState {
   loading: boolean;
   role: UserRole;
   hash: string | null;
-  users: IRegisterSuccess[];
+  users: IUser[];
   errors: Array<string> | unknown;
   shippingInfo: shippingInformation;
   email: string;
@@ -145,7 +146,7 @@ export const userSlice = createSlice({
     }),
       builder.addCase(registerRequest.fulfilled, (state, { payload }) => {
         state.loading = false;
-        state.users = [...state.users, payload];
+        //state.users = [...state.users, payload];
       });
     builder.addCase(registerRequest.rejected, (state, action) => {
       state.loading = false;
@@ -213,7 +214,7 @@ export const userSlice = createSlice({
       }),
       builder.addCase(fetch.fulfilled, (state, { payload }) => {
         state.loading = false;
-        state.users = [...state.users, payload];
+        state.users = payload;
       }),
       builder.addCase(fetch.rejected, (state, action) => {
         state.loading = false;

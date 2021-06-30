@@ -3,7 +3,6 @@ import { IRegisterSuccess, IUserCredentials, IUser } from './userSlice';
 import { AsyncThunkAction, Dispatch } from '@reduxjs/toolkit';
 import { registerRequest } from './thunks';
 import * as selectorModule from './selectors';
-import { register, foo } from './api';
 
 describe('User testing', () => {
   let selectors: jest.Mocked<typeof selectorModule>;
@@ -39,7 +38,6 @@ describe('User testing', () => {
     });
 
     it('calls the api correctly', async () => {
-      expect(foo(2)(3)).toEqual(5);
       //await action(dispatch, getState, undefined);
       //expect(api.register).toHaveBeenCalledWith(arg);
     });

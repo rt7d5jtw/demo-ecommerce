@@ -6,11 +6,10 @@ import {
   UserRole,
   PasswordObj,
   EmailObj,
+  IUser,
 } from './userSlice';
 import axios, { AxiosError, AxiosInstance } from 'axios';
 import { ValidationErrors } from '../promotion/promotionSlice';
-
-export const foo = (a: number) => (b: number) => a + b;
 
 export const REGISTER_URL = 'http://localhost:3000/users/';
 export const LOGIN_URL = 'http://localhost:3000/auth/signin';
@@ -104,7 +103,7 @@ export async function updateEmail(emails: EmailObj): Promise<string> {
     });
 }
 
-export async function fetchUser(): Promise<{ email: string; id: string }> {
+export async function fetchAllUsers(): Promise<IUser[]> {
   const { data } = await axios.get(REGISTER_URL);
-  return { email: data.email, id: data.id };
+  return data;
 }

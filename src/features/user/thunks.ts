@@ -3,7 +3,7 @@ import { AxiosError } from 'axios';
 import { checkIfCart } from '../cart/api';
 import { fetchCartState } from '../cart/thunks';
 import { ValidationErrors } from '../promotion/promotionSlice';
-import { register, login, fetchRole, updatePassword, updateEmail, fetchUser } from './api';
+import { register, login, fetchRole, updatePassword, updateEmail, fetchAllUsers } from './api';
 import { EmailObj, IUserCredentials, PasswordObj, UserRole } from './userSlice';
 
 export const registerRequest = createAsyncThunk(
@@ -60,5 +60,5 @@ export const changeEmail = createAsyncThunk('user/changeEmail', async (emails: E
 });
 
 export const fetch = createAsyncThunk('user/fetch', async () => {
-  return fetchUser();
+  return fetchAllUsers();
 });

@@ -7,7 +7,8 @@ import { userLogged, registered, selectMessage } from '../../features/alert/aler
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { fetchAll, fetch as fetchOrders } from '../../features/order/thunks';
-import { register } from '../../features/user/api';
+import { fetchRole, fetchAllUsers, register } from '../../features/user/api';
+import { assignRole } from '../../features/user/thunks';
 
 interface IClassics {
   message: string;
@@ -27,11 +28,11 @@ const Classics = () => {
       <button className='cl-btn' onClick={() => dispatch(fetchOrders())}>
         Get Orders
       </button>
-      <button
-        className='cl-btn'
-        onClick={() => register({ email: 'notproperemail', password: 'yeetmageet123' })}
-      >
-        Failing register request
+      <button className='cl-btn' onClick={() => console.log(fetchAllUsers())}>
+        FetchUser
+      </button>
+      <button className='cl-btn' onClick={() => console.log(dispatch(assignRole()))}>
+        assignRole
       </button>
     </div>
   );
