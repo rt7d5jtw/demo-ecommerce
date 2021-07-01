@@ -1,8 +1,10 @@
 import * as React from 'react';
-import './change-email.css';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { changeEmail } from '../../../thunks';
+import { selectUserEmail, selectUserErrors } from '../../../selectors';
+import Alert from '../../../../alert/alert/alert.component';
+import { useState, useEffect } from 'react';
 
 type FormValues = {
   currentEmail: string;
@@ -10,20 +12,55 @@ type FormValues = {
 };
 
 const ChangeEmail = (): JSX.Element => {
+  const userMail = useSelector(selectUserEmail);
+  const userErrors = useSelector(selectUserErrors);
   const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm<FormValues>();
 
+  const [disable, setDisable] = useState<boolean>(false);
+
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     console.log(data);
+    setDisable(true);
+    setTimeout(() => setDisable(false), 3000);
     dispatch(changeEmail(data));
+    if (userErrors != null && userErrors.statusCode === 409) {
+      setError('newEmail', {
+        type: 'manual',
+        message: 'You provided email that is already in use',
+      });
+    }
+    if (userErrors != null && userErrors.statusCode === 401) {
+      setError('newEmail', {
+        type: 'manual',
+        message: 'Authorization failed, try logging in again',
+      });
+    }
   };
+
+  useEffect(() => {
+    if (userErrors != null && userErrors.statusCode === 409) {
+      setError('newEmail', {
+        type: 'manual',
+        message: 'You provided email that is already in use',
+      });
+    }
+    if (userErrors != null && userErrors.statusCode === 401) {
+      setError('newEmail', {
+        type: 'manual',
+        message: 'Authorization failed, try logging in again',
+      });
+    }
+  }, [userErrors]);
 
   return (
     <div className='profile-overview'>
+      <Alert />
       <div className='profile-overview-wrapper'>
         <div className='profile-password'>
           <h1>Change my email</h1>
@@ -45,7 +82,7 @@ const ChangeEmail = (): JSX.Element => {
               />
               {errors?.newEmail && <p className='profile-text'>{errors.newEmail.message}</p>}
             </div>
-            <input type='submit' value='Save Email' />
+            <input disabled={disable} type='submit' value='Save Email' />
           </form>
         </div>
       </div>

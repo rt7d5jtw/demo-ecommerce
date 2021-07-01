@@ -19,3 +19,7 @@ export const selectShippingInfo = createSelector(
   [selectUser],
   (user: UserState) => user.shippingInfo
 );
+
+export const selectUserEmail = createSelector([selectUser], (user: UserState) => user.email);
+
+export const selectUserErrors = createSelector([selectUser], (user: UserState) => user.errors);

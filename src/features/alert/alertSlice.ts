@@ -23,6 +23,10 @@ export const userLogged = createAction('alert/userLogged');
 
 export const registered = createAction('alert/registered');
 
+export const emailUpdated = createAction('alert/emailUpdated');
+
+export const passwordUpdated = createAction('alert/passwordUpdated');
+
 export const hideout = createAction('alert/hideout');
 
 export const alertSlice = createSlice({
@@ -39,6 +43,14 @@ export const alertSlice = createSlice({
     },
     registered: (state) => {
       state.message = 'User registered succesfully';
+      state.atype = alert_type.success;
+    },
+    emailUpdated: (state) => {
+      state.message = 'Email succesfully changed';
+      state.atype = alert_type.success;
+    },
+    passwordUpdated: (state) => {
+      state.message = 'Password succesfully changed';
       state.atype = alert_type.success;
     },
     hideout: (state) => {

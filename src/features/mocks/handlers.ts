@@ -1,9 +1,9 @@
 import { rest } from 'msw';
-import { LOGIN_URL, REGISTER_URL } from '../user/api';
+import { AUTH_URL, USERS_URL } from '../user/api';
 import { UserRole } from '../user/userSlice';
 
 export const handlers = [
-  rest.post(REGISTER_URL, (_req, res, ctx) => {
+  rest.post(USERS_URL, (_req, res, ctx) => {
     return res(
       ctx.status(201),
       ctx.json({
@@ -17,7 +17,7 @@ export const handlers = [
     );
   }),
 
-  rest.post(LOGIN_URL, (_req, res, ctx) => {
+  rest.post(AUTH_URL, (_req, res, ctx) => {
     return res(
       ctx.status(201),
       ctx.json({
@@ -27,11 +27,11 @@ export const handlers = [
     );
   }),
 
-  rest.get(REGISTER_URL + 'role', (_req, res, ctx) => {
+  rest.get(USERS_URL + 'role', (_req, res, ctx) => {
     return res(ctx.status(200), ctx.json(UserRole.USER));
   }),
 
-  rest.patch(REGISTER_URL + 'changepw', (_req, res, ctx) => {
+  rest.patch(USERS_URL + 'changepw', (_req, res, ctx) => {
     return res(
       ctx.status(200),
       ctx.json({
@@ -46,11 +46,11 @@ export const handlers = [
     );
   }),
 
-  rest.patch(REGISTER_URL + 'email', (_req, res, ctx) => {
+  rest.patch(USERS_URL + 'email', (_req, res, ctx) => {
     return res(ctx.status(200), ctx.json('yeet@mageet.com'));
   }),
 
-  rest.get(REGISTER_URL, (_req, res, ctx) => {
+  rest.get(USERS_URL, (_req, res, ctx) => {
     return res(
       ctx.status(200),
       ctx.json([

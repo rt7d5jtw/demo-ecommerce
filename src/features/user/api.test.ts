@@ -3,9 +3,9 @@ import {
   fetchAllUsers,
   fetchRole,
   login,
-  LOGIN_URL,
+  AUTH_URL,
   register,
-  REGISTER_URL,
+  USERS_URL,
   updateEmail,
   updatePassword,
 } from './api';
@@ -28,7 +28,7 @@ describe('API Unit tests', () => {
 
     it('throws an error for not providing correct email', async () => {
       server.use(
-        rest.post(REGISTER_URL, (_req, res, ctx) => {
+        rest.post(USERS_URL, (_req, res, ctx) => {
           return res(
             ctx.status(400),
             ctx.json({
@@ -38,14 +38,9 @@ describe('API Unit tests', () => {
           );
         })
       );
-      try {
-        await register({ email: 'notproperemail', password: 'yeetmageet123' });
-      } catch (err) {
-        expect(err).toEqual({
-          message: [expect.any(String)],
-          error: expect.any(String),
-        });
-      }
+      expect(register({ email: 'notproperemail', password: 'yeetmageet123' })).rejects.toThrow(
+        '400'
+      );
     });
   });
 
@@ -63,7 +58,7 @@ describe('API Unit tests', () => {
 
     it('throws an error for incorrect email', async () => {
       server.use(
-        rest.post(LOGIN_URL, (_req, res, ctx) => {
+        rest.post(AUTH_URL, (_req, res, ctx) => {
           return res(
             ctx.status(400),
             ctx.json({
@@ -74,15 +69,7 @@ describe('API Unit tests', () => {
           );
         })
       );
-      try {
-        await login({ email: 'notproperemail', password: 'yeetmageet123' });
-      } catch (err) {
-        expect(err).toEqual({
-          statusCode: 400,
-          message: ['email must be an email'],
-          error: 'Bad Request',
-        });
-      }
+      expect(login({ email: 'notproperemail', password: 'yeetmageet123' })).rejects.toThrow('400');
     });
   });
 
@@ -94,7 +81,7 @@ describe('API Unit tests', () => {
 
     it('throws an error', async () => {
       server.use(
-        rest.get(REGISTER_URL + 'role', (_req, res, ctx) => {
+        rest.get(USERS_URL + 'role', (_req, res, ctx) => {
           return res(
             ctx.status(401),
             ctx.json({
@@ -127,7 +114,7 @@ describe('API Unit tests', () => {
 
     it('throws an error', async () => {
       server.use(
-        rest.patch(REGISTER_URL + 'changepw', (_req, res, ctx) => {
+        rest.patch(USERS_URL + 'changepw', (_req, res, ctx) => {
           return res(
             ctx.status(409),
             ctx.json({
@@ -138,15 +125,12 @@ describe('API Unit tests', () => {
           );
         })
       );
-      try {
-        updatePassword({ currentPassword: 'wrongpassword', newPassword: 'yeetmageet098' });
-      } catch (err) {
-        expect(err).toEqual({
-          statusCode: 409,
-          message: 'Validation failed',
-          error: 'Conflict',
-        });
-      }
+      expect(
+        updatePassword({
+          currentPassword: 'wrongpassword',
+          newPassword: 'yeetmageet098',
+        })
+      ).rejects.toThrow('409');
     });
   });
 
@@ -159,7 +143,7 @@ describe('API Unit tests', () => {
 
     it('throws an error', async () => {
       server.use(
-        rest.patch(REGISTER_URL + 'email', (_req, res, ctx) => {
+        rest.patch(USERS_URL + 'email', (_req, res, ctx) => {
           return res(
             ctx.status(409),
             ctx.json({
@@ -170,15 +154,7 @@ describe('API Unit tests', () => {
           );
         })
       );
-      expect(
-        updateEmail(arg).catch((err) =>
-          expect(err).toEqual({
-            statusCode: 409,
-            message: 'Emails conflict',
-            error: 'Conflict',
-          })
-        )
-      );
+      expect(updateEmail(arg)).rejects.toThrow('409');
     });
   });
 

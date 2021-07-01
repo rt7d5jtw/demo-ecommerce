@@ -110,9 +110,9 @@ export interface UserState {
   role: UserRole;
   hash: string | null;
   users: IUser[];
-  errors: Array<string> | unknown;
+  errors: null | any;
   shippingInfo: shippingInformation;
-  email: string;
+  email: string | null;
 }
 
 const initialState: UserState = {
@@ -120,17 +120,19 @@ const initialState: UserState = {
   loggedIn: false,
   loading: false,
   role: UserRole.USER,
-  hash: '',
+  hash: null,
   users: [],
-  errors: [],
+  errors: null,
   shippingInfo: {
     address: '',
     country: '',
     city: '',
     postalcode: null,
   },
-  email: '',
+  email: null,
 };
+
+export const clearErrors = createAction('user/clearErrors');
 
 export const userSlice = createSlice({
   name: 'user',
@@ -138,6 +140,9 @@ export const userSlice = createSlice({
   reducers: {
     addShippingInformation: (state, { payload }) => {
       state.shippingInfo = payload;
+    },
+    clearErrors: (state) => {
+      state.errors = null;
     },
   },
   extraReducers: (builder) => {
@@ -190,9 +195,9 @@ export const userSlice = createSlice({
       builder.addCase(changePassword.pending, (state) => {
         state.loading = true;
       }),
-      builder.addCase(changePassword.fulfilled, (state, action) => {
+      builder.addCase(changePassword.fulfilled, (state, { payload }) => {
         state.loading = false;
-        state.hash = action.payload;
+        state.hash = payload;
       }),
       builder.addCase(changePassword.rejected, (state, action) => {
         state.loading = false;
@@ -201,13 +206,13 @@ export const userSlice = createSlice({
       builder.addCase(changeEmail.pending, (state) => {
         state.loading = true;
       }),
-      builder.addCase(changeEmail.fulfilled, (state, action) => {
+      builder.addCase(changeEmail.fulfilled, (state, { payload }) => {
         state.loading = false;
-        state.email = action.payload;
+        state.email = payload;
       }),
-      builder.addCase(changeEmail.rejected, (state, action) => {
+      builder.addCase(changeEmail.rejected, (state, { payload }) => {
         state.loading = false;
-        state.errors = action.payload;
+        state.errors = payload;
       }),
       builder.addCase(fetch.pending, (state) => {
         state.loading = true;

@@ -7,8 +7,16 @@ import { userLogged, registered, selectMessage } from '../../features/alert/aler
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { fetchAll, fetch as fetchOrders } from '../../features/order/thunks';
-import { fetchRole, fetchAllUsers, register } from '../../features/user/api';
+import {
+  fetchRole,
+  fetchAllUsers,
+  register,
+  updatePassword,
+  updateEmail,
+  login,
+} from '../../features/user/api';
 import { assignRole } from '../../features/user/thunks';
+import { clearErrors } from '../../features/user/userSlice';
 
 interface IClassics {
   message: string;
@@ -25,14 +33,8 @@ const Classics = () => {
       <button className='cl-btn' onClick={() => dispatch(registered())}>
         Register aler
       </button>
-      <button className='cl-btn' onClick={() => dispatch(fetchOrders())}>
-        Get Orders
-      </button>
-      <button className='cl-btn' onClick={() => console.log(fetchAllUsers())}>
-        FetchUser
-      </button>
-      <button className='cl-btn' onClick={() => console.log(dispatch(assignRole()))}>
-        assignRole
+      <button className='cl-btn' onClick={() => console.log(dispatch(clearErrors()))}>
+        clearErrors
       </button>
     </div>
   );

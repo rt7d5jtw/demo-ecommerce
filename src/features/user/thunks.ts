@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
+import { emailUpdated, passwordUpdated } from '../alert/alertSlice';
 import { checkIfCart } from '../cart/api';
 import { fetchCartState } from '../cart/thunks';
 import { ValidationErrors } from '../promotion/promotionSlice';
@@ -50,14 +51,37 @@ export const assignRole = createAsyncThunk(
 
 export const changePassword = createAsyncThunk(
   'user/changePassword',
-  async (passwords: PasswordObj) => {
-    return updatePassword(passwords);
+  async (passwords: PasswordObj, { rejectWithValue, dispatch }) => {
+    try {
+      const result = await updatePassword(passwords);
+      dispatch(passwordUpdated());
+      return result;
+    } catch (err) {
+      const error: AxiosError<ValidationErrors> = err;
+      if (!error.response) {
+        throw err;
+      }
+      return rejectWithValue(error.response.data);
+    }
   }
 );
 
-export const changeEmail = createAsyncThunk('user/changeEmail', async (emails: EmailObj) => {
-  return updateEmail(emails);
-});
+export const changeEmail = createAsyncThunk(
+  'user/changeEmail',
+  async (emails: EmailObj, { rejectWithValue, dispatch }) => {
+    try {
+      const result = await updateEmail(emails);
+      dispatch(emailUpdated());
+      return result;
+    } catch (err) {
+      const error: AxiosError<ValidationErrors> = err;
+      if (!error.response) {
+        throw err;
+      }
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
 
 export const fetch = createAsyncThunk('user/fetch', async () => {
   return fetchAllUsers();

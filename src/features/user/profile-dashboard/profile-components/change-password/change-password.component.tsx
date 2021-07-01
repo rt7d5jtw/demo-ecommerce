@@ -1,8 +1,11 @@
 import * as React from 'react';
 import './change-password.css';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { changePassword } from '../../../thunks';
+import { useState, useEffect } from 'react';
+import { selectUserErrors } from '../../../selectors';
+import Alert from '../../../../alert/alert/alert.component';
 
 type FormValues = {
   currentPassword: string;
@@ -10,19 +13,53 @@ type FormValues = {
 };
 
 const ChangePassword = (): JSX.Element => {
+  const userErrors = useSelector(selectUserErrors);
   const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm<FormValues>();
 
+  const [disable, setDisable] = useState<boolean>(false);
+
   const onSubmit: SubmitHandler<FormValues> = (data) => {
+    setDisable(true);
+    setTimeout(() => setDisable(false), 3000);
     dispatch(changePassword(data));
+    if (userErrors != null && userErrors.statusCode === 401) {
+      setError('newPassword', {
+        type: 'manual',
+        message: 'Authorization failed, try logging in again',
+      });
+    }
+    if (userErrors != null && userErrors.statusCode === 409) {
+      setError('newPassword', {
+        type: 'manual',
+        message: 'Validation failed, provide correct password',
+      });
+    }
   };
+
+  useEffect(() => {
+    if (userErrors != null && userErrors.statusCode === 401) {
+      setError('newPassword', {
+        type: 'manual',
+        message: 'Authorization failed, try logging in again',
+      });
+    }
+    if (userErrors != null && userErrors.statusCode === 409) {
+      setError('newPassword', {
+        type: 'manual',
+        message: 'Validation failed, provide correct password',
+      });
+    }
+  }, [userErrors]);
 
   return (
     <div className='profile-overview'>
+      <Alert />
       <div className='profile-details-wrapper'>
         <div className='profile-password'>
           <h1>Change my password</h1>
@@ -56,7 +93,7 @@ const ChangePassword = (): JSX.Element => {
               />
               {errors?.newPassword && <p className='profile-text'>{errors.newPassword.message}</p>}
             </div>
-            <input type='submit' value='Save Password' />
+            <input disabled={disable} type='submit' value='Save Password' />
           </form>
         </div>
       </div>

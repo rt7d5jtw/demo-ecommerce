@@ -8,11 +8,11 @@ import {
   EmailObj,
   IUser,
 } from './userSlice';
-import axios, { AxiosError, AxiosInstance } from 'axios';
+import axios, { AxiosError } from 'axios';
 import { ValidationErrors } from '../promotion/promotionSlice';
 
-export const REGISTER_URL = 'http://localhost:3000/users/';
-export const LOGIN_URL = 'http://localhost:3000/auth/signin';
+export const USERS_URL = 'http://localhost:3000/users/';
+export const AUTH_URL = 'http://localhost:3000/auth/signin';
 
 export const authHeader = (): AuthorizationDTO | unknown => {
   const user = JSON.parse(localStorage.getItem('user') || '{}');
@@ -23,35 +23,25 @@ export const authHeader = (): AuthorizationDTO | unknown => {
   }
 };
 
-export function useHTTPClient(): AxiosInstance {
-  return axios.create({ baseURL: REGISTER_URL, headers: authHeader() });
-}
-
-export function useAPIClientNoAuth(): AxiosInstance {
-  const instance = axios.create({ baseURL: REGISTER_URL });
-  instance.interceptors.response.use((res) => res);
-  return instance;
-}
-
 export async function register(arg: IUserCredentials): Promise<IRegisterSuccess> {
-  const client = useAPIClientNoAuth();
-  try {
-    const { data } = await client.post(REGISTER_URL, arg);
-    const { email, id } = data;
-    return { email, id };
-  } catch (err) {
-    const error: AxiosError<ValidationErrors> = err;
-    if (!error.response) {
-      throw err;
-    }
-    throw error.response.data;
-  }
+  return axios
+    .post(USERS_URL, arg, { headers: authHeader() })
+    .then((res) => {
+      const { email, id } = res.data;
+      return { email, id };
+    })
+    .catch((err) => {
+      const error: AxiosError<ValidationErrors> = err;
+      if (!error.response) {
+        throw err;
+      }
+      return Promise.reject(err);
+    });
 }
 
 export async function login(arg: IUserCredentials): Promise<AccessTokenDTO> {
-  const client = useAPIClientNoAuth();
-  const data = await client
-    .post(LOGIN_URL, arg)
+  return axios
+    .post(AUTH_URL, arg)
     .then((res) => {
       if (res.data.accessToken) {
         localStorage.setItem('user', JSON.stringify(res.data));
@@ -63,19 +53,13 @@ export async function login(arg: IUserCredentials): Promise<AccessTokenDTO> {
       if (!error.response) {
         throw err;
       }
-      throw error.response.data;
+      return Promise.reject(err);
     });
-  return data;
 }
 
 export async function fetchRole(): Promise<UserRole> {
-  const { data } = await axios.get(REGISTER_URL + 'role', { headers: authHeader() });
-  return data;
-}
-
-export async function updatePassword(passwords: PasswordObj): Promise<string> {
   return axios
-    .patch(REGISTER_URL + 'changepw', passwords, { headers: authHeader() })
+    .get(USERS_URL + 'role', { headers: authHeader() })
     .then((res) => {
       return res.data;
     })
@@ -84,13 +68,28 @@ export async function updatePassword(passwords: PasswordObj): Promise<string> {
       if (!error.response) {
         throw err;
       }
-      return error.response.data;
+      return Promise.reject(err);
+    });
+}
+
+export async function updatePassword(passwords: PasswordObj): Promise<string> {
+  return axios
+    .patch(USERS_URL + 'changepw', passwords, { headers: authHeader() })
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      const error: AxiosError<ValidationErrors> = err;
+      if (!error.response) {
+        throw err;
+      }
+      return Promise.reject(err);
     });
 }
 
 export async function updateEmail(emails: EmailObj): Promise<string> {
   return axios
-    .patch(REGISTER_URL + 'email', emails, { headers: authHeader() })
+    .patch(USERS_URL + 'email', emails, { headers: authHeader() })
     .then((res) => {
       return res.data;
     })
@@ -99,11 +98,22 @@ export async function updateEmail(emails: EmailObj): Promise<string> {
       if (!error.response) {
         throw err;
       }
-      return error.response.data;
+      //return Promise.reject([err.response.data.message, err]);
+      return Promise.reject(err);
     });
 }
 
 export async function fetchAllUsers(): Promise<IUser[]> {
-  const { data } = await axios.get(REGISTER_URL);
-  return data;
+  return axios
+    .get(USERS_URL, { headers: authHeader() })
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      const error: AxiosError<ValidationErrors> = err;
+      if (!error.response) {
+        throw err;
+      }
+      return Promise.reject(err);
+    });
 }
