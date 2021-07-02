@@ -7,14 +7,11 @@ import Sidebar from '../../features/homepage-components/sidebar/sidebar.componen
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetch as fetchCategories } from '../../features/category/thunks';
-import { fetch } from '../../features/product/thunks';
+import { fetch as fetchProducts } from '../../features/product/thunks';
 import Promotions from '../../features/promotion/promotions/promotions.component';
 import Main from '../../features/homepage-components/main/main.component';
-import {
-  checkIfLoading,
-  fetchPromotions,
-  selectPromotionItems,
-} from '../../features/promotion/promotionSlice';
+import { checkIfLoading, selectPromotionItems } from '../../features/promotion/selectors';
+import { fetch as fetchPromotions } from '../../features/promotion/thunks';
 import { Route, Switch } from 'react-router';
 import { selectLoggedIn } from '../../features/user/selectors';
 import { logout } from '../../features/user/userSlice';
@@ -27,7 +24,7 @@ function Homepage(): JSX.Element {
   useEffect(() => {
     /* fetch categories and products for state */
     dispatch(fetchCategories());
-    dispatch(fetch());
+    dispatch(fetchProducts());
     dispatch(fetchPromotions());
 
     if (localStorage.getItem('user') === null && loggedIn === true) {

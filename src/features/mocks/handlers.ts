@@ -1,6 +1,7 @@
 import { rest } from 'msw';
 import { PRODUCT_URL } from '../product/api';
 import { AUTH_URL, USERS_URL } from '../user/api';
+import { PROMOTION_URL } from '../promotion/api';
 import { UserRole } from '../user/userSlice';
 
 export const handlers = [
@@ -163,6 +164,54 @@ export const handlers = [
             updatedAt: '2021-07-02',
           },
         ],
+      })
+    );
+  }),
+
+  rest.get(PROMOTION_URL, (_req, res, ctx) => {
+    return res(
+      ctx.status(200),
+      ctx.json([
+        {
+          id: 1,
+          title: 'test',
+          url: '/testing',
+          image: 'https://i.imgur.com/ZgD7uRS.png',
+        },
+        {
+          id: 2,
+          title: 'outlet20',
+          url: '/outlet',
+          image: 'https://i.imgur.com/mIxAqbE.png',
+        },
+      ])
+    );
+  }),
+
+  rest.post(PROMOTION_URL, (_req, res, ctx) => {
+    return res(
+      ctx.status(201),
+      ctx.json({
+        title: 'capybara',
+        url: '/no-url',
+        image: 'https://i.imgur.com/b5Yb264.jpeg',
+        id: Math.floor(Math.random() * (100 - 1 + 1) + 1),
+      })
+    );
+  }),
+
+  rest.delete(PROMOTION_URL + `/4`, (_req, res, ctx) => {
+    return res(ctx.status(200), ctx.json(undefined));
+  }),
+
+  rest.patch(PROMOTION_URL + `/10`, (_req, res, ctx) => {
+    return res(
+      ctx.status(200),
+      ctx.json({
+        id: 10,
+        title: 'i like chocolate',
+        url: 'chocolate',
+        image: 'https://i.imgur.com/lGlD5Aa.jpeg',
       })
     );
   }),

@@ -1,12 +1,13 @@
 import * as React from 'react';
 import './delete-promotions.css';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { selectPromotionItems, _Promotions } from '../../../features/promotion/promotionSlice';
-import { remove } from '../../../features/promotion/promotionSlice';
+import { IPromotions } from '../../../features/promotion/promotionSlice';
+import { selectPromotionItems } from '../../../features/promotion/selectors';
+import { remove } from '../../../features/promotion/thunks';
 import { useDispatch, useSelector } from 'react-redux';
 
 type FormValues = {
-  id: string;
+  id: number;
 };
 
 function PromotionsDelete(): JSX.Element {
@@ -21,7 +22,7 @@ function PromotionsDelete(): JSX.Element {
       <form onSubmit={handleSubmit(onSubmit)}>
         <label>Delete a product</label>
         <select {...register('id')} id='promotions'>
-          {promotions.map(({ id, title }: _Promotions) => (
+          {promotions.map(({ id, title }: IPromotions) => (
             <option value={id} key={id}>
               {title}
             </option>

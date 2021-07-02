@@ -95,7 +95,7 @@ describe('Product API Unit tests', () => {
 
   describe('removeProduct', () => {
     it('removes a product and returns void', async () => {
-      await expect(removeProduct(20)).resolves.toBe(undefined);
+      await expect(removeProduct(20)).resolves.toBeUndefined();
     });
 
     it('throws an error', async () => {

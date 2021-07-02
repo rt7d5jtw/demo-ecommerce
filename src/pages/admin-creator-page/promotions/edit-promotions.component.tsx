@@ -1,14 +1,15 @@
 import * as React from 'react';
 import './edit-promotions.css';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { selectPromotionItems, update } from '../../../features/promotion/promotionSlice';
-import { _Promotions } from '../../../features/promotion/promotionSlice';
+import { selectPromotionItems } from '../../../features/promotion/selectors';
+import { update } from '../../../features/promotion/thunks';
+import { IPromotions } from '../../../features/promotion/promotionSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 type FormValues = {
   title: string;
   image: string;
-  link: string;
+  url: string;
   id: number;
 };
 
@@ -25,7 +26,7 @@ function PromotionsEdit(): JSX.Element {
       <form onSubmit={handleSubmit(onSubmit)}>
         <h1>Edit a promotion</h1>
         <input type='text' placeholder='Title' {...register('title')} required />
-        <input type='text' placeholder='Link' {...register('link')} required />
+        <input type='text' placeholder='URL' {...register('url')} required />
         <input
           type='text'
           placeholder='Images preferrably 1470 x 556'
@@ -33,7 +34,7 @@ function PromotionsEdit(): JSX.Element {
           required
         />
         <select {...register('id')} form='edit-promotions' name='id' id='promotions'>
-          {promotions.map(({ title, id }: _Promotions) => (
+          {promotions.map(({ title, id }: IPromotions) => (
             <option key={id} {...register} value={id}>
               {title}
             </option>

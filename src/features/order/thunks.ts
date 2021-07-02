@@ -48,7 +48,7 @@ export const remove = createAsyncThunk(
 /* calls api to create a payment intent */
 export const createIntent = createAsyncThunk(
   'order/createIntent',
-  async (req: PaymentIntentDTO): Promise<PaymentIntentDTO> => {
+  async (req: PaymentIntentDTO): Promise<void> => {
     return stripeCreateIntent(req);
   }
 );
