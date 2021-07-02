@@ -117,3 +117,18 @@ export async function fetchAllUsers(): Promise<IUser[]> {
       return Promise.reject(err);
     });
 }
+
+export async function deleteUser(): Promise<void> {
+  return axios
+    .delete(USERS_URL, { headers: authHeader() })
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      const error: AxiosError<ValidationErrors> = err;
+      if (!error.response) {
+        throw err;
+      }
+      return Promise.reject(err);
+    });
+}

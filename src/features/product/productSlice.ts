@@ -13,7 +13,9 @@ export interface Product {
   categoryId?: string;
 }
 
-export type ProductOptional = Partial<Product>;
+export type CreateProductDto = Omit<Product, 'id' | 'category' | 'quantity'>;
+
+export type UpdateProductDto = Partial<Product>;
 
 export interface ProductState {
   items: Product[];

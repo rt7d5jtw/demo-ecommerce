@@ -1,4 +1,5 @@
 import { rest } from 'msw';
+import { PRODUCT_URL } from '../product/api';
 import { AUTH_URL, USERS_URL } from '../user/api';
 import { UserRole } from '../user/userSlice';
 
@@ -79,6 +80,90 @@ export const handlers = [
           createdAt: '2021-06-17',
         },
       ])
+    );
+  }),
+
+  rest.get(PRODUCT_URL, (_req, res, ctx) => {
+    return res(
+      ctx.status(200),
+      ctx.json([
+        {
+          id: 8,
+          categoryId: 'dcaa9f09-0dbe-4e81-af92-e15ee487beaa',
+          title: 'Dune',
+          image: 'https://i.imgur.com/Hiw0N.jpg',
+          price: 12,
+          author: 'Bob',
+          description: 'nice boek',
+          status: 'IN_STOCK',
+          createdAt: '2021-04-30T15:44:28.491Z',
+          updatedAt: '2021-04-30T15:44:28.491Z',
+        },
+      ])
+    );
+  }),
+
+  rest.post(PRODUCT_URL, (_req, res, ctx) => {
+    return res(
+      ctx.status(200),
+      ctx.json({
+        title: 'chocolate',
+        image: 'https://i.imgur.com/Hiw0N.jpg',
+        price: '9.50',
+        description: 'i like chocolate',
+        status: 'IN_STOCK',
+        author: 'Herbert',
+        categoryId: 'dcaa9f09-0dbe-4e81-af92-e15ee487beaa',
+        id: 27,
+        createdAt: '2021-07-02',
+        updatedAt: '2021-07-02',
+      })
+    );
+  }),
+
+  rest.delete(PRODUCT_URL + `/20`, (_req, res, ctx) => {
+    return res(ctx.status(200), ctx.json(undefined));
+  }),
+
+  rest.patch(PRODUCT_URL + `/19`, (_req, res, ctx) => {
+    return res(
+      ctx.status(200),
+      ctx.json({
+        id: 19,
+        categoryId: 'dcaa9f09-0dbe-4e81-af92-e15ee487beaa',
+        title: 'Ciabatta',
+        image: 'https://i.imgur.com/dNr0ndm.jpg',
+        price: '1.5',
+        description: 'a tasty ciabatta',
+        status: 'IN_STOCK',
+        createdAt: '2021-07-02',
+        updatedAt: '2021-07-02',
+      })
+    );
+  }),
+
+  rest.get(PRODUCT_URL, (req, res, ctx) => {
+    const query = req.url.searchParams;
+    const search = query.get('Dune');
+    return res(
+      ctx.status(200),
+      ctx.json({
+        search: 'Dune',
+        data: [
+          {
+            id: 8,
+            categoryId: 'dcaa9f09-0dbe-4e81-af92-e15ee487beaa',
+            title: 'Dune',
+            image: 'https://i.imgur.com/Hiw0N.jpg',
+            price: 12,
+            author: 'Bob',
+            description: 'nice boek',
+            status: 'IN_STOCK',
+            createdAt: '2021-07-02',
+            updatedAt: '2021-07-02',
+          },
+        ],
+      })
     );
   }),
 ];

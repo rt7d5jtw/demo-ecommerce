@@ -17,6 +17,7 @@ import {
 } from '../../features/user/api';
 import { assignRole } from '../../features/user/thunks';
 import { clearErrors } from '../../features/user/userSlice';
+import { removeProduct } from '../../features/product/api';
 
 interface IClassics {
   message: string;
@@ -32,6 +33,9 @@ const Classics = () => {
       </button>
       <button className='cl-btn' onClick={() => dispatch(registered())}>
         Register aler
+      </button>
+      <button className='cl-btn' onClick={() => console.log(removeProduct(32))}>
+        delete product
       </button>
       <button className='cl-btn' onClick={() => console.log(dispatch(clearErrors()))}>
         clearErrors

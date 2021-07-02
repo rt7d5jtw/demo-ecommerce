@@ -12,7 +12,7 @@ import {
 import { server } from '../mocks/server';
 import { UserRole } from './userSlice';
 
-describe('API Unit tests', () => {
+describe('User API Unit tests', () => {
   const arg = { email: 'test@testing.com', password: 'yeetmageet123' };
 
   describe('register', () => {

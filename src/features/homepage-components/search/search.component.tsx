@@ -1,16 +1,19 @@
 import * as React from 'react';
 import { ChangeEvent, useState } from 'react';
 import './search.css';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { search } from '../../product/thunks';
 import { useHistory } from 'react-router';
+import { selectSearch, selectSearchItems } from '../../product/selectors';
 
 type Inputs = {
   search: string;
 };
 
 export const Search = (): JSX.Element => {
+  const searchItems = useSelector(selectSearchItems);
+  const searchKeyword = useSelector(selectSearch);
   const [input, setInput] = useState({ search: '' });
   const dispatch = useDispatch();
   const { push } = useHistory();
@@ -19,7 +22,7 @@ export const Search = (): JSX.Element => {
   const onSubmit: SubmitHandler<Inputs> = () => {
     if (input.search) {
       dispatch(search(input.search));
-      push('/search-result');
+      if (searchItems !== null && searchKeyword !== null) return push('/search-result');
     }
   };
 
