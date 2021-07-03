@@ -19,6 +19,7 @@ import { assignRole } from '../../features/user/thunks';
 import { clearErrors } from '../../features/user/userSlice';
 import { removeProduct } from '../../features/product/api';
 import { addOrderItems, removeOrder } from '../../features/order/api';
+import { checkIfCart, createCart, fetchCart, fetchCartInfo } from '../../features/cart/api';
 
 interface IClassics {
   message: string;
@@ -35,11 +36,8 @@ const Classics = () => {
       <button className='cl-btn' onClick={() => dispatch(registered())}>
         Register aler
       </button>
-      <button
-        className='cl-btn'
-        onClick={() => console.log(removeOrder('214e828e-33fd-46a3-b969-21f813f9a24f'))}
-      >
-        remove order
+      <button className='cl-btn' onClick={() => console.log(fetchCartInfo())}>
+        fetches cart state
       </button>
       <button className='cl-btn' onClick={() => console.log(dispatch(clearErrors()))}>
         clearErrors

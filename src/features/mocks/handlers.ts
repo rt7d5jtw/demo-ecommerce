@@ -6,6 +6,7 @@ import { UserRole } from '../user/userSlice';
 import { ORDER_URL } from '../order/api';
 import { v4 as uuid } from 'uuid';
 import { CATEGORY_URL } from '../category/api';
+import { CART_URL } from '../cart/api';
 
 export const handlers = [
   rest.post(USERS_URL, (_req, res, ctx) => {
@@ -347,5 +348,75 @@ export const handlers = [
         cname: 'newTest',
       })
     );
+  }),
+
+  rest.get(CART_URL, (_req, res, ctx) => {
+    return res(
+      ctx.status(200),
+      ctx.json({
+        id: '8994da04-6065-44af-9fc4-2ad7a2048d2e',
+        userId: 'e6a23d5f-3a23-498f-9f61-ffb9ad34cb68',
+        CreatedAt: '2021-07-03',
+      })
+    );
+  }),
+
+  rest.post(CART_URL, (_req, res, ctx) => {
+    return res(
+      ctx.status(201),
+      ctx.json({
+        userId: 'e6a23d5f-3a23-498f-9f61-ffb9ad34cb68',
+        id: '45738a36-ec14-41b7-ad07-ba3dfbd17580',
+        CreatedAt: '2021-07-03',
+      })
+    );
+  }),
+
+  rest.get(CART_URL + 'cartInfo', (_req, res, ctx) => {
+    return res(
+      ctx.status(200),
+      ctx.json([
+        {
+          cartId: '4f04884d-dfc3-4e54-bffd-7beb793caee8',
+          productId: 28,
+          id: '85fd01f0-02a0-4cda-82f0-95777d3439f9',
+          title: 'chocolate',
+          image: 'https://i.imgur.com/Hiw0N.jpg',
+          price: 9.5,
+          quantity: 1,
+        },
+        {
+          cartId: '4f04884d-dfc3-4e54-bffd-7beb793caee8',
+          productId: 20,
+          id: '72e83b02-d20d-421e-8923-20e47b3b500f',
+          title: 'Burger',
+          image: 'https://i.imgur.com/kpu7hRD.jpeg',
+          price: 14,
+          quantity: 1,
+        },
+      ])
+    );
+  }),
+
+  rest.post(CART_URL + 28, (_req, res, ctx) => {
+    return res(
+      ctx.status(201),
+      ctx.json({
+        cartId: '868ffd6e-ef17-4d29-9f04-0072c3d437a1',
+        quantity: '1',
+        price: 9.5,
+        productId: 28,
+        id: 'b70ebe60-ae36-4c86-8ae2-310c422ce3b6',
+        CreatedAt: '2021-07-03T17:30:46.075Z',
+      })
+    );
+  }),
+
+  rest.delete(CART_URL + 28, (_req, res, ctx) => {
+    return res(ctx.status(200), ctx.json(undefined));
+  }),
+
+  rest.delete(CART_URL, (_req, res, ctx) => {
+    return res(ctx.status(200), ctx.json(undefined));
   }),
 ];

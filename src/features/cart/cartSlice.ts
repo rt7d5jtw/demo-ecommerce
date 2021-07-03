@@ -2,24 +2,34 @@ import { createSlice, createAction } from '@reduxjs/toolkit';
 import { fetchCartState, addItemDB, removeItemDB, clearCartDB } from './thunks';
 import { addItemToCart, removeItemFromCart } from './selectors';
 
-export const clearCart = createAction('cart/clearCart');
-export const cartToggle = createAction<boolean>('cart/cartToggle');
-export const addItem = createAction<CartItem>('cart/addItem');
-export const removeItem = createAction<CartItem>('cart/removeItem');
+export interface ICart {
+  userId: string;
+  id: string;
+  createdAt: string;
+}
 
-export interface CartItem {
+export interface CartItemDto {
   title: string;
   quantity: number;
   price: number;
   image: string;
-  id?: number;
+  id: string;
 }
 
-//type CartData = Pick<CartItem, 'id' | 'quantity'>;
+export interface ICartItem extends CartItemDto {
+  productId: number;
+  cartId: string;
+  CreatedAt: string;
+}
+
+export interface CartInfoDto extends CartItemDto {
+  cartId: string;
+  productId: string;
+}
 
 export interface CartState {
   isOpen: boolean;
-  items: CartItem[];
+  items: CartItemDto[];
   quantity: number;
   price: number;
   loading: boolean;
@@ -34,6 +44,11 @@ const initialState: CartState = {
   loading: false,
   errors: [],
 };
+
+export const clearCart = createAction('cart/clearCart');
+export const cartToggle = createAction<boolean>('cart/cartToggle');
+export const addItem = createAction<CartItemDto>('cart/addItem');
+export const removeItem = createAction<CartItemDto>('cart/removeItem');
 
 export const cartSlice = createSlice({
   name: 'cart',
@@ -61,7 +76,7 @@ export const cartSlice = createSlice({
     }),
       builder.addCase(fetchCartState.fulfilled, (state, { payload }) => {
         state.items = payload;
-        state.quantity = payload.reduce((acc: number, curr: CartItem) => acc + curr.quantity, 0);
+        state.quantity = payload.reduce((acc: number, curr: CartItemDto) => acc + curr.quantity, 0);
         state.loading = false;
       }),
       builder.addCase(fetchCartState.rejected, (state, { payload }) => {
