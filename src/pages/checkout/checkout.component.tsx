@@ -10,7 +10,7 @@ import { createStructuredSelector } from 'reselect';
 import { RootState } from '../../app/store';
 import { CartItem } from '../../features/cart/cartSlice';
 import { addShippingInformation } from '../../features/user/userSlice';
-import { add } from '../../features/order/thunks';
+import { create } from '../../features/order/thunks';
 import Alert from '../../features/alert/alert/alert.component';
 import Main from '../../features/homepage-components/main/main.component';
 import { useHistory } from 'react-router';
@@ -29,7 +29,7 @@ type FormValues = {
   address: string;
   country: string;
   city: string;
-  postalcode: number;
+  postalcode: string;
 };
 
 const Checkout = ({ items, total }: ICheckout) => {
@@ -46,7 +46,7 @@ const Checkout = ({ items, total }: ICheckout) => {
       shippingInfo.city.length !== 0
     ) {
       dispatch(
-        add({
+        create({
           total_price: total,
           status: OrderStatus.UNPAID,
           address: shippingInfo.address,

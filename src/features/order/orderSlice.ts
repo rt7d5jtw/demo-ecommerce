@@ -1,6 +1,5 @@
-import { createSlice, createSelector } from '@reduxjs/toolkit';
-import { RootState } from '../../app/store';
-import { fetch, fetchAll, add, addItems, remove, createIntent } from './thunks';
+import { createSlice } from '@reduxjs/toolkit';
+import { fetch, fetchAll, create, addItems, remove, createIntent } from './thunks';
 
 export enum OrderStatus {
   UNPAID = 'UNPAID',
@@ -19,7 +18,7 @@ export interface Order {
   address: string;
   country: string;
   city: string;
-  postalcode: number | null;
+  postalcode: string;
   status: OrderStatus;
   date?: string;
   id?: string;
@@ -33,6 +32,15 @@ export interface OrderItem {
   price: number;
   quantity: number;
   productId: number;
+}
+
+export interface OrderItemDto {
+  id: string;
+  cartId: string;
+  productId: number;
+  quantity: number;
+  price: number;
+  createdAt: string;
 }
 
 export interface OrderState {
@@ -74,14 +82,14 @@ export const orderSlice = createSlice({
         state.errors = action.payload;
         state.loading = false;
       }),
-      builder.addCase(add.pending, (state) => {
+      builder.addCase(create.pending, (state) => {
         state.loading = true;
       }),
-      builder.addCase(add.fulfilled, (state, action) => {
+      builder.addCase(create.fulfilled, (state, action) => {
         state.orders.push(action.payload);
         state.loading = false;
       }),
-      builder.addCase(add.rejected, (state, action) => {
+      builder.addCase(create.rejected, (state, action) => {
         state.errors = action.payload;
         state.loading = false;
       }),
@@ -117,9 +125,5 @@ export const orderSlice = createSlice({
       });
   },
 });
-
-export const selectOrder = (state: RootState): OrderState => state.order;
-
-export const selectOrders = createSelector([selectOrder], (order: OrderState) => order.orders);
 
 export default orderSlice.reducer;

@@ -1,4 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { AxiosError } from 'axios';
+import { ValidationErrors } from '../promotion/promotionSlice';
 import { createCategory, fetchCategories, removeCategory, updateCategory } from './api';
 import { Category } from './categorySlice';
 
@@ -9,23 +11,47 @@ export const fetch = createAsyncThunk(
   }
 );
 
-export const add = createAsyncThunk(
-  'category/add',
-  async (cname: string): Promise<Category> => {
-    return createCategory(cname);
+export const create = createAsyncThunk(
+  'category/create',
+  async (cname: string, { rejectWithValue }) => {
+    try {
+      return createCategory(cname);
+    } catch (err) {
+      const error: AxiosError<ValidationErrors> = err;
+      if (!error.response) {
+        throw err;
+      }
+      return rejectWithValue(err.response.data);
+    }
   }
 );
 
 export const remove = createAsyncThunk(
   'category/remove',
-  async (id: string): Promise<void> => {
-    return removeCategory(id);
+  async (id: string, { rejectWithValue }) => {
+    try {
+      return removeCategory(id);
+    } catch (err) {
+      const error: AxiosError<ValidationErrors> = err;
+      if (!error.response) {
+        throw err;
+      }
+      return rejectWithValue(err.response.data);
+    }
   }
 );
 
 export const update = createAsyncThunk(
   'category/update',
-  async (data: Category): Promise<Category> => {
-    return updateCategory(data);
+  async (data: Category, { rejectWithValue }) => {
+    try {
+      return updateCategory(data);
+    } catch (err) {
+      const error: AxiosError<ValidationErrors> = err;
+      if (!error.response) {
+        throw err;
+      }
+      return rejectWithValue(err.response.data);
+    }
   }
 );

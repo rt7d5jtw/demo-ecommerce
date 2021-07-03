@@ -1,6 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { fetch, create, remove, update } from './thunks';
 
+export interface ValidationErrors {
+  errorMessage: string;
+  field_errors: Record<string, string>;
+}
+
 export interface IPromotions {
   id: number;
   image: string;
@@ -12,11 +17,6 @@ export type CreatePromotionDto = Omit<IPromotions, 'id'>;
 
 export interface IPromotionsCard extends IPromotions {
   length: number;
-}
-
-export interface ValidationErrors {
-  errorMessage: string;
-  field_errors: Record<string, string>;
 }
 
 export interface PromotionState {

@@ -3,6 +3,9 @@ import { PRODUCT_URL } from '../product/api';
 import { AUTH_URL, USERS_URL } from '../user/api';
 import { PROMOTION_URL } from '../promotion/api';
 import { UserRole } from '../user/userSlice';
+import { ORDER_URL } from '../order/api';
+import { v4 as uuid } from 'uuid';
+import { CATEGORY_URL } from '../category/api';
 
 export const handlers = [
   rest.post(USERS_URL, (_req, res, ctx) => {
@@ -212,6 +215,136 @@ export const handlers = [
         title: 'i like chocolate',
         url: 'chocolate',
         image: 'https://i.imgur.com/lGlD5Aa.jpeg',
+      })
+    );
+  }),
+
+  rest.get(ORDER_URL, (_req, res, ctx) => {
+    return res(
+      ctx.status(200),
+      ctx.json([
+        {
+          id: '8ae45c19-ebf7-4e3b-bc55-8ff1885e925d',
+          userId: 'e6a23d5f-3a23-498f-9f61-ffb9ad34cb68',
+          total_price: 15,
+          address: 'Yeetstreet',
+          country: 'Finland',
+          city: 'Helsinki',
+          postalcode: '01000',
+          status: 'PROCESSING',
+          date: '2021-07-03',
+        },
+      ])
+    );
+  }),
+
+  rest.get(ORDER_URL + 'all', (_req, res, ctx) => {
+    return res(
+      ctx.status(200),
+      ctx.json([
+        {
+          id: uuid(),
+          userId: uuid(),
+          total_price: 25,
+          address: 'Tamperestreet',
+          country: 'Finland',
+          city: 'Tampere',
+          postalcode: '33270',
+          status: 'PROCESSING',
+          date: '2021-07-12',
+        },
+        {
+          id: '8ae45c19-ebf7-4e3b-bc55-8ff1885e925d',
+          userId: 'e6a23d5f-3a23-498f-9f61-ffb9ad34cb68',
+          total_price: 15,
+          address: 'Yeetstreet',
+          country: 'Finland',
+          city: 'Helsinki',
+          postalcode: '01000',
+          status: 'PROCESSING',
+          date: '2021-07-03',
+        },
+      ])
+    );
+  }),
+
+  rest.post(ORDER_URL, (_req, res, ctx) => {
+    return res(
+      ctx.status(201),
+      ctx.json({
+        total_price: 35,
+        address: 'Yeetstreet',
+        country: 'Finland',
+        city: 'Helsinki',
+        postalcode: '01000',
+        status: 'PROCESSING',
+        userId: uuid(),
+        id: uuid(),
+        date: '2021-07-04',
+      })
+    );
+  }),
+
+  rest.post(ORDER_URL + 'items/0302370c-6f80-4932-9dd6-6364d01bf936', (_req, res, ctx) => {
+    return res(
+      ctx.status(201),
+      ctx.json([
+        {
+          id: uuid(),
+          cartId: uuid(),
+          productId: 25,
+          quantity: 1,
+          price: 7,
+          CreatedAt: '2021-07-03',
+        },
+      ])
+    );
+  }),
+
+  rest.delete(ORDER_URL + '9f0bcbf5-c845-48ef-95dd-393da9ae64c1', (_req, res, ctx) => {
+    return res(ctx.status(200), ctx.json(undefined));
+  }),
+
+  rest.get(CATEGORY_URL, (_req, res, ctx) => {
+    return res(
+      ctx.status(200),
+      ctx.json([
+        {
+          id: uuid(),
+          cname: 'outlet',
+        },
+        {
+          id: uuid(),
+          cname: 'bestsellers',
+        },
+        {
+          id: uuid(),
+          cname: 'classics',
+        },
+      ])
+    );
+  }),
+
+  rest.post(CATEGORY_URL, (_req, res, ctx) => {
+    return res(
+      ctx.status(201),
+      ctx.json({
+        cname: 'test',
+        id: uuid(),
+      })
+    );
+  }),
+
+  rest.delete(CATEGORY_URL + '4a9ad1cc-17b9-4193-8341-7d14194909ad', (_req, res, ctx) => {
+    return res(ctx.status(200), ctx.json(undefined));
+  }),
+
+  rest.patch(CATEGORY_URL + '419b12e1-b406-4cb5-8a2e-082bbab85802', (_req, res, ctx) => {
+    return res(
+      ctx.status(200),
+      ctx.json({
+        id: '419b12e1-b406-4cb5-8a2e-082bbab85802',
+        cname: 'newTest',
       })
     );
   }),

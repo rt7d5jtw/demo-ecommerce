@@ -96,7 +96,7 @@ export interface shippingInformation {
   address: string;
   country: string;
   city: string;
-  postalcode: number | null;
+  postalcode: string | null;
 }
 
 export const addShippingInformation = createAction<shippingInformation>(

@@ -2,7 +2,7 @@ import * as React from 'react';
 import './category-create.css';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
-import { add } from '../../../features/category/thunks';
+import { create } from '../../../features/category/thunks';
 
 type FormValues = {
   cname: string;
@@ -12,7 +12,7 @@ function CategoryCreate(): JSX.Element {
   const dispatch = useDispatch();
   const { register, handleSubmit } = useForm<FormValues>();
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    dispatch(add(data['cname']));
+    dispatch(create(data['cname']));
     console.log(data['cname']);
   };
   return (

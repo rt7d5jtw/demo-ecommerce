@@ -1,35 +1,66 @@
-import axios, { AxiosInstance } from 'axios';
-import { authHeader } from '../user/userSlice';
+import axios, { AxiosError } from 'axios';
+import { ValidationErrors } from '../promotion/promotionSlice';
 import { Category } from './categorySlice';
 
 export const CATEGORY_URL = 'http://localhost:3000/category/';
 
-export function useHTTPClient(): AxiosInstance {
-  return axios.create({ baseURL: CATEGORY_URL, headers: authHeader() });
-}
-
-export function useAPIClientNoAuth(): AxiosInstance {
-  const instance = axios.create({ baseURL: CATEGORY_URL });
-  instance.interceptors.response.use((res) => res);
-  return instance;
-}
-
 export async function fetchCategories(): Promise<Category[]> {
-  const { data } = await axios.get(CATEGORY_URL);
-  return data;
+  return axios
+    .get(CATEGORY_URL)
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      const error: AxiosError<ValidationErrors> = err;
+      if (!error.response) {
+        throw err;
+      }
+      return Promise.reject(err);
+    });
 }
 
 export async function createCategory(cname: string): Promise<Category> {
-  const { data } = await axios.post(CATEGORY_URL, { cname: cname });
-  return data;
+  return axios
+    .post(CATEGORY_URL, { cname: cname })
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      const error: AxiosError<ValidationErrors> = err;
+      if (!error.response) {
+        throw err;
+      }
+      return Promise.reject(err);
+    });
 }
 
 export async function removeCategory(id: string): Promise<void> {
-  return axios.delete(CATEGORY_URL + id);
+  return axios
+    .delete(CATEGORY_URL + id)
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      const error: AxiosError<ValidationErrors> = err;
+      if (!error.response) {
+        throw err;
+      }
+      return Promise.reject(err);
+    });
 }
 
 export async function updateCategory(data: Category): Promise<Category> {
   const { id, cname } = data;
-  const res = await axios.patch(CATEGORY_URL + id, cname);
-  return res.data;
+  return axios
+    .patch(CATEGORY_URL + id, cname)
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      const error: AxiosError<ValidationErrors> = err;
+      if (!error.response) {
+        throw err;
+      }
+      return Promise.reject(err);
+    });
 }

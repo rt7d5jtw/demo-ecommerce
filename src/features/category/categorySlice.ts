@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
 import { RootState } from '../../app/store';
-import { fetch, add, remove, update } from './thunks';
+import { fetch, create, remove, update } from './thunks';
 
 export interface Category {
   cname: string;
@@ -36,14 +36,14 @@ export const categorySlice = createSlice({
         state.errors = action.payload;
         state.loading = false;
       }),
-      builder.addCase(add.pending, (state) => {
+      builder.addCase(create.pending, (state) => {
         state.loading = true;
       }),
-      builder.addCase(add.fulfilled, (state, action) => {
+      builder.addCase(create.fulfilled, (state, action) => {
         state.categories.push(action.payload);
         state.loading = false;
       }),
-      builder.addCase(add.rejected, (state, action) => {
+      builder.addCase(create.rejected, (state, action) => {
         state.errors = action.payload;
         state.loading = false;
       }),

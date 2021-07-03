@@ -1,4 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { AxiosError } from 'axios';
+import { ValidationErrors } from '../promotion/promotionSlice';
 import {
   fetchOrders,
   fetchAllOrders,
@@ -24,31 +26,60 @@ export const fetchAll = createAsyncThunk(
   }
 );
 
-export const add = createAsyncThunk(
-  'order/add',
-  async (data: OrderDTO): Promise<OrderDTO> => {
-    return createOrder(data);
+export const create = createAsyncThunk(
+  'order/create',
+  async (data: OrderDTO, { rejectWithValue }) => {
+    try {
+      return createOrder(data);
+    } catch (err) {
+      const error: AxiosError<ValidationErrors> = err;
+      if (!error.response) {
+        throw err;
+      }
+      return rejectWithValue(err.response.data);
+    }
   }
 );
 
 export const addItems = createAsyncThunk(
   'order/addItems',
-  async (data: OrderItem[]): Promise<OrderItem[]> => {
-    return addOrderItems(data);
+  async (id: string, { rejectWithValue }) => {
+    try {
+      return addOrderItems(id);
+    } catch (err) {
+      const error: AxiosError<ValidationErrors> = err;
+      if (!error.response) {
+        throw err;
+      }
+      return rejectWithValue(err.response.data);
+    }
   }
 );
 
-export const remove = createAsyncThunk(
-  'order/remove',
-  async (id: string): Promise<void> => {
+export const remove = createAsyncThunk('order/remove', async (id: string, { rejectWithValue }) => {
+  try {
     return removeOrder(id);
+  } catch (err) {
+    const error: AxiosError<ValidationErrors> = err;
+    if (!error.response) {
+      throw err;
+    }
+    return rejectWithValue(err.response.data);
   }
-);
+});
 
 /* calls api to create a payment intent */
 export const createIntent = createAsyncThunk(
   'order/createIntent',
-  async (req: PaymentIntentDTO): Promise<void> => {
-    return stripeCreateIntent(req);
+  async (req: PaymentIntentDTO, { rejectWithValue }) => {
+    try {
+      return stripeCreateIntent(req);
+    } catch (err) {
+      const error: AxiosError<ValidationErrors> = err;
+      if (!error.response) {
+        throw err;
+      }
+      return rejectWithValue(err.response.data);
+    }
   }
 );
