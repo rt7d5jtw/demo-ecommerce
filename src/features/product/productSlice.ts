@@ -1,7 +1,8 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAction, createSlice } from '@reduxjs/toolkit';
+import { CartItemDto } from '../cart/cartSlice';
 import { fetch, add, remove, update, search } from './thunks';
 
-export interface Product {
+export interface IProduct {
   id: number;
   category: string;
   title: string;
@@ -13,14 +14,24 @@ export interface Product {
   categoryId?: string;
 }
 
-export type CreateProductDto = Omit<Product, 'id' | 'category' | 'quantity'>;
+export interface IProductCard {
+  cartItems: CartItemDto[];
+  dispatch: () => void;
+  id: number;
+  image: string;
+  price: number;
+  quantity: 1;
+  title: string;
+}
 
-export type UpdateProductDto = Partial<Product>;
+export type CreateProductDto = Omit<IProduct, 'id' | 'category' | 'quantity'>;
+
+export type UpdateProductDto = Partial<IProduct>;
 
 export interface ProductState {
-  items: Product[];
+  items: IProduct[];
   search: string;
-  searchItems: Product[];
+  searchItems: IProduct[];
   loading: boolean;
   errors: null | unknown;
 }
@@ -33,10 +44,16 @@ const initialState: ProductState = {
   errors: null,
 };
 
+export const clearProducts = createAction('product/clearProducts');
+
 export const productSlice = createSlice({
   name: 'product',
   initialState: initialState,
-  reducers: {},
+  reducers: {
+    clearProducts: (state) => {
+      state.items = [];
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(fetch.pending, (state) => {
       state.loading = true;

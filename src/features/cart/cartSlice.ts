@@ -1,5 +1,5 @@
 import { createSlice, createAction } from '@reduxjs/toolkit';
-import { fetchCartState, addItemDB, removeItemDB, clearCartDB } from './thunks';
+import { fetchState, addItemDB, removeItemDB, clearCartDB } from './thunks';
 import { addItemToCart, removeItemFromCart } from './selectors';
 
 export interface ICart {
@@ -8,28 +8,24 @@ export interface ICart {
   createdAt: string;
 }
 
-export interface CartItemDto {
+export interface ICartItem {
   title: string;
   quantity: number;
   price: number;
   image: string;
-  id: string;
-}
-
-export interface ICartItem extends CartItemDto {
   productId: number;
-  cartId: string;
-  CreatedAt: string;
 }
 
-export interface CartInfoDto extends CartItemDto {
+export type AddItemSuccess = Omit<ICartItem, 'title' | 'image'>;
+
+export interface CartInfoDto extends ICartItem {
   cartId: string;
-  productId: string;
+  productId: number;
 }
 
 export interface CartState {
   isOpen: boolean;
-  items: CartItemDto[];
+  items: ICartItem[];
   quantity: number;
   price: number;
   loading: boolean;
@@ -47,8 +43,8 @@ const initialState: CartState = {
 
 export const clearCart = createAction('cart/clearCart');
 export const cartToggle = createAction<boolean>('cart/cartToggle');
-export const addItem = createAction<CartItemDto>('cart/addItem');
-export const removeItem = createAction<CartItemDto>('cart/removeItem');
+export const addItem = createAction<ICartItem>('cart/addItem');
+export const removeItem = createAction<ICartItem>('cart/removeItem');
 
 export const cartSlice = createSlice({
   name: 'cart',
@@ -56,6 +52,7 @@ export const cartSlice = createSlice({
   reducers: {
     clearCart: (state) => {
       state.items = [];
+      state.quantity = 0;
     },
     cartToggle: (state) => {
       state.isOpen = !state.isOpen;
@@ -71,15 +68,15 @@ export const cartSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(fetchCartState.pending, (state) => {
+    builder.addCase(fetchState.pending, (state) => {
       state.loading = true;
     }),
-      builder.addCase(fetchCartState.fulfilled, (state, { payload }) => {
+      builder.addCase(fetchState.fulfilled, (state, { payload }) => {
         state.items = payload;
-        state.quantity = payload.reduce((acc: number, curr: CartItemDto) => acc + curr.quantity, 0);
+        state.quantity = payload.reduce((acc: number, curr: ICartItem) => acc + curr.quantity, 0);
         state.loading = false;
       }),
-      builder.addCase(fetchCartState.rejected, (state, { payload }) => {
+      builder.addCase(fetchState.rejected, (state, { payload }) => {
         state.errors = payload;
         state.loading = false;
       }),

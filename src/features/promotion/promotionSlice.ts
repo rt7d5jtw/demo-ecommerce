@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAction, createSlice } from '@reduxjs/toolkit';
 import { fetch, create, remove, update } from './thunks';
 
 export interface ValidationErrors {
@@ -31,10 +31,16 @@ const initialState: PromotionState = {
   errors: [],
 };
 
+export const clearPromotions = createAction('promotion/clearPromotions');
+
 export const promotionSlice = createSlice({
   name: 'promotion',
   initialState: initialState,
-  reducers: {},
+  reducers: {
+    clearPromotions: (state) => {
+      state.items = [];
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(fetch.pending, (state) => {
       state.loading = true;

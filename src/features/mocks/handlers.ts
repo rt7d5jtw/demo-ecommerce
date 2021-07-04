@@ -372,23 +372,19 @@ export const handlers = [
     );
   }),
 
-  rest.get(CART_URL + 'cartInfo', (_req, res, ctx) => {
+  rest.get(CART_URL + 'state', (_req, res, ctx) => {
     return res(
       ctx.status(200),
       ctx.json([
         {
-          cartId: '4f04884d-dfc3-4e54-bffd-7beb793caee8',
           productId: 28,
-          id: '85fd01f0-02a0-4cda-82f0-95777d3439f9',
           title: 'chocolate',
           image: 'https://i.imgur.com/Hiw0N.jpg',
           price: 9.5,
           quantity: 1,
         },
         {
-          cartId: '4f04884d-dfc3-4e54-bffd-7beb793caee8',
           productId: 20,
-          id: '72e83b02-d20d-421e-8923-20e47b3b500f',
           title: 'Burger',
           image: 'https://i.imgur.com/kpu7hRD.jpeg',
           price: 14,

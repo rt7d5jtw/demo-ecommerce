@@ -1,20 +1,21 @@
 import * as React from 'react';
 import './cart-item.css';
-import { CartItem } from '../../../features/cart/cartSlice';
+import { CartItemDto } from '../../../features/cart/cartSlice';
 import { removeItemDB } from '../../../features/cart/thunks';
-import { connect, useDispatch } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import { removeItem } from '../../cart/cartSlice';
+import { selectCartItems } from '../selectors';
 
-/* two underscores because CartItem is reserved for the type */
-const __CartItem = (cartItem: CartItem) => {
+const CartItem = (cartItem: any) => {
   const user = JSON.parse(localStorage.getItem('user') || '{}');
   const dispatch = useDispatch();
 
   function removeHandler() {
     dispatch(removeItem(cartItem));
+    console.log(cartItem);
     if (user && user.accessToken) {
-      if (cartItem.id != undefined) {
-        dispatch(removeItemDB(cartItem.id));
+      if (cartItem.productId != undefined) {
+        //dispatch(removeItemDB(cartItem.productId));
       }
     }
   }
@@ -40,4 +41,4 @@ const __CartItem = (cartItem: CartItem) => {
   );
 };
 
-export default connect()(__CartItem);
+export default connect()(CartItem);

@@ -8,8 +8,8 @@ import { connect, useDispatch, useSelector } from 'react-redux';
 import { selectCartItems, selectCartTotal } from '../../features/cart/selectors';
 import { createStructuredSelector } from 'reselect';
 import { RootState } from '../../app/store';
-import { CartItem } from '../../features/cart/cartSlice';
-import { addShippingInformation } from '../../features/user/userSlice';
+import { CartItemDto, ICartItem } from '../../features/cart/cartSlice';
+import { addShippingInformation, shippingInformation } from '../../features/user/userSlice';
 import { create } from '../../features/order/thunks';
 import Alert from '../../features/alert/alert/alert.component';
 import Main from '../../features/homepage-components/main/main.component';
@@ -18,9 +18,10 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { useState } from 'react';
 import { selectShippingInfo } from '../../features/user/selectors';
 import { OrderStatus } from '../../features/order/orderSlice';
+import { shippingInfoAdded } from '../../features/alert/alertSlice';
 
 interface ICheckout {
-  items: CartItem[];
+  items: CartItemDto[];
   total: number;
   clearCart: () => void;
 }
@@ -39,12 +40,7 @@ const Checkout = ({ items, total }: ICheckout) => {
   const { register, handleSubmit } = useForm<FormValues>();
   const [warning, setWarning] = useState<string>();
   function handleOrder() {
-    if (
-      shippingInfo.address.length !== 0 &&
-      shippingInfo.postalcode !== null &&
-      shippingInfo.country.length !== 0 &&
-      shippingInfo.city.length !== 0
-    ) {
+    if (shippingInfo && shippingInfo) {
       dispatch(
         create({
           total_price: total,
@@ -61,8 +57,8 @@ const Checkout = ({ items, total }: ICheckout) => {
     }
   }
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    console.log(data);
     dispatch(addShippingInformation(data));
+    dispatch(shippingInfoAdded());
   };
   return (
     <div className='homepage'>
@@ -134,7 +130,7 @@ const Checkout = ({ items, total }: ICheckout) => {
 };
 
 interface IMapStateToProps {
-  items: CartItem[];
+  items: CartItemDto[];
   total: number;
 }
 

@@ -1,10 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import { ValidationErrors } from '../promotion/promotionSlice';
-import { fetchCartInfo, addItemToCartDB, removeItemFromCartDB, clearCartState } from './api';
+import { fetchCartState, addItemToCartDB, removeItemFromCartDB, clearCartState } from './api';
 
-export const fetchCartState = createAsyncThunk('cart/fetch', async () => {
-  return fetchCartInfo();
+export const fetchState = createAsyncThunk('cart/fetch', async () => {
+  return fetchCartState();
 });
 
 export const addItemDB = createAsyncThunk(

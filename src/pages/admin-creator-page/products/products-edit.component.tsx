@@ -36,33 +36,13 @@ function ProductsEdit(): JSX.Element {
         <form id='create-product' onSubmit={handleSubmit(onSubmit)}>
           <h1>Edit a product</h1>
           <label>Product title</label>
-          <input
-            type='text'
-            placeholder='Product title'
-            {...register('title', { required: 'You must specify a title' })}
-            required
-          />
+          <input type='text' placeholder='Product title' {...register('title')} />
           <label>Product image</label>
-          <input
-            type='text'
-            placeholder='Product image'
-            {...register('image', { required: 'You must specify a image' })}
-            required
-          />
+          <input type='text' placeholder='Product image' {...register('image')} />
           <label>Product price</label>
-          <input
-            type='number'
-            placeholder='Product price'
-            {...register('price', { required: 'You must specify a price' })}
-            required
-          />
+          <input type='number' placeholder='Product price' {...register('price')} />
           <label>Product author</label>
-          <input
-            type='text'
-            placeholder='Product author'
-            {...register('author', { required: 'You must specify a author' })}
-            required
-          />
+          <input type='text' placeholder='Product author' {...register('author')} />
           <label>Product category</label>
           <select {...register('id')} form='create-product' name='id' id='product-categories'>
             {products.map(({ title, id }: Product) => (

@@ -14,18 +14,28 @@ import { checkIfLoading, selectPromotionItems } from '../../features/promotion/s
 import { fetch as fetchPromotions } from '../../features/promotion/thunks';
 import { Route, Switch } from 'react-router';
 import { selectLoggedIn } from '../../features/user/selectors';
-import { logout } from '../../features/user/userSlice';
+import { logout } from '../../features/user/thunks';
+import { selectItems } from '../../features/product/selectors';
+import { selectCategories } from '../../features/category/categorySlice';
 
 function Homepage(): JSX.Element {
   const dispatch = useDispatch();
+
+  /* selectors */
   const isLoading = useSelector(checkIfLoading);
   const loggedIn = useSelector(selectLoggedIn);
+  const categories = useSelector(selectCategories);
+  const products = useSelector(selectItems);
   const promotions = useSelector(selectPromotionItems);
+
   useEffect(() => {
     /* fetch categories and products for state */
-    dispatch(fetchCategories());
-    dispatch(fetchProducts());
-    dispatch(fetchPromotions());
+    if (categories.length === 0) {
+      dispatch(fetchCategories());
+    }
+    if (products.length === 0) {
+      dispatch(fetchProducts());
+    }
 
     if (localStorage.getItem('user') === null && loggedIn === true) {
       dispatch(logout());

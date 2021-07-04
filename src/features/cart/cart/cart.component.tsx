@@ -3,7 +3,7 @@ import './cart.css';
 import { TiShoppingCart } from 'react-icons/ti';
 import { connect } from 'react-redux';
 import { RootState } from '../../../app/store';
-import { cartToggle, clearCart, CartItem } from '../../cart/cartSlice';
+import { cartToggle, clearCart, CartItemDto } from '../../cart/cartSlice';
 import { selectOpen, selectCartItems, selectQuantity } from '../../cart/selectors';
 import { clearCartDB } from '../../cart/thunks';
 import { useDispatch } from 'react-redux';
@@ -14,7 +14,7 @@ import { useRef, useEffect } from 'react';
 
 interface ICart {
   isOpen: boolean;
-  items: CartItem[];
+  items: CartItemDto[];
   quantity: number;
 }
 
@@ -77,10 +77,10 @@ const Cart = ({ isOpen, items, quantity }: ICart) => {
             </button>
           </div>
           {items.length ? (
-            items.map(({ title, price, image, quantity, id }) => (
+            items.map(({ title, price, image, quantity, productId }) => (
               <__CartItem
-                key={id}
-                id={id}
+                key={productId}
+                productId={productId}
                 title={title}
                 price={price}
                 image={image}

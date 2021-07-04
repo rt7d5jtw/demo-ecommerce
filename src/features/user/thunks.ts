@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import { emailUpdated, passwordUpdated } from '../alert/alertSlice';
 import { checkIfCart } from '../cart/api';
-import { fetchCartState } from '../cart/thunks';
+import { fetchState as fetchCartState } from '../cart/thunks';
 import { ValidationErrors } from '../promotion/promotionSlice';
 import { register, login, fetchRole, updatePassword, updateEmail, fetchAllUsers } from './api';
 import { EmailObj, IUserCredentials, PasswordObj, UserRole } from './userSlice';
@@ -86,3 +86,11 @@ export const changeEmail = createAsyncThunk(
 export const fetch = createAsyncThunk('user/fetch', async () => {
   return fetchAllUsers();
 });
+
+export const logout = createAsyncThunk(
+  'user/logout',
+  async (): Promise<void> => {
+    window.localStorage.clear();
+    window.location.reload();
+  }
+);

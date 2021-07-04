@@ -27,6 +27,8 @@ export const emailUpdated = createAction('alert/emailUpdated');
 
 export const passwordUpdated = createAction('alert/passwordUpdated');
 
+export const shippingInfoAdded = createAction('alert/shippingInfoAdded');
+
 export const hideout = createAction('alert/hideout');
 
 export const alertSlice = createSlice({
@@ -51,6 +53,10 @@ export const alertSlice = createSlice({
     },
     passwordUpdated: (state) => {
       state.message = 'Password succesfully changed';
+      state.atype = alert_type.success;
+    },
+    shippingInfoAdded: (state) => {
+      state.message = 'Shipping information added';
       state.atype = alert_type.success;
     },
     hideout: (state) => {

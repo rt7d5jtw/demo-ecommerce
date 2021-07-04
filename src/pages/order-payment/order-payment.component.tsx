@@ -119,10 +119,10 @@ const OrderPayment = (): JSX.Element => {
               </div>
               <div className='shipping-details'>
                 <h2>Shipping Summary</h2>
-                <p>{shippingInfo.address}</p>
-                <p>{shippingInfo.country}</p>
-                <p>{shippingInfo.city}</p>
-                <p>{shippingInfo.postalcode}</p>
+                <p>{shippingInfo!.address}</p>
+                <p>{shippingInfo!.country}</p>
+                <p>{shippingInfo!.city}</p>
+                <p>{shippingInfo!.postalcode}</p>
               </div>
 
               {!success ? (

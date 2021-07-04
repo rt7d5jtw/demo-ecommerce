@@ -7,7 +7,7 @@ import {
   clearCartState,
   createCart,
   fetchCart,
-  fetchCartInfo,
+  fetchCartState,
   removeItemFromCartDB,
 } from './api';
 
@@ -47,38 +47,30 @@ describe('Cart API Unit tests', () => {
     });
   });
 
-  describe('fetchCartInfo', () => {
+  describe('fetchCartState', () => {
     it('returns cart items', async () => {
-      const result = await fetchCartInfo();
+      const result = await fetchCartState();
       expect(result).toEqual([
         {
-          cartId: expect.any(String),
           productId: expect.any(Number),
-          id: expect.any(String),
           title: expect.any(String),
           image: expect.any(String),
           price: expect.any(Number),
           quantity: expect.any(Number),
         },
         {
-          cartId: expect.any(String),
           productId: expect.any(Number),
-          id: expect.any(String),
           title: expect.any(String),
           image: expect.any(String),
           price: expect.any(Number),
           quantity: expect.any(Number),
         },
       ]);
-      expect(uuidRegex.test(result[0].id)).toEqual(true);
-      expect(uuidRegex.test(result[0].cartId)).toEqual(true);
-      expect(uuidRegex.test(result[1].id)).toEqual(true);
-      expect(uuidRegex.test(result[1].cartId)).toEqual(true);
     });
 
     it('throws an error for nonexistant cart', async () => {
       server.use(
-        rest.get(CART_URL + 'cartInfo', (_req, res, ctx) => {
+        rest.get(CART_URL + 'state', (_req, res, ctx) => {
           return res(
             ctx.status(404),
             ctx.json({
@@ -89,7 +81,7 @@ describe('Cart API Unit tests', () => {
           );
         })
       );
-      expect(fetchCartInfo()).rejects.toThrow('404');
+      expect(() => fetchCartState()).rejects.toThrow('404');
     });
   });
 
@@ -98,14 +90,12 @@ describe('Cart API Unit tests', () => {
       const result = await addItemToCartDB(28);
       expect(result).toEqual({
         cartId: expect.any(String),
+        id: expect.any(String),
         quantity: '1',
         price: expect.any(Number),
         productId: 28,
-        id: expect.any(String),
         CreatedAt: expect.any(String),
       });
-      expect(uuidRegex.test(result.id)).toEqual(true);
-      expect(uuidRegex.test(result.cartId)).toEqual(true);
     });
 
     /* providing nonexistant id leads to function not finding price */
@@ -122,7 +112,7 @@ describe('Cart API Unit tests', () => {
           );
         })
       );
-      expect(addItemToCartDB(282)).rejects.toThrow('404');
+      expect(() => addItemToCartDB(282)).rejects.toThrow('404');
     });
   });
 

@@ -1,4 +1,4 @@
-import { createAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAction, createSlice } from '@reduxjs/toolkit';
 import {
   registerRequest,
   loginRequest,
@@ -6,6 +6,7 @@ import {
   changePassword,
   changeEmail,
   fetch,
+  logout,
 } from './thunks';
 
 export interface AccessTokenDTO {
@@ -84,24 +85,12 @@ export const loginRequest = createAsyncThunk(
 );
 */
 
-export const logout = createAsyncThunk(
-  'user/logout',
-  async (): Promise<void> => {
-    window.localStorage.clear();
-    window.location.reload();
-  }
-);
-
 export interface shippingInformation {
   address: string;
   country: string;
   city: string;
-  postalcode: string | null;
+  postalcode: string;
 }
-
-export const addShippingInformation = createAction<shippingInformation>(
-  'user/addShippingInformation'
-);
 
 export interface UserState {
   currentUser: null | AccessTokenDTO;
@@ -111,7 +100,7 @@ export interface UserState {
   hash: string | null;
   users: IUser[];
   errors: null | any;
-  shippingInfo: shippingInformation;
+  shippingInfo: shippingInformation | null;
   email: string | null;
 }
 
@@ -123,16 +112,15 @@ const initialState: UserState = {
   hash: null,
   users: [],
   errors: null,
-  shippingInfo: {
-    address: '',
-    country: '',
-    city: '',
-    postalcode: null,
-  },
+  shippingInfo: null,
   email: null,
 };
 
 export const clearErrors = createAction('user/clearErrors');
+export const addShippingInformation = createAction<shippingInformation>(
+  'user/addShippingInformation'
+);
+export const clearShippingInfo = createAction('user/clearShippingInfo');
 
 export const userSlice = createSlice({
   name: 'user',
@@ -143,6 +131,9 @@ export const userSlice = createSlice({
     },
     clearErrors: (state) => {
       state.errors = null;
+    },
+    clearShippingInfo: (state) => {
+      state.shippingInfo = null;
     },
   },
   extraReducers: (builder) => {

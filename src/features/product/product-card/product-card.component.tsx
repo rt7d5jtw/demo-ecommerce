@@ -5,38 +5,37 @@ import { RootState } from '../../../app/store';
 import { addItem } from '../../cart/cartSlice';
 import { addItemDB } from '../../cart/thunks';
 import { useDispatch } from 'react-redux';
-import { CartItem } from '../../../features/cart/cartSlice';
-import { Product } from '../../../features/product/productSlice';
+import { CartItemDto } from '../../../features/cart/cartSlice';
+import { IProductCard } from '../../../features/product/productSlice';
 import { createStructuredSelector } from 'reselect';
 import { selectCartItems } from '../../cart/selectors';
 import { useHistory, useParams } from 'react-router';
 
-export type ProductCardValues = Omit<Product, 'category' | 'author' | 'description'>;
-
-const ProductCard = (item: ProductCardValues) => {
+const ProductCard = (item: IProductCard) => {
   const user = JSON.parse(localStorage.getItem('user') || '{}');
   const dispatch = useDispatch();
   const { push } = useHistory();
   const params = useParams<{ categoryId?: string }>();
-  const cart_item: CartItem = {
-    title: '',
+  // make some new dto like CartItemNewItemDto
+  const cartItem: any = {
+    title: null,
     quantity: 1,
-    price: 0,
-    image: '',
-    id: 0,
+    price: null,
+    image: null,
+    productId: null,
   };
 
   const buttonHandler = () => {
-    // parsing the item to a copy
-    cart_item.title = item.title;
-    cart_item.price = item.price;
-    cart_item.image = item.image;
-    cart_item.id = item.id;
-    //dispatch(addItemToCart(cartItems, cart_item))
-    dispatch(addItem(cart_item));
-    console.log(cart_item);
+    /* copying an object into new CartItem from the ProductCard */
+    cartItem.title = item.title;
+    cartItem.price = item.price;
+    cartItem.image = item.image;
+    cartItem.quantity = 1;
+    cartItem.productId = item.id;
+
+    dispatch(addItem(cartItem));
     if (user && user.accessToken) {
-      dispatch(addItemDB(cart_item.id));
+      dispatch(addItemDB(item.id));
     } else {
       console.log('User doesnt exists');
     }
@@ -64,7 +63,7 @@ const ProductCard = (item: ProductCardValues) => {
 };
 
 interface IMapStateToProps {
-  cartItems: CartItem[];
+  cartItems: CartItemDto[];
 }
 
 const mapStateToProps = createStructuredSelector<RootState, IMapStateToProps>({

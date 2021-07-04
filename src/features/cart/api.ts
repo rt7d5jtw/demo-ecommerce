@@ -1,7 +1,7 @@
 import axios, { AxiosError } from 'axios';
 import { ValidationErrors } from '../promotion/promotionSlice';
 import { authHeader } from '../user/api';
-import { ICart, CartInfoDto, ICartItem } from './cartSlice';
+import { ICart, ICartItem, AddItemSuccess } from './cartSlice';
 
 export const CART_URL = 'http://localhost:3000/cart/';
 
@@ -55,10 +55,9 @@ export async function checkIfCart(): Promise<void> {
     });
 }
 
-/* fetches cart state */
-export async function fetchCartInfo(): Promise<CartInfoDto[]> {
+export async function fetchCartState(): Promise<ICartItem[]> {
   return axios
-    .get(CART_URL + 'cartInfo', { headers: authHeader() })
+    .get(CART_URL + 'state', { headers: authHeader() })
     .then((res) => {
       return res.data;
     })
@@ -71,7 +70,8 @@ export async function fetchCartInfo(): Promise<CartInfoDto[]> {
     });
 }
 
-export async function addItemToCartDB(id: number): Promise<ICartItem> {
+/* doesnt mutate client state, only affects db */
+export async function addItemToCartDB(id: number): Promise<AddItemSuccess> {
   return axios
     .post(CART_URL + id, { quantity: 1 }, { headers: authHeader() })
     .then((res) => {
@@ -86,6 +86,7 @@ export async function addItemToCartDB(id: number): Promise<ICartItem> {
     });
 }
 
+/* doesnt mutate client state, only affects db */
 export async function removeItemFromCartDB(productId: number): Promise<void> {
   return axios
     .delete(CART_URL + productId, { headers: authHeader() })

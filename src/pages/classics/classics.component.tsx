@@ -16,11 +16,13 @@ import {
   login,
 } from '../../features/user/api';
 import { assignRole } from '../../features/user/thunks';
-import { clearErrors } from '../../features/user/userSlice';
+import { clearErrors, clearShippingInfo } from '../../features/user/userSlice';
 import { removeProduct } from '../../features/product/api';
 import { addOrderItems, removeOrder } from '../../features/order/api';
-import { checkIfCart, createCart, fetchCart, fetchCartInfo } from '../../features/cart/api';
-import { fetchCartState } from '../../features/cart/thunks';
+import { checkIfCart, createCart, fetchCart, fetchCartState } from '../../features/cart/api';
+import { fetchState } from '../../features/cart/thunks';
+import { clearPromotions } from '../../features/promotion/promotionSlice';
+import { clearProducts } from '../../features/product/productSlice';
 
 interface IClassics {
   message: string;
@@ -41,7 +43,10 @@ const Classics = () => {
         get role
       </button>
       <button className='cl-btn' onClick={() => console.log(fetchCartState())}>
-        get cart state
+        fetch cart state
+      </button>
+      <button className='cl-btn' onClick={() => console.log(dispatch(clearShippingInfo()))}>
+        clear Shipping info
       </button>
       <button className='cl-btn' onClick={() => console.log(dispatch(clearErrors()))}>
         clearErrors
