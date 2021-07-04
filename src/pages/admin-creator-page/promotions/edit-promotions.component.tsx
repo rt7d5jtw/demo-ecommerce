@@ -18,31 +18,32 @@ function PromotionsEdit(): JSX.Element {
   const dispatch = useDispatch();
   const { register, handleSubmit } = useForm<FormValues>();
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    console.log(data);
-    dispatch(update(data));
+    confirm('Are you sure you want to edit this promotion?') && dispatch(update(data));
   };
   return (
-    <div className='edit-promotions'>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <h1>Edit a promotion</h1>
-        <input type='text' placeholder='Title' {...register('title')} required />
-        <input type='text' placeholder='URL' {...register('url')} required />
-        <input
-          type='text'
-          placeholder='Images preferrably 1470 x 556'
-          {...register('image')}
-          required
-        />
-        <select {...register('id')} form='edit-promotions' name='id' id='promotions'>
-          {promotions.map(({ title, id }: IPromotions) => (
-            <option key={id} {...register} value={id}>
-              {title}
-            </option>
-          ))}
-        </select>
+    <div className='admin-update'>
+      <div className='promotion-update'>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <h1>Edit a promotion</h1>
+          <input type='text' placeholder='Title' {...register('title')} required />
+          <input type='text' placeholder='URL' {...register('url')} required />
+          <input
+            type='text'
+            placeholder='Images preferrably 1470 x 556'
+            {...register('image')}
+            required
+          />
+          <select {...register('id')} form='edit-promotions' name='id' id='promotions2'>
+            {promotions.map(({ title, id }: IPromotions) => (
+              <option key={id} {...register} value={id}>
+                {title}
+              </option>
+            ))}
+          </select>
 
-        <input type='submit' value='Edit' />
-      </form>
+          <input type='submit' value='Edit' />
+        </form>
+      </div>
     </div>
   );
 }

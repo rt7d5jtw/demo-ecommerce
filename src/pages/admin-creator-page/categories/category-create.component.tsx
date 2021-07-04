@@ -12,14 +12,13 @@ function CategoryCreate(): JSX.Element {
   const dispatch = useDispatch();
   const { register, handleSubmit } = useForm<FormValues>();
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    dispatch(create(data['cname']));
-    console.log(data['cname']);
+    confirm('Are you sure you want to create this category?') && dispatch(create(data['cname']));
   };
   return (
-    <div className='creator-categories'>
-      <div className='category-creator'>
-        <h1>Create a category</h1>
+    <div className='admin-create'>
+      <div className='category-create'>
         <form id='create-product' onSubmit={handleSubmit(onSubmit)}>
+          <h1>Create a category</h1>
           <input
             type='text'
             placeholder='Category name'
@@ -28,7 +27,7 @@ function CategoryCreate(): JSX.Element {
             title='Type the name of the new category'
             required
           />
-          <input type='submit' value='Create' />
+          <input type='submit' value='Create category' />
         </form>
       </div>
     </div>

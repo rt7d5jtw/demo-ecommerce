@@ -3,9 +3,10 @@ import './products-create.css';
 import { useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { selectCategories } from '../../../features/category/categorySlice';
-import { fetch } from '../../../features/category/thunks';
-import { add as addProduct } from '../../../features/product/thunks';
+import { fetch as fetchCategories } from '../../../features/category/thunks';
+import { add as addProduct, fetch as fetchProducts } from '../../../features/product/thunks';
 import { useDispatch, useSelector } from 'react-redux';
+import { selectItems } from '../../../features/product/selectors';
 
 type FormValues = {
   title: string;
@@ -20,21 +21,27 @@ type FormValues = {
 
 function ProductsCreate(): JSX.Element {
   const categories = useSelector(selectCategories);
+  const products = useSelector(selectItems);
   const dispatch = useDispatch();
   const { register, handleSubmit } = useForm<FormValues>();
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    console.log(data);
-    dispatch(addProduct(data));
+    confirm('Are you sure you want to create this product?') && console.log(data);
+    //dispatch(addProduct(data));
   };
   useEffect(() => {
-    dispatch(fetch());
+    if (categories.length === 0) {
+      dispatch(fetchCategories());
+    }
+    if (products.length === 0) {
+      fetchProducts();
+    }
   }, [dispatch]);
 
   return (
-    <div className='creator-products'>
-      <div className='product-creator'>
-        <h1>Create a product</h1>
+    <div className='admin-create'>
+      <div className='product-create'>
         <form id='create-product' onSubmit={handleSubmit(onSubmit)}>
+          <h1>Create a product</h1>
           <label>Product title</label>
           <input
             type='text'
@@ -46,8 +53,6 @@ function ProductsCreate(): JSX.Element {
           <p className='admin-product-text'>
             Use image url or upload an image to use as product image
           </p>
-          <input type='text' placeholder='Product image' {...register('image')} />
-          <p id='product-or-text'>or</p>
           <input
             type='file'
             {...register('image', { required: 'You must specify an image' })}
@@ -68,7 +73,12 @@ function ProductsCreate(): JSX.Element {
             required
           />
           <label>Product category</label>
-          <select {...register('category')} form='create-product' name='category' id='categories'>
+          <select
+            {...register('category')}
+            form='create-product'
+            name='category'
+            id='product-categories'
+          >
             {categories.map(({ id, cname }) => (
               <option {...register} value={id} key={id}>
                 {cname}
@@ -82,7 +92,7 @@ function ProductsCreate(): JSX.Element {
             placeholder='Product description'
             form='create-product'
           ></textarea>
-          <input type='submit' value='Create' />
+          <input type='submit' value='Create' form='create-product' />
         </form>
       </div>
     </div>

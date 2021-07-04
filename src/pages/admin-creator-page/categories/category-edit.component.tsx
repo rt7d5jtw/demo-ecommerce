@@ -20,16 +20,21 @@ export const CategoryEdit = (): JSX.Element => {
 
   const { register, handleSubmit } = useForm<FormValues>();
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    dispatch(update(data));
+    confirm('Are you sure you wanna edit this category?') && dispatch(update(data));
   };
 
   return (
-    <div className='edit-categories'>
-      <div className='category-editor'>
+    <div className='admin-update'>
+      <div className='category-update'>
         <form onSubmit={handleSubmit(onSubmit)}>
           <h1>Edit a category</h1>
           <label>Select a category to edit</label>
-          <select {...register('id')} name='id' title='Select category which you want to update'>
+          <select
+            {...register('id')}
+            name='id'
+            title='Select category which you want to update'
+            id='categories2'
+          >
             {categories.map(({ id, cname }) => (
               <option value={id} key={id}>
                 {cname}

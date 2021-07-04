@@ -8,24 +8,27 @@ import { fetch, remove } from '../../../features/product/thunks';
 import { Product } from '../../../features/product/productSlice';
 
 type FormValues = {
-  id: string;
+  id: number;
 };
 
 function ProductsDelete(): JSX.Element {
   const products = useSelector(selectItems);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(fetch());
+    if (products.length === 0) {
+      dispatch(fetch());
+    }
   }, [dispatch]);
   const { register, handleSubmit } = useForm<FormValues>();
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    dispatch(remove(data['id']));
+    confirm('Are you sure you want to delete this product?') && dispatch(remove(data['id']));
   };
+
   return (
-    <div className='product-deletion'>
+    <div className='admin-delete'>
       <div className='form-wrapper'>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <label>Delete a product</label>
+          <h1>Delete a product</h1>
           <select {...register('id')} id='products'>
             {products.map(({ id, title }: Product) => (
               <option value={id} key={id}>
@@ -33,7 +36,7 @@ function ProductsDelete(): JSX.Element {
               </option>
             ))}
           </select>
-          <button type='submit'>Delete</button>
+          <button type='submit'>Delete Product</button>
         </form>
       </div>
     </div>

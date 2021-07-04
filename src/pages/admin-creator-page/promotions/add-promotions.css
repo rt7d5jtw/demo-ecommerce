@@ -1,24 +1,27 @@
-.add-promotions {
+.promotion-create {
   display: grid;
   place-items: start center;
-  width: 100%;
+  width: 50%;
   height: 100%;
 }
 
-.add-promotions h1 {
+.promotion-create h1 {
+  font-family: 'Montserrat', sans-serif;
   font-size: 1.7em;
   font-weight: bold;
   margin-bottom: 1em;
   margin-top: 1em;
 }
 
-.add-promotions form {
+.promotion-create form {
   display: flex;
-  flex-direction: column;
   justify-content: flex-start;
+  flex-direction: column;
+  width: 45%;
 }
 
-.add-promotions input {
+.promotion-create input {
+  font-size: 1em;
   display: grid;
   box-sizing: border-box;
   width: 100%;
@@ -26,21 +29,22 @@
   border: none;
   padding: 10px 15px;
   margin-bottom: 15px;
-  font-size: 14px;
 }
 
-.add-promotions input[type='submit']{
+.promotion-create input[type='submit']{
   margin-top: 1em;
   border: none;
   height: 3em;
   background: #228b22;
   color: white;
+  transition: 1s;
+  cursor: pointer;
 }
 
-.add-promotions input[type='submit']:hover {
+.promotion-create input[type='submit']:hover {
   background: #2c6b2c;
 }
 
-.add-promotions input[type='submit']:active {
+.promotion-create input[type='submit']:active {
   transform: translateY(2px);
 }

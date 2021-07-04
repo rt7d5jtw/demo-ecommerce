@@ -1,24 +1,41 @@
-.edit-promotions {
+#promotions2 {
+  font-size: 1.4em;
+  width: 100%;
+	padding: 0.7em 1em 0.7em 1em;
+  line-height: 1;
+  border: 0;
+  border-radius: 5px;
+  background: url(http://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/br_down.png) no-repeat right #ddd;
+  -webkit-appearance: none;
+  background-position-x: 95%;
+  transition: 1s;
+  cursor: pointer;
+}
+
+.promotion-update {
   display: grid;
   place-items: start center;
-  width: 100%;
+  width: 50%;
   height: 100%;
 }
 
-.edit-promotions h1 {
+.promotion-update h1 {
+  font-family: 'Montserrat', sans-serif;
   font-size: 1.7em;
   font-weight: bold;
   margin-bottom: 1em;
   margin-top: 1em;
 }
 
-.edit-promotions form {
+.promotion-update form {
   display: flex;
-  flex-direction: column;
   justify-content: flex-start;
+  flex-direction: column;
+  width: 45%;
 }
 
-.edit-promotions input {
+.promotion-update input {
+  font-size: 1em;
   display: grid;
   box-sizing: border-box;
   width: 100%;
@@ -26,21 +43,22 @@
   border: none;
   padding: 10px 15px;
   margin-bottom: 15px;
-  font-size: 14px;
 }
 
-.edit-promotions input[type='submit']{
+.promotion-update input[type='submit']{
   margin-top: 1em;
   border: none;
   height: 3em;
   background: #228b22;
   color: white;
+  cursor: pointer;
+  transition: 1s;
 }
 
-.edit-promotions input[type='submit']:hover {
+.promotion-update input[type='submit']:hover {
   background: #2c6b2c;
 }
 
-.edit-promotions input[type='submit']:active {
+.promotion-update input[type='submit']:active {
   transform: translateY(2px);
 }

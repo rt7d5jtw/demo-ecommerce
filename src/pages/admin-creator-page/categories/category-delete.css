@@ -1,35 +1,13 @@
-.delete-categories {
-  display: grid;
-  place-items: center center;
-  width: 50%;
-}
-
-.delete-categories form {
-  display: flex;
-  flex-direction: column;
-  width: 15em;
-  margin-top: 1em;
-}
-
-.delete-categories label {
-  margin-bottom: 1em;
-}
-
-.delete-categories select {
-  margin-bottom: 1em;
-}
-
-.delete-categories input[type='submit'] {
-  background: #c41e3a;
-  color: white;
-  border: none;
-  height: 3.5em;
+#categories {
+  font-size: 1.4em;
   width: 100%;
-  transition: 1.5s;
+	padding: 1.2em 1em 1.2em 1em;
+  line-height: 1;
+  border: 0;
+  border-radius: 5px;
+  background: url(http://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/br_down.png) no-repeat right #ddd;
+  -webkit-appearance: none;
+  background-position-x: 95%;
+  transition: 1s;
   cursor: pointer;
-}
-
-.delete-categories input[type='submit']:hover {
-  color: red;
-  background: white;
 }

@@ -19,18 +19,20 @@ type FormValues = {
 };
 
 function ProductsEdit(): JSX.Element {
+  const products = useSelector(selectItems);
   const dispatch = useDispatch();
   const { register, handleSubmit } = useForm<FormValues>();
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    dispatch(update(data));
+    confirm('Are you sure you want to edit this product?') && dispatch(update(data));
   };
   useEffect(() => {
-    dispatch(fetchProducts());
+    if (products.length === 0) {
+      dispatch(fetchProducts());
+    }
   }, [dispatch]);
-  const products = useSelector(selectItems);
   return (
-    <div className='edit-products'>
-      <div className='product-editor'>
+    <div className='admin-update'>
+      <div className='product-update'>
         <form id='create-product' onSubmit={handleSubmit(onSubmit)}>
           <h1>Edit a product</h1>
           <label>Product title</label>
@@ -62,7 +64,7 @@ function ProductsEdit(): JSX.Element {
             required
           />
           <label>Product category</label>
-          <select {...register('id')} form='create-product' name='id' id='products'>
+          <select {...register('id')} form='create-product' name='id' id='product-categories'>
             {products.map(({ title, id }: Product) => (
               <option key={id} {...register} value={id}>
                 {title}
@@ -75,7 +77,7 @@ function ProductsEdit(): JSX.Element {
             name='description'
             form='create-product'
           ></textarea>
-          <input type='submit' value='Edit' />
+          <input type='submit' value='Edit Product' />
         </form>
       </div>
     </div>

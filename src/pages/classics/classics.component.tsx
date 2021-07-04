@@ -20,6 +20,7 @@ import { clearErrors } from '../../features/user/userSlice';
 import { removeProduct } from '../../features/product/api';
 import { addOrderItems, removeOrder } from '../../features/order/api';
 import { checkIfCart, createCart, fetchCart, fetchCartInfo } from '../../features/cart/api';
+import { fetchCartState } from '../../features/cart/thunks';
 
 interface IClassics {
   message: string;
@@ -36,8 +37,11 @@ const Classics = () => {
       <button className='cl-btn' onClick={() => dispatch(registered())}>
         Register aler
       </button>
-      <button className='cl-btn' onClick={() => console.log(fetchCartInfo())}>
-        fetches cart state
+      <button className='cl-btn' onClick={() => console.log(dispatch(assignRole()))}>
+        get role
+      </button>
+      <button className='cl-btn' onClick={() => console.log(fetchCartState())}>
+        get cart state
       </button>
       <button className='cl-btn' onClick={() => console.log(dispatch(clearErrors()))}>
         clearErrors

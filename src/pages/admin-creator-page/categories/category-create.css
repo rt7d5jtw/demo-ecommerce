@@ -1,34 +1,32 @@
-.creator-categories {
-  display: grid;
-  place-items: start center;
-  width: 100%;
-  height: 100%;
-}
-
-.category-creator {
+.category-create {
   display: grid;
   place-items: start center;
   width: 50%;
+  height: 100%;
 }
 
-.category-creator h1 {
+.category-create h1 {
   font-family: 'Montserrat', sans-serif;
-  font-size: 1.7em;
+  font-size: 1.9em;
   font-weight: bold;
   margin-bottom: 1em;
   margin-top: 1em;
 }
 
-.category-creator form {
+.category-create form {
+  margin-top: 5em;
   display: flex;
   justify-content: flex-start;
   flex-direction: column;
+  width: 85%;
+  height: 45%;
 }
 
-.category-creator input {
+.category-create input {
   display: block;
   box-sizing: border-box;
   width: 100%;
+  height: 15%;
   border-radius: 4px;
   border: none;
   padding: 10px 15px;
@@ -36,7 +34,7 @@
   font-size: 14px;
 }
 
-.category-creator label {
+.category-create label {
   color: #947b51;
   line-height: 2;
   text-align: left;
@@ -47,20 +45,21 @@
   font-weight: 200;
 }
 
-.category-creator input[type='submit']{
+.category-create input[type='submit']{
+  font-size: 1.5em;
   margin-top: 1em;
   border: none;
   height: 3em;
   background: #228b22;
   color: white;
   cursor: pointer;
-  transition: color 1.5s;
+  transition: color 1s;
 }
 
-.category-creator input[type='submit']:hover {
+.category-create input[type='submit']:hover {
   background: #2c6b2c;
 }
 
-.category-creator input[type='submit']:active {
+.category-create input[type='submit']:active {
   transform: translateY(2px);
 }

@@ -19,22 +19,24 @@ export const CategoryDelete = (): JSX.Element => {
 
   const { register, handleSubmit } = useForm<FormValues>();
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    dispatch(remove(data.categories));
+    confirm('Are you sure you want to delete this category?') && dispatch(remove(data.categories));
   };
 
   return (
-    <div className='delete-categories'>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <label>Delete a category</label>
-        <select {...register('categories')} name='categories' id='categories'>
-          {categories.map(({ id, cname }) => (
-            <option value={id} key={id}>
-              {cname}
-            </option>
-          ))}
-        </select>
-        <input type='submit' value='Delete' />
-      </form>
+    <div className='admin-delete'>
+      <div className='form-wrapper'>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <h1>Delete a category</h1>
+          <select {...register('categories')} name='categories' id='categories'>
+            {categories.map(({ id, cname }) => (
+              <option value={id} key={id}>
+                {cname}
+              </option>
+            ))}
+          </select>
+          <button type='submit'>Delete Category</button>
+        </form>
+      </div>
     </div>
   );
 };

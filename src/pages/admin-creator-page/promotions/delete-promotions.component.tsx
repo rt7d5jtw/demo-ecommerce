@@ -15,21 +15,23 @@ function PromotionsDelete(): JSX.Element {
   const promotions = useSelector(selectPromotionItems);
   const { register, handleSubmit } = useForm<FormValues>();
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    dispatch(remove(data.id));
+    confirm('Are you sure you want to delete this promotion?') && dispatch(remove(data.id));
   };
   return (
-    <div className='delete-promotions'>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <label>Delete a product</label>
-        <select {...register('id')} id='promotions'>
-          {promotions.map(({ id, title }: IPromotions) => (
-            <option value={id} key={id}>
-              {title}
-            </option>
-          ))}
-        </select>
-        <input type='submit' value='Delete' />
-      </form>
+    <div className='admin-delete'>
+      <div className='form-wrapper'>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <h1>Delete promotion</h1>
+          <select {...register('id')} id='promotions'>
+            {promotions.map(({ id, title }: IPromotions) => (
+              <option value={id} key={id}>
+                {title}
+              </option>
+            ))}
+          </select>
+          <button type='submit'>Delete Promotion</button>
+        </form>
+      </div>
     </div>
   );
 }

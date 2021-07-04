@@ -1,4 +1,18 @@
-.creator-products {
+#product-categories {
+    font-size: 1.1em;
+    width: 70%;
+    padding: 0.8em 0.7em 0.7em 0.8em;
+    line-height: 1;
+    border: 0;
+    border-radius: 5px;
+    background: url(http://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/br_down.png) no-repeat right #ddd;
+    -webkit-appearance: none;
+    background-position-x: 95%;
+    transition: 1s;
+    cursor: pointer;
+}
+
+.admin-create {
   display: grid;
   place-items: start center;
   width: 100%;
@@ -6,14 +20,14 @@
   overflow-y: scroll;
 }
 
-.product-creator {
+.product-create {
   display: grid;
   place-items: start center;
   width: 50%;
-  height: 75%;
+  height: 100%;
 }
 
-.product-creator h1 {
+.product-create h1 {
   font-family: 'Montserrat', sans-serif;
   font-size: 1.7em;
   font-weight: bold;
@@ -21,15 +35,14 @@
   margin-top: 1em;
 }
 
-.product-creator form {
+.product-create form {
   display: flex;
   justify-content: flex-start;
   flex-direction: column;
   width: 45%;
 }
 
-
-.product-creator input {
+.product-create input {
   display: grid;
   box-sizing: border-box;
   width: 100%;
@@ -40,11 +53,11 @@
   font-size: 14px;
 }
 
-.product-creator select {
+.product-create select {
   margin-bottom: 1em;
 }
 
-.product-creator textarea {
+.product-create textarea {
   font-size: 1em;
   line-height: 1.4em;
   padding: 5px 8px;
@@ -60,24 +73,28 @@
   border-color: -moz-use-text-color #FFFFFF #FFFFFF -moz-use-text-color;
 }
 
-.product-creator textarea:focus {
+.product-create textarea:focus {
     background: none repeat scroll 0 0 #FFFFFF;
     outline-width: 0;
 }
 
-.product-creator input[type='submit'] {
-  margin-top: 1em;
+.product-create input[type='submit'] {
+  font-size: 1em;
+  margin-top: 2em;
+  margin-bottom: 2em;
   border: none;
   height: 3em;
   background: #228b22;
   color: white;
+  cursor: pointer;
+  transition: 1s;
 }
 
-.product-creator input[type='submit']:hover {
+.product-create input[type='submit']:hover {
   background: #2c6b2c;
 }
 
-.product-creator input[type='submit']:active {
+.product-create input[type='submit']:active {
   transform: translateY(2px);
 }
 
