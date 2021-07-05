@@ -3,12 +3,12 @@ import './single-product.css';
 import { useAppSelector } from '../../app/hooks';
 import { selectItems } from '../../features/product/selectors';
 import { useParams } from 'react-router';
-import { Product } from '../../features/product/productSlice';
+import { IProduct } from '../../features/product/productSlice';
 
 export const SingleProductPage = (): JSX.Element => {
   const { bookId } = useParams<{ bookId?: string }>();
-  const products: Product[] = useAppSelector(selectItems);
-  const product = products.find((book: Product) => book.id === parseInt(bookId, 10));
+  const products: IProduct[] = useAppSelector(selectItems);
+  const product = products.find((book: IProduct) => book.id === parseInt(bookId, 10));
   return (
     <div className='single-product'>
       <div className='product-col-1'>

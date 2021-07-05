@@ -1,6 +1,24 @@
 import { createSlice, createAction } from '@reduxjs/toolkit';
 import { fetchState, addItemDB, removeItemDB, clearCartDB } from './thunks';
 import { addItemToCart, removeItemFromCart } from './selectors';
+import { IProductCard } from '../product/productSlice';
+
+/* renames key id to productId and removes author, description and categoryId */
+export function productToCartItem(product: IProductCard): ICartItem {
+  /* deep copy the object & removes unwanted props */
+  const cartItem = JSON.parse(JSON.stringify(product));
+  delete cartItem.author;
+  delete cartItem.description;
+  delete cartItem.categoryId;
+
+  /* creates an array of objects of the key-value pairs */
+  const renamed = Object.keys(cartItem).map((key) => {
+    const newKey = { id: 'productId' }[key] || key;
+    return { [newKey]: cartItem[key] };
+  });
+  /* constructs the item back into an object */
+  return Object.assign({}, ...renamed);
+}
 
 export interface ICart {
   userId: string;

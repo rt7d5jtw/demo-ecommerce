@@ -56,35 +56,6 @@ export type EmailObj = {
   newEmail: string;
 };
 
-/*
-export const loginRequest = createAsyncThunk(
-  'user/login',
-  async (userData: IUserCredentials, thunkAPI) => {
-    return axios
-      .post(LOGIN_URL, userData)
-      .then((res) => {
-        if (res.data.accessToken) {
-          localStorage.setItem('user', JSON.stringify(res.data));
-        }
-        axios.get(CART_URL, { headers: authHeader() }).then((res) => {
-          res.data.length === 0
-            ? axios.post(CART_URL, {}, { headers: authHeader() })
-            : console.log('Cart already exists');
-        });
-        thunkAPI.dispatch(fetchCartState());
-        return res.data;
-      })
-      .catch((err) => {
-        const error: AxiosError<ValidationErrors> = err;
-        if (!error.response) {
-          throw err;
-        }
-        return thunkAPI.rejectWithValue(error.response.data);
-      });
-  }
-);
-*/
-
 export interface shippingInformation {
   address: string;
   country: string;

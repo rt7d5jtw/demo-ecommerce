@@ -43,7 +43,7 @@ describe('Product API Unit tests', () => {
           );
         })
       );
-      expect(fetchProducts()).rejects.toThrow('401');
+      expect(() => fetchProducts()).rejects.toThrow('401');
     });
   });
 
@@ -89,13 +89,13 @@ describe('Product API Unit tests', () => {
       const argCopy = JSON.parse(JSON.stringify(arg));
       Object.assign(arg, argCopy);
       delete argCopy.categoryId;
-      expect(createProduct(argCopy)).rejects.toThrow('400');
+      expect(() => createProduct(argCopy)).rejects.toThrow('400');
     });
   });
 
   describe('removeProduct', () => {
     it('removes a product and returns void', async () => {
-      await expect(removeProduct(20)).resolves.toBeUndefined();
+      expect(removeProduct(20)).resolves.toEqual('');
     });
 
     it('throws an error', async () => {
@@ -111,7 +111,7 @@ describe('Product API Unit tests', () => {
           );
         })
       );
-      expect(removeProduct(323)).rejects.toThrow('404');
+      expect(() => removeProduct(323)).rejects.toThrow('404');
     });
   });
 

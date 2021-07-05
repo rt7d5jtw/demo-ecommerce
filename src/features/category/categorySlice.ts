@@ -3,18 +3,18 @@ import { createSelector } from 'reselect';
 import { RootState } from '../../app/store';
 import { fetch, create, remove, update } from './thunks';
 
-export interface Category {
+export interface ICategory {
   cname: string;
   id: string;
 }
 
-export interface CategoryState {
-  categories: Category[];
+export interface ICategoryState {
+  categories: ICategory[];
   loading: boolean;
   errors: unknown;
 }
 
-const initialState: CategoryState = {
+const initialState: ICategoryState = {
   categories: [],
   loading: false,
   errors: [],
@@ -70,11 +70,11 @@ export const categorySlice = createSlice({
   },
 });
 
-export const selectRoot = (state: RootState): CategoryState => state.category;
+export const selectRoot = (state: RootState): ICategoryState => state.category;
 
 export const selectCategories = createSelector(
   [selectRoot],
-  (category: CategoryState) => category.categories
+  (category: ICategoryState) => category.categories
 );
 
 export default categorySlice.reducer;

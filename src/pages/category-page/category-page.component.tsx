@@ -3,27 +3,50 @@ import './category-page.css';
 import { Footer } from '../../features/homepage-components/footer/footer.component';
 import { Navbar } from '../../features/homepage-components/navbar/navbar.component';
 import Sidebar from '../../features/homepage-components/sidebar/sidebar.component';
-import { Product } from '../../features/product/productSlice';
+import { IProduct } from '../../features/product/productSlice';
 import ProductCard from '../../features/product/product-card/product-card.component';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { RootState } from '../../app/store';
 import { selectItems } from '../../features/product/selectors';
-import { selectCategories, Category } from '../../features/category/categorySlice';
+import { selectCategories, ICategory } from '../../features/category/categorySlice';
 import { Route, useParams, useRouteMatch } from 'react-router-dom';
 import Main from '../../features/homepage-components/main/main.component';
 import { SingleProductPage } from '../single-product/single-product.component';
+import { fetch as fetchCategories } from '../../features/category/thunks';
+import { fetch as fetchProducts } from '../../features/product/thunks';
 import { useEffect } from 'react';
 
 interface ICategoryPage {
-  categories: Category[];
-  products: Product[];
+  categories: ICategory[];
+  products: IProduct[];
 }
 
 function CategoryPage({ categories, products }: ICategoryPage): JSX.Element {
   const { categoryId } = useParams<{ categoryId?: string }>();
   const { url } = useRouteMatch();
-  useEffect(() => console.log(products));
+  const dispatch = useDispatch();
+
+  /* get the page category name */
+  const currentCategory = categories.find(({ cname }: ICategory) => cname === categoryId);
+
+  useEffect(() => {
+    console.group('Categories =>', categories);
+    console.group('Products =>', products);
+    console.log(currentCategory);
+    categories.length === 0
+      ? dispatch(fetchCategories())
+      : products.length === 0
+      ? dispatch(fetchProducts())
+      : null;
+  }, [dispatch]);
+
+  if (products.length === 0 || categories.length === 0) {
+    dispatch(fetchCategories());
+    dispatch(fetchProducts());
+    return <p>Loading...</p>;
+  }
+
   return (
     <div className='homepage'>
       <Navbar />
@@ -31,26 +54,31 @@ function CategoryPage({ categories, products }: ICategoryPage): JSX.Element {
       <Main>
         <Route path={`${url}/:bookId`} component={SingleProductPage} />
         <div className='category-page'>
-          <h1 className='category__title'>
-            <p>{categories.find(({ cname }: Category) => cname === categoryId).cname}</p>
+          <h1 className='category-page__title'>
+            <p>
+              {currentCategory && currentCategory.cname
+                ? currentCategory.cname
+                : 'Category could not be found :('}
+            </p>
           </h1>
-          <div className='products'>
-            {products
-              .filter(
-                (product: Product) =>
-                  product.categoryId ===
-                  categories.find(({ cname }: Category) => cname === categoryId).id
-              )
-              .map(({ title, price, id, image, quantity }: Product) => (
-                <ProductCard
-                  key={id}
-                  id={id}
-                  title={title}
-                  price={price}
-                  image={image}
-                  quantity={quantity}
-                />
-              ))}
+          <div className='category-page__products'>
+            {currentCategory && currentCategory.id
+              ? products
+                  .filter((product: IProduct) => product.categoryId === currentCategory.id)
+                  .map(({ title, price, id, image, categoryId, description, author }: IProduct) => (
+                    <ProductCard
+                      key={id}
+                      id={id}
+                      title={title}
+                      author={author}
+                      description={description}
+                      price={price}
+                      image={image}
+                      quantity={1}
+                      categoryId={categoryId}
+                    />
+                  ))
+              : 'Category ID could not be found!'}
           </div>
         </div>
       </Main>
@@ -60,8 +88,8 @@ function CategoryPage({ categories, products }: ICategoryPage): JSX.Element {
 }
 
 interface IMapStateToProps {
-  products: Product[];
-  categories: Category[];
+  products: IProduct[];
+  categories: ICategory[];
 }
 
 const mapStateToProps = createStructuredSelector<RootState, IMapStateToProps>({

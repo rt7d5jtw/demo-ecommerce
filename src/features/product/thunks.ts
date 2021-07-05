@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import { ValidationErrors } from '../promotion/promotionSlice';
 import { fetchProducts, createProduct, removeProduct, updateProduct, searchProducts } from './api';
-import { Product } from './productSlice';
+import { IProduct } from './productSlice';
 
 export const fetch = createAsyncThunk('product/fetchProducts', async () => {
   return fetchProducts();
@@ -10,7 +10,7 @@ export const fetch = createAsyncThunk('product/fetchProducts', async () => {
 
 export const add = createAsyncThunk(
   'product/addProducts',
-  async (data: Product, { rejectWithValue }) => {
+  async (data: IProduct, { rejectWithValue }) => {
     try {
       return createProduct(data);
     } catch (err) {
@@ -40,7 +40,7 @@ export const remove = createAsyncThunk(
 
 export const update = createAsyncThunk(
   'product/updateProducts',
-  async (updateProps: Product, { rejectWithValue }) => {
+  async (updateProps: IProduct, { rejectWithValue }) => {
     try {
       return updateProduct(updateProps);
     } catch (err) {

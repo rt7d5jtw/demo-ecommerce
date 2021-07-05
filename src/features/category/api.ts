@@ -1,10 +1,10 @@
 import axios, { AxiosError } from 'axios';
 import { ValidationErrors } from '../promotion/promotionSlice';
-import { Category } from './categorySlice';
+import { ICategory } from './categorySlice';
 
 export const CATEGORY_URL = 'http://localhost:3000/category/';
 
-export async function fetchCategories(): Promise<Category[]> {
+export async function fetchCategories(): Promise<ICategory[]> {
   return axios
     .get(CATEGORY_URL)
     .then((res) => {
@@ -19,7 +19,7 @@ export async function fetchCategories(): Promise<Category[]> {
     });
 }
 
-export async function createCategory(cname: string): Promise<Category> {
+export async function createCategory(cname: string): Promise<ICategory> {
   return axios
     .post(CATEGORY_URL, { cname: cname })
     .then((res) => {
@@ -49,7 +49,7 @@ export async function removeCategory(id: string): Promise<void> {
     });
 }
 
-export async function updateCategory(data: Category): Promise<Category> {
+export async function updateCategory(data: ICategory): Promise<ICategory> {
   const { id, cname } = data;
   return axios
     .patch(CATEGORY_URL + id, cname)

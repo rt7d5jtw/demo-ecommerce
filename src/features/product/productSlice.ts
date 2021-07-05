@@ -1,34 +1,27 @@
 import { createAction, createSlice } from '@reduxjs/toolkit';
-import { CartItemDto } from '../cart/cartSlice';
 import { fetch, add, remove, update, search } from './thunks';
 
 export interface IProduct {
   id: number;
-  category: string;
   title: string;
   quantity: number;
   image: string;
   price: number;
   author: string;
   description: string;
-  categoryId?: string;
+  categoryId: string;
+  status: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
-export interface IProductCard {
-  cartItems: CartItemDto[];
-  dispatch: () => void;
-  id: number;
-  image: string;
-  price: number;
-  quantity: 1;
-  title: string;
-}
+export type IProductCard = Omit<IProduct, 'updatedAt' | 'createdAt' | 'status'>;
 
 export type CreateProductDto = Omit<IProduct, 'id' | 'category' | 'quantity'>;
 
 export type UpdateProductDto = Partial<IProduct>;
 
-export interface ProductState {
+export interface IProductState {
   items: IProduct[];
   search: string;
   searchItems: IProduct[];
@@ -36,7 +29,7 @@ export interface ProductState {
   errors: null | unknown;
 }
 
-const initialState: ProductState = {
+const initialState: IProductState = {
   items: [],
   searchItems: [],
   search: '',
@@ -80,8 +73,7 @@ export const productSlice = createSlice({
       builder.addCase(remove.pending, (state) => {
         state.loading = true;
       }),
-      builder.addCase(remove.fulfilled, (state, action) => {
-        state.items.filter((e) => e.id !== action.payload);
+      builder.addCase(remove.fulfilled, (state) => {
         state.loading = false;
       }),
       builder.addCase(remove.rejected, (state) => {

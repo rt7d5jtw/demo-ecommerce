@@ -8,7 +8,7 @@ import { connect, useDispatch, useSelector } from 'react-redux';
 import { selectCartItems, selectCartTotal } from '../../features/cart/selectors';
 import { createStructuredSelector } from 'reselect';
 import { RootState } from '../../app/store';
-import { CartItemDto, ICartItem } from '../../features/cart/cartSlice';
+import { ICartItem } from '../../features/cart/cartSlice';
 import { addShippingInformation, shippingInformation } from '../../features/user/userSlice';
 import { create } from '../../features/order/thunks';
 import Alert from '../../features/alert/alert/alert.component';
@@ -21,7 +21,7 @@ import { OrderStatus } from '../../features/order/orderSlice';
 import { shippingInfoAdded } from '../../features/alert/alertSlice';
 
 interface ICheckout {
-  items: CartItemDto[];
+  items: ICartItem[];
   total: number;
   clearCart: () => void;
 }
@@ -35,10 +35,11 @@ type FormValues = {
 
 const Checkout = ({ items, total }: ICheckout) => {
   const dispatch = useDispatch();
-  const shippingInfo = useSelector(selectShippingInfo);
   const { push } = useHistory();
   const { register, handleSubmit } = useForm<FormValues>();
   const [warning, setWarning] = useState<string>();
+  const shippingInfo = useSelector(selectShippingInfo);
+
   function handleOrder() {
     if (shippingInfo && shippingInfo) {
       dispatch(
@@ -109,10 +110,10 @@ const Checkout = ({ items, total }: ICheckout) => {
             <div className='order-summary'>
               <h1>Products</h1>
               {items.length
-                ? items.map(({ title, price, quantity, image, id }) => (
+                ? items.map(({ title, price, quantity, image, productId }) => (
                     <__CartItem
-                      key={id}
-                      id={id}
+                      key={productId}
+                      id={productId}
                       title={title}
                       price={price}
                       quantity={quantity}
@@ -130,7 +131,7 @@ const Checkout = ({ items, total }: ICheckout) => {
 };
 
 interface IMapStateToProps {
-  items: CartItemDto[];
+  items: ICartItem[];
   total: number;
 }
 

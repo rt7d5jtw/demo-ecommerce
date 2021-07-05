@@ -2,11 +2,11 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import { ValidationErrors } from '../promotion/promotionSlice';
 import { createCategory, fetchCategories, removeCategory, updateCategory } from './api';
-import { Category } from './categorySlice';
+import { ICategory } from './categorySlice';
 
 export const fetch = createAsyncThunk(
   'category/fetch',
-  async (): Promise<Category[]> => {
+  async (): Promise<ICategory[]> => {
     return fetchCategories();
   }
 );
@@ -43,7 +43,7 @@ export const remove = createAsyncThunk(
 
 export const update = createAsyncThunk(
   'category/update',
-  async (data: Category, { rejectWithValue }) => {
+  async (data: ICategory, { rejectWithValue }) => {
     try {
       return updateCategory(data);
     } catch (err) {

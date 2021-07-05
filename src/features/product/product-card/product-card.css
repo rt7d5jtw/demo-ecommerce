@@ -1,4 +1,4 @@
-.card {
+.product-card {
   text-align: center;
   font-family: arial;
   background: white;
@@ -8,7 +8,7 @@
   margin: 2em 0.6em;
 }
 
-.title {
+.product-card__title {
   font-family: 'Roboto', sans-serif;
   display: flex;
   font-size: 20px;
@@ -18,7 +18,7 @@
   margin-top: 0.625em;
 }
 
-.price {
+.product-card__price {
   font-family: 'Roboto', sans-serif;
   text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
   font-size: 1.5em;
@@ -27,17 +27,7 @@
   margin-left: 0.625em;
 }
 
-.info-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0.625em;
-  width: 80%;
-  height: 20%;
-  z-index: 1;
-}
-
-.card-button {
+.product-card__card-button {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -57,14 +47,14 @@
   background: #c3b091;
 }
 
-.card-bottom {
+.product-card__card-bottom {
   display: flex;
   justify-content: flex-end;
   align-items: center;
   background: #131313;
 }
 
-.image {
+.product-card__image {
   display: flex;
   justify-content: center;
   align-items: flex-end;

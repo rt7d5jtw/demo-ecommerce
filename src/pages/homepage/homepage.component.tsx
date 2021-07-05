@@ -30,19 +30,18 @@ function Homepage(): JSX.Element {
 
   useEffect(() => {
     /* fetch categories and products for state */
-    if (categories.length === 0) {
-      dispatch(fetchCategories());
-    }
-    if (products.length === 0) {
-      dispatch(fetchProducts());
-    }
+    categories.length === 0
+      ? dispatch(fetchCategories())
+      : products.length === 0
+      ? dispatch(fetchProducts())
+      : null;
 
     if (localStorage.getItem('user') === null && loggedIn === true) {
       dispatch(logout());
     }
   }, [dispatch]);
 
-  if (isLoading || promotions[0] == undefined) {
+  if (isLoading || promotions.length === 0) {
     dispatch(fetchPromotions());
     return <p>Loading...</p>;
   }

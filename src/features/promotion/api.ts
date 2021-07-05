@@ -36,7 +36,7 @@ export async function createPromotion(data: CreatePromotionDto): Promise<IPromot
 export async function removePromotion(id: number): Promise<void> {
   return axios
     .delete(PROMOTION_URL + `/${id}`)
-    .then((res) => console.log(res.status))
+    .then((res) => res.data)
     .catch((err) => {
       const error: AxiosError<ValidationErrors> = err;
       if (!error.response) {

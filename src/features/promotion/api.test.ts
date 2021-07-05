@@ -42,7 +42,7 @@ describe('Promotions API unit tests', () => {
           );
         })
       );
-      expect(fetchPromotions()).rejects.toThrow('401');
+      expect(() => fetchPromotions()).rejects.toThrow('401');
     });
   });
 
@@ -74,13 +74,13 @@ describe('Promotions API unit tests', () => {
       const argCopy = JSON.parse(JSON.stringify(arg));
       Object.assign(arg, argCopy);
       delete argCopy.image;
-      expect(createPromotion(arg)).rejects.toThrow('422');
+      expect(() => createPromotion(arg)).rejects.toThrow('422');
     });
   });
 
   describe('removePromotion', () => {
     it('deletes a promotion and returns void', async () => {
-      await expect(removePromotion(4)).resolves.toBeUndefined();
+      expect(removePromotion(4)).resolves.toEqual('');
     });
 
     it('throws an error', async () => {
@@ -96,7 +96,7 @@ describe('Promotions API unit tests', () => {
           );
         })
       );
-      expect(removePromotion(15)).rejects.toThrow('404');
+      expect(() => removePromotion(15)).rejects.toThrow('404');
     });
   });
 
@@ -129,7 +129,7 @@ describe('Promotions API unit tests', () => {
           );
         })
       );
-      expect(updatePromotion({ id: 11, ...arg })).rejects.toThrow('404');
+      expect(() => updatePromotion({ id: 11, ...arg })).rejects.toThrow('404');
     });
   });
 });

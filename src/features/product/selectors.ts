@@ -1,14 +1,17 @@
 import { createSelector } from 'reselect';
 import { RootState } from '../../app/store';
-import { ProductState } from './productSlice';
+import { IProductState } from './productSlice';
 
-export const selectRoot = (state: RootState): ProductState => state.product;
+export const selectRoot = (state: RootState): IProductState => state.product;
 
-export const selectItems = createSelector([selectRoot], (product: ProductState) => product.items);
+export const selectItems = createSelector([selectRoot], (product: IProductState) => product.items);
 
-export const selectSearch = createSelector([selectRoot], (product: ProductState) => product.search);
+export const selectSearch = createSelector(
+  [selectRoot],
+  (product: IProductState) => product.search
+);
 
 export const selectSearchItems = createSelector(
   [selectRoot],
-  (product: ProductState) => product.searchItems
+  (product: IProductState) => product.searchItems
 );
