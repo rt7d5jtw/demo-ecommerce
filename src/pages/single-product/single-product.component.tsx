@@ -6,23 +6,32 @@ import { useParams } from 'react-router';
 import { IProduct } from '../../features/product/productSlice';
 
 export const SingleProductPage = (): JSX.Element => {
+  React.useEffect(() => {
+    //console.group('This is product =>', products.find((book: IProduct) => book.id === castedBookId))
+  });
+
   const { bookId } = useParams<{ bookId?: string }>();
-  const products: IProduct[] = useAppSelector(selectItems);
-  const product = products.find((book: IProduct) => book.id === parseInt(bookId, 10));
+  const castedBookId = Number(bookId); // convert to Number
+
+  const products = useAppSelector(selectItems);
+  const product = products.find((book: IProduct) => book.id === castedBookId);
   return (
     <div className='single-product'>
-      <div className='product-col-1'>
-        <div className='product-image' style={{ backgroundImage: `url(${product?.image})` }}></div>
-        <div className='product-col-1__col'>
+      <div className='single-product__col-1'>
+        <div
+          className='single-product__col-1__image'
+          style={{ backgroundImage: `url(${product?.image})` }}
+        ></div>
+        <div className='single-product__col-1__info'>
           <h1>Author: {product?.author}</h1>
           <h1>Book: {product?.title}</h1>
           <h1>${product?.price}</h1>
-          <button className='card-button' onClick={() => console.log(product)}>
+          <button className='' onClick={() => console.log(product)}>
             Add to Cart
           </button>
         </div>
       </div>
-      <div className='product-col-2'>
+      <div className='single-product__col-2'>
         <p>{product?.description}</p>
       </div>
     </div>

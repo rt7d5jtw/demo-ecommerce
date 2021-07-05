@@ -4,6 +4,10 @@
   justify-content: center;
 }
 
+.category-page {
+  min-height: 34em;
+}
+
 .category-page__title {
   font-size: 1.7em;
   font-weight: bold;

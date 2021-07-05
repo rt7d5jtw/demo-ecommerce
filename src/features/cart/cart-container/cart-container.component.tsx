@@ -1,5 +1,5 @@
 import * as React from 'react';
-import './cart.css';
+import './cart-container.css';
 import { TiShoppingCart } from 'react-icons/ti';
 import { connect } from 'react-redux';
 import { RootState } from '../../../app/store';
@@ -8,17 +8,17 @@ import { selectOpen, selectCartItems, selectQuantity } from '../../cart/selector
 import { clearCartDB } from '../../cart/thunks';
 import { useDispatch } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import __CartItem from '../cart-item/cart-item.component';
+import CartItem from '../cart-item/cart-item.component';
 import { useHistory } from 'react-router-dom';
 import { useRef, useEffect } from 'react';
 
 interface ICart {
   isOpen: boolean;
-  items: ICartItem[];
+  cartItems: ICartItem[];
   quantity: number;
 }
 
-const Cart = ({ isOpen, items, quantity }: ICart) => {
+const CartContainer = ({ isOpen, cartItems, quantity }: ICart) => {
   const user = JSON.parse(localStorage.getItem('user') || '{}');
   const dispatch = useDispatch();
   const wrappedRef = useRef<HTMLDivElement>(null);
@@ -37,6 +37,7 @@ const Cart = ({ isOpen, items, quantity }: ICart) => {
   };
 
   useEffect(() => {
+    console.group('items =>', cartItems);
     document.addEventListener('click', handleClickOutside, true);
     return () => {
       document.removeEventListener('click', handleClickOutside, true);
@@ -56,29 +57,32 @@ const Cart = ({ isOpen, items, quantity }: ICart) => {
   }
 
   return (
-    <div className='cart'>
+    <div className='cart-container'>
       <div ref={iconRef}>
-        <TiShoppingCart className='cart-icon' onClick={() => dispatch(cartToggle(isOpen))} />
-        <span className='cart-quantity'>{quantity}</span>
+        <TiShoppingCart
+          className='cart-container__cart-icon'
+          onClick={() => dispatch(cartToggle(isOpen))}
+        />
+        <span className='cart-container__cart-quantity'>{quantity}</span>
       </div>
 
       {isOpen ? (
         <div className='cart-content' ref={wrappedRef}>
-          <div className='checkout-cart'>
-            <button className='checkout-btn' onClick={checkout}>
+          <div className='cart-content__checkout'>
+            <button className='cart-content__checkout_checkout-btn' onClick={checkout}>
               Checkout
             </button>
             <button
-              className='clear-cart-btn'
+              className='cart-content__checkout_clear-cart-btn'
               onClick={() => cartClear()}
               title='Clears cart from all products'
             >
               Clear Cart
             </button>
           </div>
-          {items.length ? (
-            items.map(({ title, price, image, quantity, productId }) => (
-              <__CartItem
+          {cartItems.length ? (
+            cartItems.map(({ title, price, image, quantity, productId }) => (
+              <CartItem
                 key={productId}
                 productId={productId}
                 title={title}
@@ -88,7 +92,7 @@ const Cart = ({ isOpen, items, quantity }: ICart) => {
               />
             ))
           ) : (
-            <span className='empty-cart'>Cart is empty</span>
+            <span className='cart-content__empty-cart'>Cart is empty</span>
           )}
         </div>
       ) : null}
@@ -98,8 +102,8 @@ const Cart = ({ isOpen, items, quantity }: ICart) => {
 
 const mapStateToProps = createStructuredSelector<RootState, ICart>({
   isOpen: selectOpen,
-  items: selectCartItems,
+  cartItems: selectCartItems,
   quantity: selectQuantity,
 });
 
-export default connect(mapStateToProps)(Cart);
+export default connect(mapStateToProps)(CartContainer);

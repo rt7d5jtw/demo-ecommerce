@@ -1,37 +1,38 @@
 import * as React from 'react';
 import './cart-item.css';
-import { CartItemDto } from '../../../features/cart/cartSlice';
+import { ICartItem } from '../../../features/cart/cartSlice';
 import { removeItemDB } from '../../../features/cart/thunks';
-import { connect, useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { removeItem } from '../../cart/cartSlice';
-import { selectCartItems } from '../selectors';
 
-const CartItem = (cartItem: any) => {
+const CartItem = (cartItem: ICartItem): JSX.Element => {
   const user = JSON.parse(localStorage.getItem('user') || '{}');
   const dispatch = useDispatch();
 
   function removeHandler() {
     dispatch(removeItem(cartItem));
-    console.log(cartItem);
     if (user && user.accessToken) {
       if (cartItem.productId != undefined) {
-        //dispatch(removeItemDB(cartItem.productId));
+        dispatch(removeItemDB(cartItem.productId));
       }
     }
   }
 
   return (
     <div className='cart-item'>
-      <div className='cart__right-div'>
-        <div className='cart-image' style={{ backgroundImage: `url(${cartItem.image})` }}></div>
+      <div className='cart-item__right'>
+        <div
+          className='cart-item__right__image'
+          style={{ backgroundImage: `url(${cartItem.image})` }}
+        ></div>
       </div>
-      <div className='cart__left-div'>
-        <span className='cart-title'>{cartItem.title}</span>
-        <span className='cart-price'>Price: ${cartItem.price * cartItem.quantity}</span>
-        <span className='cart-qty'>Quantity: {cartItem.quantity}</span>
+      <div className='cart-item__left'>
+        <span className='cart-item__left__title'>{cartItem.title}</span>
+        <span className='cart-item__left__price'>Price: ${cartItem.price * cartItem.quantity}</span>
+        <span className='cart-item__left__qty'>Quantity: {cartItem.quantity}</span>
       </div>
       <button
-        className='remove-btn'
+        className='cart-item__remove-btn'
         title='Removes the product from cart'
         onClick={() => removeHandler()}
       >
@@ -41,4 +42,4 @@ const CartItem = (cartItem: any) => {
   );
 };
 
-export default connect()(CartItem);
+export default CartItem;

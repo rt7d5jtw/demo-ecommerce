@@ -52,7 +52,6 @@ function CategoryPage({ categories, products }: ICategoryPage): JSX.Element {
       <Navbar />
       <Sidebar />
       <Main>
-        <Route path={`${url}/:bookId`} component={SingleProductPage} />
         <div className='category-page'>
           <h1 className='category-page__title'>
             <p>

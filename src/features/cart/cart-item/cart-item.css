@@ -3,7 +3,7 @@
   margin: 10px;
 }
 
-.cart__left-div {
+.cart-item__left {
   display: flex;
   width: 200px;
   height: 200px;
@@ -13,7 +13,7 @@
   color: white;
 }
 
-.cart-image {
+.cart-item__right__image {
   display: flex;
   width: 200px;
   height: 200px;
@@ -21,22 +21,22 @@
   background-position: left;
 }
 
-.cart-title {
+.cart-item__left__title {
   margin: 10px;
   font-size: 20px;
 }
 
-.cart-price {
+.cart-item__left__price {
   margin: 10px;
   font-size: 20px;
 }
 
-.cart-qty {
+.cart-item__left__qty {
   margin: 10px;
   font-size: 20px;
 }
 
-.remove-btn {
+.cart-item__remove-btn {
   font-size: 20px;
   display: flex;
   color: white;

@@ -3,7 +3,7 @@ import './checkout.css';
 import { Footer } from '../../features/homepage-components/footer/footer.component';
 import { Navbar } from '../../features/homepage-components/navbar/navbar.component';
 import Sidebar from '../../features/homepage-components/sidebar/sidebar.component';
-import __CartItem from '../../features/cart/cart-item/cart-item.component';
+import CartItem from '../../features/cart/cart-item/cart-item.component';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { selectCartItems, selectCartTotal } from '../../features/cart/selectors';
 import { createStructuredSelector } from 'reselect';
@@ -21,7 +21,7 @@ import { OrderStatus } from '../../features/order/orderSlice';
 import { shippingInfoAdded } from '../../features/alert/alertSlice';
 
 interface ICheckout {
-  items: ICartItem[];
+  cartItems: ICartItem[];
   total: number;
   clearCart: () => void;
 }
@@ -33,7 +33,7 @@ type FormValues = {
   postalcode: string;
 };
 
-const Checkout = ({ items, total }: ICheckout) => {
+const Checkout = ({ cartItems, total }: ICheckout) => {
   const dispatch = useDispatch();
   const { push } = useHistory();
   const { register, handleSubmit } = useForm<FormValues>();
@@ -106,14 +106,14 @@ const Checkout = ({ items, total }: ICheckout) => {
             <p>{warning}</p>
           </div>
 
-          {items.length ? (
+          {cartItems.length ? (
             <div className='order-summary'>
               <h1>Products</h1>
-              {items.length
-                ? items.map(({ title, price, quantity, image, productId }) => (
-                    <__CartItem
+              {cartItems.length
+                ? cartItems.map(({ title, price, quantity, image, productId }) => (
+                    <CartItem
                       key={productId}
-                      id={productId}
+                      productId={productId}
                       title={title}
                       price={price}
                       quantity={quantity}
@@ -131,12 +131,12 @@ const Checkout = ({ items, total }: ICheckout) => {
 };
 
 interface IMapStateToProps {
-  items: ICartItem[];
+  cartItems: ICartItem[];
   total: number;
 }
 
 const mapStateToProps = createStructuredSelector<RootState, IMapStateToProps>({
-  items: selectCartItems,
+  cartItems: selectCartItems,
   total: selectCartTotal,
 });
 

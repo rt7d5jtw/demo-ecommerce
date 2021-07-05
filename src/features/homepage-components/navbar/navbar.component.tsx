@@ -3,7 +3,7 @@ import './navbar.css';
 import { Logo } from '../logo/logo.component';
 import { Search } from '../search/search.component';
 import ProfileLink from '../../user/profile-link/profile-link.component';
-import Cart from '../../cart/cart/cart.component';
+import CartContainer from '../../cart/cart-container/cart-container.component';
 
 export const Navbar = (): JSX.Element => {
   return (
@@ -12,7 +12,7 @@ export const Navbar = (): JSX.Element => {
         <Logo />
         <Search />
         <ProfileLink />
-        <Cart />
+        <CartContainer />
       </div>
     </nav>
   );

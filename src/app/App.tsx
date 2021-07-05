@@ -18,6 +18,7 @@ import ProfilePage from '../pages/profile-page/profile-page.component';
 import CategoryPage from '../pages/category-page/category-page.component';
 import { StripeOrderWrapper } from '../pages/wrapper/wrapper';
 import { PurchaseConfirmed } from '../pages/purchase-confirmed/purchase-confirmed';
+import { SingleProductPage } from '../pages/single-product/single-product.component';
 
 const App = (): JSX.Element => {
   const currentUser = useSelector(selectCurrentUser);
