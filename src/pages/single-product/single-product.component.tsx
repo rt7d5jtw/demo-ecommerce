@@ -2,11 +2,13 @@ import * as React from 'react';
 import './single-product.css';
 import { useAppSelector } from '../../app/hooks';
 import { selectItems } from '../../features/product/selectors';
-import { useParams } from 'react-router';
+import { useParams, useRouteMatch } from 'react-router';
 import { IProduct } from '../../features/product/productSlice';
 
 export const SingleProductPage = (): JSX.Element => {
+  const match = useRouteMatch();
   React.useEffect(() => {
+    console.log(match);
     //console.group('This is product =>', products.find((book: IProduct) => book.id === castedBookId))
   });
 

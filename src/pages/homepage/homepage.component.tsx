@@ -12,11 +12,16 @@ import Promotions from '../../features/promotion/promotions/promotions.component
 import Main from '../../features/homepage-components/main/main.component';
 import { checkIfLoading, selectPromotionItems } from '../../features/promotion/selectors';
 import { fetch as fetchPromotions } from '../../features/promotion/thunks';
-import { Route, Switch } from 'react-router';
-import { selectLoggedIn } from '../../features/user/selectors';
+import { Redirect, Route, Switch, useParams, useRouteMatch } from 'react-router';
+import { selectCurrentUser, selectLoggedIn } from '../../features/user/selectors';
 import { logout } from '../../features/user/thunks';
 import { selectItems } from '../../features/product/selectors';
 import { selectCategories } from '../../features/category/categorySlice';
+import { NewReleases } from '../new_releases/new_releases.component';
+import CategoryPage from '../category-page/category-page.component';
+import { AuthorizationPage } from '../authorization/authorization.component';
+import { AuthenticationPage } from '../authentication/authentication.component';
+import { SingleProductPage } from '../single-product/single-product.component';
 
 function Homepage(): JSX.Element {
   const dispatch = useDispatch();
@@ -29,6 +34,7 @@ function Homepage(): JSX.Element {
   const promotions = useSelector(selectPromotionItems);
 
   useEffect(() => {
+    console.dir('this is match => ', match);
     /* fetch categories and products for state */
     categories.length === 0
       ? dispatch(fetchCategories())
@@ -46,16 +52,22 @@ function Homepage(): JSX.Element {
     return <p>Loading...</p>;
   }
 
+  const currentUser = useSelector(selectCurrentUser);
+  const match = useRouteMatch();
+
   return (
     <div className='homepage'>
       <Navbar />
       <Sidebar />
       <Main>
         <Switch>
-          <Route path='/'>
+          <Route exact path='/'>
             <Preview />
             <Promotions promotions={promotions} />
           </Route>
+          <Route path='/new' component={NewReleases} />
+          <Route exact path={`${match.path}books/:categoryId`} component={CategoryPage} />
+          <Route path='/books/:categoryId/:productId' component={SingleProductPage} />
         </Switch>
       </Main>
       <Footer />

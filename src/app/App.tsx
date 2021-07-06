@@ -26,26 +26,24 @@ const App = (): JSX.Element => {
   return (
     <>
       <Switch>
-        <Route exact path='/' component={Homepage} />
-        <Route path={`${path}books/:categoryId`} component={CategoryPage} />
-        <Route path='/admin-page' component={AdminPage} />
-        <Route path='/profile' component={ProfilePage} />
-        <Route path='/admin-creator' component={AdminCreatorPage} />
-        <Route path='/new' component={NewReleases} />
-        <Route path='/classics' component={Classics} />
-        <Route path='/search-result' component={SearchPage} />
-        <Route exact path='/checkout' component={Checkout} />
-        <Route exact path='/payment' component={StripeOrderWrapper} />
-        <Route path='/purchase-confirmed' component={PurchaseConfirmed} />
-        <Route
-          path='/register'
-          component={() => (currentUser ? <Redirect to='/' /> : <AuthorizationPage />)}
-        />
         <Route
           exact
           path='/login'
           render={() => (currentUser ? <Redirect to='/' /> : <AuthenticationPage />)}
         />
+        <Route
+          path='/register'
+          component={() => (currentUser ? <Redirect to='/' /> : <AuthorizationPage />)}
+        />
+        <Route path='/profile' component={ProfilePage} />
+        <Route path='/admin-creator' component={AdminCreatorPage} />
+        <Route path='/admin-page' component={AdminPage} />
+        <Route path='/classics' component={Classics} />
+        <Route path='/search-result' component={SearchPage} />
+        <Route exact path='/checkout' component={Checkout} />
+        <Route exact path='/payment' component={StripeOrderWrapper} />
+        <Route path='/purchase-confirmed' component={PurchaseConfirmed} />
+        <Route path='/' component={Homepage} />
       </Switch>
     </>
   );

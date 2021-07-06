@@ -12,18 +12,13 @@ export const NewReleases = (): JSX.Element => {
   const [products] = useState(NEW_RELEASES_DATA);
 
   return (
-    <div className='homepage'>
-      <Navbar />
-      <Sidebar />
-      <Main>
-        <h1 className='category__title'>New Releases</h1>
-        <div className='products'>
-          {products.map(({ id, ...props }) => (
-            <ProductCard key={id} id={id} {...props} />
-          ))}
-        </div>
-      </Main>
-      <Footer />
+    <div className='new-releases'>
+      <h1 className='category__title'>New Releases</h1>
+      <div className='products'>
+        {products.map(({ id, ...props }) => (
+          <ProductCard key={id} id={id} {...props} />
+        ))}
+      </div>
     </div>
   );
 };

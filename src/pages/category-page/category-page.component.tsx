@@ -10,7 +10,7 @@ import { createStructuredSelector } from 'reselect';
 import { RootState } from '../../app/store';
 import { selectItems } from '../../features/product/selectors';
 import { selectCategories, ICategory } from '../../features/category/categorySlice';
-import { Route, useParams, useRouteMatch } from 'react-router-dom';
+import { Route, Switch, useParams, useRouteMatch } from 'react-router-dom';
 import Main from '../../features/homepage-components/main/main.component';
 import { SingleProductPage } from '../single-product/single-product.component';
 import { fetch as fetchCategories } from '../../features/category/thunks';
@@ -24,15 +24,14 @@ interface ICategoryPage {
 
 function CategoryPage({ categories, products }: ICategoryPage): JSX.Element {
   const { categoryId } = useParams<{ categoryId?: string }>();
-  const { url } = useRouteMatch();
+  const match = useRouteMatch();
   const dispatch = useDispatch();
 
   /* get the page category name */
   const currentCategory = categories.find(({ cname }: ICategory) => cname === categoryId);
 
   useEffect(() => {
-    console.group('Categories =>', categories);
-    console.group('Products =>', products);
+    console.log('match path => ' + match.path);
     console.log(currentCategory);
     categories.length === 0
       ? dispatch(fetchCategories())
@@ -48,40 +47,36 @@ function CategoryPage({ categories, products }: ICategoryPage): JSX.Element {
   }
 
   return (
-    <div className='homepage'>
-      <Navbar />
-      <Sidebar />
-      <Main>
-        <div className='category-page'>
-          <h1 className='category-page__title'>
-            <p>
-              {currentCategory && currentCategory.cname
-                ? currentCategory.cname
-                : 'Category could not be found :('}
-            </p>
-          </h1>
-          <div className='category-page__products'>
-            {currentCategory && currentCategory.id
-              ? products
-                  .filter((product: IProduct) => product.categoryId === currentCategory.id)
-                  .map(({ title, price, id, image, categoryId, description, author }: IProduct) => (
-                    <ProductCard
-                      key={id}
-                      id={id}
-                      title={title}
-                      author={author}
-                      description={description}
-                      price={price}
-                      image={image}
-                      quantity={1}
-                      categoryId={categoryId}
-                    />
-                  ))
-              : 'Category ID could not be found!'}
-          </div>
-        </div>
-      </Main>
-      <Footer />
+    <div className='category-page'>
+      <Switch>
+        <Route path={`${match.path}/:productId`} component={SingleProductPage} />
+      </Switch>
+      <h1 className='category-page__title'>
+        <p>
+          {currentCategory && currentCategory.cname
+            ? currentCategory.cname
+            : 'Category could not be found :('}
+        </p>
+      </h1>
+      <div className='category-page__products'>
+        {currentCategory && currentCategory.id
+          ? products
+              .filter((product: IProduct) => product.categoryId === currentCategory.id)
+              .map(({ title, price, id, image, categoryId, description, author }: IProduct) => (
+                <ProductCard
+                  key={id}
+                  id={id}
+                  title={title}
+                  author={author}
+                  description={description}
+                  price={price}
+                  image={image}
+                  quantity={1}
+                  categoryId={categoryId}
+                />
+              ))
+          : 'Category ID could not be found!'}
+      </div>
     </div>
   );
 }
