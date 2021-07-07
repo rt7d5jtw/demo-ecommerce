@@ -15,6 +15,9 @@ import { useHistory } from 'react-router';
 import { selectShippingInfo } from '../../features/user/selectors';
 import { clearCart } from '../../features/cart/cartSlice';
 import { ORDER_URL } from '../../features/order/api';
+import { clearCartDB } from '../../features/cart/thunks';
+import { takeCart } from '../../features/order/orderSlice';
+import { selectRecentOrder, selectRecentOrderItems } from '../../features/order/selectors';
 
 const CARD_OPTIONS = {
   iconStyle: 'solid' as const,
@@ -48,6 +51,7 @@ const OrderPayment = (): JSX.Element => {
   const stripe = useStripe();
   const elements = useElements();
   const { push } = useHistory();
+
   const handleSubmit = async (carddata: any) => {
     carddata.preventDefault();
     console.log(carddata);
@@ -70,78 +74,76 @@ const OrderPayment = (): JSX.Element => {
     if (paymentConfirmed) {
       setSuccess(!success);
       dispatch(clearCart());
-      setTimeout(() => push('/purchase-confirmed'), 2500);
+      dispatch(clearCartDB());
+      setTimeout(() => push('/purchase-confirmed'), 1500);
     }
   };
   const dispatch = useDispatch();
+  const orderItems = useSelector(selectRecentOrderItems);
   useEffect(() => {
-    dispatch(fetchAllOrders());
-  }, [dispatch]);
+    //dispatch(fetchAllOrders());
+    if (orderItems === null) {
+      dispatch(takeCart(cartItems));
+    }
+  }, [orderItems]);
   return (
-    <div className='homepage'>
-      <Navbar />
-      <Sidebar />
-      <Main>
-        <div className='order-payment'>
-          <div className='payment-col-wrapper'>
-            <div className='payment-col-1'>
-              <div className='ordered-items'>
-                <table>
-                  <thead>
-                    <tr>
-                      <th></th>
-                      <th>SKU</th>
-                      <th>Quantity</th>
-                      <th>Total Price</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {cartItems.map(({ id, image, quantity, price }) => (
-                      <tr key={id}>
-                        <td>
-                          <img src={image} />
-                        </td>
-                        <td>{id}</td>
-                        <td>{quantity}</td>
-                        <td>${price * quantity}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-            <div className='payment-col-2'>
-              <div className='order-details'>
-                <h2>Order Summary</h2>
-                <p>Products: ${total}</p>
-                <p>Shipping: $5</p>
-                <p>Tax: $0</p>
-              </div>
-              <div className='shipping-details'>
-                <h2>Shipping Summary</h2>
-                <p>{shippingInfo!.address}</p>
-                <p>{shippingInfo!.country}</p>
-                <p>{shippingInfo!.city}</p>
-                <p>{shippingInfo!.postalcode}</p>
-              </div>
-
-              {!success ? (
-                <form id='stripe-wrapper' onSubmit={handleSubmit}>
-                  <p>Pay with Stripe</p>
-                  <CardElement options={CARD_OPTIONS} />
-                  <button disabled={!stripe} id='stripe-wrapper'>
-                    Pay ${total}
-                  </button>
-                  <button onClick={() => setSuccess(!success)}>Set state</button>
-                </form>
-              ) : (
-                <h2>Thanks for your purchase!</h2>
-              )}
-            </div>
+    <div className='order-payment'>
+      <div className='order-payment__wrapper'>
+        <div className='order-payment__wrapper__col-left'>
+          <div className='order-payment__wrapper__col-left__ordered-items'>
+            <table>
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>SKU</th>
+                  <th>Quantity</th>
+                  <th>Total Price</th>
+                </tr>
+              </thead>
+              <tbody>
+                {cartItems.map(({ productId, image, quantity, price }) => (
+                  <tr key={productId}>
+                    <td>
+                      <img src={image} />
+                    </td>
+                    <td>{productId}</td>
+                    <td>{quantity}</td>
+                    <td>${price * quantity}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
-      </Main>
-      <Footer />
+        <div className='order-payment__wrapper__col-right'>
+          <div className='order-payment__wrapper__col-right__details'>
+            <h2>Order Summary</h2>
+            <p>Products: ${total}</p>
+            <p>Shipping: $5</p>
+            <p>Tax: $0</p>
+          </div>
+          <div className='order-payment__wrapper__col-right__shipping'>
+            <h2>Shipping Summary</h2>
+            <p>{shippingInfo!.address}</p>
+            <p>{shippingInfo!.country}</p>
+            <p>{shippingInfo!.city}</p>
+            <p>{shippingInfo!.postalcode}</p>
+          </div>
+
+          {!success ? (
+            <form id='stripe-wrapper' onSubmit={handleSubmit}>
+              <p>Pay with Stripe</p>
+              <CardElement options={CARD_OPTIONS} />
+              <button disabled={!stripe} id='stripe-wrapper'>
+                Pay ${total}
+              </button>
+              <button onClick={() => setSuccess(!success)}>Set state</button>
+            </form>
+          ) : (
+            <h2>Thanks for your purchase!</h2>
+          )}
+        </div>
+      </div>
     </div>
   );
 };

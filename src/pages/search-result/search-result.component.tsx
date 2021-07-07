@@ -17,26 +17,21 @@ interface ISearchPage {
 
 const SearchPage = ({ searchItems, search }: ISearchPage) => {
   return (
-    <div className='homepage'>
-      <Navbar />
-      <Sidebar />
-      <Main>
-        <h1 className='category__title'>Searched for {search}</h1>
-        <div className='products'>
-          {searchItems.map(({ title, price, id, image, quantity }) => (
-            <ProductCard
-              key={id}
-              id={id}
-              title={title}
-              price={price}
-              image={image}
-              quantity={quantity}
-            />
-          ))}
-        </div>
-      </Main>
-      <Footer />
-    </div>
+    <>
+      <h1 className='category-page__title'>Searched for {search}</h1>
+      <div className='products'>
+        {searchItems.map(({ title, price, id, image, quantity }) => (
+          <ProductCard
+            key={id}
+            id={id}
+            title={title}
+            price={price}
+            image={image}
+            quantity={quantity}
+          />
+        ))}
+      </div>
+    </>
   );
 };
 

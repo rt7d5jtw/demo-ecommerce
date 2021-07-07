@@ -1,24 +1,20 @@
 import * as React from 'react';
 import './checkout.css';
-import { Footer } from '../../features/homepage-components/footer/footer.component';
-import { Navbar } from '../../features/homepage-components/navbar/navbar.component';
-import Sidebar from '../../features/homepage-components/sidebar/sidebar.component';
 import CartItem from '../../features/cart/cart-item/cart-item.component';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { selectCartItems, selectCartTotal } from '../../features/cart/selectors';
 import { createStructuredSelector } from 'reselect';
 import { RootState } from '../../app/store';
 import { ICartItem } from '../../features/cart/cartSlice';
-import { addShippingInformation, shippingInformation } from '../../features/user/userSlice';
-import { create } from '../../features/order/thunks';
-import Alert from '../../features/alert/alert/alert.component';
-import Main from '../../features/homepage-components/main/main.component';
+import { addShippingInformation } from '../../features/user/userSlice';
+import { create as createOrder } from '../../features/order/thunks';
 import { useHistory } from 'react-router';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useState } from 'react';
 import { selectShippingInfo } from '../../features/user/selectors';
-import { OrderStatus } from '../../features/order/orderSlice';
+import { clearRecentOrder, OrderStatus } from '../../features/order/orderSlice';
 import { shippingInfoAdded } from '../../features/alert/alertSlice';
+import { selectRecentOrder } from '../../features/order/selectors';
 
 interface ICheckout {
   cartItems: ICartItem[];
@@ -39,11 +35,12 @@ const Checkout = ({ cartItems, total }: ICheckout) => {
   const { register, handleSubmit } = useForm<FormValues>();
   const [warning, setWarning] = useState<string>();
   const shippingInfo = useSelector(selectShippingInfo);
+  const recentOrder = useSelector(selectRecentOrder);
 
   function handleOrder() {
-    if (shippingInfo && shippingInfo) {
+    if (shippingInfo && shippingInfo && recentOrder === null) {
       dispatch(
-        create({
+        createOrder({
           total_price: total,
           status: OrderStatus.UNPAID,
           address: shippingInfo.address,
@@ -53,8 +50,12 @@ const Checkout = ({ cartItems, total }: ICheckout) => {
         })
       );
       push('/payment');
-    } else {
+    } else if (shippingInfo === null) {
       setWarning('Provide shipping information!');
+    } else if (recentOrder !== null) {
+      setWarning('Clearing recent orders...');
+      setTimeout(() => setWarning(''), 2000);
+      dispatch(clearRecentOrder());
     }
   }
   const onSubmit: SubmitHandler<FormValues> = (data) => {
@@ -62,70 +63,64 @@ const Checkout = ({ cartItems, total }: ICheckout) => {
     dispatch(shippingInfoAdded());
   };
   return (
-    <div className='homepage'>
-      <Alert />
-      <Navbar />
-      <Sidebar />
-      <Main>
-        <div className='checkout'>
-          <div className='order-information'>
-            <h1>Checkout</h1>
-            <form className='order-form' onSubmit={handleSubmit(onSubmit)}>
-              <label>Shipping information</label>
-              <input
-                type='address'
-                placeholder='Shipping address'
-                {...register('address', { required: true })}
-                required
-              />
-              <input
-                type='text'
-                placeholder='Country'
-                {...register('country', { required: true })}
-                required
-              />
-              <input
-                type='text'
-                placeholder='City'
-                {...register('city', { required: true })}
-                required
-              />
-              <input
-                type='text'
-                placeholder='Postal Code'
-                {...register('postalcode', { required: true })}
-                required
-              />
-              <input type='submit' value='Add Shipping Information' />
-            </form>
-            <h1>Order Summary</h1>
-            <h1>Total price: ${total}</h1>
-            <button className='order-btn' onClick={() => handleOrder()}>
-              Place Order
-            </button>
-            <p>{warning}</p>
-          </div>
+    <div className='checkout'>
+      <div className='checkout__order-information'>
+        <h1>Checkout</h1>
+        <form className='order-form' onSubmit={handleSubmit(onSubmit)}>
+          <label>Shipping information</label>
+          <input
+            type='address'
+            placeholder='Shipping address'
+            {...register('address', { required: true })}
+            required
+          />
+          <input
+            type='text'
+            placeholder='Country'
+            {...register('country', { required: true })}
+            required
+          />
+          <input
+            type='text'
+            placeholder='City'
+            {...register('city', { required: true })}
+            required
+          />
+          <input
+            type='text'
+            placeholder='Postal Code'
+            {...register('postalcode', { required: true })}
+            required
+          />
+          <input type='submit' value='Add Shipping Information' />
+        </form>
+        <h1>Order Summary</h1>
+        <h1>Total price: ${total}</h1>
+        <button className='order-btn' onClick={() => handleOrder()}>
+          Place Order
+        </button>
+        <p>{warning}</p>
+      </div>
 
-          {cartItems.length ? (
-            <div className='order-summary'>
-              <h1>Products</h1>
-              {cartItems.length
-                ? cartItems.map(({ title, price, quantity, image, productId }) => (
-                    <CartItem
-                      key={productId}
-                      productId={productId}
-                      title={title}
-                      price={price}
-                      quantity={quantity}
-                      image={image}
-                    />
-                  ))
-                : null}
-            </div>
-          ) : null}
+      {cartItems.length ? (
+        <div className='order-summary'>
+          <h1>Products</h1>
+          {cartItems.length
+            ? cartItems.map(({ title, price, quantity, image, productId }) => (
+                <div key={productId} className='cart-item__wrapper'>
+                  <CartItem
+                    key={productId}
+                    productId={productId}
+                    title={title}
+                    price={price}
+                    quantity={quantity}
+                    image={image}
+                  />
+                </div>
+              ))
+            : null}
         </div>
-      </Main>
-      <Footer />
+      ) : null}
     </div>
   );
 };

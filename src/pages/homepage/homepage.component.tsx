@@ -22,6 +22,11 @@ import CategoryPage from '../category-page/category-page.component';
 import { AuthorizationPage } from '../authorization/authorization.component';
 import { AuthenticationPage } from '../authentication/authentication.component';
 import { SingleProductPage } from '../single-product/single-product.component';
+import { PurchaseConfirmed } from '../purchase-confirmed/purchase-confirmed';
+import { StripeOrderWrapper } from '../stripe-order-wrapper/stripe-order-wrapper.component';
+import Checkout from '../checkout/checkout.component';
+import SearchPage from '../search-result/search-result.component';
+import { NotFound } from '../404/404.component';
 
 function Homepage(): JSX.Element {
   const dispatch = useDispatch();
@@ -65,9 +70,14 @@ function Homepage(): JSX.Element {
             <Preview />
             <Promotions promotions={promotions} />
           </Route>
+          <Route exact path='/purchase-confirmed' component={PurchaseConfirmed} />
+          <Route exact path='/payment' component={StripeOrderWrapper} />
+          <Route exact path='/checkout' component={Checkout} />
           <Route path='/new' component={NewReleases} />
           <Route exact path={`${match.path}books/:categoryId`} component={CategoryPage} />
           <Route path='/books/:categoryId/:productId' component={SingleProductPage} />
+          <Route path='/search-result' component={SearchPage} />
+          <Route path='*' component={NotFound} />
         </Switch>
       </Main>
       <Footer />

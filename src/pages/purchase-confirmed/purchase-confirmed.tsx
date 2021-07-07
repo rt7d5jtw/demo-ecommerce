@@ -1,59 +1,60 @@
 import * as React from 'react';
+import './purchase-confirmed.css';
 import { Footer } from '../../features/homepage-components/footer/footer.component';
 import Main from '../../features/homepage-components/main/main.component';
 import { Navbar } from '../../features/homepage-components/navbar/navbar.component';
 import Sidebar from '../../features/homepage-components/sidebar/sidebar.component';
-import './purchase-confirmed.css';
 import { useSelector } from 'react-redux';
-import { selectCartItems } from '../../features/cart/selectors';
+import { selectRecentOrder, selectRecentOrderItems } from '../../features/order/selectors';
 //import { selectOrders } from '../../features/order/orderSlice';
 
 export const PurchaseConfirmed = (): JSX.Element => {
-  const cartItems = useSelector(selectCartItems);
-  //const orders = useSelector(selectOrders);
+  const order = useSelector(selectRecentOrder);
+  const orderItems = useSelector(selectRecentOrderItems);
   return (
-    <div className='homepage'>
-      <Navbar />
-      <Sidebar />
-      <Main>
-        <div className='purchase-confirmed'>
-          <div className='purchase-col-1'>
-            <h1>Thank you for your purchase</h1>
-            <p>Order Summary</p>
-            <div className='ordered-items'>
-              <table>
-                <thead>
-                  <tr>
-                    <th></th>
-                    <th>SKU</th>
-                    <th>Quantity</th>
-                    <th>Total Price</th>
+    <div className='purchase-confirmed'>
+      <div className='purchase-col-2'>
+        <h1 id='thanks'>Thank you for your purchase</h1>
+        <p>
+          <b>Invoice #{order && order.id}</b>
+        </p>
+        <a href='yeet'>View the invoice</a>
+      </div>
+      <div className='purchase-col-1'>
+        <p>Order Summary</p>
+        <div className='order-table'>
+          <table>
+            <thead>
+              <tr>
+                <th></th>
+                <th>SKU</th>
+                <th>Quantity</th>
+                <th>Total Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              {orderItems &&
+                orderItems.map(({ productId, image, quantity, price }) => (
+                  <tr key={productId}>
+                    <td>
+                      <img src={image} />
+                    </td>
+                    <td>{productId}</td>
+                    <td>{quantity}</td>
+                    <td>${price * quantity}</td>
                   </tr>
-                </thead>
-                <tbody>
-                  {cartItems.map(({ id, image, quantity, price }) => (
-                    <tr key={id}>
-                      <td>
-                        <img src={image} />
-                      </td>
-                      <td>{id}</td>
-                      <td>{quantity}</td>
-                      <td>${price * quantity}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-          <div className='purchase-col-2'>
-            <p>
-              <b>Invoice #</b>34356
-            </p>
-            <a href='yeet'>View the invoice</a>
-          </div>
+                ))}
+            </tbody>
+          </table>
         </div>
-      </Main>
-      <Footer />
+        <div className='purchase-col-right__order-info'>
+          <p>Order total: {order && order.total_price}$</p>
+          <p>=</p>
+          <p>Shipping total: 5$</p>
+          <p>+</p>
+          <p>Taxes: 0$</p>
+        </div>
+      </div>
     </div>
   );
 };

@@ -1,17 +1,17 @@
 .purchase-confirmed {
+  border: 2px solid red;
   display: grid;
-  place-items: center auto;
+  place-items: start auto;
   grid-auto-flow: column;
-  width: 90%;
+  width: 97%;
   height: 95%;
   margin-top: 3em;
   margin-left: 2em;
 }
 
 .purchase-confirmed p {
-  font-size: 0.9em;
-  margin-top: 1em;
-  margin-bottom: 3em;
+  font-size: 1em;
+  margin-bottom: 1em;
 }
 
 .purchase-confirmed h1, p {
@@ -38,3 +38,56 @@
   font-family: 'Montserrat', sans-serif;
   margin-top: 0.7em;
 }
+
+#thanks {
+  position: absolute;
+  top: 10em;
+}
+
+.order-table {
+  display: flex;
+  justify-content: center;
+  overflow: auto;
+  width: 100%;
+  max-height: 52.5em;
+  border: 5px solid black;
+}
+
+.order-table table {
+  border: 1px solid skyblue;
+  font-size: 1.2em;
+  border-collapse: collapse;
+  width: 70%;
+  height: 100%;
+}
+
+.order-table td {
+  border-top: 1px solid black;
+}
+
+.order-table th {
+  height: 1%;
+  padding: 0.2em;
+}
+
+.order-table td img {
+  vertical-align: top;
+  width: 65%;
+  height: 200px;
+  margin: 0.6em;
+}
+
+.purchase-col-right__order-info {
+  display: flex;
+  padding: 1em;
+  border: 4px solid black;
+  width: 100%;
+}
+
+.purchase-col-right__order-info p {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-right: 1em;
+}
+
+

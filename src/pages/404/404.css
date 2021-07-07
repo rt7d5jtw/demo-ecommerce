@@ -1,0 +1,42 @@
+.not-found {
+  display: grid;
+  place-items: center center;
+  border: 2px solid red;
+  height: 50em;
+}
+
+.not-found h1 {
+  font-size: 100px;
+  color: #41cfe8;
+  font-family: 'Montserrat', sans-serif;
+  text-shadow: 0px 0px 0 rgb(55,197,222),
+               1px 1px 0 rgb(45,187,212),
+               2px 2px 0 rgb(35,177,202),
+               3px 3px 0 rgb(25,167,192),
+               4px 4px 0 rgb(15,157,182),
+               5px 5px  0 rgb(5,147,172),
+               6px 6px 5px rgba(0,0,0,0.85),
+               6px 6px 1px rgba(0,0,0,0.5),
+               0px 0px 5px rgba(0,0,0,.2);
+}
+
+.not-found p {
+  margin-top: 1.5em;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1em;
+}
+
+.not-found a {
+  border: 1px solid skyblue;
+  color: white;
+  background-color: skyblue;
+  border-radius: 0.5em;
+  padding: 1em;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.2em;
+  transition: 1s;
+}
+
+.not-found a:hover {
+  color: #696969;
+}

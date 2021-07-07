@@ -1,11 +1,11 @@
 import axios, { AxiosError } from 'axios';
 import { ValidationErrors } from '../promotion/promotionSlice';
 import { authHeader } from '../user/api';
-import { Order, OrderDTO, OrderItem, OrderItemDto, PaymentIntentDTO } from './orderSlice';
+import { IOrder, OrderDTO, OrderItem, OrderItemDto, PaymentIntentDTO } from './orderSlice';
 
 export const ORDER_URL = 'http://localhost:3000/orders/';
 
-export async function fetchOrders(): Promise<Order[]> {
+export async function fetchOrders(): Promise<IOrder[]> {
   return axios
     .get(ORDER_URL, { headers: authHeader() })
     .then((res) => {
@@ -20,7 +20,7 @@ export async function fetchOrders(): Promise<Order[]> {
     });
 }
 
-export async function fetchAllOrders(): Promise<Order[]> {
+export async function fetchAllOrders(): Promise<IOrder[]> {
   return axios
     .get(ORDER_URL + 'all', { headers: authHeader() })
     .then((res) => {
@@ -35,7 +35,7 @@ export async function fetchAllOrders(): Promise<Order[]> {
     });
 }
 
-export async function createOrder(data: OrderDTO): Promise<Order> {
+export async function createOrder(data: OrderDTO): Promise<IOrder> {
   return axios
     .post(ORDER_URL, data, { headers: authHeader() })
     .then((res) => {

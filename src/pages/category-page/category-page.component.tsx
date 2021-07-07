@@ -1,8 +1,5 @@
 import * as React from 'react';
 import './category-page.css';
-import { Footer } from '../../features/homepage-components/footer/footer.component';
-import { Navbar } from '../../features/homepage-components/navbar/navbar.component';
-import Sidebar from '../../features/homepage-components/sidebar/sidebar.component';
 import { IProduct } from '../../features/product/productSlice';
 import ProductCard from '../../features/product/product-card/product-card.component';
 import { connect, useDispatch } from 'react-redux';
@@ -11,7 +8,6 @@ import { RootState } from '../../app/store';
 import { selectItems } from '../../features/product/selectors';
 import { selectCategories, ICategory } from '../../features/category/categorySlice';
 import { Route, Switch, useParams, useRouteMatch } from 'react-router-dom';
-import Main from '../../features/homepage-components/main/main.component';
 import { SingleProductPage } from '../single-product/single-product.component';
 import { fetch as fetchCategories } from '../../features/category/thunks';
 import { fetch as fetchProducts } from '../../features/product/thunks';
@@ -31,8 +27,6 @@ function CategoryPage({ categories, products }: ICategoryPage): JSX.Element {
   const currentCategory = categories.find(({ cname }: ICategory) => cname === categoryId);
 
   useEffect(() => {
-    console.log('match path => ' + match.path);
-    console.log(currentCategory);
     categories.length === 0
       ? dispatch(fetchCategories())
       : products.length === 0

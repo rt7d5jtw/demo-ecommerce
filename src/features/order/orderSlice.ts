@@ -1,4 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAction, createSlice } from '@reduxjs/toolkit';
+import { ICartItem } from '../cart/cartSlice';
 import { fetch, fetchAll, create, addItems, remove, createIntent } from './thunks';
 
 export enum OrderStatus {
@@ -13,19 +14,19 @@ export type PaymentIntentDTO = {
   payment_method_types: string;
 };
 
-export interface Order {
+export interface IOrder {
   total_price: number;
   address: string;
   country: string;
   city: string;
   postalcode: string;
   status: OrderStatus;
-  date?: string;
-  id?: string;
-  userId?: string;
+  date: string;
+  id: string;
+  userId: string;
 }
 
-export type OrderDTO = Omit<Order, 'date' | 'id' | 'userId'>;
+export type OrderDTO = Omit<IOrder, 'date' | 'id' | 'userId'>;
 
 export interface OrderItem {
   orderId: string;
@@ -42,23 +43,37 @@ export interface OrderItemDto {
   price: number;
   createdAt: string;
 }
-
+//[ICartItem[], IOrder]
 export interface OrderState {
-  orders: Order[];
+  orders: IOrder[];
+  recentOrder: IOrder | null;
+  recentOrderItems: ICartItem[] | null;
   loading: boolean;
   errors: unknown;
 }
 
 const initialState: OrderState = {
   orders: [],
+  recentOrder: null,
+  recentOrderItems: null,
   loading: false,
   errors: [],
 };
 
+export const takeCart = createAction<ICartItem[]>('order/takeCart');
+export const clearRecentOrder = createAction('order/clearRecentOrder');
+
 export const orderSlice = createSlice({
   name: 'order',
   initialState: initialState,
-  reducers: {},
+  reducers: {
+    takeCart: (state, { payload }) => {
+      state.recentOrderItems = payload;
+    },
+    clearRecentOrder: (state) => {
+      state.recentOrder = null;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(fetch.pending, (state) => {
       state.loading = true;
@@ -87,6 +102,7 @@ export const orderSlice = createSlice({
       }),
       builder.addCase(create.fulfilled, (state, action) => {
         state.orders.push(action.payload);
+        state.recentOrder = action.payload;
         state.loading = false;
       }),
       builder.addCase(create.rejected, (state, action) => {

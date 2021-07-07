@@ -10,6 +10,7 @@
   overflow-y: scroll;
   border: 1px solid #c3b091;
   height: 35rem;
+  padding: 1.5em;
   margin: 50px 65px;
   background: #131313;
 }
@@ -17,24 +18,29 @@
 .order-summary h1 {
   font-weight: bold;
   font-family: 'Roboto', sans-serif;
+  margin-bottom: 1em;
   display: flex;
   justify-content: center;
   color: white;
 }
 
-.order-information {
+.cart-item__wrapper {
+  border: 1px solid white;
+}
+
+.checkout__order-information {
   margin: 0px 100px;
   margin-top: 1em;
 }
 
-.order-information p {
+.checkout__order-information p {
   margin-top: 1em;
   font-size: 0.8em;
   font-family: 'Montserrat', sans-serif;
   color: red;
 }
 
-.order-information h1, label {
+.checkout__order-information h1, label {
   margin-bottom: 1em;
   font-family: 'Roboto', sans-serif;
   font-weight: bold;
