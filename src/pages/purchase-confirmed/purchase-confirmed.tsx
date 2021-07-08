@@ -3,7 +3,6 @@ import './purchase-confirmed.css';
 import { useSelector } from 'react-redux';
 import { selectRecentOrder, selectRecentOrderItems } from '../../features/order/selectors';
 import { getInvoice } from '../../features/order/api';
-//import { selectOrders } from '../../features/order/orderSlice';
 
 export const PurchaseConfirmed = (): JSX.Element => {
   const order = useSelector(selectRecentOrder);
@@ -15,7 +14,7 @@ export const PurchaseConfirmed = (): JSX.Element => {
         <p>
           <b>Invoice #{order && order.id}</b>
         </p>
-        <a onClick={() => getInvoice()}>View the invoice</a>
+        <button onClick={() => getInvoice(order.id)}>View the invoice</button>
       </div>
       <div className='purchase-col-1'>
         <p>Order Summary</p>

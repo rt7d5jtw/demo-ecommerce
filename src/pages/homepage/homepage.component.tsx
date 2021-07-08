@@ -39,7 +39,6 @@ function Homepage(): JSX.Element {
   const promotions = useSelector(selectPromotionItems);
 
   useEffect(() => {
-    console.dir('this is match => ', match);
     /* fetch categories and products for state */
     categories.length === 0
       ? dispatch(fetchCategories())
@@ -57,9 +56,7 @@ function Homepage(): JSX.Element {
     return <p>Loading...</p>;
   }
 
-  const currentUser = useSelector(selectCurrentUser);
   const match = useRouteMatch();
-
   return (
     <div className='homepage'>
       <Navbar />

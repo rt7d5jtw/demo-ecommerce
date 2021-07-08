@@ -96,15 +96,19 @@ export async function removeOrder(id: string): Promise<void> {
 export async function getInvoice(orderId: string): Promise<void> {
   const user = JSON.parse(localStorage.getItem('user') || '{}');
   return axios
-    .post(ORDER_URL + 'pdf', orderId, {
-      headers: {
-        Authorization: `Bearer ${user.accessToken}`,
-        'Content-Type': 'application/json',
-        'Content-Disposition': 'attachment',
-        Accept: 'application/pdf',
-      },
-      responseType: 'arraybuffer',
-    })
+    .post(
+      ORDER_URL + 'pdf',
+      { orderId: orderId },
+      {
+        headers: {
+          Authorization: `Bearer ${user.accessToken}`,
+          'Content-Type': 'application/json',
+          'Content-Disposition': 'attachment',
+          Accept: 'application/pdf',
+        },
+        responseType: 'arraybuffer',
+      }
+    )
     .then((res) => {
       /* creates a blob from the pdf stream, and then creates a url from the file */
       const url = window.URL.createObjectURL(new Blob([res.data], { type: 'application/pdf' }));
