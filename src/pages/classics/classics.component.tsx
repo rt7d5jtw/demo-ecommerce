@@ -18,7 +18,7 @@ import {
 import { assignRole } from '../../features/user/thunks';
 import { clearErrors, clearShippingInfo } from '../../features/user/userSlice';
 import { fetchProducts, removeProduct } from '../../features/product/api';
-import { addOrderItems, removeOrder } from '../../features/order/api';
+import { addOrderItems, getInvoice, removeOrder } from '../../features/order/api';
 import { checkIfCart, createCart, fetchCart, fetchCartState } from '../../features/cart/api';
 import { fetchState } from '../../features/cart/thunks';
 import { clearPromotions } from '../../features/promotion/promotionSlice';
@@ -57,6 +57,12 @@ const Classics = () => {
       </button>
       <button className='cl-btn' onClick={() => console.log(fetchCategories())}>
         fetch categories
+      </button>
+      <button
+        className='cl-btn'
+        onClick={() => console.log(getInvoice('f29ca6ae-3aac-4794-b008-4d743901a226'))}
+      >
+        fetch invoice
       </button>
     </div>
   );

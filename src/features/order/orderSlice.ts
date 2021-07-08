@@ -1,6 +1,6 @@
 import { createAction, createSlice } from '@reduxjs/toolkit';
 import { ICartItem } from '../cart/cartSlice';
-import { fetch, fetchAll, create, addItems, remove, createIntent } from './thunks';
+import { fetch, fetchAll, create, addItems, remove, createIntent, invoice } from './thunks';
 
 export enum OrderStatus {
   UNPAID = 'UNPAID',
@@ -48,6 +48,7 @@ export interface OrderState {
   orders: IOrder[];
   recentOrder: IOrder | null;
   recentOrderItems: ICartItem[] | null;
+  invoice: any;
   loading: boolean;
   errors: unknown;
 }
@@ -56,6 +57,7 @@ const initialState: OrderState = {
   orders: [],
   recentOrder: null,
   recentOrderItems: null,
+  invoice: null,
   loading: false,
   errors: [],
 };
@@ -138,6 +140,17 @@ export const orderSlice = createSlice({
       builder.addCase(remove.rejected, (state, action) => {
         state.errors = action.payload;
         state.loading = false;
+      }),
+      builder.addCase(invoice.pending, (state) => {
+        state.loading = true;
+      }),
+      builder.addCase(invoice.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        state.invoice = payload;
+      }),
+      builder.addCase(invoice.rejected, (state, { payload }) => {
+        state.loading = false;
+        state.errors = payload;
       });
   },
 });

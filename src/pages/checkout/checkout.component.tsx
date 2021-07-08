@@ -1,6 +1,7 @@
 import * as React from 'react';
 import './checkout.css';
 import CartItem from '../../features/cart/cart-item/cart-item.component';
+import Alert from '../../features/alert/alert/alert.component';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { selectCartItems, selectCartTotal } from '../../features/cart/selectors';
 import { createStructuredSelector } from 'reselect';
@@ -64,6 +65,7 @@ const Checkout = ({ cartItems, total }: ICheckout) => {
   };
   return (
     <div className='checkout'>
+      <Alert />
       <div className='checkout__order-information'>
         <h1>Checkout</h1>
         <form className='order-form' onSubmit={handleSubmit(onSubmit)}>

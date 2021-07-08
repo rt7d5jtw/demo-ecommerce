@@ -92,3 +92,35 @@ export async function removeOrder(id: string): Promise<void> {
       return Promise.reject(err);
     });
 }
+
+export async function getInvoice(orderId: string): Promise<void> {
+  const user = JSON.parse(localStorage.getItem('user') || '{}');
+  return axios
+    .post(ORDER_URL + 'pdf', orderId, {
+      headers: {
+        Authorization: `Bearer ${user.accessToken}`,
+        'Content-Type': 'application/json',
+        'Content-Disposition': 'attachment',
+        Accept: 'application/pdf',
+      },
+      responseType: 'arraybuffer',
+    })
+    .then((res) => {
+      /* creates a blob from the pdf stream, and then creates a url from the file */
+      const url = window.URL.createObjectURL(new Blob([res.data], { type: 'application/pdf' }));
+      /* creates a link and sets the file url */
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'invoice.pdf');
+      document.body.append(link);
+      link.click();
+      link.remove();
+    })
+    .catch((err) => {
+      const error: AxiosError<ValidationErrors> = err;
+      if (!error.response) {
+        throw err;
+      }
+      return Promise.reject(err);
+    });
+}

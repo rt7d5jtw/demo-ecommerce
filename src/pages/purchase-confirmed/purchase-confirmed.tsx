@@ -1,11 +1,8 @@
 import * as React from 'react';
 import './purchase-confirmed.css';
-import { Footer } from '../../features/homepage-components/footer/footer.component';
-import Main from '../../features/homepage-components/main/main.component';
-import { Navbar } from '../../features/homepage-components/navbar/navbar.component';
-import Sidebar from '../../features/homepage-components/sidebar/sidebar.component';
 import { useSelector } from 'react-redux';
 import { selectRecentOrder, selectRecentOrderItems } from '../../features/order/selectors';
+import { getInvoice } from '../../features/order/api';
 //import { selectOrders } from '../../features/order/orderSlice';
 
 export const PurchaseConfirmed = (): JSX.Element => {
@@ -18,7 +15,7 @@ export const PurchaseConfirmed = (): JSX.Element => {
         <p>
           <b>Invoice #{order && order.id}</b>
         </p>
-        <a href='yeet'>View the invoice</a>
+        <a onClick={() => getInvoice()}>View the invoice</a>
       </div>
       <div className='purchase-col-1'>
         <p>Order Summary</p>

@@ -8,20 +8,21 @@ import {
   addOrderItems,
   removeOrder,
   stripeCreateIntent,
+  getInvoice,
 } from './api';
-import { Order, OrderDTO, OrderItem, PaymentIntentDTO } from './orderSlice';
+import { IOrder, OrderDTO, PaymentIntentDTO } from './orderSlice';
 
 // this gets user's orders
 export const fetch = createAsyncThunk(
   'order/fetch',
-  async (): Promise<Order[]> => {
+  async (): Promise<IOrder[]> => {
     return fetchOrders();
   }
 );
 
 export const fetchAll = createAsyncThunk(
   'order/fetchAll',
-  async (): Promise<Order[]> => {
+  async (): Promise<IOrder[]> => {
     return fetchAllOrders();
   }
 );
@@ -83,3 +84,7 @@ export const createIntent = createAsyncThunk(
     }
   }
 );
+
+export const invoice = createAsyncThunk('order/invoice', async () => {
+  return getInvoice();
+});
