@@ -9,7 +9,7 @@ export class PromotionsService {
   private logger = new Logger('PromotionRepository');
   constructor(
     @InjectRepository(PromotionRepository)
-    private promotionRepository: PromotionRepository,
+    private promotionRepository: PromotionRepository
   ) {}
 
   async fetchAll(): Promise<Promotion[] | Promotion> {

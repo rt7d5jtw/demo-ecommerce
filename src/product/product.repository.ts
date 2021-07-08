@@ -14,10 +14,9 @@ export class ProductRepository extends Repository<Product> {
     const query = this.createQueryBuilder('product');
 
     if (search) {
-      query.andWhere(
-        'product.title LIKE :search OR product.description LIKE :search',
-        { search: `%${search}%` },
-      );
+      query.andWhere('product.title LIKE :search OR product.description LIKE :search', {
+        search: `%${search}%`,
+      });
     }
 
     if (cat) {
@@ -29,14 +28,7 @@ export class ProductRepository extends Repository<Product> {
   }
 
   async createProduct(createProductDto: CreateProductDto): Promise<Product> {
-    const {
-      title,
-      image,
-      price,
-      description,
-      author,
-      category,
-    } = createProductDto;
+    const { title, image, price, description, author, category } = createProductDto;
 
     const product = new Product();
     product.title = title;

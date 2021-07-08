@@ -11,7 +11,7 @@ import { MulterModule } from '@nestjs/platform-express';
   imports: [
     TypeOrmModule.forFeature([CartRepository, ProductRepository]),
     MulterModule.register({
-      dest: './images'
+      dest: './images',
     }),
     AuthModule,
   ],

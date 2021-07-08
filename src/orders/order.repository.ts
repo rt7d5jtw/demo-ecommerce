@@ -7,13 +7,11 @@ import { generateInvoiceInformation, generateInvoiceTable } from './invoice';
 import { OrderItem } from './order-item.entity';
 import * as PDFDocument from 'pdfkit';
 import * as fs from 'fs';
+import { UnprocessableEntityException } from '@nestjs/common';
 
 @EntityRepository(Order)
 export class OrderRepository extends Repository<Order> {
-  async getOrders(
-    searchOrdersDto: SearchOrdersDto,
-    user: User,
-  ): Promise<Order[]> {
+  async getOrders(searchOrdersDto: SearchOrdersDto, user: User): Promise<Order[]> {
     const { status, search } = searchOrdersDto;
     const query = this.createQueryBuilder('order');
 
@@ -24,75 +22,70 @@ export class OrderRepository extends Repository<Order> {
     }
 
     if (search) {
-      query.andWhere('order.userId LIKE :search OR order.totalprice LIKE :search OR order.address LIKE :search', { search: `%${search}%` });
+      query.andWhere(
+        'order.userId LIKE :search OR order.totalprice LIKE :search OR order.address LIKE :search',
+        { search: `%${search}%` }
+      );
     }
 
     const orders = await query.getMany();
     return orders;
   }
 
-  async createInvoice(
-    user: User,
-  ): Promise<Buffer> {
-  const invoice = {
-    shipping: {
-      name: "I eat ass",
-      address: "1234 Main Street",
-      city: "San Francisco",
-      state: "CA",
-      country: "US",
-      postal_code: 94111
-    },
-    items: [
-      {
-        item: "TC 100",
-        description: "Toner Cartridge",
-        productId: 1,
-        quantity: 2,
-        amount: 6000
-      },
-      {
-        item: "USB_EXT",
-        description: "USB Cable Extender",
-        productId: 2,
-        quantity: 1,
-        amount: 2000
-      }
-    ],
-    subtotal: 8000,
-    paid: 0,
-    invoice_nr: 1234
-  };
+  async createInvoice(user: User, order: Order): Promise<Buffer> {
+    /* gets order items with product information for the invoice */
+    const manager = getManager();
+    const orderItems = await manager.query(`
+    SELECT "products"."title" AS "item", "products"."description",
+      "products"."id" as "productId", "order-item"."quantity", "products"."price" AS "amount"
+    FROM "orders"
+    INNER JOIN "order-item" 
+      ON "order-item"."orderId" = "orders"."id"
+    INNER JOIN "products"
+      ON "products"."id" = "order-item"."productId"
+      WHERE "order-item"."orderId" = '${order.id}'
+      AND "orders"."userId" = '${user['id']}'
+      `);
 
-    const pdfBuffer: Buffer = await new Promise(resolve => {
+    const invoice = {
+      shipping: {
+        email: user.email,
+        address: order.address,
+        city: order.city,
+        country: order.country,
+        postal_code: order.postalcode,
+      },
+      items: orderItems,
+      subtotal: order.total_price,
+      delivery: 5,
+      invoice_nr: order.id,
+    };
+
+    const pdfBuffer: Buffer = await new Promise((resolve) => {
       const doc = new PDFDocument({
         size: 'A4',
         margin: 50,
         bufferPages: true,
-      })
-      let path = 'stuff.pdf'
+      });
+      const path = 'invoices/stuff.pdf';
 
       // customize your PDF document
-      generateInvoiceInformation(doc, invoice)
-      generateInvoiceTable(doc, invoice)
+      generateInvoiceInformation(doc, invoice);
+      generateInvoiceTable(doc, invoice);
       doc.pipe(fs.createWriteStream(path));
-      doc.end()
+      doc.end();
 
-      const buffer = []
-      doc.on('data', buffer.push.bind(buffer))
+      const buffer = [];
+      doc.on('data', buffer.push.bind(buffer));
       doc.on('end', () => {
-        const data = Buffer.concat(buffer)
-        resolve(data)
-      })
-    })
-    return pdfBuffer
+        const data = Buffer.concat(buffer);
+        resolve(data);
+      });
+    });
+    return pdfBuffer;
   }
 
-  async createOrder(
-    createOrderDto: CreateOrderDto,
-    user: User,
-  ): Promise<Order> {
-
+  async createOrder(createOrderDto: CreateOrderDto, user: User): Promise<Order> {
     const { total_price, address, country, city, postalcode } = createOrderDto;
 
     const order = new Order();
@@ -100,60 +93,61 @@ export class OrderRepository extends Repository<Order> {
     order.address = address;
     order.country = country;
     order.city = city;
-    order.postalcode = postalcode;
+    order.postalcode = postalcode.toString();
     order.status = OrderStatus.PROCESSING;
     order.user = user;
 
-    await order.save();
-    delete order.user;
+    for (const key in order) {
+      if (order[key] === '' || order[key] === null || order[key] === undefined) {
+        throw new UnprocessableEntityException('Missing values from the order');
+      }
+    }
 
-    this.addOrderItems({ orderId: order.id }, user)
+    try {
+      await order.save();
+      delete order.user;
+    } catch (err) {
+      throw new Error(`Order could not be saved`);
+    }
 
-   return order;
+    this.addOrderItems(order.id, user);
+
+    return order;
   }
 
-  async addOrderItems(
-    orderIdDto: OrderIdDto,
-    user: User,
-  ): Promise<OrderItem[]> {
-
+  async addOrderItems(id: string, user: User): Promise<OrderItem[]> {
     const orderItem = new OrderItem();
 
     /* get cartId */
-    const userId = user["id"];
+    const userId = user['id'];
     const manager = getManager();
     const cartId = await manager.query(`
       SELECT id FROM "cart" as cart
       WHERE cart."userId" = '${userId}';
-      `)
+      `);
 
     const cartItems = await manager.query(`
       SELECT * FROM "cart-item" as ct
       WHERE ct."cartId" = '${cartId[0].id}';
-      `)
+      `);
 
     const orders = [];
     for (let i = 0; i < cartItems.length; i++) {
       /* iterates all the cart items into orders-array */
-      let order = {
+      const order = {
         orderId: null,
         price: null,
         quantity: null,
-        product: null
-      }
-      order.orderId = orderIdDto.orderId;
+        product: null,
+      };
+      order.orderId = id;
       order.price = cartItems[i].price;
       order.quantity = cartItems[i].quantity;
       order.product = cartItems[i].productId;
-      orders.push(order)
+      orders.push(order);
     }
     /* insert to the array to database */
-    await getConnection()
-      .createQueryBuilder()
-      .insert()
-      .into(OrderItem)
-      .values(orders)
-      .execute();
+    await getConnection().createQueryBuilder().insert().into(OrderItem).values(orders).execute();
 
     return cartItems;
   }

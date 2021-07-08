@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { Cart } from './cart.entity';
 import { CartItem } from './cart-item.entity';
 import { CartRepository } from './cart.repository';
@@ -13,27 +13,23 @@ import * as fs from 'fs';
 export class CartService {
   constructor(
     @InjectRepository(CartRepository)
-    private cartRepository: CartRepository,
+    private cartRepository: CartRepository
   ) {}
 
-  async getCart(
-    user: User,
-  ): Promise<Cart[]> {
-    const userId = user["id"];
+  async getCart(user: User): Promise<Cart> {
+    const userId = user['id'];
     const cartId = await this.cartRepository.find({
-      where: [
-        { "userId": userId }
-      ]
+      where: [{ userId: userId }],
     });
-    return cartId;
+    return cartId[0];
   }
 
   async getCartItems(user: User): Promise<CartItem[]> {
     const cartId = await this.getCart(user);
     const cartItem = await getRepository(CartItem)
-      .createQueryBuilder("cartItem")
-      .select("cartItem")
-      .where("cartItem.cartId = :cartId", { cartId: cartId[0].id })
+      .createQueryBuilder('cartItem')
+      .select('cartItem')
+      .where('cartItem.cartId = :cartId', { cartId: cartId.id })
       .getMany();
 
     return cartItem;
@@ -41,113 +37,119 @@ export class CartService {
 
   async getCartItem(user: User, id: string): Promise<CartItem> {
     /* get cartId */
-    const userId = user["id"];
+    const userId = user['id'];
     const cartId = await this.cartRepository.find({
-      where: [
-        { "userId": userId }
-      ]
+      where: [{ userId: userId }],
     });
     const cartItem = await getRepository(CartItem)
-      .createQueryBuilder("cartItem")
-      .where("cartItem.cartId = :cartId", { cartId: cartId[0].id })
-      .andWhere("cartItem.id = :id", { id: id })
-      .getOne()
+      .createQueryBuilder('cartItem')
+      .where('cartItem.cartId = :cartId', { cartId: cartId[0].id })
+      .andWhere('cartItem.id = :id', { id: id })
+      .getOne();
 
     return cartItem;
   }
 
-  async getCartInfo(user: User): Promise<CartItemInfo> {
+  async getCartState(user: User): Promise<CartItemInfo> {
     /* get cart id */
-    const userId = user["id"];
+    const userId = user['id'];
     const cartId = await this.cartRepository.find({
-      where: [
-        { "userId": userId }
-      ]
+      where: [{ userId: userId }],
     });
+    if (cartId.length === 0) {
+      throw new NotFoundException('User has no cart');
+    }
 
     const manager = getManager();
-    const rawData = await manager.query(`
-      SELECT ct."cartId", ct."productId", ct."id", prods."title", 
+
+    /* gets cart items with matching productId */
+    const cartItems = await manager.query(`
+      SELECT ct."productId", prods."title", 
       prods."image", prods."price", ct."quantity" FROM "cart-item" as ct
       JOIN "products" as prods
         ON prods."id" = ct."productId"
       WHERE ct."cartId" = '${cartId[0].id}';
       `);
-    return rawData;
+    return cartItems;
   }
 
   async getProductPrice(id: number): Promise<number> {
     const productRepository = getRepository(Product);
     const product = await productRepository.findOne(id);
-    return product["price"];
+    return product['price'];
   }
 
   async createCart(user: User): Promise<Cart> {
-    return this.cartRepository.createCart(user)
+    return this.cartRepository.createCart(user);
   }
 
   async copyFile(file: Express.Multer.File) {
-    let buffer = Buffer.from(file);
+    const buffer = Buffer.from(file);
     fs.copyFile(buffer, 'stuff.jpg', (err) => {
       if (err) throw err;
-    })
+    });
   }
 
   // adds a cartItemId to Cart entity and adds product to cart-item entity
-  async addToCart(
-    id: number,
-    user: User,
-    cartItemDto: CartItemDto,
-  ): Promise<CartItem> {
+  async addToCart(id: number, user: User, cartItemDto: CartItemDto): Promise<any> {
     const { quantity } = cartItemDto;
+    if (!quantity) {
+      throw new NotFoundException('Quantity is missing');
+    }
     const cartId = await this.getCart(user);
-    const price = await this.getProductPrice(id);
+    if (!cartId) {
+      throw new NotFoundException('User has no cart');
+    }
+    const price = await this.getProductPrice(id).catch(() => {
+      throw new NotFoundException('Price could not be found');
+    });
 
     const cartItem = new CartItem();
 
-    cartItem.cartId = cartId[0].id;
+    cartItem.cartId = cartId.id;
     cartItem.quantity = quantity;
     cartItem.price = price * quantity;
     cartItem.productId = id;
 
     /* checks if Cart Items with same productId and cartId exists in the Cart Item table
      * if so it sums quantity and price of the two objects and removes the redundant copy 'cart_copy' */
-    const cartItems = await this.getCartItems(user)
+    const cartItems = await this.getCartItems(user);
     for (let i = 0; i < cartItems.length; i++) {
-      if (cartItems[i].cartId === cartItem.cartId && cartItems[i].productId === cartItem.productId) {
-        let cart_copy = cartItems[i].productId
+      if (
+        cartItems[i].cartId === cartItem.cartId &&
+        cartItems[i].productId === cartItem.productId
+      ) {
+        const cart_copy = cartItems[i].productId;
         cartItem.quantity = cartItems[i].quantity + cartItem.quantity;
         cartItem.price = cartItems[i].price + cartItem.price;
-        this.removeCartItem(cart_copy, user)
+        this.removeCartItem(cart_copy, user);
       }
     }
     await cartItem.save();
     return cartItem;
-  };
+  }
 
   async removeCartItem(productId: number, user: User): Promise<void | string> {
     /* get cart id */
-    const userId = user["id"];
+    const userId = user['id'];
     const cartId = await this.cartRepository.find({
-      where: [
-        { "userId": userId }
-      ]
+      where: [{ userId: userId }],
     });
 
     const cartItem = await getRepository(CartItem)
-      .createQueryBuilder("cartItem")
-      .where("cartItem.cartId = :cartId", { cartId: cartId[0].id })
-      .andWhere("cartItem.productId = :productId", { productId: productId })
-      .getOne()
+      .createQueryBuilder('cartItem')
+      .where('cartItem.cartId = :cartId', { cartId: cartId[0].id })
+      .andWhere('cartItem.productId = :productId', { productId: productId })
+      .getOne();
 
     if (cartItem == null) {
       throw new NotFoundException(`Cart Item with ID "${productId}" not found`);
     }
 
-    const deletion_id = await cartItem.id
+    const deletion_id = await cartItem.id;
     /* compare cartids */
     const cartIdCmp = cartId[0].id;
-    const cartIdCmp2 = cartItem["cartId"];
+    const cartIdCmp2 = cartItem['cartId'];
 
     if (cartIdCmp === cartIdCmp2) {
       getRepository(CartItem).delete(deletion_id);
@@ -156,14 +158,15 @@ export class CartService {
     }
   }
 
-  async clearCart(user: User): Promise<void> {
+  async clearCart(user: User): Promise<any> {
     /* get cart id */
-    const userId = user["id"];
+    const userId = user['id'];
     const cartId = await this.cartRepository.find({
-      where: [
-        { "userId": userId }
-      ]
+      where: [{ userId: userId }],
     });
+    if (cartId.length === 0) {
+      throw new NotFoundException('No cart found');
+    }
 
     /* uses cart id to delete all the items from user */
     const cartItemRepository = getRepository(CartItem);

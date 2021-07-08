@@ -1,11 +1,6 @@
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { User, UserRole } from './user.entity';
-import {
-  ChangePasswordDto,
-  ChangeEmailDto,
-  CreateUserDto,
-  UpdateUserDto,
-} from './dto/user.dto';
+import { ChangePasswordDto, ChangeEmailDto, CreateUserDto, UpdateUserDto } from './dto/user.dto';
 import { SearchUserDto } from './dto/search-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserRepository } from './user.repository';
@@ -15,7 +10,7 @@ export class UsersService {
   private logger = new Logger('UsersService');
   constructor(
     @InjectRepository(UserRepository)
-    private userRepository: UserRepository,
+    private userRepository: UserRepository
   ) {}
 
   getUsers(searchUserDto: SearchUserDto): Promise<User[]> {
@@ -54,18 +49,11 @@ export class UsersService {
     return this.userRepository.createUser(createUserDto);
   }
 
-  async updatePassword(user: User, password: string): Promise<User> {
-    return this.userRepository.updatePassword(user, password);
-  }
-
-  async changePassword(
-    user: User,
-    changePasswordDto: ChangePasswordDto,
-  ): Promise<User> {
+  async changePassword(user: User, changePasswordDto: ChangePasswordDto): Promise<string> {
     return this.userRepository.changePassword(user, changePasswordDto);
   }
 
-  async changeEmail(user: User, changeEmailDto: ChangeEmailDto): Promise<User> {
+  async changeEmail(user: User, changeEmailDto: ChangeEmailDto): Promise<string> {
     return this.userRepository.changeEmail(user, changeEmailDto);
   }
 

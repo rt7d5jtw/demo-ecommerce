@@ -3,26 +3,26 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CreateOrderDto, OrderIdDto, OrderItemDto } from './dto/order.do';
 import { SearchOrdersDto } from './dto/search-orders.dto';
 import { Order } from './order.entity';
-import { User } from '../users/user.entity';
+import { User, UserRole } from '../users/user.entity';
 import { OrderRepository } from './order.repository';
 import { OrderItem } from './order-item.entity';
 import { getRepository } from 'typeorm';
 import { PaymentDto } from './dto/payment.dto';
 import Stripe from 'stripe';
+import { Readable } from 'stream';
 
-const stripe = require('stripe')('sk_test_51HUuCuDiJxi7nioJcrisEWkl6dtdxpbeKEF6DoQFbGxwlvqwCLfITvmxQPagXFAy8MpRzSO3GmgYXq91ir5sbNef00up3ewzgb')
+const stripe = require('stripe')(
+  'sk_test_51HUuCuDiJxi7nioJcrisEWkl6dtdxpbeKEF6DoQFbGxwlvqwCLfITvmxQPagXFAy8MpRzSO3GmgYXq91ir5sbNef00up3ewzgb'
+);
 
 @Injectable()
 export class OrdersService {
   constructor(
     @InjectRepository(OrderRepository)
-    private orderRepository: OrderRepository,
+    private orderRepository: OrderRepository
   ) {}
 
-  async getOrders(
-    searchOrdersDto: SearchOrdersDto,
-    user: User,
-  ): Promise<Order[]> {
+  async getOrders(searchOrdersDto: SearchOrdersDto, user: User): Promise<Order[]> {
     return this.orderRepository.getOrders(searchOrdersDto, user);
   }
 
@@ -38,26 +38,23 @@ export class OrdersService {
     return this.orderRepository.query('SELECT * FROM public.orders');
   }
 
-  async getOrderItemById(id: string, user: User): Promise<OrderItem> {
-    const userId = user["id"];
-    const orderId = await this.orderRepository.find({
-      where: [
-        { "userId": userId }
-      ]
-    });
-    const orderItem = await getRepository(OrderItem)
-      .createQueryBuilder("orderItem")
-      .where("orderItem.orderId = :orderId", { orderId: orderId[0].id })
-      .andWhere("orderItem.id = :id", { id: id })
-      .getOne()
+  async getOrderItemById(id: string, user: User): Promise<OrderItem[]> {
+    const userId = user['id'];
+    const order = await this.orderRepository
+      .createQueryBuilder('orders')
+      .where('orders.userId = :userId', { userId: userId })
+      .andWhere('orders.id = :id', { id: id })
+      .getOne();
 
-    return orderItem;
+    const orderItems = await getRepository(OrderItem)
+      .createQueryBuilder('orderItem')
+      .where('orderItem.orderId = :orderId', { orderId: order.id })
+      .getMany();
+
+    return orderItems;
   }
 
-  async addPaymentIntent(
-    paymentDto: PaymentDto,
-    user: User,
-  ): Promise<Stripe.PaymentIntent> {
+  async addPaymentIntent(paymentDto: PaymentDto, user: User): Promise<Stripe.PaymentIntent> {
     const { amount, currency, payment_method_types, metadata } = paymentDto;
     const params: Stripe.PaymentIntentCreateParams = {
       // Stripe's API assumes amount in smallest currency unit
@@ -65,37 +62,43 @@ export class OrdersService {
       amount: amount * 100,
       currency,
       payment_method_types: [payment_method_types],
-      metadata
-    }
-    const paymentIntent: Stripe.PaymentIntent = await stripe.paymentIntents.create(
-      params
-    );
+      metadata,
+    };
+    const paymentIntent: Stripe.PaymentIntent = await stripe.paymentIntents.create(params);
     return paymentIntent;
   }
 
-  async createInvoice(
-    user: User,
-  ): Promise<Buffer> {
-    return this.orderRepository.createInvoice(user)
+  async createInvoice(user: User, order: Order): Promise<Buffer> {
+    return this.orderRepository.createInvoice(user, order);
   }
 
-  async createOrder(
-    createOrderDto: CreateOrderDto,
-    user: User,
-  ): Promise<Order> {
+  async createOrder(createOrderDto: CreateOrderDto, user: User): Promise<Order> {
     return this.orderRepository.createOrder(createOrderDto, user);
   }
 
-  async deleteOrder(id: string, user: User): Promise<void> {
-    const userId = user["id"];
-    const orderId = await this.orderRepository.find({
-      where: [
-        { "userId": userId }
-      ]
-    });
+  async getReadableStream(buffer: Buffer): Promise<Readable> {
+    const stream = new Readable();
 
+    stream.push(buffer);
+    stream.push(null);
+
+    return stream;
+  }
+
+  async deleteOrder(id: string, user: User): Promise<any> {
+    /* get userid */
+    const userId = user['id'];
+    /* get order */
+    const order = await this.orderRepository.find({
+      where: [{ id: id }],
+    });
+    /*
+    if (order.userId !== userId && user.role != UserRole.ADMIN) {
+      throw new Error('Invalid authorization')
+    }
+    */
     const orderItemRepository = getRepository(OrderItem);
-    orderItemRepository.delete({ orderId: orderId[0].id });
+    orderItemRepository.delete({ orderId: order[0].id });
 
     const result = await this.orderRepository.delete(id);
     if (result.affected === 0) {
@@ -103,11 +106,7 @@ export class OrdersService {
     }
   }
 
-  async addOrderItems(
-    orderIdDto: OrderIdDto,
-    user: User,
-  ): Promise<OrderItem[]> {
-    return this.orderRepository.addOrderItems(orderIdDto, user)
+  async addOrderItems(id: string, user: User): Promise<OrderItem[]> {
+    return this.orderRepository.addOrderItems(id, user);
   }
-
 }

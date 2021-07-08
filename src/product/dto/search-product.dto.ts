@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsOptional, IsIn } from "class-validator";
+import { IsNotEmpty, IsOptional, IsIn } from 'class-validator';
 import { ProductStatus } from '../product.entity';
 
 export class SearchProductDto {

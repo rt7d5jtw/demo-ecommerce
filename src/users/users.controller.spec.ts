@@ -5,7 +5,7 @@ import { UsersService } from './users.service';
 
 const mockUsersService = () => ({
   createUser: jest.fn(),
-})
+});
 
 describe('UsersController', () => {
   let usersController: UsersController;
@@ -14,17 +14,14 @@ describe('UsersController', () => {
   beforeEach(async () => {
     const module = await Test.createTestingModule({
       controllers: [UsersController],
-      providers: [
-        { provide: UsersService, useFactory: mockUsersService },
-      ],
+      providers: [{ provide: UsersService, useFactory: mockUsersService }],
     }).compile();
 
     usersController = module.get<UsersController>(UsersController);
     usersService = module.get<UsersService>(UsersService);
-  })
+  });
 
   describe('createUser', () => {
-    it('to be implemented', () => {
-    })
-  })
-})
+    it('to be implemented', () => {});
+  });
+});

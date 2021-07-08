@@ -8,8 +8,10 @@ import { JwtPayload } from './jwt-payload.interface';
 @Injectable()
 export class AuthService {
   private logger = new Logger('AuthService');
-  constructor(@InjectRepository(UserRepository)
-  private userRepository: UserRepository, private jwtService: JwtService,
+  constructor(
+    @InjectRepository(UserRepository)
+    private userRepository: UserRepository,
+    private jwtService: JwtService
   ) {}
 
   async signIn(loginDto: LoginDto): Promise<{ accessToken: string }> {

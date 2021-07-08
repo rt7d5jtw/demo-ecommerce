@@ -1,4 +1,12 @@
-import { Entity, Column, BaseEntity, PrimaryGeneratedColumn, CreateDateColumn, ManyToOne, OneToMany } from "typeorm";
+import {
+  Entity,
+  Column,
+  BaseEntity,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  ManyToOne,
+  OneToMany,
+} from 'typeorm';
 import { User } from '../users/user.entity';
 import { OrderItem } from './order-item.entity';
 
@@ -9,7 +17,7 @@ export enum OrderStatus {
 
 @Entity('orders')
 export class Order extends BaseEntity {
-  @PrimaryGeneratedColumn("uuid")
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column({ type: 'uuid' })
@@ -28,7 +36,7 @@ export class Order extends BaseEntity {
   city: string;
 
   @Column()
-  postalcode: number;
+  postalcode: string;
 
   @Column()
   status: OrderStatus;
@@ -36,11 +44,11 @@ export class Order extends BaseEntity {
   @CreateDateColumn({ type: 'date' })
   date: Date;
 
-  @ManyToOne(() => User, user => user.orders, {
-    eager: false
+  @ManyToOne(() => User, (user) => user.orders, {
+    eager: false,
   })
   user: User;
 
-  @OneToMany(() => OrderItem, orderitem => orderitem.order)
+  @OneToMany(() => OrderItem, (orderitem) => orderitem.order)
   orderitems: OrderItem[];
 }

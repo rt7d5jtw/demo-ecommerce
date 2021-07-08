@@ -7,10 +7,11 @@ import {
   ParseIntPipe,
   Patch,
   Post,
-  Query,
+  UseGuards,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { PromotionDto } from './dto/promotion.dto';
 import { Promotion } from './promotion.entity';
 import { PromotionsService } from './promotions.service';
@@ -34,7 +35,7 @@ export class PromotionsController {
   @Patch(':id')
   update(
     @Param('id', ParseIntPipe) id: number,
-    @Body() promotionDto: PromotionDto,
+    @Body() promotionDto: PromotionDto
   ): Promise<Promotion> {
     return this.promotionService.update(id, promotionDto);
   }

@@ -2,10 +2,7 @@ import { PipeTransform, BadRequestException } from '@nestjs/common';
 import { UserRole } from '../user.entity';
 
 export class UserRoleValidationPipe implements PipeTransform {
-  readonly allowedRoles = [
-    UserRole.ADMIN,
-    UserRole.USER,
-  ];
+  readonly allowedRoles = [UserRole.ADMIN, UserRole.USER];
 
   transform(value: any) {
     value = value.toUpperCase();

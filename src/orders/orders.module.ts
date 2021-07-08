@@ -6,10 +6,7 @@ import { OrderRepository } from './order.repository';
 import { AuthModule } from '../auth/auth.module';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([OrderRepository]),
-    AuthModule,
-  ],
+  imports: [TypeOrmModule.forFeature([OrderRepository]), AuthModule],
   controllers: [OrdersController],
   providers: [OrdersService],
 })

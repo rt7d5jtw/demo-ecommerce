@@ -3,7 +3,7 @@ export interface CreateOrderDto {
   address: string;
   country: string;
   city: string;
-  postalcode: number;
+  postalcode: string;
 }
 
 export interface OrderItemDto {
@@ -13,4 +13,4 @@ export interface OrderItemDto {
   productId: number;
 }
 
-export type OrderIdDto = Pick<OrderItemDto, "orderId">;
+export type OrderIdDto = Pick<OrderItemDto, 'orderId'>;

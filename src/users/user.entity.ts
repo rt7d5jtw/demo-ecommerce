@@ -1,4 +1,12 @@
-import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, OneToMany, OneToOne, CreateDateColumn } from "typeorm";
+import {
+  Entity,
+  BaseEntity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToMany,
+  OneToOne,
+  CreateDateColumn,
+} from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { Cart } from '../cart/cart.entity';
 import { Order } from '../orders/order.entity';
@@ -10,13 +18,13 @@ export enum UserRole {
 
 @Entity('users')
 export class User extends BaseEntity {
-  @PrimaryGeneratedColumn("uuid")
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column({ unique: true })
   email!: string;
 
-  @Column({ length: 150, type: "varchar" })
+  @Column({ length: 150, type: 'varchar' })
   password: string;
 
   @Column()
@@ -28,10 +36,10 @@ export class User extends BaseEntity {
   @CreateDateColumn({ name: 'registered_at', type: 'date' })
   createdAt: Date;
 
-  @OneToOne(() => Cart, cart => cart.user)
+  @OneToOne(() => Cart, (cart) => cart.user)
   cart: Cart;
 
-  @OneToMany(() => Order, order => order.user, { eager: true })
+  @OneToMany(() => Order, (order) => order.user, { eager: true })
   orders: Order[];
 
   async validatePassword(password: string): Promise<boolean> {

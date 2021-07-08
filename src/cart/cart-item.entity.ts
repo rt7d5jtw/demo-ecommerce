@@ -1,10 +1,18 @@
-import { Entity, PrimaryGeneratedColumn, BaseEntity, Column, JoinColumn, CreateDateColumn, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  BaseEntity,
+  Column,
+  JoinColumn,
+  CreateDateColumn,
+  ManyToOne,
+} from 'typeorm';
 import { Cart } from './cart.entity';
 import { Product } from '../product/product.entity';
 
 @Entity('cart-item')
 export class CartItem extends BaseEntity {
-  @PrimaryGeneratedColumn("uuid")
+  @PrimaryGeneratedColumn('uuid')
   id: string | Promise<string>;
 
   @Column({ type: 'uuid' })
@@ -19,16 +27,15 @@ export class CartItem extends BaseEntity {
   @Column('float')
   price: number;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ type: 'date' })
   CreatedAt: Date;
 
-  @ManyToOne(() => Cart, cart => cart.cartItems, {
+  @ManyToOne(() => Cart, (cart) => cart.cartItems, {
     onDelete: 'CASCADE',
   })
   @JoinColumn([{ name: 'cartId', referencedColumnName: 'id' }])
   cart: Cart;
 
-  @ManyToOne(() => Product, product => product.cartItem)
-  product: Product[]
-
+  @ManyToOne(() => Product, (product) => product.cartItem)
+  product: Product[];
 }

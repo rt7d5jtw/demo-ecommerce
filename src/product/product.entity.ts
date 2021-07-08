@@ -1,4 +1,13 @@
-import { BaseEntity, PrimaryGeneratedColumn, Column, Entity, CreateDateColumn, UpdateDateColumn, OneToMany, ManyToOne } from "typeorm";
+import {
+  BaseEntity,
+  PrimaryGeneratedColumn,
+  Column,
+  Entity,
+  CreateDateColumn,
+  UpdateDateColumn,
+  OneToMany,
+  ManyToOne,
+} from 'typeorm';
 import { CartItem } from '../cart/cart-item.entity';
 import { OrderItem } from '../orders/order-item.entity';
 import { Category } from '../category/category.entity';
@@ -20,7 +29,7 @@ export class Product extends BaseEntity {
   title: string;
 
   @Column()
-  image: string
+  image: string;
 
   @Column('float')
   price: number;
@@ -34,19 +43,18 @@ export class Product extends BaseEntity {
   @Column()
   status: ProductStatus;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ type: 'date' })
   createdAt: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ type: 'date' })
   updatedAt: Date;
 
-  @OneToMany(() => CartItem, cartitem => cartitem.product)
+  @OneToMany(() => CartItem, (cartitem) => cartitem.product)
   cartItem: CartItem[];
 
-  @OneToMany(() => OrderItem, orderitem => orderitem.product)
+  @OneToMany(() => OrderItem, (orderitem) => orderitem.product)
   orderItem: OrderItem[];
 
-  @ManyToOne(() => Category, category => category.product)
-  category: Category
-
+  @ManyToOne(() => Category, (category) => category.product)
+  category: Category;
 }

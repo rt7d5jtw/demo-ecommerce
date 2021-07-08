@@ -3,12 +3,12 @@ import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, OneToMany } from 't
 
 @Entity('category')
 export class Category extends BaseEntity {
-  @PrimaryGeneratedColumn("uuid")
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column()
   cname: string;
 
-  @OneToMany(() => Product, product => product.category)
+  @OneToMany(() => Product, (product) => product.category)
   product: Product;
 }

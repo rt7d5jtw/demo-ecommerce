@@ -38,11 +38,8 @@ describe('UsersService', () => {
 
   beforeEach(async () => {
     const module = await Test.createTestingModule({
-      providers: [
-        UsersService,
-        { provide: UserRepository, useFactory: mockUserRepository },
-      ],
-    }).compile()
+      providers: [UsersService, { provide: UserRepository, useFactory: mockUserRepository }],
+    }).compile();
 
     usersService = module.get<UsersService>(UsersService);
     userRepository = module.get<UserRepository>(UserRepository);
@@ -54,7 +51,7 @@ describe('UsersService', () => {
       const result = await usersService.getUsers(null);
       expect(result).toEqual('someValue');
     });
-  })
+  });
 
   describe('getUserById', () => {
     it('calls userRepository.findOne() and returns a user', async () => {
@@ -65,27 +62,27 @@ describe('UsersService', () => {
         role: 'ADMIN',
         salt: '$2b$10$9YsWW.gyD8Mz7zV8uUhrae',
         createdAt: '2021-04-24',
-        orders: []
-      }
-      userRepository.findOne.mockResolvedValue(mockUser2)
+        orders: [],
+      };
+      userRepository.findOne.mockResolvedValue(mockUser2);
       const result = await usersService.getUserById('255c8982-4257-407d-b002-1e76dac3a075');
       expect(result).toEqual(mockUser2);
-      expect(userRepository.findOne).toHaveBeenCalledWith(mockUser2.id)
-    })
+      expect(userRepository.findOne).toHaveBeenCalledWith(mockUser2.id);
+    });
 
     it('throws an error as user is not found', () => {
       userRepository.findOne.mockResolvedValue(null);
       expect(usersService.getUserById(mockUser.id)).rejects.toThrow(NotFoundException);
-    })
-  })
+    });
+  });
 
   describe('createUser', () => {
     it('calls the userRepository.create and returns a user', async () => {
       const createUserDto = { email: 'test@testing.com', password: 'yeetmageet123' };
       const result = userRepository.createUser(createUserDto);
       expect(userRepository.createUser).toHaveReturnedWith(result);
-    })
-  })
+    });
+  });
 
   describe('deleteUserById', () => {
     it('calls userRepository.delete() to delete a user and returns void', async () => {
@@ -93,16 +90,16 @@ describe('UsersService', () => {
       expect(userRepository.delete).not.toHaveBeenCalled();
       await usersService.deleteUserById(mockUser.id);
       expect(userRepository.delete).toHaveBeenCalledWith(mockUser.id);
-    })
+    });
 
     it('throws an error as user with that id could not be found', () => {
       userRepository.delete.mockResolvedValue({ affected: 0 });
       expect(usersService.deleteUserById(mockUser.id)).rejects.toThrow(NotFoundException);
-    })
-  })
+    });
+  });
 
   describe('changePassword', () => {
-    it('calls userRepository.changePassword to change user\'s password and returns a user', async () => {
+    it("calls userRepository.changePassword to change user's password and returns a user", async () => {
       const newSalt = '$2b$10$hRzg3XHVgmsZjPGbya4dme3.QA1ZbpSXz93.MlOlAMlzbKWKU2Lkq';
       const mockUser3 = mockUser;
       mockUser.salt = newSalt;
@@ -110,6 +107,6 @@ describe('UsersService', () => {
       userRepository.changePassword.mockResolvedValue(mockUser3);
       const result = await usersService.changePassword(mockUser, changePasswordDto);
       expect(result.salt).toEqual(mockUser3.salt);
-    })
-  })
-})
+    });
+  });
+});

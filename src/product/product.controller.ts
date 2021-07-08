@@ -1,8 +1,22 @@
-import { Controller, Body, Param, Query, Get, Post, Patch, Delete, UsePipes, ValidationPipe, ParseIntPipe } from '@nestjs/common';
+import {
+  Controller,
+  Body,
+  Param,
+  Query,
+  Get,
+  Post,
+  Patch,
+  Delete,
+  UsePipes,
+  ValidationPipe,
+  ParseIntPipe,
+  UseGuards,
+} from '@nestjs/common';
 import { ProductService } from './product.service';
 import { Product, ProductStatus } from './product.entity';
 import { CreateProductDto, UpdateProductDto } from './dto/product.dto';
 import { SearchProductDto } from './dto/search-product.dto';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('product')
 export class ProductController {
@@ -20,9 +34,7 @@ export class ProductController {
 
   @Post()
   @UsePipes(ValidationPipe)
-  createProduct(
-    @Body() createProductDto: CreateProductDto
-  ): Promise<Product> {
+  createProduct(@Body() createProductDto: CreateProductDto): Promise<Product> {
     return this.productService.createProduct(createProductDto);
   }
 

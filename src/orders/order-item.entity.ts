@@ -4,22 +4,21 @@ import { Product } from '../product/product.entity';
 
 @Entity('order-item')
 export class OrderItem extends BaseEntity {
-  @PrimaryGeneratedColumn("uuid")
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column()
   orderId: string;
 
   @Column({ type: 'float' })
-  price: number
+  price: number;
 
   @Column()
   quantity: number;
 
-  @ManyToOne(() => Order, order => order.orderitems)
+  @ManyToOne(() => Order, (order) => order.orderitems)
   order: Order;
 
-  @ManyToOne(() => Product, product => product.orderItem)
-  product: Product[]
-
+  @ManyToOne(() => Product, (product) => product.orderItem)
+  product: Product[];
 }

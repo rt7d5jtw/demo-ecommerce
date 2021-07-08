@@ -1,4 +1,4 @@
-import { IsUrl, IsString, IsNotEmpty } from "class-validator";
+import { IsUrl, IsString, IsNotEmpty } from 'class-validator';
 
 export class CreateProductDto {
   @IsString()
@@ -15,4 +15,4 @@ export class CreateProductDto {
   category: string;
 }
 
-export type UpdateProductDto = Partial<CreateProductDto>
+export type UpdateProductDto = Partial<CreateProductDto>;

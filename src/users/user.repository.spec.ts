@@ -10,13 +10,11 @@ describe('UserRepository', () => {
 
   beforeEach(async () => {
     const module = await Test.createTestingModule({
-      providers: [
-        UserRepository,
-      ],
+      providers: [UserRepository],
     }).compile();
 
     userRepository = module.get<UserRepository>(UserRepository);
-  })
+  });
 
   describe('createUser', () => {
     let save;
@@ -28,8 +26,8 @@ describe('UserRepository', () => {
     it('Creates a user', () => {
       save.mockResolvedValue(undefined);
       expect(userRepository.createUser(mockUser)).resolves.not.toThrow();
-    })
-  })
+    });
+  });
 
   describe('validateUserPassword', () => {
     let user;
@@ -39,21 +37,21 @@ describe('UserRepository', () => {
       user = new User();
       user.email = 'test@testing.com';
       user.validatePassword = jest.fn();
-    })
+    });
 
     it('returns user email on success', async () => {
       userRepository.findOne.mockResolvedValue(user);
       user.validatePassword.mockResolvedValue(true);
       const result = await userRepository.validateUserPassword(mockUser);
       expect(result).toEqual('test@testing.com');
-    })
+    });
 
     it('returns null if user is invalid', async () => {
       userRepository.findOne.mockResolvedValue(null);
       const result = await userRepository.validateUserPassword(mockUser);
       expect(user.validatePassword).not.toHaveBeenCalled();
       expect(result).toBeNull();
-    })
+    });
 
     it('returns null as password is invalid', async () => {
       userRepository.findOne.mockResolvedValue(user);
@@ -61,8 +59,8 @@ describe('UserRepository', () => {
       const result = await userRepository.validateUserPassword(mockUser);
       expect(user.validatePassword).toHaveBeenCalled();
       expect(result).toBeNull();
-    })
-  })
+    });
+  });
 
   describe('hashPassword', () => {
     it('calls bcrypt.hash to generate a hash', async () => {
@@ -71,6 +69,6 @@ describe('UserRepository', () => {
       const result = await userRepository.hashPassword('yeetmageet123', 'testSalt');
       expect(bcrypt.hash).toHaveBeenCalledWith('yeetmageet123', 'testSalt');
       expect(result).toEqual('testHash');
-    })
-  })
-})
+    });
+  });
+});

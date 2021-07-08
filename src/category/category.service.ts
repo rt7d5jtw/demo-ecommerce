@@ -8,7 +8,7 @@ import { SearchCategoryDto, CreateCategoryDto } from './dto/category.dto';
 export class CategoryService {
   constructor(
     @InjectRepository(CategoryRepository)
-    private categoryRepository: CategoryRepository,
+    private categoryRepository: CategoryRepository
   ) {}
 
   async getCategory(searchCategoryDto: SearchCategoryDto): Promise<Category[]> {
@@ -19,22 +19,33 @@ export class CategoryService {
     const { cname } = createCategoryDto;
     const category = new Category();
     category.cname = cname;
-    await category.save()
+    if (cname.length === 0) {
+      throw new NotFoundException('Missing argument or invalid argument');
+    }
+    await category.save();
 
     return category;
   }
 
   async updateCategory(id: string, createCategoryDto: CreateCategoryDto): Promise<Category> {
     const { cname } = createCategoryDto;
-    const category = await this.categoryRepository.findOne(id)
+    const category = await this.categoryRepository.findOne(id);
+    if (!category) {
+      throw new NotFoundException(`No category found with "${id}"`);
+    }
+
     category.cname = cname;
-    await category.save()
+
+    if (cname.length === 0) {
+      throw new NotFoundException('Missing argument or invalid argument');
+    }
+    await category.save();
 
     return category;
   }
 
   async deleteCategory(id: string): Promise<void> {
-    const category = await this.categoryRepository.delete(id)
+    const category = await this.categoryRepository.delete(id);
 
     if (category.affected === 0) {
       throw new NotFoundException(`Category with ID "${id}" not found`);

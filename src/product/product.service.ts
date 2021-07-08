@@ -11,7 +11,7 @@ export class ProductService {
   private logger = new Logger('ProductController');
   constructor(
     @InjectRepository(ProductRepository)
-    private productRepository: ProductRepository,
+    private productRepository: ProductRepository
   ) {}
 
   async getProducts(searchProductDto: SearchProductDto): Promise<Product[]> {
@@ -27,9 +27,7 @@ export class ProductService {
     return result;
   }
 
-  createProduct(
-    createProductDto: CreateProductDto
-  ): Promise<Product> {
+  createProduct(createProductDto: CreateProductDto): Promise<Product> {
     this.logger.verbose(`Creating a new product`);
     return this.productRepository.createProduct(createProductDto);
   }

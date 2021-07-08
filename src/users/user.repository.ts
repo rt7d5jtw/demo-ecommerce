@@ -1,14 +1,13 @@
-import { EntityRepository, getRepository, Repository } from "typeorm";
-import { User, UserRole } from "./user.entity";
+import { EntityRepository, getRepository, Repository } from 'typeorm';
+import { User, UserRole } from './user.entity';
 import { CreateUserDto, UpdateUserDto, ChangePasswordDto, ChangeEmailDto } from './dto/user.dto';
-import { SearchUserDto } from "./dto/search-user.dto";
-import { InternalServerErrorException, ConflictException } from "@nestjs/common";
+import { SearchUserDto } from './dto/search-user.dto';
+import { InternalServerErrorException, ConflictException } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { LoginDto } from '../auth/dto/auth.dto';
 
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
-
   async getUsers(searchUserDto: SearchUserDto): Promise<User[]> {
     const { role, search } = searchUserDto;
     const query = this.createQueryBuilder('user');
@@ -32,25 +31,18 @@ export class UserRepository extends Repository<User> {
     user.salt = await bcrypt.genSalt();
     user.password = await this.hashPassword(password, user.salt);
     user.email = email;
-    user.role = UserRole.USER
+    user.role = UserRole.USER;
 
     try {
       await user.save();
     } catch (error) {
-      if (error.code === '23505') { // duplicate email
+      if (error.code === '23505') {
+        // duplicate email
         throw new ConflictException('Email already exists');
       } else if (error.code === '23505') {
         throw new InternalServerErrorException();
       }
     }
-
-    return user;
-  }
-
-  async updatePassword(user: User, password: string): Promise<User> {
-    user.salt = await bcrypt.genSalt();
-    user.password = await this.hashPassword(password['password'], user.salt);
-    await user.save();
 
     return user;
   }
@@ -62,10 +54,11 @@ export class UserRepository extends Repository<User> {
     return user;
   }
 
-  async changePassword(user: User, changePasswordDto: ChangePasswordDto): Promise<User> {
+  async changePassword(user: User, changePasswordDto: ChangePasswordDto): Promise<string> {
     const { currentPassword, newPassword } = changePasswordDto;
-    console.log(currentPassword);
     if (user && (await user.validatePassword(currentPassword))) {
+      if (newPassword === currentPassword)
+        throw new ConflictException("You're already using this password");
       /* user succesfully validated */
       user.salt = await bcrypt.genSalt();
       user.password = await this.hashPassword(newPassword, user.salt);
@@ -73,18 +66,19 @@ export class UserRepository extends Repository<User> {
     } else {
       throw new ConflictException('Validation failed');
     }
-    return user;
+    return user.password;
   }
 
-  async changeEmail(user: User, changeEmailDto: ChangeEmailDto): Promise<User> {
+  async changeEmail(user: User, changeEmailDto: ChangeEmailDto): Promise<string> {
     const { currentEmail, newEmail } = changeEmailDto;
-    if (user.email == currentEmail) {
+    if (user.email === newEmail) throw new ConflictException(`Email is already in use`);
+    if (user.email === currentEmail) {
       user.email = newEmail;
       user.save();
     } else {
-      throw new ConflictException('Emails conflict');
+      throw new ConflictException('Wrong email provided');
     }
-    return user;
+    return user.email;
   }
 
   async updateUser(id: string, updateUserDto: UpdateUserDto): Promise<User> {
