@@ -25,23 +25,7 @@ export class UsersService {
     return user;
   }
 
-  async getUser(user: User): Promise<User> {
-    const result = await this.userRepository.findOne(user);
-    if (!result) {
-      throw new NotFoundException(`User with ID "${user}" not found!`);
-    }
-    return result;
-  }
-
   async getRoleByUser(user: User): Promise<UserRole> {
-    return user.role;
-  }
-
-  async getRole(id: string): Promise<any> {
-    const user = await this.getUserById(id);
-    if (!user) {
-      throw new NotFoundException(`User with ID "${id}" not found`);
-    }
     return user.role;
   }
 
@@ -55,10 +39,6 @@ export class UsersService {
 
   async changeEmail(user: User, changeEmailDto: ChangeEmailDto): Promise<string> {
     return this.userRepository.changeEmail(user, changeEmailDto);
-  }
-
-  async updateUser(id: string, updateUserDto: UpdateUserDto): Promise<User> {
-    return this.userRepository.updateUser(id, updateUserDto);
   }
 
   async updateUserRole(id: string, role: UserRole): Promise<UserRole> {

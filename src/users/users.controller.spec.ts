@@ -2,7 +2,6 @@ import { Test } from '@nestjs/testing';
 import { User, UserRole } from './user.entity';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
-import { ROUTE_ARGS_METADATA } from '@nestjs/common/constants';
 
 const bunchOfUsers = [
   {
@@ -31,8 +30,10 @@ const mockUsersService = () => ({
     });
   }),
   deleteUserById: jest.fn(),
-  changePassword: jest.fn((user, { currentPassword, newPassword }) => Promise.resolve(newPassword)),
-  changeEmail: jest.fn((user, { currentEmail, newEmail }) => Promise.resolve(newEmail)),
+  changePassword: jest.fn((_user, { currentPassword, newPassword }) =>
+    Promise.resolve(newPassword)
+  ),
+  changeEmail: jest.fn((_user, { currentEmail, newEmail }) => Promise.resolve(newEmail)),
   getUsers: jest.fn(() => Promise.resolve(bunchOfUsers)),
   getUserById: jest.fn((id) => {
     return Promise.resolve({

@@ -6,6 +6,7 @@ import { CartRepository } from './cart.repository';
 import { AuthModule } from '../auth/auth.module';
 import { ProductRepository } from '../product/product.repository';
 import { MulterModule } from '@nestjs/platform-express';
+import { PassportModule } from '@nestjs/passport';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { MulterModule } from '@nestjs/platform-express';
     MulterModule.register({
       dest: './images',
     }),
+    PassportModule,
     AuthModule,
   ],
   controllers: [CartController],

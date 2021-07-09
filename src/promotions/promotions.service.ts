@@ -17,7 +17,7 @@ export class PromotionsService {
   }
 
   async create(promotionDto: PromotionDto): Promise<Promotion> {
-    return this.promotionRepository.createa(promotionDto);
+    return this.promotionRepository.createPromotion(promotionDto);
   }
 
   async update(id: number, promotionDto: PromotionDto): Promise<Promotion> {

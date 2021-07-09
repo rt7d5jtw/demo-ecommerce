@@ -9,7 +9,7 @@ import { Promotion } from './promotion.entity';
 export class PromotionRepository extends Repository<Promotion> {
   private logger = new Logger('PromotionRepository');
 
-  async createa(promotionDto: PromotionDto): Promise<Promotion> {
+  async createPromotion(promotionDto: PromotionDto): Promise<Promotion> {
     const { title, url, image } = promotionDto;
     const promotion = new Promotion();
     promotion.title = title;

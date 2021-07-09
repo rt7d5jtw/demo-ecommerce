@@ -13,7 +13,7 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { User, UserRole } from './user.entity';
-import { ChangePasswordDto, ChangeEmailDto, CreateUserDto, UpdateUserDto } from './dto/user.dto';
+import { ChangePasswordDto, ChangeEmailDto, CreateUserDto } from './dto/user.dto';
 import { SearchUserDto } from './dto/search-user.dto';
 import { UserRoleValidationPipe } from './pipes/user-role-validation.pipe';
 import { GetUser } from './get_user.decorator';
@@ -30,12 +30,6 @@ export class UsersController {
   }
 
   @UseGuards(AuthGuard('jwt'))
-  @Get('/me')
-  getUser(@GetUser() user: User): Promise<User> {
-    return this.usersService.getUser(user);
-  }
-
-  @UseGuards(AuthGuard('jwt'))
   @Get('/role')
   getRoleByUser(@GetUser() user: User): Promise<UserRole> {
     return this.usersService.getRoleByUser(user);
@@ -47,12 +41,6 @@ export class UsersController {
     return this.usersService.getUserById(id);
   }
 
-  @UseGuards(AuthGuard('jwt'))
-  @Get(':id/role')
-  getRole(@Param('id') id: string): Promise<User> {
-    return this.usersService.getRole(id);
-  }
-
   @Post()
   @UsePipes(ValidationPipe)
   createUser(@Body() createUserDto: CreateUserDto): Promise<User> {
@@ -61,6 +49,7 @@ export class UsersController {
 
   @UseGuards(AuthGuard('jwt'))
   @Patch('changepw')
+  @UsePipes(ValidationPipe)
   changePassword(
     @GetUser() user: User,
     @Body() changePasswordDto: ChangePasswordDto
@@ -70,18 +59,13 @@ export class UsersController {
 
   @UseGuards(AuthGuard('jwt'))
   @Patch('email')
+  @UsePipes(ValidationPipe)
   changeEmail(@GetUser() user: User, @Body() changeEmailDto: ChangeEmailDto): Promise<string> {
     return this.usersService.changeEmail(user, changeEmailDto);
   }
 
   @UseGuards(AuthGuard('jwt'))
-  @Patch(':id')
-  @UsePipes(ValidationPipe)
-  updateUser(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto): Promise<User> {
-    return this.usersService.updateUser(id, updateUserDto);
-  }
-
-  @UseGuards(AuthGuard('jwt'))
+  @UsePipes(UserRoleValidationPipe)
   @Patch(':id/role')
   updateUserRole(
     @Param('id') id: string,

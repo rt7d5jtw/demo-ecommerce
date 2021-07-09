@@ -13,8 +13,6 @@ export class CreateUserDto {
   password: string;
 }
 
-export type UpdateUserDto = Partial<CreateUserDto>;
-
 export class ChangePasswordDto {
   @IsString()
   @MaxLength(50)
