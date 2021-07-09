@@ -25,11 +25,13 @@ export class CategoryController {
     return this.categoryService.getCategory(searchCategoryDto);
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Post()
   createCategory(@Body() createCategoryDto: CreateCategoryDto): Promise<Category> {
     return this.categoryService.createCategory(createCategoryDto);
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Patch(':id')
   updateCategory(
     @Param('id', ParseUUIDPipe) id: string,
@@ -38,6 +40,7 @@ export class CategoryController {
     return this.categoryService.updateCategory(id, createCategoryDto);
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Delete(':id')
   deleteCategory(@Param('id') id: string): Promise<void> {
     return this.categoryService.deleteCategory(id);

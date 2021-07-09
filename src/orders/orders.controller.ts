@@ -29,7 +29,7 @@ import Stripe from 'stripe';
 import { Request, Response } from 'express';
 
 @Controller('orders')
-@UseGuards(AuthGuard())
+@UseGuards(AuthGuard('jwt'))
 export class OrdersController {
   constructor(private ordersService: OrdersService) {}
 

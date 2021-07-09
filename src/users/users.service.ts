@@ -61,11 +61,11 @@ export class UsersService {
     return this.userRepository.updateUser(id, updateUserDto);
   }
 
-  async updateUserRole(id: string, role: UserRole): Promise<User> {
+  async updateUserRole(id: string, role: UserRole): Promise<UserRole> {
     const user = await this.getUserById(id);
     user.role = role;
     await user.save();
-    return user;
+    return user.role;
   }
 
   async deleteUserById(id: string): Promise<void> {

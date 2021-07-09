@@ -23,32 +23,32 @@ import { AuthGuard } from '@nestjs/passport';
 export class UsersController {
   constructor(private usersService: UsersService) {}
 
+  @UseGuards(AuthGuard('jwt'))
   @Get()
-  @UseGuards(AuthGuard())
   getUsers(@Query(ValidationPipe) searchUserDto: SearchUserDto): Promise<User[]> {
     return this.usersService.getUsers(searchUserDto);
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Get('/me')
-  @UseGuards(AuthGuard())
   getUser(@GetUser() user: User): Promise<User> {
     return this.usersService.getUser(user);
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Get('/role')
-  @UseGuards(AuthGuard())
   getRoleByUser(@GetUser() user: User): Promise<UserRole> {
     return this.usersService.getRoleByUser(user);
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Get(':id')
-  @UseGuards(AuthGuard())
   getUserById(@Param('id') id: string): Promise<User> {
     return this.usersService.getUserById(id);
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Get(':id/role')
-  @UseGuards(AuthGuard())
   getRole(@Param('id') id: string): Promise<User> {
     return this.usersService.getRole(id);
   }
@@ -59,8 +59,8 @@ export class UsersController {
     return this.usersService.createUser(createUserDto);
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Patch('changepw')
-  @UseGuards(AuthGuard())
   changePassword(
     @GetUser() user: User,
     @Body() changePasswordDto: ChangePasswordDto
@@ -68,30 +68,30 @@ export class UsersController {
     return this.usersService.changePassword(user, changePasswordDto);
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Patch('email')
-  @UseGuards(AuthGuard())
   changeEmail(@GetUser() user: User, @Body() changeEmailDto: ChangeEmailDto): Promise<string> {
     return this.usersService.changeEmail(user, changeEmailDto);
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Patch(':id')
-  @UseGuards(AuthGuard())
   @UsePipes(ValidationPipe)
   updateUser(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto): Promise<User> {
     return this.usersService.updateUser(id, updateUserDto);
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Patch(':id/role')
-  @UseGuards(AuthGuard())
   updateUserRole(
     @Param('id') id: string,
     @Body('role', UserRoleValidationPipe) role: UserRole
-  ): Promise<User> {
+  ): Promise<UserRole> {
     return this.usersService.updateUserRole(id, role);
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Delete(':id')
-  @UseGuards(AuthGuard())
   deleteUserById(@Param('id') id: string): Promise<void> {
     return this.usersService.deleteUserById(id);
   }

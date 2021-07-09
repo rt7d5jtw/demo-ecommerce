@@ -26,12 +26,14 @@ export class PromotionsController {
     return this.promotionService.fetchAll();
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Post()
   @UsePipes(ValidationPipe)
   create(@Body() promotionDto: PromotionDto): Promise<Promotion> {
     return this.promotionService.create(promotionDto);
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Patch(':id')
   update(
     @Param('id', ParseIntPipe) id: number,
@@ -40,6 +42,7 @@ export class PromotionsController {
     return this.promotionService.update(id, promotionDto);
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Delete(':id')
   remove(@Param('id', ParseIntPipe) id: number): Promise<void> {
     return this.promotionService.remove(id);

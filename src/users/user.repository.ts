@@ -47,11 +47,11 @@ export class UserRepository extends Repository<User> {
     return user;
   }
 
-  async updateEmail(user: User, email: string): Promise<User> {
+  async updateEmail(user: User, email: string): Promise<string> {
     user.email = email['email'];
     await user.save();
 
-    return user;
+    return user.email;
   }
 
   async changePassword(user: User, changePasswordDto: ChangePasswordDto): Promise<string> {

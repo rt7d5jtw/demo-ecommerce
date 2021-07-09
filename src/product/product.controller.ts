@@ -32,12 +32,14 @@ export class ProductController {
     return this.productService.getProductById(id);
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Post()
   @UsePipes(ValidationPipe)
   createProduct(@Body() createProductDto: CreateProductDto): Promise<Product> {
     return this.productService.createProduct(createProductDto);
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Patch(':id')
   updateProduct(
     @Param('id', ParseIntPipe) id: number,
@@ -46,6 +48,7 @@ export class ProductController {
     return this.productService.updateProduct(id, updateProductDto);
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Patch(':id/status')
   updateStatus(
     @Param('id', ParseIntPipe) id: number,
@@ -54,6 +57,7 @@ export class ProductController {
     return this.productService.updateStatus(id, status);
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Delete(':id')
   deleteProductById(@Param('id', ParseIntPipe) id: number): Promise<void> {
     return this.productService.deleteProductById(id);
