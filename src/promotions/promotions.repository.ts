@@ -1,11 +1,9 @@
-import { UseGuards, Logger, UnprocessableEntityException } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
+import { Logger, UnprocessableEntityException } from '@nestjs/common';
 import { EntityRepository, Repository } from 'typeorm';
 import { PromotionDto } from './dto/promotion.dto';
 import { Promotion } from './promotion.entity';
 
 @EntityRepository(Promotion)
-@UseGuards(AuthGuard())
 export class PromotionRepository extends Repository<Promotion> {
   private logger = new Logger('PromotionRepository');
 

@@ -23,43 +23,34 @@ export class ProductController {
   constructor(private productService: ProductService) {}
 
   @Get()
-  getProducts(@Query(ValidationPipe) searchProductDto: SearchProductDto): Promise<Product[]> {
-    return this.productService.getProducts(searchProductDto);
+  fetch(@Query(ValidationPipe) searchProductDto: SearchProductDto): Promise<Product[]> {
+    return this.productService.fetch(searchProductDto);
   }
 
   @Get(':id')
-  getProductById(@Param('id', ParseIntPipe) id: number): Promise<Product> {
-    return this.productService.getProductById(id);
+  fetchById(@Param('id', ParseIntPipe) id: number): Promise<Product> {
+    return this.productService.fetchById(id);
   }
 
   @UseGuards(AuthGuard('jwt'))
   @Post()
   @UsePipes(ValidationPipe)
-  createProduct(@Body() createProductDto: CreateProductDto): Promise<Product> {
-    return this.productService.createProduct(createProductDto);
+  create(@Body() createProductDto: CreateProductDto): Promise<Product> {
+    return this.productService.create(createProductDto);
   }
 
   @UseGuards(AuthGuard('jwt'))
   @Patch(':id')
-  updateProduct(
+  update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateProductDto: UpdateProductDto
   ): Promise<Product> {
-    return this.productService.updateProduct(id, updateProductDto);
-  }
-
-  @UseGuards(AuthGuard('jwt'))
-  @Patch(':id/status')
-  updateStatus(
-    @Param('id', ParseIntPipe) id: number,
-    @Body('status') status: ProductStatus
-  ): Promise<Product> {
-    return this.productService.updateStatus(id, status);
+    return this.productService.update(id, updateProductDto);
   }
 
   @UseGuards(AuthGuard('jwt'))
   @Delete(':id')
-  deleteProductById(@Param('id', ParseIntPipe) id: number): Promise<void> {
-    return this.productService.deleteProductById(id);
+  delete(@Param('id', ParseIntPipe) id: number): Promise<void> {
+    return this.productService.delete(id);
   }
 }

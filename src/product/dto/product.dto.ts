@@ -1,9 +1,12 @@
-import { IsUrl, IsString, IsNotEmpty } from 'class-validator';
+import { IsUrl, IsCurrency, IsNumber, IsString, IsNotEmpty } from 'class-validator';
+import { ProductStatus } from '../product.entity';
 
 export class CreateProductDto {
   @IsString()
   @IsNotEmpty()
   title: string;
+  @IsNumber()
+  @IsCurrency()
   price: number;
   @IsUrl()
   image?: string;
@@ -15,4 +18,8 @@ export class CreateProductDto {
   category: string;
 }
 
-export type UpdateProductDto = Partial<CreateProductDto>;
+export interface IUpdateProduct extends CreateProductDto {
+  status: ProductStatus;
+}
+
+export type UpdateProductDto = Partial<IUpdateProduct>;

@@ -14,12 +14,12 @@ export class ProductService {
     private productRepository: ProductRepository
   ) {}
 
-  async getProducts(searchProductDto: SearchProductDto): Promise<Product[]> {
+  async fetch(searchProductDto: SearchProductDto): Promise<Product[]> {
     this.logger.verbose(`Retrieving all products`);
-    return this.productRepository.getProducts(searchProductDto);
+    return this.productRepository.fetch(searchProductDto);
   }
 
-  async getProductById(id: number): Promise<Product> {
+  async fetchById(id: number): Promise<Product> {
     const result = await this.productRepository.findOne(id);
     if (!result) {
       throw new NotFoundException(`Product with ID "${id}" not found`);
@@ -27,34 +27,27 @@ export class ProductService {
     return result;
   }
 
-  createProduct(createProductDto: CreateProductDto): Promise<Product> {
+  create(createProductDto: CreateProductDto): Promise<Product> {
     this.logger.verbose(`Creating a new product`);
     return this.productRepository.createProduct(createProductDto);
   }
 
-  async updateProduct(id: number, updateProductDto: UpdateProductDto): Promise<Product> {
-    const { title, image, price, description, author } = updateProductDto;
-    const product = await this.getProductById(id);
+  async update(id: number, updateProductDto: UpdateProductDto): Promise<Product> {
+    const { title, image, price, description, author, status } = updateProductDto;
+    const product = await this.fetchById(id);
 
     product.title = title;
     product.image = image;
     product.price = price;
     product.author = author;
     product.description = description;
-    await product.save();
-
-    return product;
-  }
-
-  async updateStatus(id: number, status: ProductStatus): Promise<Product> {
-    const product = await this.getProductById(id);
     product.status = status;
     await product.save();
 
     return product;
   }
 
-  async deleteProductById(id: number): Promise<void> {
+  async delete(id: number): Promise<void> {
     const result = await this.productRepository.delete(id);
 
     if (result.affected === 0) {

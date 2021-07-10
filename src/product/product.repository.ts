@@ -1,15 +1,14 @@
-import { Logger, UseGuards } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
+import { Logger } from '@nestjs/common';
 import { EntityRepository, Repository } from 'typeorm';
 import { CreateProductDto } from './dto/product.dto';
 import { SearchProductDto } from './dto/search-product.dto';
 import { Product, ProductStatus } from './product.entity';
 
 @EntityRepository(Product)
-@UseGuards(AuthGuard())
 export class ProductRepository extends Repository<Product> {
   private logger = new Logger('ProductRepository');
-  async getProducts(searchProductDto: SearchProductDto): Promise<Product[]> {
+
+  async fetch(searchProductDto: SearchProductDto): Promise<Product[]> {
     const { search, cat } = searchProductDto;
     const query = this.createQueryBuilder('product');
 
