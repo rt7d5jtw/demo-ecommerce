@@ -8,7 +8,7 @@ import { LoginDto } from '../auth/dto/auth.dto';
 
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
-  async getUsers(searchUserDto: SearchUserDto): Promise<User[]> {
+  async fetch(searchUserDto: SearchUserDto): Promise<User[]> {
     const { role, search } = searchUserDto;
     const query = this.createQueryBuilder('user');
 

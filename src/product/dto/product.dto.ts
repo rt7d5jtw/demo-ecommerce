@@ -1,12 +1,19 @@
-import { IsUrl, IsCurrency, IsNumber, IsString, IsNotEmpty } from 'class-validator';
+import {
+  IsUrl,
+  IsCurrency,
+  IsNumber,
+  IsString,
+  IsNotEmpty,
+  IsNumberString,
+  IsUUID,
+} from 'class-validator';
 import { ProductStatus } from '../product.entity';
 
 export class CreateProductDto {
   @IsString()
   @IsNotEmpty()
   title: string;
-  @IsNumber()
-  @IsCurrency()
+  @IsNumberString()
   price: number;
   @IsUrl()
   image?: string;
@@ -15,6 +22,7 @@ export class CreateProductDto {
   @IsString()
   description?: string;
   @IsString()
+  @IsUUID()
   category: string;
 }
 

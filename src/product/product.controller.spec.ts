@@ -2,45 +2,47 @@ import { Test } from '@nestjs/testing';
 import { ProductController } from './product.controller';
 import { ProductService } from './product.service';
 
+export const productArr = [
+  {
+    id: 8,
+    categoryId: 'dcaa9f09-0dbe-4e81-af92-e15ee487beaa',
+    title: 'Dune',
+    image: 'https://i.imgur.com/Hiw0N.jpg',
+    price: 12,
+    author: 'Bob',
+    description: 'nice boek',
+    status: 'IN_STOCK',
+    createdAt: '2021-07-02',
+    updatedAt: '2021-07-02',
+  },
+  {
+    id: 18,
+    categoryId: 'dcaa9f09-0dbe-4e81-af92-e15ee487beaa',
+    title: 'Stranger',
+    image: 'https://i.imgur.com/Hiw0N.jpg',
+    price: 9.5,
+    author: 'Herbert',
+    description: 'i like ice cream',
+    status: 'IN_STOCK',
+    createdAt: '2021-07-02',
+    updatedAt: '2021-07-02',
+  },
+  {
+    id: 10,
+    categoryId: 'a47ba957-a742-45de-8610-13ba3e0ba4a0',
+    title: 'Bear nap',
+    image: 'https://i.imgur.com/CHFUX10.png',
+    price: 420,
+    author: 'Bear',
+    description: 'Fluffy bear',
+    status: 'IN_STOCK',
+    createdAt: '2021-07-02',
+    updatedAt: '2021-07-02',
+  },
+];
+
 const mockProductService = () => ({
-  fetch: jest.fn().mockResolvedValue([
-    {
-      id: 8,
-      categoryId: 'dcaa9f09-0dbe-4e81-af92-e15ee487beaa',
-      title: 'Dune',
-      image: 'https://i.imgur.com/Hiw0N.jpg',
-      price: 12,
-      author: 'Bob',
-      description: 'nice boek',
-      status: 'IN_STOCK',
-      createdAt: '2021-07-02',
-      updatedAt: '2021-07-02',
-    },
-    {
-      id: 18,
-      categoryId: 'dcaa9f09-0dbe-4e81-af92-e15ee487beaa',
-      title: 'Stranger',
-      image: 'https://i.imgur.com/Hiw0N.jpg',
-      price: 9.5,
-      author: 'Herbert',
-      description: 'i like ice cream',
-      status: 'IN_STOCK',
-      createdAt: '2021-07-02',
-      updatedAt: '2021-07-02',
-    },
-    {
-      id: 10,
-      categoryId: 'a47ba957-a742-45de-8610-13ba3e0ba4a0',
-      title: 'Bear nap',
-      image: 'https://i.imgur.com/CHFUX10.png',
-      price: 420,
-      author: 'Bear',
-      description: 'Fluffy bear',
-      status: 'IN_STOCK',
-      createdAt: '2021-07-02',
-      updatedAt: '2021-07-02',
-    },
-  ]),
+  fetch: jest.fn().mockResolvedValue(productArr),
   fetchById: jest.fn().mockResolvedValue({
     id: 10,
     categoryId: 'a47ba957-a742-45de-8610-13ba3e0ba4a0',
@@ -84,7 +86,7 @@ const mockProductService = () => ({
     };
     return Promise.resolve(result);
   }),
-  delete: jest.fn(() => Promise.resolve(undefined)),
+  remove: jest.fn(() => Promise.resolve(undefined)),
 });
 
 describe('ProductController', () => {
@@ -216,8 +218,8 @@ describe('ProductController', () => {
   describe('deleteProductById', () => {
     it('deletes a product by calling productService', async () => {
       expect.assertions(2);
-      await expect(productController.delete(10)).resolves.not.toThrow();
-      expect(productService.delete).toHaveBeenCalledWith(10);
+      await expect(productController.remove(10)).resolves.not.toThrow();
+      expect(productService.remove).toHaveBeenCalledWith(10);
     });
   });
 });

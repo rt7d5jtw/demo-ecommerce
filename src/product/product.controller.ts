@@ -50,7 +50,7 @@ export class ProductController {
 
   @UseGuards(AuthGuard('jwt'))
   @Delete(':id')
-  delete(@Param('id', ParseIntPipe) id: number): Promise<void> {
-    return this.productService.delete(id);
+  remove(@Param('id', ParseIntPipe) id: number): Promise<void> {
+    return this.productService.remove(id);
   }
 }

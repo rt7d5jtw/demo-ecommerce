@@ -42,12 +42,12 @@ export class ProductService {
     product.author = author;
     product.description = description;
     product.status = status;
-    await product.save();
+    await this.productRepository.save(product);
 
     return product;
   }
 
-  async delete(id: number): Promise<void> {
+  async remove(id: number): Promise<void> {
     const result = await this.productRepository.delete(id);
 
     if (result.affected === 0) {

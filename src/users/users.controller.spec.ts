@@ -29,13 +29,13 @@ const mockUsersService = () => ({
       createdAt: '2021-07-09',
     });
   }),
-  deleteUserById: jest.fn(),
+  remove: jest.fn(),
   changePassword: jest.fn((_user, { currentPassword, newPassword }) =>
     Promise.resolve(newPassword)
   ),
   changeEmail: jest.fn((_user, { currentEmail, newEmail }) => Promise.resolve(newEmail)),
-  getUsers: jest.fn(() => Promise.resolve(bunchOfUsers)),
-  getUserById: jest.fn((id) => {
+  fetch: jest.fn(() => Promise.resolve(bunchOfUsers)),
+  fetchById: jest.fn((id) => {
     return Promise.resolve({
       id: '872f17ee-45a2-409b-b74a-eea6753f38fb',
       email: 'miumau@gmail.com',
@@ -97,19 +97,17 @@ describe('UsersController', () => {
       });
     });
 
-    describe('deleteUserById', () => {
+    describe('remove', () => {
       it('deletes a user by calling usersService', async () => {
         expect.assertions(1);
-        expect(usersController.deleteUserById('872f17ee-45a2-409b-b74a-eea6753f38fb'));
-        expect(usersService.deleteUserById).toHaveBeenCalledWith(
-          '872f17ee-45a2-409b-b74a-eea6753f38fb'
-        );
+        expect(usersController.remove('872f17ee-45a2-409b-b74a-eea6753f38fb'));
+        expect(usersService.remove).toHaveBeenCalledWith('872f17ee-45a2-409b-b74a-eea6753f38fb');
       });
     });
 
-    describe('getUsers', () => {
+    describe('fetch', () => {
       it('gets array of all users', async () => {
-        expect(usersController.getUsers(null)).resolves.toEqual([
+        expect(usersController.fetch(null)).resolves.toEqual([
           {
             id: expect.any(String),
             email: expect.any(String),
@@ -126,11 +124,9 @@ describe('UsersController', () => {
       });
     });
 
-    describe('getUserById', () => {
+    describe('fetchById', () => {
       it('gets a user by id and returns the user', async () => {
-        expect(
-          usersController.getUserById('872f17ee-45a2-409b-b74a-eea6753f38fb')
-        ).resolves.toEqual({
+        expect(usersController.fetchById('872f17ee-45a2-409b-b74a-eea6753f38fb')).resolves.toEqual({
           id: expect.any(String),
           email: expect.any(String),
         });

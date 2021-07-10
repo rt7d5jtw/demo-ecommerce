@@ -13,11 +13,11 @@ export class UsersService {
     private userRepository: UserRepository
   ) {}
 
-  getUsers(searchUserDto: SearchUserDto): Promise<User[]> {
-    return this.userRepository.getUsers(searchUserDto);
+  fetch(searchUserDto: SearchUserDto): Promise<User[]> {
+    return this.userRepository.fetch(searchUserDto);
   }
 
-  async getUserById(id: string): Promise<User> {
+  async fetchById(id: string): Promise<User> {
     const user = await this.userRepository.findOne(id);
     if (!user) {
       throw new NotFoundException(`User with ID "${id}" not found`);
@@ -42,13 +42,13 @@ export class UsersService {
   }
 
   async updateUserRole(id: string, role: UserRole): Promise<UserRole> {
-    const user = await this.getUserById(id);
+    const user = await this.fetchById(id);
     user.role = role;
     await user.save();
     return user.role;
   }
 
-  async deleteUserById(id: string): Promise<void> {
+  async remove(id: string): Promise<void> {
     const result = await this.userRepository.delete(id);
 
     if (result) {

@@ -25,8 +25,8 @@ export class UsersController {
 
   @UseGuards(AuthGuard('jwt'))
   @Get()
-  getUsers(@Query(ValidationPipe) searchUserDto: SearchUserDto): Promise<User[]> {
-    return this.usersService.getUsers(searchUserDto);
+  fetch(@Query(ValidationPipe) searchUserDto: SearchUserDto): Promise<User[]> {
+    return this.usersService.fetch(searchUserDto);
   }
 
   @UseGuards(AuthGuard('jwt'))
@@ -37,8 +37,8 @@ export class UsersController {
 
   @UseGuards(AuthGuard('jwt'))
   @Get(':id')
-  getUserById(@Param('id') id: string): Promise<User> {
-    return this.usersService.getUserById(id);
+  fetchById(@Param('id') id: string): Promise<User> {
+    return this.usersService.fetchById(id);
   }
 
   @Post()
@@ -76,7 +76,7 @@ export class UsersController {
 
   @UseGuards(AuthGuard('jwt'))
   @Delete(':id')
-  deleteUserById(@Param('id') id: string): Promise<void> {
-    return this.usersService.deleteUserById(id);
+  remove(@Param('id') id: string): Promise<void> {
+    return this.usersService.remove(id);
   }
 }
