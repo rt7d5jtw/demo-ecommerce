@@ -31,7 +31,7 @@ const mockUserRepository = () => ({
 
 describe('UsersService', () => {
   let usersService: UsersService;
-  let userRepository;
+  let userRepository: any;
 
   jest.mock('./user.entity');
 

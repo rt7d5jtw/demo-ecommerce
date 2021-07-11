@@ -11,23 +11,15 @@ export class CategoryService {
     private categoryRepository: CategoryRepository
   ) {}
 
-  async getCategory(searchCategoryDto: SearchCategoryDto): Promise<Category[]> {
-    return this.categoryRepository.getCategory(searchCategoryDto);
+  async fetch(searchCategoryDto: SearchCategoryDto): Promise<Category[]> {
+    return this.categoryRepository.fetch(searchCategoryDto);
   }
 
-  async createCategory(createCategoryDto: CreateCategoryDto): Promise<Category> {
-    const { cname } = createCategoryDto;
-    const category = new Category();
-    category.cname = cname;
-    if (cname.length === 0) {
-      throw new NotFoundException('Missing argument or invalid argument');
-    }
-    await category.save();
-
-    return category;
+  async create(createCategoryDto: CreateCategoryDto): Promise<Category> {
+    return this.categoryRepository.createCategory(createCategoryDto);
   }
 
-  async updateCategory(id: string, createCategoryDto: CreateCategoryDto): Promise<Category> {
+  async update(id: string, createCategoryDto: CreateCategoryDto): Promise<Category> {
     const { cname } = createCategoryDto;
     const category = await this.categoryRepository.findOne(id);
     if (!category) {
@@ -39,12 +31,12 @@ export class CategoryService {
     if (cname.length === 0) {
       throw new NotFoundException('Missing argument or invalid argument');
     }
-    await category.save();
+    await this.categoryRepository.save(category);
 
     return category;
   }
 
-  async deleteCategory(id: string): Promise<void> {
+  async remove(id: string): Promise<void> {
     const category = await this.categoryRepository.delete(id);
 
     if (category.affected === 0) {

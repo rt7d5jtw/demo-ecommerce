@@ -21,28 +21,28 @@ export class CategoryController {
   constructor(private categoryService: CategoryService) {}
 
   @Get()
-  getCategory(@Query(ValidationPipe) searchCategoryDto: SearchCategoryDto): Promise<Category[]> {
-    return this.categoryService.getCategory(searchCategoryDto);
+  fetch(@Query(ValidationPipe) searchCategoryDto: SearchCategoryDto): Promise<Category[]> {
+    return this.categoryService.fetch(searchCategoryDto);
   }
 
   @UseGuards(AuthGuard('jwt'))
   @Post()
-  createCategory(@Body() createCategoryDto: CreateCategoryDto): Promise<Category> {
-    return this.categoryService.createCategory(createCategoryDto);
+  create(@Body() createCategoryDto: CreateCategoryDto): Promise<Category> {
+    return this.categoryService.create(createCategoryDto);
   }
 
   @UseGuards(AuthGuard('jwt'))
   @Patch(':id')
-  updateCategory(
+  update(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() createCategoryDto: CreateCategoryDto
   ): Promise<Category> {
-    return this.categoryService.updateCategory(id, createCategoryDto);
+    return this.categoryService.update(id, createCategoryDto);
   }
 
   @UseGuards(AuthGuard('jwt'))
   @Delete(':id')
-  deleteCategory(@Param('id') id: string): Promise<void> {
-    return this.categoryService.deleteCategory(id);
+  remove(@Param('id') id: string): Promise<void> {
+    return this.categoryService.remove(id);
   }
 }
