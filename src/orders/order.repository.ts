@@ -1,7 +1,7 @@
 import { Order, OrderStatus } from './order.entity';
 import { User } from '../users/user.entity';
-import { EntityRepository, getConnection, getManager, getRepository, Repository } from 'typeorm';
-import { CreateOrderDto, OrderIdDto, OrderItemDto } from './dto/order.do';
+import { EntityRepository, getConnection, getManager, Repository } from 'typeorm';
+import { CreateOrderDto } from './dto/order.do';
 import { SearchOrdersDto } from './dto/search-orders.dto';
 import { generateInvoiceInformation, generateInvoiceTable } from './invoice';
 import { OrderItem } from './order-item.entity';
@@ -11,7 +11,7 @@ import { UnprocessableEntityException } from '@nestjs/common';
 
 @EntityRepository(Order)
 export class OrderRepository extends Repository<Order> {
-  async getOrders(searchOrdersDto: SearchOrdersDto, user: User): Promise<Order[]> {
+  async fetch(searchOrdersDto: SearchOrdersDto, user: User): Promise<Order[]> {
     const { status, search } = searchOrdersDto;
     const query = this.createQueryBuilder('order');
 
@@ -116,8 +116,6 @@ export class OrderRepository extends Repository<Order> {
   }
 
   async addOrderItems(id: string, user: User): Promise<OrderItem[]> {
-    const orderItem = new OrderItem();
-
     /* get cartId */
     const userId = user['id'];
     const manager = getManager();

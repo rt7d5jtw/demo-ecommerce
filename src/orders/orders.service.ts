@@ -1,9 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CreateOrderDto, OrderIdDto, OrderItemDto } from './dto/order.do';
+import { CreateOrderDto } from './dto/order.do';
 import { SearchOrdersDto } from './dto/search-orders.dto';
 import { Order } from './order.entity';
-import { User, UserRole } from '../users/user.entity';
+import { User } from '../users/user.entity';
 import { OrderRepository } from './order.repository';
 import { OrderItem } from './order-item.entity';
 import { getRepository } from 'typeorm';
@@ -22,11 +22,11 @@ export class OrdersService {
     private orderRepository: OrderRepository
   ) {}
 
-  async getOrders(searchOrdersDto: SearchOrdersDto, user: User): Promise<Order[]> {
-    return this.orderRepository.getOrders(searchOrdersDto, user);
+  async fetch(searchOrdersDto: SearchOrdersDto, user: User): Promise<Order[]> {
+    return this.orderRepository.fetch(searchOrdersDto, user);
   }
 
-  async getOrderById(id: string, user: User): Promise<Order> {
+  async fetchById(id: string, user: User): Promise<Order> {
     const result = await this.orderRepository.findOne({ where: { id, userId: user.id } });
     if (!result) {
       throw new NotFoundException(`Order with ID "${id}" not found`);
@@ -34,11 +34,11 @@ export class OrdersService {
     return result;
   }
 
-  async getAllOrders(): Promise<Order[]> {
+  async fetchAll(): Promise<Order[]> {
     return this.orderRepository.query('SELECT * FROM public.orders');
   }
 
-  async getOrderItemById(id: string, user: User): Promise<OrderItem[]> {
+  async fetchOrderItems(id: string, user: User): Promise<OrderItem[]> {
     const userId = user['id'];
     const order = await this.orderRepository
       .createQueryBuilder('orders')
@@ -72,7 +72,7 @@ export class OrdersService {
     return this.orderRepository.createInvoice(user, order);
   }
 
-  async createOrder(createOrderDto: CreateOrderDto, user: User): Promise<Order> {
+  async create(createOrderDto: CreateOrderDto, user: User): Promise<Order> {
     return this.orderRepository.createOrder(createOrderDto, user);
   }
 
@@ -85,7 +85,7 @@ export class OrdersService {
     return stream;
   }
 
-  async deleteOrder(id: string, user: User): Promise<any> {
+  async removeOrder(id: string, user: User): Promise<any> {
     /* get userid */
     const userId = user['id'];
     /* get order */

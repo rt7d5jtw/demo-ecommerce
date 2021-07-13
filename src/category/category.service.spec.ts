@@ -1,10 +1,9 @@
 import { NotFoundException } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { BaseEntity, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { v4 as uuid } from 'uuid';
 import { Category } from './category.entity';
-import { CategoryRepository } from './category.repository';
 import { CategoryService } from './category.service';
 
 export type MockType<T> = {

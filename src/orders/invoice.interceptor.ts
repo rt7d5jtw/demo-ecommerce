@@ -10,10 +10,10 @@ export interface Response<T> {
 export class InvoiceInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     return next.handle().pipe(
-      map((data) => ({
+      map((buffer) => ({
         'Content-type': 'application/pdf',
         'Content-Disposition': 'attachment',
-        'Content-Length': data.length,
+        'Content-Length': buffer.length,
         filename: 'invoice.pdf',
       }))
     );
