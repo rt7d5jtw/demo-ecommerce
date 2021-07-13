@@ -1,4 +1,4 @@
-import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Cart } from './cart.entity';
 import { CartItem } from './cart-item.entity';
 import { CartRepository } from './cart.repository';
@@ -7,7 +7,6 @@ import { CartItemDto, CartItemInfo } from './dto/cart.dto';
 import { User } from '../users/user.entity';
 import { Product } from '../product/product.entity';
 import { getRepository, getManager } from 'typeorm';
-import * as fs from 'fs';
 
 @Injectable()
 export class CartService {
@@ -16,7 +15,7 @@ export class CartService {
     private cartRepository: CartRepository
   ) {}
 
-  async getCart(user: User): Promise<Cart> {
+  async fetchCart(user: User): Promise<Cart> {
     const userId = user['id'];
     const cartId = await this.cartRepository.find({
       where: [{ userId: userId }],
@@ -24,8 +23,8 @@ export class CartService {
     return cartId[0];
   }
 
-  async getCartItems(user: User): Promise<CartItem[]> {
-    const cartId = await this.getCart(user);
+  async fetchCartItems(user: User): Promise<CartItem[]> {
+    const cartId = await this.fetchCart(user);
     const cartItem = await getRepository(CartItem)
       .createQueryBuilder('cartItem')
       .select('cartItem')
@@ -35,7 +34,7 @@ export class CartService {
     return cartItem;
   }
 
-  async getCartItem(user: User, id: string): Promise<CartItem> {
+  async fetchCartItem(user: User, id: string): Promise<CartItem> {
     /* get cartId */
     const userId = user['id'];
     const cartId = await this.cartRepository.find({
@@ -50,7 +49,7 @@ export class CartService {
     return cartItem;
   }
 
-  async getCartState(user: User): Promise<CartItemInfo> {
+  async fetchCartState(user: User): Promise<CartItemInfo> {
     /* get cart id */
     const userId = user['id'];
     const cartId = await this.cartRepository.find({
@@ -73,7 +72,7 @@ export class CartService {
     return cartItems;
   }
 
-  async getProductPrice(id: number): Promise<number> {
+  async fetchProductPrice(id: number): Promise<number> {
     const productRepository = getRepository(Product);
     const product = await productRepository.findOne(id);
     return product['price'];
@@ -83,24 +82,17 @@ export class CartService {
     return this.cartRepository.createCart(user);
   }
 
-  async copyFile(file: Express.Multer.File) {
-    const buffer = Buffer.from(file);
-    fs.copyFile(buffer, 'stuff.jpg', (err) => {
-      if (err) throw err;
-    });
-  }
-
   // adds a cartItemId to Cart entity and adds product to cart-item entity
-  async addToCart(id: number, user: User, cartItemDto: CartItemDto): Promise<any> {
-    const { quantity } = cartItemDto;
+  async addToCart(id: number, user: User, qty: { quantity: number }): Promise<any> {
+    const { quantity } = qty;
     if (!quantity) {
       throw new NotFoundException('Quantity is missing');
     }
-    const cartId = await this.getCart(user);
+    const cartId = await this.fetchCart(user);
     if (!cartId) {
       throw new NotFoundException('User has no cart');
     }
-    const price = await this.getProductPrice(id).catch(() => {
+    const price = await this.fetchProductPrice(id).catch(() => {
       throw new NotFoundException('Price could not be found');
     });
 
@@ -113,7 +105,7 @@ export class CartService {
 
     /* checks if Cart Items with same productId and cartId exists in the Cart Item table
      * if so it sums quantity and price of the two objects and removes the redundant copy 'cart_copy' */
-    const cartItems = await this.getCartItems(user);
+    const cartItems = await this.fetchCartItems(user);
     for (let i = 0; i < cartItems.length; i++) {
       if (
         cartItems[i].cartId === cartItem.cartId &&

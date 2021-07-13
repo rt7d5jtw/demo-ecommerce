@@ -4,30 +4,29 @@ import { CreateOrderDto } from './dto/order.do';
 import { SearchOrdersDto } from './dto/search-orders.dto';
 import { Order } from './order.entity';
 import { User } from '../users/user.entity';
-import { OrderRepository } from './order.repository';
+import { OrdersRepository } from './orders.repository';
 import { OrderItem } from './order-item.entity';
 import { getRepository } from 'typeorm';
 import { PaymentDto } from './dto/payment.dto';
-import Stripe from 'stripe';
 import { Readable } from 'stream';
+import Stripe from 'stripe';
 
-const stripe = require('stripe')(
-  'sk_test_51HUuCuDiJxi7nioJcrisEWkl6dtdxpbeKEF6DoQFbGxwlvqwCLfITvmxQPagXFAy8MpRzSO3GmgYXq91ir5sbNef00up3ewzgb'
-);
+const secret = process.env.STRIPE_SECRET;
+export const stripe = new Stripe(secret, { apiVersion: '2020-08-27' });
 
 @Injectable()
 export class OrdersService {
   constructor(
-    @InjectRepository(OrderRepository)
-    private orderRepository: OrderRepository
+    @InjectRepository(OrdersRepository)
+    private ordersRepository: OrdersRepository
   ) {}
 
   async fetch(searchOrdersDto: SearchOrdersDto, user: User): Promise<Order[]> {
-    return this.orderRepository.fetch(searchOrdersDto, user);
+    return this.ordersRepository.fetch(searchOrdersDto, user);
   }
 
   async fetchById(id: string, user: User): Promise<Order> {
-    const result = await this.orderRepository.findOne({ where: { id, userId: user.id } });
+    const result = await this.ordersRepository.findOne({ where: { id, userId: user.id } });
     if (!result) {
       throw new NotFoundException(`Order with ID "${id}" not found`);
     }
@@ -35,12 +34,12 @@ export class OrdersService {
   }
 
   async fetchAll(): Promise<Order[]> {
-    return this.orderRepository.query('SELECT * FROM public.orders');
+    return this.ordersRepository.query('SELECT * FROM public.orders');
   }
 
   async fetchOrderItems(id: string, user: User): Promise<OrderItem[]> {
     const userId = user['id'];
-    const order = await this.orderRepository
+    const order = await this.ordersRepository
       .createQueryBuilder('orders')
       .where('orders.userId = :userId', { userId: userId })
       .andWhere('orders.id = :id', { id: id })
@@ -69,11 +68,11 @@ export class OrdersService {
   }
 
   async createInvoice(user: User, order: Order): Promise<Buffer> {
-    return this.orderRepository.createInvoice(user, order);
+    return this.ordersRepository.createInvoice(user, order);
   }
 
   async create(createOrderDto: CreateOrderDto, user: User): Promise<Order> {
-    return this.orderRepository.createOrder(createOrderDto, user);
+    return this.ordersRepository.createOrder(createOrderDto, user);
   }
 
   async getReadableStream(buffer: Buffer): Promise<Readable> {
@@ -89,7 +88,7 @@ export class OrdersService {
     /* get userid */
     const userId = user['id'];
     /* get order */
-    const order = await this.orderRepository.find({
+    const order = await this.ordersRepository.find({
       where: [{ id: id }],
     });
     /*
@@ -100,13 +99,13 @@ export class OrdersService {
     const orderItemRepository = getRepository(OrderItem);
     orderItemRepository.delete({ orderId: order[0].id });
 
-    const result = await this.orderRepository.delete(id);
+    const result = await this.ordersRepository.delete(id);
     if (result.affected === 0) {
       throw new NotFoundException(`Order with ID "${id}" not found`);
     }
   }
 
   async addOrderItems(id: string, user: User): Promise<OrderItem[]> {
-    return this.orderRepository.addOrderItems(id, user);
+    return this.ordersRepository.addOrderItems(id, user);
   }
 }

@@ -9,8 +9,6 @@ import {
   UsePipes,
   ParseIntPipe,
   UseGuards,
-  UploadedFile,
-  UseInterceptors,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { CartService } from './cart.service';
@@ -20,42 +18,42 @@ import { Cart } from './cart.entity';
 import { GetUser } from '../users/get_user.decorator';
 import { User } from '../users/user.entity';
 import { Logger } from '@nestjs/common';
-import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('cart')
-@UseGuards(AuthGuard())
+@UseGuards(AuthGuard('jwt'))
 export class CartController {
   private logger = new Logger('CartController');
   constructor(private cartService: CartService) {}
 
   /* get cart of the user*/
   @Get()
-  getCart(@GetUser() user: User): Promise<Cart> {
-    return this.cartService.getCart(user);
+  fetchCart(@GetUser() user: User): Promise<Cart> {
+    return this.cartService.fetchCart(user);
   }
 
   /* fetches cart items for the user */
   @Get('items')
-  getCartItems(@GetUser() user: User): Promise<CartItem[]> {
-    return this.cartService.getCartItems(user);
+  fetchCartItems(@GetUser() user: User): Promise<CartItem[]> {
+    return this.cartService.fetchCartItems(user);
   }
 
   /* fetches cart state with title and image */
   @Get('/state')
-  getCartState(@GetUser() user: User): Promise<CartItemInfo> {
-    return this.cartService.getCartState(user);
+  fetchCartState(@GetUser() user: User): Promise<CartItemInfo> {
+    return this.cartService.fetchCartState(user);
   }
 
+  // this might be useless
   /* get cart item based on id */
   @Get(':id')
-  getCartItem(@GetUser() user: User, @Param('id') id: string): Promise<CartItem> {
-    return this.cartService.getCartItem(user, id);
+  fetchCartItem(@GetUser() user: User, @Param('id') id: string): Promise<CartItem> {
+    return this.cartService.fetchCartItem(user, id);
   }
 
   /* get product's price */
   @Get('/product/:id')
-  getProductPrice(@Param('id', ParseIntPipe) id: number): Promise<number> {
-    return this.cartService.getProductPrice(id);
+  fetchProductPrice(@Param('id', ParseIntPipe) id: number): Promise<number> {
+    return this.cartService.fetchProductPrice(id);
   }
 
   /* creates the cart for the user */
@@ -65,36 +63,16 @@ export class CartController {
     return this.cartService.createCart(user);
   }
 
-  @Post('test')
-  @UseInterceptors(
-    FileInterceptor('file', {
-      dest: './images/',
-    })
-  )
-  uploadFile(@UploadedFile() file: Express.Multer.File) {
-    return this.cartService.copyFile(file);
-  }
-
   /* puts a product in the cart */
   @Post(':id')
   @UsePipes(ValidationPipe)
   addToCart(
     @Param('id', ParseIntPipe) id: number,
     @GetUser() user: User,
-    @Body() cartItemDto: CartItemDto
+    @Body() qty: { quantity: number }
   ): Promise<CartItem> {
-    return this.cartService.addToCart(id, user, cartItemDto);
+    return this.cartService.addToCart(id, user, qty);
   }
-
-  /*
-  @Post(':id/checkout')
-  @UsePipes(ValidationPipe)
-  checkout(
-    @Param('id') id: string,
-    @Body() checkoutDto: CheckoutDto,
-  ): Promise<void> {
-    return this.cartService.checkout(checkoutDto);
-  }*/
 
   /* deletes item from user's cart */
   @Delete(':productId')

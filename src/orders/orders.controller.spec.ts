@@ -5,7 +5,7 @@ import { OrderStatus } from './order.entity';
 import { OrdersController } from './orders.controller';
 import { OrdersService } from './orders.service';
 
-const bunchOfOrders = [
+export const bunchOfOrders = [
   {
     id: 'f29ca6ae-3aac-4794-b008-4d743901a226',
     userId: 'e6a23d5f-3a23-498f-9f61-ffb9ad34cb68',

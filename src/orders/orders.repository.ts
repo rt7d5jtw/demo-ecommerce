@@ -10,7 +10,7 @@ import * as fs from 'fs';
 import { UnprocessableEntityException } from '@nestjs/common';
 
 @EntityRepository(Order)
-export class OrderRepository extends Repository<Order> {
+export class OrdersRepository extends Repository<Order> {
   async fetch(searchOrdersDto: SearchOrdersDto, user: User): Promise<Order[]> {
     const { status, search } = searchOrdersDto;
     const query = this.createQueryBuilder('order');

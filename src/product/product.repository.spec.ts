@@ -1,5 +1,4 @@
 import { Test } from '@nestjs/testing';
-import { createQueryBuilder } from 'typeorm';
 import { Product } from './product.entity';
 import { ProductRepository } from './product.repository';
 
