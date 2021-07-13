@@ -3,7 +3,7 @@ import { Cart } from './cart.entity';
 import { CartItem } from './cart-item.entity';
 import { CartRepository } from './cart.repository';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CartItemDto, CartItemInfo } from './dto/cart.dto';
+import { CartItemInfo } from './dto/cart.dto';
 import { User } from '../users/user.entity';
 import { Product } from '../product/product.entity';
 import { getRepository, getManager } from 'typeorm';
@@ -17,18 +17,18 @@ export class CartService {
 
   async fetchCart(user: User): Promise<Cart> {
     const userId = user['id'];
-    const cartId = await this.cartRepository.find({
-      where: [{ userId: userId }],
+    const cartId = await this.cartRepository.findOne({
+      where: { userId: userId },
     });
-    return cartId[0];
+    return cartId;
   }
 
   async fetchCartItems(user: User): Promise<CartItem[]> {
-    const cartId = await this.fetchCart(user);
+    const cart = await this.fetchCart(user);
     const cartItem = await getRepository(CartItem)
       .createQueryBuilder('cartItem')
       .select('cartItem')
-      .where('cartItem.cartId = :cartId', { cartId: cartId.id })
+      .where('cartItem.cartId = :cartId', { cartId: cart.id })
       .getMany();
 
     return cartItem;
