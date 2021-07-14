@@ -12,7 +12,7 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { CartService } from './cart.service';
-import { CartItemDto, CartItemInfo } from './dto/cart.dto';
+import { CartItemInfo } from './dto/cart.dto';
 import { CartItem } from './cart-item.entity';
 import { Cart } from './cart.entity';
 import { GetUser } from '../users/get_user.decorator';
@@ -41,13 +41,6 @@ export class CartController {
   @Get('/state')
   fetchCartState(@GetUser() user: User): Promise<CartItemInfo> {
     return this.cartService.fetchCartState(user);
-  }
-
-  // this might be useless
-  /* get cart item based on id */
-  @Get(':id')
-  fetchCartItem(@GetUser() user: User, @Param('id') id: string): Promise<CartItem> {
-    return this.cartService.fetchCartItem(user, id);
   }
 
   /* get product's price */
