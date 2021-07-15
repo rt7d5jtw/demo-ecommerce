@@ -6,10 +6,7 @@ import { User } from '../users/user.entity';
 export class CartRepository extends Repository<Cart> {
   async createCart(user: User): Promise<Cart> {
     const cart = new Cart();
-    cart.user = user;
-    await cart.save();
-    delete cart.user;
-
-    return cart;
+    cart.userId = user.id;
+    return cart.save();
   }
 }

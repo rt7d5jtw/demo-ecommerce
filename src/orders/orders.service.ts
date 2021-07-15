@@ -10,13 +10,12 @@ import { getRepository } from 'typeorm';
 import { PaymentDto } from './dto/payment.dto';
 import { Readable } from 'stream';
 import Stripe from 'stripe';
-
-const secret = process.env.STRIPE_SECRET;
-export const stripe = new Stripe(secret, { apiVersion: '2020-08-27' });
+//import { InjectStripeClient } from '@golevelup/nestjs-stripe';
 
 @Injectable()
 export class OrdersService {
   constructor(
+    //@InjectStripeClient() private readonly stripeClient: Stripe,
     @InjectRepository(OrdersRepository)
     private ordersRepository: OrdersRepository
   ) {}
@@ -54,6 +53,7 @@ export class OrdersService {
   }
 
   async addPaymentIntent(paymentDto: PaymentDto, user: User): Promise<Stripe.PaymentIntent> {
+    const stripe = new Stripe(process.env.STRIPE_SECRET, { apiVersion: '2020-08-27' });
     const { amount, currency, payment_method_types, metadata } = paymentDto;
     const params: Stripe.PaymentIntentCreateParams = {
       // Stripe's API assumes amount in smallest currency unit
@@ -84,20 +84,17 @@ export class OrdersService {
     return stream;
   }
 
-  async removeOrder(id: string, user: User): Promise<any> {
-    /* get userid */
+  async removeOrder(id: string, user: User): Promise<void> {
     const userId = user['id'];
-    /* get order */
-    const order = await this.ordersRepository.find({
-      where: [{ id: id }],
+    const order = await this.ordersRepository.findOne({
+      where: { id: id },
     });
     /*
     if (order.userId !== userId && user.role != UserRole.ADMIN) {
       throw new Error('Invalid authorization')
     }
     */
-    const orderItemRepository = getRepository(OrderItem);
-    orderItemRepository.delete({ orderId: order[0].id });
+    getRepository(OrderItem).delete({ orderId: order.id });
 
     const result = await this.ordersRepository.delete(id);
     if (result.affected === 0) {

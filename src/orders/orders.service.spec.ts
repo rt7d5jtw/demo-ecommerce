@@ -8,6 +8,7 @@ import { OrderStatus } from './order.entity';
 import { v4 as uuid } from 'uuid';
 import * as typeorm from 'typeorm';
 import { OrderItem } from './order-item.entity';
+import Stripe from 'stripe';
 
 const mockOrdersRepository: () => MockType<OrdersRepository> = jest.fn(() => ({
   fetch: jest.fn(),
@@ -24,6 +25,7 @@ const mockOrdersRepository: () => MockType<OrdersRepository> = jest.fn(() => ({
     dto.date = new Date().toString();
     return Promise.resolve(dto);
   }),
+  delete: jest.fn(),
 }));
 
 const orderItems = [
@@ -40,6 +42,57 @@ const orderItems = [
     quantity: 1,
   },
 ];
+
+export const mockPaymentIntent = {
+  id: 'pi_MeFVjK2b1u9YsTDI8nc25QNQK104K',
+  object: 'payment_intent',
+  amount: 250,
+  amount_capturable: 0,
+  amount_received: 0,
+  application: null,
+  application_fee_amount: null,
+  canceled_at: null,
+  cancellation_reason: null,
+  capture_method: 'automatic',
+  charges: {
+    object: 'list',
+    data: [],
+    has_more: false,
+    total_count: 0,
+    url: '/v1/charges?payment_intent=pi_MeFVjK2b1u9YsTDI8nc25QNQK104K',
+  },
+  client_secret: 'pi_MeFVjK2b1u9YsTDI8nc25QNQK104K_secret_wj2wXJJOOwifngyU',
+  confirmation_method: 'automatic',
+  created: 1626290844,
+  currency: 'usd',
+  customer: null,
+  description: null,
+  invoice: null,
+  last_payment_error: null,
+  livemode: false,
+  metadata: {},
+  next_action: null,
+  on_behalf_of: null,
+  payment_method: null,
+  payment_method_options: {
+    card: {
+      installments: null,
+      network: null,
+      request_three_d_secure: 'automatic',
+    },
+  },
+  payment_method_types: ['card'],
+  receipt_email: null,
+  review: null,
+  setup_future_usage: null,
+  shipping: null,
+  source: null,
+  statement_descriptor: null,
+  statement_descriptor_suffix: null,
+  status: 'requires_payment_method',
+  transfer_data: null,
+  transfer_group: null,
+};
 
 describe('OrdersService', () => {
   let ordersService: OrdersService;
@@ -171,17 +224,22 @@ describe('OrdersService', () => {
     });
   });
 
-  /*
   describe('fetchOrderItems', () => {
     it("returns order's items by calling ordersRepository.createQueryBuilder and orderItem.createQueryBuilder", async () => {
-      ordersRepository.createQueryBuilder = jest.fn().mockReturnValue({
+      ordersRepository.createQueryBuilder = jest.fn(() => ({
         where: jest.fn().mockReturnThis(),
         andWhere: jest.fn().mockReturnThis(),
-        getOne: jest.fn().mockReturnValue(bunchOfOrders[0]),
-      });
-      getRepository(OrderItem).createQueryBuilder = jest.fn().mockReturnValue({
-        where: jest.fn().mockReturnThis(),
-        getMany: jest.fn().mockReturnValue(orderItems),
+        getOne: jest.fn().mockResolvedValue(bunchOfOrders[0]),
+      }));
+      jest.spyOn(typeorm, 'getRepository').mockImplementation(() => {
+        const original = jest.requireActual('typeorm');
+        return {
+          ...original,
+          createQueryBuilder: jest.fn(() => ({
+            where: jest.fn().mockReturnThis(),
+            getMany: jest.fn().mockResolvedValue(orderItems),
+          })),
+        };
       });
       expect(
         ordersService.fetchOrderItems('f29ca6ae-3aac-4794-b008-4d743901a226', mockUser)
@@ -199,9 +257,9 @@ describe('OrdersService', () => {
           quantity: expect.any(Number),
         },
       ]);
+      expect(ordersRepository.createQueryBuilder).toHaveBeenCalled();
     });
   });
-  */
 
   describe('create', () => {
     it('creates an order by calling ordersRepository.createOrder', async () => {
@@ -228,15 +286,40 @@ describe('OrdersService', () => {
   });
 
   /*
-  describe('removeOrder', () => {
-    it('calls ordersRepository.find and uses orderItemRepository.delete to delete items associated with the order along with the order', async () => {
-      spyOn(typeorm, 'getRepository');
-      //const orderRepo = typeorm.getRepository(OrderItem);
-      //orderRepo.delete = jest.fn().mockReturnValue({ affected: 1 });
-
-      ordersRepository.find.mockResolvedValue(bunchOfOrders[0]);
-      expect(ordersService.removeOrder('f29ca6ae-3aac-4794-b008-4d743901a226', mockUser));
+  describe('addPaymentIntent', () => {
+    it('calls new instance of Stripe and assign secret key to payment intent and returns it', async () => {
+      await expect(
+        ordersService.addPaymentIntent(
+          { amount: 2.5, currency: 'usd', payment_method_types: 'card', metadata: mockUser.email },
+          mockUser
+        )
+      ).resolves.toEqual(mockPaymentIntent);
     });
   });
   */
+
+  describe('removeOrder', () => {
+    it('calls ordersRepository.find and uses orderItemRepository.delete to delete items associated with the order along with the order', async () => {
+      ordersRepository.delete.mockResolvedValue({
+        raw: [],
+        affected: 1,
+      });
+      ordersRepository.findOne.mockResolvedValue(bunchOfOrders[0]);
+      jest.spyOn(typeorm, 'getRepository').mockImplementation(() => {
+        const original = jest.requireActual('typeorm');
+        return {
+          ...original,
+          delete: jest.fn().mockReturnValue({
+            raw: [],
+            affected: 3,
+          }),
+        };
+      });
+      ordersRepository.find.mockResolvedValue(bunchOfOrders[0]);
+      expect(ordersService.removeOrder('f29ca6ae-3aac-4794-b008-4d743901a226', mockUser));
+      expect(ordersRepository.findOne).toHaveBeenCalledWith({
+        where: { id: 'f29ca6ae-3aac-4794-b008-4d743901a226' },
+      });
+    });
+  });
 });

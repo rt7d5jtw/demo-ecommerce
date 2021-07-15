@@ -95,7 +95,7 @@ export class OrdersRepository extends Repository<Order> {
     order.city = city;
     order.postalcode = postalcode.toString();
     order.status = OrderStatus.PROCESSING;
-    order.user = user;
+    order.userId = user.id;
 
     for (const key in order) {
       if (order[key] === '' || order[key] === null || order[key] === undefined) {
@@ -105,33 +105,26 @@ export class OrdersRepository extends Repository<Order> {
 
     try {
       await order.save();
-      delete order.user;
     } catch (err) {
       throw new Error(`Order could not be saved`);
     }
 
-    this.addOrderItems(order.id, user);
+    await this.addOrderItems(order.id, user);
 
     return order;
   }
 
   async addOrderItems(id: string, user: User): Promise<OrderItem[]> {
-    /* get cartId */
     const userId = user['id'];
-    const manager = getManager();
-    const cartId = await manager.query(`
-      SELECT id FROM "cart" as cart
-      WHERE cart."userId" = '${userId}';
-      `);
-
-    const cartItems = await manager.query(`
-      SELECT * FROM "cart-item" as ct
-      WHERE ct."cartId" = '${cartId[0].id}';
+    const cartItems = await getManager().query(`
+    SELECT ct."id", ct."price", ct."quantity", ct."productId" FROM "cart"
+    JOIN "cart-item" as ct
+      ON "cart"."id" = ct."cartId"
+      WHERE "cart"."userId" = '${userId}'
       `);
 
     const orders = [];
     for (let i = 0; i < cartItems.length; i++) {
-      /* iterates all the cart items into orders-array */
       const order = {
         orderId: null,
         price: null,
@@ -144,7 +137,6 @@ export class OrdersRepository extends Repository<Order> {
       order.product = cartItems[i].productId;
       orders.push(order);
     }
-    /* insert to the array to database */
     await getConnection().createQueryBuilder().insert().into(OrderItem).values(orders).execute();
 
     return cartItems;

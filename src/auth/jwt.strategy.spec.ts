@@ -9,8 +9,8 @@ const mockUserRepository = () => ({
 });
 
 describe('JwtStrategy', () => {
-  let jwtStrategy;
-  let userRepository;
+  let jwtStrategy: any;
+  let userRepository: any;
 
   beforeEach(async () => {
     const module = await Test.createTestingModule({

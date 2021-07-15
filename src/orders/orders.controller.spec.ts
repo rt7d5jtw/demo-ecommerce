@@ -4,6 +4,8 @@ import { User } from '../users/user.entity';
 import { OrderStatus } from './order.entity';
 import { OrdersController } from './orders.controller';
 import { OrdersService } from './orders.service';
+import { Readable, Writable } from 'stream';
+import { mockResponse } from 'jest-mock-req-res';
 
 export const bunchOfOrders = [
   {
@@ -67,11 +69,22 @@ const mockOrdersService = () => ({
     dto.date = new Date().toString();
     return Promise.resolve(dto);
   }),
+  createInvoice: jest.fn().mockResolvedValue(Buffer.from('I like chocolate')),
+  getReadableStream: jest.fn(() => {
+    const buffer = Buffer.from('I like chocolate');
+    const stream = new Readable();
+    stream.push(buffer);
+    stream.push(null);
+    return stream;
+  }),
 });
 
 describe('OrdersController', () => {
   let ordersController: OrdersController;
   let ordersService: OrdersService;
+
+  jest.mock('stream');
+  jest.mock('jest-mock-req-res');
 
   beforeEach(async () => {
     const module = await Test.createTestingModule({
@@ -231,10 +244,6 @@ describe('OrdersController', () => {
 
   describe('removeOrder', () => {
     it('removes order by calling ordersService', async () => {
-      const res = {
-        set: null,
-      };
-      res.set = jest.fn(() => undefined);
       await expect(
         ordersController.removeOrder('f29ca6ae-3aac-4794-b008-4d743901a226', mockUser)
       ).resolves.toBeUndefined();

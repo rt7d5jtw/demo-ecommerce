@@ -269,7 +269,7 @@ describe('CartService', () => {
         id: '3c7df1c9-35dd-47f7-a511-cf88dc8f14a6',
         CreatedAt: '2021-07-14',
       };
-      const mock = jest.spyOn(CartItem, 'getRepository').mockImplementation(() => {
+      jest.spyOn(CartItem, 'getRepository').mockImplementation(() => {
         const original = jest.requireActual('typeorm');
         return {
           ...original,

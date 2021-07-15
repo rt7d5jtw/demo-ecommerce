@@ -12,6 +12,7 @@ import {
   UseGuards,
   UseInterceptors,
   Headers,
+  Header,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { CreateOrderDto } from './dto/order.do';
@@ -22,9 +23,10 @@ import { OrderItem } from './order-item.entity';
 import { User } from '../users/user.entity';
 import { GetUser } from '../users/get_user.decorator';
 import { PaymentDto } from './dto/payment.dto';
-import Stripe from 'stripe';
 import { Response } from 'express';
+import Stripe from 'stripe';
 import { InvoiceInterceptor } from './invoice.interceptor';
+import { Readable } from 'stream';
 
 @UseGuards(AuthGuard('jwt'))
 @Controller('orders')
@@ -55,7 +57,6 @@ export class OrdersController {
   @Post('/pdf')
   //@UseInterceptors(InvoiceInterceptor)
   async getInvoice(
-    @Headers()
     @GetUser()
     user: User,
     @Body() orderId: string,
