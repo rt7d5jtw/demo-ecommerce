@@ -2,6 +2,7 @@
   display: grid;
   place-items: center center;
   transition: filter 300ms;
+  border: 2px cyan solid;
 }
 
 input {

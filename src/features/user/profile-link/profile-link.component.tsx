@@ -26,7 +26,7 @@ export const Login = (): JSX.Element => {
   return (
     <div className='login__link'>
       <Link className='link-wrapper' to='/login'>
-        <h1>Login</h1>
+        <LoggedIn />
       </Link>
     </div>
   );

@@ -4,13 +4,13 @@ import { Link } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 import { selectCategories } from '../../category/categorySlice';
 import { RootState } from '../../../app/store';
-import { Category } from '../../../features/category/categorySlice';
+import { ICategory } from '../../../features/category/categorySlice';
 import { connect } from 'react-redux';
-import { AiOutlineMenu } from 'react-icons/ai';
+import { IoMdMenu } from 'react-icons/io';
 import { useState, useRef, useEffect } from 'react';
 
 interface ISidebar {
-  categories: Category[];
+  categories: ICategory[];
 }
 
 const Sidebar = ({ categories }: ISidebar) => {
@@ -31,10 +31,7 @@ const Sidebar = ({ categories }: ISidebar) => {
   return (
     <div ref={menuRef} className={isActive ? 'sidebar' : 'sidebar-closed'}>
       <div className='sidebar-links'>
-        <AiOutlineMenu
-          className={isActive ? 'close-btn' : 'close-btn-closed'}
-          onClick={toggleClass}
-        />
+        <IoMdMenu className={isActive ? 'close-btn' : 'close-btn-closed'} onClick={toggleClass} />
         <h1>Bookstore</h1>
         {categories.map(({ cname, id }) => (
           <Link to={'/books/' + cname} href={cname} key={id}>
@@ -47,7 +44,7 @@ const Sidebar = ({ categories }: ISidebar) => {
 };
 
 interface IMapStateToProps {
-  categories: Category[];
+  categories: ICategory[];
 }
 
 const mapStateToProps = createStructuredSelector<RootState, IMapStateToProps>({

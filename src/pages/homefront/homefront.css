@@ -1,0 +1,28 @@
+.homefront {
+  display: grid;
+  place-items: start center;
+  height: 100vh;
+  background: #f1e1cc;
+}
+
+.homefront__categories {
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 7.5em;
+  width: 50%;
+}
+
+.homefront__categories a {
+  font-family: 'Liberation Serif';
+  font-size: 3em; 
+  color: #594a4e;
+  margin-right: 1em;
+}
+
+.homefront__categories a:first-letter {
+  text-transform: capitalize;
+}
+
+.homefront__product-windows {
+  display: flex;
+}

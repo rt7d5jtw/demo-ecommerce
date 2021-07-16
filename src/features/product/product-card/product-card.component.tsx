@@ -5,6 +5,7 @@ import { addItemDB } from '../../cart/thunks';
 import { useDispatch } from 'react-redux';
 import { IProductCard } from '../../../features/product/productSlice';
 import { useHistory, useParams } from 'react-router';
+import { GiShoppingBag } from 'react-icons/gi';
 
 /* CategoryPage component feeds data to ProductCard from props */
 const ProductCard = (product: IProductCard): JSX.Element => {
@@ -27,14 +28,17 @@ const ProductCard = (product: IProductCard): JSX.Element => {
         className='product-card__image'
         style={{ backgroundImage: `url(${product.image})` }}
         onClick={() => push(`${params.categoryId}/${product.id}`)}
-      ></div>
-      <div className='product-card__card-bottom'>
-        <span className='product-card__price'>${product.price}</span>
-        <button className='product-card__card-button' onClick={buttonHandler}>
-          Add to Cart
-        </button>
+      >
+        <div className='product-card__card-bottom'>
+          <button className='product-card__card-button' onClick={buttonHandler}>
+            <GiShoppingBag />
+          </button>
+        </div>
       </div>
-      <span className='product-card__title'>{product.title}</span>
+      <span className='product-card__title'>
+        <p>{product.title}</p>
+        <p>${product.price}</p>
+      </span>
     </div>
   );
 };

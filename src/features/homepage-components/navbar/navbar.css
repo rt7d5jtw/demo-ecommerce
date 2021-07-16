@@ -1,7 +1,12 @@
 .navbar {
   display: grid;
   grid-area: 1 / 1 / 2 / 13;
-  background: #131313;
+  background: transparent;
+  position: fixed;
+  z-index: 9;
+
+  width: 100%;
+  justify-content: end;
 }
 
 .navbar h1 {
@@ -9,5 +14,19 @@
 }
 
 .nav-wrapper {
-  display: flex;
+  display: grid;
+  justify-content: space-between;
+  grid-auto-flow: column;
+  width: 67.5em;
+}
+
+.nav-wrapper__right {
+  z-index: 999;
+  width: 100%;
+}
+
+.nav-wrapper__left {
+  display: grid;
+  grid-auto-flow: column;
+  width: 100%;
 }

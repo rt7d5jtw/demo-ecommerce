@@ -27,6 +27,8 @@ import { StripeOrderWrapper } from '../stripe-order-wrapper/stripe-order-wrapper
 import Checkout from '../checkout/checkout.component';
 import SearchPage from '../search-result/search-result.component';
 import { NotFound } from '../404/404.component';
+import Homefront from '../homefront/homefront.component';
+import Homemiddle from '../home-middle/home-middle.component';
 
 function Homepage(): JSX.Element {
   const dispatch = useDispatch();
@@ -64,8 +66,8 @@ function Homepage(): JSX.Element {
       <Main>
         <Switch>
           <Route exact path='/'>
-            <Preview />
-            <Promotions promotions={promotions} />
+            <Homefront />
+            <Homemiddle />
           </Route>
           <Route exact path='/purchase-confirmed' component={PurchaseConfirmed} />
           <Route exact path='/payment' component={StripeOrderWrapper} />

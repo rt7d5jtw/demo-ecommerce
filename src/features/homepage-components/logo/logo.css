@@ -3,6 +3,7 @@
   place-items: center center;
   cursor: pointer;
   transition: 1s;
+  height: 100%;
 }
 
 .logo:hover {
@@ -10,10 +11,8 @@
 }
 
 .logo h1 {
-  font-size: 1.7em;
+  display: grid;
+  font-size: 2.7em;
   font-weight: bold;
   color: #c3b091;
-
-  margin-left: 13em;
-  margin-right: 2.5em;
 }

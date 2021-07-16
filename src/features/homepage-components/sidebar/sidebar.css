@@ -10,7 +10,7 @@
 
   background: #131313;
   transition: 0.5s;
-  z-index: 9;
+  z-index: 10;
 }
 
 .close-btn {
@@ -22,20 +22,21 @@
   width: 3em;
   height: 2.5em;
   transition: 0.5s;
+  z-index: 10;
 }
 
 .close-btn-closed {
-  top: 1em;
+  top: 2em;
   transform: translateX(-15.3125em);
   left: 15.5em;
   position: fixed;
   cursor: pointer;
-  color: #efcba7;
-  background: #131313;
-  width: 3em;
+  color: #33272a;
+  background: transparent;
+  width: 5em;
   height: 2.5em;
-  border-radius: .3em;
   transition: 0.5s;
+  z-index: 10;
 }
 
 .sidebar-closed {
@@ -46,6 +47,11 @@
 
   background: #000;
   transition: 0.5s;
+  z-index: 10;
+}
+
+.sidebar-closed h1 {
+  display: none;
 }
 
 .sidebar-closed a {
@@ -64,6 +70,7 @@
   font-size: 25px;
   text-transform: uppercase;
   transition: 0.5s;
+  z-index: 10;
 }
 
 .sidebar a {
@@ -76,6 +83,7 @@
   color: #bbb;
   text-decoration: none;
   letter-spacing: 2px;
+  z-index: 10;
 }
 
 .sidebar a:first-letter {

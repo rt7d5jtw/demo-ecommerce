@@ -1,17 +1,19 @@
+.category-page {
+  background: #faeee7;
+  border: 2px solid red;
+  min-height: 100vh;
+}
+
 .category-page__products {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
 }
 
-.category-page {
-  min-height: 34em;
-}
-
 .category-page__title {
   font-size: 1.7em;
   font-weight: bold;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Liberation', serif;
   display: flex;
   color: #131313;
 

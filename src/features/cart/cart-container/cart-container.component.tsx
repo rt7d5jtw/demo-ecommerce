@@ -1,6 +1,6 @@
 import * as React from 'react';
 import './cart-container.css';
-import { TiShoppingCart } from 'react-icons/ti';
+import { GiShoppingBag } from 'react-icons/gi';
 import { connect } from 'react-redux';
 import { RootState } from '../../../app/store';
 import { cartToggle, clearCart, ICartItem } from '../../cart/cartSlice';
@@ -58,11 +58,12 @@ const CartContainer = ({ isOpen, cartItems, quantity }: ICart) => {
 
   return (
     <div className='cart-container'>
-      <div ref={iconRef}>
-        <TiShoppingCart
-          className='cart-container__cart-icon'
-          onClick={() => dispatch(cartToggle(isOpen))}
-        />
+      <div
+        className='cart-container__cart-icon__container '
+        ref={iconRef}
+        onClick={() => dispatch(cartToggle(isOpen))}
+      >
+        <GiShoppingBag className='cart-container__cart-icon' />
         <span className='cart-container__cart-quantity'>{quantity}</span>
       </div>
 
