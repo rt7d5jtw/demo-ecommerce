@@ -39,6 +39,11 @@ const Sidebar = ({ categories }: ISidebar) => {
           </Link>
         ))}
       </div>
+      <div
+        className={isActive ? 'flat' : 'flat-closed'}
+        style={isActive ? { width: `70.7%` } : { width: `1%` }}
+        onClick={() => setActive(false)}
+      />
     </div>
   );
 };

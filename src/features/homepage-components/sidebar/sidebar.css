@@ -1,8 +1,19 @@
 @import url('https://fonts.googleapis.com/css?family=Rubik&display=swap');
 
+.flat {
+  position: fixed;
+  right: 0;
+
+  background: #131313;
+
+  opacity: 0.8;
+  height: 100%;
+  transition: 0.5s;
+}
+
 .sidebar {
   position: fixed;
-  width: 19em;
+  width: 35em;
   height: 100%;
   display: grid;
   grid-area: 1 / 1 / 13 / 2;
@@ -14,8 +25,8 @@
 }
 
 .close-btn {
-  top: 1em;
-  left: 15.5em;
+  top: 1.8em;
+  left: 25em;
   position: fixed;
   cursor: pointer;
   color: #efcba7;
@@ -61,8 +72,7 @@
 .sidebar h1 {
   display: block;
   color: #fff;
-  font-family: 'Rubik';
-  font-size: 1.7em;
+  font-size: 2em;
   text-decoration: none;
   letter-spacing: 2px;
   font-weight: 400;
@@ -73,9 +83,15 @@
   z-index: 10;
 }
 
+.sidebar-links h1 {
+  font-family: 'Rubik';
+  font-size: 2em;
+}
+
 .sidebar a {
   transition: 0.5s;
   font-family: 'Rubik';
+  font-size: 1.4em;
   display: block;
   width: 150px;
   margin: 10px 35px;

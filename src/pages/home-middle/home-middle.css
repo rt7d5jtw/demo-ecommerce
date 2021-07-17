@@ -1,5 +1,4 @@
 .homemiddle {
-  border: 2px solid red;
   display: grid;
   place-items: center center;
   height: 100vh;

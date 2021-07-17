@@ -27,6 +27,7 @@ const CartContainer = ({ isOpen, cartItems, quantity }: ICart) => {
 
   const handleClickOutside = (event: Event) => {
     if (
+      isOpen === true &&
       wrappedRef.current &&
       iconRef.current &&
       !iconRef.current.contains(event.target as Node) &&
@@ -37,12 +38,11 @@ const CartContainer = ({ isOpen, cartItems, quantity }: ICart) => {
   };
 
   useEffect(() => {
-    console.group('items =>', cartItems);
-    document.addEventListener('click', handleClickOutside, true);
+    document.addEventListener('mousedown', handleClickOutside, true);
     return () => {
-      document.removeEventListener('click', handleClickOutside, true);
+      document.removeEventListener('mousedown', handleClickOutside, true);
     };
-  }, []);
+  }, [isOpen]);
 
   function checkout() {
     push('/checkout');
@@ -59,7 +59,7 @@ const CartContainer = ({ isOpen, cartItems, quantity }: ICart) => {
   return (
     <div className='cart-container'>
       <div
-        className='cart-container__cart-icon__container '
+        className='cart-container__cart-icon__container'
         ref={iconRef}
         onClick={() => dispatch(cartToggle(isOpen))}
       >
@@ -67,36 +67,34 @@ const CartContainer = ({ isOpen, cartItems, quantity }: ICart) => {
         <span className='cart-container__cart-quantity'>{quantity}</span>
       </div>
 
-      {isOpen ? (
-        <div className='cart-content' ref={wrappedRef}>
-          <div className='cart-content__checkout'>
-            <button className='cart-content__checkout_checkout-btn' onClick={checkout}>
-              Checkout
-            </button>
-            <button
-              className='cart-content__checkout_clear-cart-btn'
-              onClick={() => cartClear()}
-              title='Clears cart from all products'
-            >
-              Clear Cart
-            </button>
-          </div>
-          {cartItems.length ? (
-            cartItems.map(({ title, price, image, quantity, productId }) => (
-              <CartItem
-                key={productId}
-                productId={productId}
-                title={title}
-                price={price}
-                image={image}
-                quantity={quantity}
-              />
-            ))
-          ) : (
-            <span className='cart-content__empty-cart'>Cart is empty</span>
-          )}
+      <div className={isOpen ? 'cart-content' : 'cart-content--closed'} ref={wrappedRef}>
+        <div className='cart-content__checkout'>
+          <button className='cart-content__checkout_checkout-btn' onClick={checkout}>
+            Checkout
+          </button>
+          <button
+            className='cart-content__checkout_clear-cart-btn'
+            onClick={() => cartClear()}
+            title='Clears cart from all products'
+          >
+            Clear Cart
+          </button>
         </div>
-      ) : null}
+        {cartItems.length ? (
+          cartItems.map(({ title, price, image, quantity, productId }) => (
+            <CartItem
+              key={productId}
+              productId={productId}
+              title={title}
+              price={price}
+              image={image}
+              quantity={quantity}
+            />
+          ))
+        ) : (
+          <span className='cart-content__empty-cart'>Cart is empty</span>
+        )}
+      </div>
     </div>
   );
 };

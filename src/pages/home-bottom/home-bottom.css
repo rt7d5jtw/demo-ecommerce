@@ -1,0 +1,30 @@
+.homebottom {
+  display: grid;
+  place-items: center center;
+  height: 100vh;
+  background: #fdf9ef;
+}
+
+.homebottom__wrapper {
+  display: flex;
+  border: 2px solid red;
+  height: 40em;
+  width: 100%;
+}
+
+.homebottom__wrapper__text {
+  font-family: 'Montserrat';
+  font-size: 1.2em;
+  letter-spacing: 0.05rem;
+  background: #fdf9ef;
+  border: 2px solid cyan;
+  width: 25%;
+  padding: 1em;
+}
+
+.homebottom__wrapper__image {
+  display: flex;
+  flex-grow: 1;
+  background-size: cover;
+  background-position: center;
+}
