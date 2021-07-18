@@ -8,7 +8,6 @@ import { UserRole, AccessTokenDTO } from '../userSlice';
 import { logout } from '../thunks';
 import { createStructuredSelector } from 'reselect';
 import { useDispatch } from 'react-redux';
-import { useState, useEffect, useRef } from 'react';
 import { useHistory } from 'react-router';
 import { CgProfile } from 'react-icons/cg';
 
@@ -35,27 +34,6 @@ export const Login = (): JSX.Element => {
 export const LoggedIn = (): JSX.Element => {
   const dispatch = useDispatch();
   const { push } = useHistory();
-  const [open, setOpen] = useState(false);
-  const menuRef = useRef<HTMLDivElement>(null);
-  const menuRef2 = useRef<HTMLDivElement>(null);
-
-  const handleClickOutside = (event: Event) => {
-    if (
-      menuRef.current &&
-      menuRef2.current &&
-      !menuRef2.current.contains(event.target as Node) &&
-      !menuRef.current.contains(event.target as Node)
-    ) {
-      setOpen(false);
-    }
-  };
-
-  useEffect(() => {
-    document.addEventListener('click', handleClickOutside, true);
-    return () => {
-      document.addEventListener('click', handleClickOutside, true);
-    };
-  }, []);
 
   function DropdownMenu() {
     function DropdownItem() {
@@ -77,7 +55,7 @@ export const LoggedIn = (): JSX.Element => {
       );
     }
     return (
-      <div className='dropdown' ref={menuRef}>
+      <div className='dropdown'>
         <DropdownItem />
       </div>
     );
@@ -85,12 +63,12 @@ export const LoggedIn = (): JSX.Element => {
 
   return (
     <div className='nav'>
-      <div className='menu' ref={menuRef2}>
+      <div className='menu'>
         <li className='nav-item'>
-          <a href='#' className='icon-button' onClick={() => setOpen(!open)}>
+          <a href='#' className='icon-button'>
             <CgProfile />
+            <DropdownMenu />
           </a>
-          {open ? <DropdownMenu /> : null}
         </li>
       </div>
     </div>

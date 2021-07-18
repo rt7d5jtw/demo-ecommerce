@@ -3,13 +3,15 @@
   place-items: center center;
   height: 100vh;
   background: #fdf9ef;
+  overflow-y: hidden;
 }
 
 .homebottom__wrapper {
   display: flex;
-  border: 2px solid red;
   height: 40em;
   width: 100%;
+  justify-content: center;
+  overflow-x: hidden;
 }
 
 .homebottom__wrapper__text {
@@ -17,14 +19,38 @@
   font-size: 1.2em;
   letter-spacing: 0.05rem;
   background: #fdf9ef;
-  border: 2px solid cyan;
   width: 25%;
   padding: 1em;
+  transform: translateX(100%);
+}
+
+.homebottom__wrapper__text--slidein {
+  font-family: 'Montserrat';
+  font-size: 1.2em;
+  letter-spacing: 0.05rem;
+  background: #fdf9ef;
+  width: 25%;
+  padding: 1em;
+  transform: translateX(0%);
+  transition: transform 1s ease-in;
+  margin-left: 1em;
 }
 
 .homebottom__wrapper__image {
+  border: 2px solid red;
   display: flex;
   flex-grow: 1;
   background-size: cover;
   background-position: center;
+  transform: translateX(-140%);
+}
+
+.homebottom__wrapper__image--slidein {
+  display: flex;
+  height: 100%;
+  width: 50%;
+  background-size: cover;
+  background-position: center;
+  transform: translateX(0%);
+  transition: transform 1s ease-in;
 }

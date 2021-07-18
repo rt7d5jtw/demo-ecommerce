@@ -1,13 +1,14 @@
 .category-page {
   background: #faeee7;
-  border: 2px solid red;
   min-height: 100vh;
+  padding-top: 50px;
 }
 
 .category-page__products {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  border: 2px solid red;
 }
 
 .category-page__title {

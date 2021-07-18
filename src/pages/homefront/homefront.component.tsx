@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 import { IProduct } from '../../features/product/productSlice';
 import { selectItems } from '../../features/product/selectors';
 import ProductCard from '../../features/product/product-card/product-card.component';
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 
 interface IHomefront {
   categories: ICategory[];
@@ -16,27 +16,40 @@ interface IHomefront {
 }
 
 const Homefront = ({ categories, products }: IHomefront): JSX.Element => {
-  const elementRef = useRef<HTMLDivElement>(null);
+  const productsRef = useRef<HTMLDivElement>(null);
+  const categoriesRef = useRef<HTMLDivElement>(null);
+  const [isVisible, setVisible] = useState<boolean>(false);
 
-  const something = (target: any) => {
-    const options = {
-      root: null,
-      rootMargin: '0px',
-      threshold: 0.05,
-    };
-    const io = new IntersectionObserver(fadein, options);
+  const callback = (entries: IntersectionObserverEntry[]) => {
+    const [entry] = entries;
+    if (entry.isIntersecting) {
+      setVisible(entry.isIntersecting);
+    } else if (!entry.isIntersecting && entry.boundingClientRect.y > 153) {
+      setVisible(entry.isIntersecting);
+    }
   };
-  const fadein = () => {
-    console.log('yeet');
+
+  const options = {
+    root: null,
+    rootMargin: '0px 0px -765px 0px',
+    threshold: 0.05,
   };
 
   useEffect(() => {
-    console.log(elementRef);
-  }, []);
+    const observer = new IntersectionObserver(callback, options);
+    if (productsRef.current) observer.observe(productsRef.current);
+
+    return () => {
+      if (productsRef.current) observer.unobserve(productsRef.current);
+    };
+  }, [productsRef, options]);
 
   return (
     <div className='homefront'>
-      <div ref={elementRef} className='homefront__categories'>
+      <div
+        ref={categoriesRef}
+        className={isVisible ? 'homefront__categories--fade' : 'homefront__categories'}
+      >
         {categories.map(({ cname, id }) => (
           <Link to={'/books/' + cname} href={cname} key={id}>
             {cname}
@@ -49,7 +62,7 @@ const Homefront = ({ categories, products }: IHomefront): JSX.Element => {
         <p>Find books that interest you from wide collection</p>
       </div>
 
-      <div className='homefront__product-windows'>
+      <div ref={productsRef} className='homefront__product-windows'>
         {products
           .filter((_e, idx) => idx < 3)
           .map(({ id, title, image, price, author, description, categoryId }: IProduct) => (

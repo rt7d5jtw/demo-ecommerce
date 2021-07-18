@@ -75,26 +75,47 @@
 }
 
 .dropdown {
-  background: #131313;
+  display: none;
+  background: transparent;
   position: absolute;
 
-  top: 5em;
-  width: 200px;
-  padding: 1rem;
+  top: 1.5em;
+  right: 2.2em;
+  width: 5em;
+  height: 8em;
 
   overflow: hidden;
   z-index: 9999;
+  transition: 1s;
+}
+
+.icon-button:hover > .dropdown {
+  display: grid;
+  place-items: center center;
+  transition: 1s;
 }
 
 .dropdown-item {
+  border-radius: .1em;
+  background: #131313;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 6.25em;
+  height: 1.25em;
+  width: 0.5em;
   transition: background 300ms;
   padding: 0.5rem;
   z-index: 9999;
+  opacity: 0;
+  transition: 1s;
+}
+
+.dropdown:hover > .dropdown-item {
+  transition: .8s;
+  height: 6.25em;
+  width: 100%;
+  opacity: 1;
 }
 
 .dropdown-item span {
