@@ -1,137 +1,18 @@
 .order-payment {
   display: grid;
-  place-items: center center;
+  place-items: start center;
   height: 100vh;
+  border: 2px solid red;
 }
 
 .order-payment__wrapper {
-  border: 2px solid cyan;
   display: grid;
   place-items: center center;
   grid-auto-flow: column;
-  width: 95%;
-  height: 90vh;
-}
-
-.order-payment__wrapper__col-left {
-  border: 2px solid red;
-  display: flex;
-  height: 100%; 
-  width: 100%;
-}
-
-.order-payment__wrapper__col-left__ordered-items {
-  display: flex;
-  justify-content: center;
-  max-height: 52.5em;
-  width: 100%;
-  overflow: auto;
-  border: 5px solid black;
-}
-
-.order-payment__wrapper__col-left__ordered-items p {
+  width: 70%;
+  height: 50%;
+  border: 2px solid brown;
   font-family: 'Montserrat', sans-serif;
-  font-size: 1em;
-  margin-top: 0.3em;
-}
-
-.order-payment__wrapper__col-left__ordered-items table {
-  border-collapse: collapse;
-  width: 100%;
-  height: 100%;
-}
-
-.order-payment__wrapper__col-left__ordered-items table td:first-child {
-  height: 30%;
-  width: 30%;
-}
-
-.order-payment__wrapper__col-left__ordered-items table, th, td {
-  text-align: center;
-  vertical-align: middle;
-}
-
-.order-payment__wrapper__col-left__ordered-items table td {
-  border-top: 1px solid black;
-}
-
-.order-payment__wrapper__col-left__ordered-items td img {
-  vertical-align: top;
-  width: 75%;
-  height: 200px;
-}
-
-.order-payment__wrapper__col-left__ordered-items th {
-  height: 1%;
-  padding: 0.2em;
-}
-
-.order-payment__wrapper__col-right {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background: transparent;
-  height: 100%; 
-  width: 100%;
-}
-
-.order-payment__wrapper__col-right__details {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  height: 25%;
-  width: 45%;
-  font-family: 'Montserrat', sans-serif;
-  margin-top: 2em;
-  background: #d3d3d3;
-}
-
-.order-payment__wrapper__col-right__details h2 {
-  text-align: center;
-  font-size: 2em;
-  font-weight: bold;
-  margin: 0.3em;
-}
-
-.order-payment__wrapper__col-right__details p {
-  display: flex;
-  text-indent: 1em;
-  justify-content: center;
-  align-items: center;
-  border-top: 1px solid white;
-  background: black;
-  color: white;
-  height: 2em;
-  width: 90%;
-  font-size: 1.3em;
-  font-weight: 500;
-}
-
-.order-payment__wrapper__col-right__shipping {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  margin-top: 3em;
-}
-
-.order-payment__wrapper__col-right__shipping p {
-  font-family: 'Montserrat', sans-serif;
-  display: flex;
-  text-indent: 1em;
-  align-items: center;
-  background: #d3d3d3;
-  color: black;
-  height: 1.7em;
-  width: 100%;
-  font-size: 1.3em;
-  font-weight: 400;
-}
-
-.order-payment__wrapper__col-right__shipping h2 {
-  text-align: center;
-  font-size: 1.3em;
-  font-weight: 500;
-  margin: 0.5em;
 }
 
 #stripe-wrapper p {
@@ -140,18 +21,17 @@
   margin-bottom: 1em;
 }
 
-.order-payment__wrapper__col-right form {
+.order-payment__wrapper form {
   padding: 15px 15px;
   width: 25em;
   height: 10em;
-  position: absolute;
   top: 75%;
   text-align: center;
   -webkit-box-shadow: 5px 5px 10px 3px #000000; 
   box-shadow: 5px 5px 10px 3px #000000;
 }
 
-.order-payment__wrapper__col-right form button {
+.order-payment__wrapper form button {
   font-size: 1em;
   margin-top: 2em;
   border: none;
@@ -162,12 +42,12 @@
   transition: 1.5s;
 }
 
-.order-payment__wrapper__col-right form button:hover {
+.order-payment__wrapper form button:hover {
   cursor: pointer;
   background: #2c6b2c;
 }
 
-.order-payment__wrapper__col-right form button:active {
+.order-payment__wrapper form button:active {
   transform: translateY(2px);
 }
 
@@ -176,7 +56,58 @@
   margin-bottom: 0.5em;
 }
 
-.order-payment__wrapper__col-right h2 {
+.order-payment__wrapper h2 {
   font-family: 'Montserrat', sans-serif;
   margin-top: 1em;
+}
+
+.order-payment__wrapper__payment-method {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  height: 15em;
+  width: 20.3em;
+  border: 5px solid black;
+}
+
+.order-payment__wrapper__payment-method button {
+  font-size: 1em;
+  padding: 1em;
+  background: skyblue;
+  color: white;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  transition: 1s ease-in;
+}
+
+.order-payment__wrapper__payment-method button:hover {
+  background: orange;
+}
+
+.order-payment__wrapper__payment-method h1 {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.4em;
+  text-align: center;
+  padding: 1em;
+  height: 3em;
+}
+
+.order-payment__form-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1em;
+  width: 50%;
+}
+
+.order-payment__form-wrapper label {
+  font-size: 1.2em;
+  cursor: pointer;
+}
+
+.order-payment__form-wrapper input {
+  margin-right: 1em;
+  cursor: pointer;
 }

@@ -12,8 +12,8 @@
   border: 1px solid #c3b091;
   height: 35rem;
   padding: 1.5em;
-  margin: 50px 65px;
   background: #131313;
+  margin-left: 1.5em;
 }
 
 .order-summary h1 {
@@ -30,8 +30,8 @@
 }
 
 .checkout__order-information {
-  margin: 0px 100px;
   margin-top: 1em;
+  border: 2px solid red;
 }
 
 .checkout__order-information p {

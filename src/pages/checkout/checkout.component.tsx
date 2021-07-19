@@ -16,12 +16,7 @@ import { selectShippingInfo } from '../../features/user/selectors';
 import { clearRecentOrder, OrderStatus } from '../../features/order/orderSlice';
 import { shippingInfoAdded } from '../../features/alert/alertSlice';
 import { selectRecentOrder } from '../../features/order/selectors';
-
-interface ICheckout {
-  cartItems: ICartItem[];
-  total: number;
-  clearCart: () => void;
-}
+import { CheckoutItem } from '../checkout-item/checkout-item.component';
 
 type FormValues = {
   address: string;
@@ -30,13 +25,15 @@ type FormValues = {
   postalcode: string;
 };
 
-const Checkout = ({ cartItems, total }: ICheckout) => {
+const Checkout = (): JSX.Element => {
   const dispatch = useDispatch();
   const { push } = useHistory();
   const { register, handleSubmit } = useForm<FormValues>();
   const [warning, setWarning] = useState<string>();
   const shippingInfo = useSelector(selectShippingInfo);
   const recentOrder = useSelector(selectRecentOrder);
+  const cartItems = useSelector(selectCartItems);
+  const total = useSelector(selectCartTotal);
 
   function handleOrder() {
     if (shippingInfo && shippingInfo && recentOrder === null) {
@@ -110,7 +107,7 @@ const Checkout = ({ cartItems, total }: ICheckout) => {
           {cartItems.length
             ? cartItems.map(({ title, price, quantity, image, productId }) => (
                 <div key={productId} className='cart-item__wrapper'>
-                  <CartItem
+                  <CheckoutItem
                     key={productId}
                     productId={productId}
                     title={title}
@@ -127,14 +124,4 @@ const Checkout = ({ cartItems, total }: ICheckout) => {
   );
 };
 
-interface IMapStateToProps {
-  cartItems: ICartItem[];
-  total: number;
-}
-
-const mapStateToProps = createStructuredSelector<RootState, IMapStateToProps>({
-  cartItems: selectCartItems,
-  total: selectCartTotal,
-});
-
-export default connect(mapStateToProps)(Checkout);
+export default Checkout;

@@ -26,6 +26,7 @@ import { NotFound } from '../404/404.component';
 import Homefront from '../homefront/homefront.component';
 import Homemiddle from '../home-middle/home-middle.component';
 import Homebottom from '../home-bottom/home-bottom.component';
+import CheckoutWrapper from '../checkout-wrapper/checkout-wrapper.component';
 
 function Homepage(): JSX.Element {
   const dispatch = useDispatch();
@@ -69,7 +70,7 @@ function Homepage(): JSX.Element {
           </Route>
           <Route exact path='/purchase-confirmed' component={PurchaseConfirmed} />
           <Route exact path='/payment' component={StripeOrderWrapper} />
-          <Route exact path='/checkout' component={Checkout} />
+          <Route exact path='/checkout' component={CheckoutWrapper} />
           <Route path='/new' component={NewReleases} />
           <Route exact path={`${match.path}books/:categoryId`} component={CategoryPage} />
           <Route path='/books/:categoryId/:productId' component={SingleProductPage} />
