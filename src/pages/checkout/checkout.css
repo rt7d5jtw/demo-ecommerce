@@ -25,13 +25,20 @@
   color: white;
 }
 
+#order-summary-products {
+  font-size: 1.4em;
+  position: absolute;
+  top: 7em;
+  right: 31em;
+}
+
 .cart-item__wrapper {
-  border: 1px solid white;
+  border-bottom: 1px solid white;
 }
 
 .checkout__order-information {
-  margin-top: 1em;
-  border: 2px solid red;
+  padding: 1em;
+  height: 54%;
 }
 
 .checkout__order-information p {
@@ -39,6 +46,12 @@
   font-size: 0.8em;
   font-family: 'Montserrat', sans-serif;
   color: red;
+}
+
+.checkout__order-information h1 {
+  font-size: 1.2em;
+  margin-top: 2em;
+  text-align: center;
 }
 
 .checkout__order-information h1, label {
@@ -68,8 +81,8 @@
   margin-bottom: 13px;
   margin-top: 20px;
   color: #131313;
-  font-size: 1em;
-  font-weight: 300;
+  font-size: 1.2em;
+  font-weight: 400;
 }
 
 .order-btn {

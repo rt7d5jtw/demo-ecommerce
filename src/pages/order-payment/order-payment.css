@@ -9,79 +9,105 @@
   display: grid;
   place-items: center center;
   grid-auto-flow: column;
-  width: 70%;
-  height: 50%;
+  width: 90%;
+  height: 60%;
+  font-family: 'Montserrat', sans-serif;
   border: 2px solid brown;
-  font-family: 'Montserrat', sans-serif;
 }
 
-#stripe-wrapper p {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 0.9em;
-  margin-bottom: 1em;
-}
-
-.order-payment__wrapper form {
-  padding: 15px 15px;
-  width: 25em;
-  height: 10em;
-  top: 75%;
+.order-payment__wrapper__payment-window form {
+  display: flex;
+  flex-direction: column;
+  padding: 35px 35px;
+  width: 30em;
   text-align: center;
   -webkit-box-shadow: 5px 5px 10px 3px #000000; 
   box-shadow: 5px 5px 10px 3px #000000;
+  font-size: 1.2em;
+  opacity: 0;
+  transition: 1s;
 }
 
-.order-payment__wrapper form button {
-  font-size: 1em;
+.order-payment__wrapper__payment-window form button {
   margin-top: 2em;
+  font-size: 1em;
   border: none;
   height: 3em;
-  width: 75%;
   background: #228b22;
   color: white;
   transition: 1.5s;
 }
 
-.order-payment__wrapper form button:hover {
+.order-payment__wrapper__payment-window form fieldset {
+  font-size: 1.2em;
+  margin-bottom: 2em;
+}
+
+.order-payment__wrapper__payment-window form button:hover {
   cursor: pointer;
   background: #2c6b2c;
 }
 
-.order-payment__wrapper form button:active {
+.order-payment__wrapper__payment-window form button:active {
   transform: translateY(2px);
 }
 
-#stripe__p {
+.order-payment__wrapper__payment-window h2 {
   font-family: 'Montserrat', sans-serif;
-  margin-bottom: 0.5em;
-}
-
-.order-payment__wrapper h2 {
-  font-family: 'Montserrat', sans-serif;
+  font-size: 1.2em;
   margin-top: 1em;
+  margin-right: 40em;
 }
 
 .order-payment__wrapper__payment-method {
   display: flex;
-  align-items: center;
-  flex-direction: column;
-  height: 15em;
-  width: 20.3em;
+  width: 25em;
+  height: 20em;
   border: 5px solid black;
+  transition: 1.5s ease-in;
 }
 
-.order-payment__wrapper__payment-method button {
+
+.order-payment__wrapper__payment-method form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+.order-payment__wrapper__payment-method form fieldset {
+  margin: 1em;
+}
+
+.order-payment__wrapper__payment-method form input[type=radio] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.order-payment__wrapper__payment-method form label {
+  font-size: 1.3em;
+  font-weight: bold;
+  cursor: pointer;
+  margin-left: 1em;
+}
+
+.order-payment__wrapper__payment-method input[type=submit] {
   font-size: 1em;
   padding: 1em;
+  margin: 1em;
+  width: 15em;
   background: skyblue;
   color: white;
-  border-radius: 5px;
   border: none;
+  border-radius: 5px;
   cursor: pointer;
-  transition: 1s ease-in;
+  transition: 500ms ease-in;
 }
 
-.order-payment__wrapper__payment-method button:hover {
+.order-payment__wrapper__payment-method input[type=submit]:hover {
   background: orange;
 }
 
@@ -91,23 +117,4 @@
   text-align: center;
   padding: 1em;
   height: 3em;
-}
-
-.order-payment__form-wrapper {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 1em;
-  width: 50%;
-}
-
-.order-payment__form-wrapper label {
-  font-size: 1.2em;
-  cursor: pointer;
-}
-
-.order-payment__form-wrapper input {
-  margin-right: 1em;
-  cursor: pointer;
 }

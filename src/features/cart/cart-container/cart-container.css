@@ -49,7 +49,7 @@
   right: 0em;
   top: 5em;
 
-  z-index: 10;
+  z-index: 999;
   overflow-y: scroll;
 
   background: #282828;
@@ -87,29 +87,37 @@
 }
 
 .cart-content__checkout_checkout-btn {
-  font-size: 18px;
+  font-family: 'Montserrat';
+  font-size: 1em;
   color: #000;
   background: #fff;
   padding: 15px 50px;
   outline: none;
   border: none;
+  border-radius: 5%;
   cursor: pointer;
   margin: 0px 35px;
+  transition: 1s ease-in;
 }
 
 .cart-content__checkout_checkout-btn:hover {
-  background: #000;
-  color: #fff;
+  background: #131313;
+  color: pink;
 }
 
 .cart-content__checkout_clear-cart-btn {
+  font-family: 'Montserrat';
+  font-size: 1em;
+  padding: .7em;
   border: none;
+  border-radius: 5%;
   appearance: none;
   outline: none;
   cursor: pointer;
+  transition: 1s;
 }
 
 .cart-content__checkout_clear-cart-btn:hover {
-  color: white;
-  background: #121212;
+  color: pink;
+  background: #131313;
 }

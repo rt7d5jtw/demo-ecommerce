@@ -1,43 +1,45 @@
 .single-product {
-  border: 1px solid black;
-  width: 100%;
-  height: 50em;
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(10, 1fr);
+  grid-column-gap: 0px;
+  grid-row-gap: 0px; 
+  height: 100vh;
 }
 
 .single-product__col-1 {
-  border: 1px solid black;
-  display: flex;
-  height: 50%;
-}
-
-.single-product__col-1 h1 {
-  font-size: 1.2em;
-  font-weight: bold;
-  margin: 1em;
-}
-
-.single-product__col-1__info {
-  width: 50%;
-  border: 1px solid red;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.single-product__col-1__image {
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  width: 50%;
-  height: 100%;
+  display: grid;
+  grid-area: 2 / 2 / 10 / 6;
   background-size: cover;
   background-position: center;
-  cursor: pointer;
 }
 
 .single-product__col-2 {
-  margin: 1em;
-  display: flex;
-  height: 50%;
+  display: grid;
+  place-items: center center;
+  grid-area: 2 / 6 / 10 / 10;
+}
+
+.single-product__col-2__info {
+  padding: 2em;
+  font-size: 2em;
+}
+
+.single-product__col-2 h1 {
+  font-size: 2.8em;
+}
+
+.single-product__col-2 button {
+  font-size: 1.4em;
+  padding: 1.5em;
+  width: 40%;
+  background: #228b22;
+  color: white;
+  cursor: pointer;
+  border: none;
+  transition: 1.5s;
+}
+
+.single-product__col-2 button:hover {
+  background: black;
 }

@@ -1,21 +1,13 @@
 import * as React from 'react';
 import './checkout.css';
-import CartItem from '../../features/cart/cart-item/cart-item.component';
 import Alert from '../../features/alert/alert/alert.component';
-import { connect, useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectCartItems, selectCartTotal } from '../../features/cart/selectors';
-import { createStructuredSelector } from 'reselect';
-import { RootState } from '../../app/store';
-import { ICartItem } from '../../features/cart/cartSlice';
 import { addShippingInformation } from '../../features/user/userSlice';
-import { create as createOrder } from '../../features/order/thunks';
-import { useHistory } from 'react-router';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useState } from 'react';
 import { selectShippingInfo } from '../../features/user/selectors';
-import { clearRecentOrder, OrderStatus } from '../../features/order/orderSlice';
 import { shippingInfoAdded } from '../../features/alert/alertSlice';
-import { selectRecentOrder } from '../../features/order/selectors';
 import { CheckoutItem } from '../checkout-item/checkout-item.component';
 
 type FormValues = {
@@ -27,36 +19,14 @@ type FormValues = {
 
 const Checkout = (): JSX.Element => {
   const dispatch = useDispatch();
-  const { push } = useHistory();
   const { register, handleSubmit } = useForm<FormValues>();
   const [warning, setWarning] = useState<string>();
   const shippingInfo = useSelector(selectShippingInfo);
-  const recentOrder = useSelector(selectRecentOrder);
   const cartItems = useSelector(selectCartItems);
   const total = useSelector(selectCartTotal);
 
-  function handleOrder() {
-    if (shippingInfo && shippingInfo && recentOrder === null) {
-      dispatch(
-        createOrder({
-          total_price: total,
-          status: OrderStatus.UNPAID,
-          address: shippingInfo.address,
-          country: shippingInfo.country,
-          city: shippingInfo.city,
-          postalcode: shippingInfo.postalcode,
-        })
-      );
-      push('/payment');
-    } else if (shippingInfo === null) {
-      setWarning('Provide shipping information!');
-    } else if (recentOrder !== null) {
-      setWarning('Clearing recent orders...');
-      setTimeout(() => setWarning(''), 2000);
-      dispatch(clearRecentOrder());
-    }
-  }
   const onSubmit: SubmitHandler<FormValues> = (data) => {
+    if (shippingInfo === null) setWarning('Provide shipping information!');
     dispatch(addShippingInformation(data));
     dispatch(shippingInfoAdded());
   };
@@ -64,7 +34,6 @@ const Checkout = (): JSX.Element => {
     <div className='checkout'>
       <Alert />
       <div className='checkout__order-information'>
-        <h1>Checkout</h1>
         <form className='order-form' onSubmit={handleSubmit(onSubmit)}>
           <label>Shipping information</label>
           <input
@@ -93,11 +62,7 @@ const Checkout = (): JSX.Element => {
           />
           <input type='submit' value='Add Shipping Information' />
         </form>
-        <h1>Order Summary</h1>
-        <h1>Total price: ${total}</h1>
-        <button className='order-btn' onClick={() => handleOrder()}>
-          Place Order
-        </button>
+        <h1>Subtotal: ${total}</h1>
         <p>{warning}</p>
       </div>
 

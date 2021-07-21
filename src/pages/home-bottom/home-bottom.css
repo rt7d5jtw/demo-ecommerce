@@ -12,6 +12,7 @@
   width: 100%;
   justify-content: center;
   overflow-x: hidden;
+  overflow-Y: hidden;
 }
 
 .homebottom__wrapper__text {
@@ -42,7 +43,8 @@
   flex-grow: 1;
   background-size: cover;
   background-position: center;
-  transform: translateX(-140%);
+  transform: translateY(100%);
+  opacity: 0;
 }
 
 .homebottom__wrapper__image--slidein {
@@ -52,5 +54,6 @@
   background-size: cover;
   background-position: center;
   transform: translateX(0%);
+  opacity: 1;
   transition: transform 1s ease-in;
 }
