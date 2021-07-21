@@ -102,18 +102,19 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 1.25em;
-  width: 0.5em;
+  max-height: 0em;
+  width: 100%;
   transition: background 300ms;
-  padding: 0.5rem;
+  padding: 1.2em .5em .5em .5em;
   z-index: 9999;
   opacity: 0;
-  transition: 1s;
+  transition: 1s ease-in-out;
 }
 
 .dropdown:hover > .dropdown-item {
+  transform: scaleY(1);
   transition: .8s;
-  height: 6.25em;
+  max-height: 6.25em;
   width: 100%;
   opacity: 1;
 }

@@ -1,18 +1,26 @@
 .order-payment {
   display: grid;
-  place-items: start center;
   height: 100vh;
-  border: 2px solid red;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(10, 1fr);
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+  background: #f8e4cc;
+}
+
+#checkout-step2 {
+  position: absolute;
+  top: 4em;
+  left: 46%;
+  font-size: 2em;
+  font-weight: bold;
 }
 
 .order-payment__wrapper {
   display: grid;
   place-items: center center;
-  grid-auto-flow: column;
-  width: 90%;
-  height: 60%;
+  grid-area: 4 / 4 / 7 / 8;
   font-family: 'Montserrat', sans-serif;
-  border: 2px solid brown;
 }
 
 .order-payment__wrapper__payment-window form {
@@ -53,17 +61,17 @@
 }
 
 .order-payment__wrapper__payment-window h2 {
+  position: absolute;
+  top: 45%;
+  right: 43%;
   font-family: 'Montserrat', sans-serif;
   font-size: 1.2em;
-  margin-top: 1em;
-  margin-right: 40em;
 }
 
 .order-payment__wrapper__payment-method {
   display: flex;
   width: 25em;
   height: 20em;
-  border: 5px solid black;
   transition: 1.5s ease-in;
 }
 
@@ -92,6 +100,7 @@
   font-weight: bold;
   cursor: pointer;
   margin-left: 1em;
+  color: #ff8ba7;
 }
 
 .order-payment__wrapper__payment-method input[type=submit] {

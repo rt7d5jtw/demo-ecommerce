@@ -69,6 +69,9 @@ const CartContainer = ({ isOpen, cartItems, quantity }: ICart) => {
 
       <div className={isOpen ? 'cart-content' : 'cart-content--closed'} ref={wrappedRef}>
         <div className='cart-content__checkout'>
+          <button className='cart-content__checkout_cart-btn' onClick={() => push('/cart')}>
+            View shopping bag
+          </button>
           <button className='cart-content__checkout_checkout-btn' onClick={checkout}>
             Checkout
           </button>
@@ -77,7 +80,7 @@ const CartContainer = ({ isOpen, cartItems, quantity }: ICart) => {
             onClick={() => cartClear()}
             title='Clears cart from all products'
           >
-            Clear Cart
+            Clear all products
           </button>
         </div>
         {cartItems.length ? (

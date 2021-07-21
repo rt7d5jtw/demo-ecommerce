@@ -6,7 +6,6 @@ const CheckoutWrapper = (): JSX.Element => {
   return (
     <div className='checkout-wrapper'>
       <Checkout />
-      <StripeOrderWrapper />
     </div>
   );
 };

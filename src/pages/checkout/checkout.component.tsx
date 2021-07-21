@@ -9,6 +9,7 @@ import { useState } from 'react';
 import { selectShippingInfo } from '../../features/user/selectors';
 import { shippingInfoAdded } from '../../features/alert/alertSlice';
 import { CheckoutItem } from '../checkout-item/checkout-item.component';
+import { StripeOrderWrapper } from '../stripe-order-wrapper/stripe-order-wrapper.component';
 
 type FormValues = {
   address: string;
@@ -21,6 +22,8 @@ const Checkout = (): JSX.Element => {
   const dispatch = useDispatch();
   const { register, handleSubmit } = useForm<FormValues>();
   const [warning, setWarning] = useState<string>();
+  const [success, setSuccess] = useState<boolean>(false);
+
   const shippingInfo = useSelector(selectShippingInfo);
   const cartItems = useSelector(selectCartItems);
   const total = useSelector(selectCartTotal);
@@ -29,31 +32,39 @@ const Checkout = (): JSX.Element => {
     if (shippingInfo === null) setWarning('Provide shipping information!');
     dispatch(addShippingInformation(data));
     dispatch(shippingInfoAdded());
+    shippingInfo !== null && cartItems.length !== 0 ? setSuccess(true) : null;
   };
   return (
     <div className='checkout'>
       <Alert />
-      <div className='checkout__order-information'>
+      <h1 id='checkout-step'>Shipping</h1>
+      <div
+        className='checkout__order-information'
+        style={success ? { transform: 'translateY(-150%)' } : {}}
+      >
         <form className='order-form' onSubmit={handleSubmit(onSubmit)}>
-          <label>Shipping information</label>
+          <label>Shipping address</label>
           <input
             type='address'
             placeholder='Shipping address'
             {...register('address', { required: true })}
             required
           />
+          <label>Country</label>
           <input
             type='text'
             placeholder='Country'
             {...register('country', { required: true })}
             required
           />
+          <label>City</label>
           <input
             type='text'
             placeholder='City'
             {...register('city', { required: true })}
             required
           />
+          <label>Postalcode</label>
           <input
             type='text'
             placeholder='Postal Code'
@@ -62,12 +73,10 @@ const Checkout = (): JSX.Element => {
           />
           <input type='submit' value='Add Shipping Information' />
         </form>
-        <h1>Subtotal: ${total}</h1>
         <p>{warning}</p>
       </div>
-
       {cartItems.length ? (
-        <div className='order-summary'>
+        <div className='order-summary' style={success ? { transform: 'translateY(-150%)' } : {}}>
           <h1>Products</h1>
           {cartItems.length
             ? cartItems.map(({ title, price, quantity, image, productId }) => (

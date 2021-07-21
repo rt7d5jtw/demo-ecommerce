@@ -129,8 +129,8 @@ const OrderPayment = (): JSX.Element => {
 
   return (
     <div className='order-payment'>
+      <h1 id='checkout-step2'>Payment</h1>
       <div className='order-payment__wrapper'>
-        <button onClick={() => setSuccess(!success)}>Set success</button>
         <div
           className='order-payment__wrapper__payment-method'
           style={
@@ -171,7 +171,7 @@ const OrderPayment = (): JSX.Element => {
               onSubmit={handlePayment}
               style={
                 state.value !== '' && state.submitted === true
-                  ? { transform: 'translateX(-65%)', opacity: '1' }
+                  ? { transform: 'translateY(-130%)', opacity: '1' }
                   : {}
               }
             >
