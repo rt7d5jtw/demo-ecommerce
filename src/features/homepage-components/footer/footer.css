@@ -4,8 +4,9 @@ footer {
 
   place-items: center center;
   font-family: 'Play', sans-serif;
-  background: #f6f4f1;
   padding: 3%;
+  background: rgb(51,39,42);
+  background: linear-gradient(0deg, rgba(51,39,42,1) 0%, rgba(234,221,207,1) 35%, rgba(250,238,231,1) 100%); 
 }
 
 footer .row {
@@ -47,6 +48,12 @@ footer .row ul li {
 footer .row a i {
   font-size: 2.5em;
   margin: 0% 2%;
+}
+
+footer .row:last-child a {
+  font-size: 1em;
+  font-weight: 500;
+  color: #fffffe;
 }
 
 @media (max-width: 720px) {

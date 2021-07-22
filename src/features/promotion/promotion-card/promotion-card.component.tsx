@@ -8,11 +8,14 @@ interface IPromotionCard {
   id: number;
 }
 
-const PromotionCard = ({ image, url }: IPromotionCard): JSX.Element => {
+const PromotionCard = ({ image, url, id }: IPromotionCard): JSX.Element => {
   const { push } = useHistory();
   return (
     <div className='promotion-card' onClick={() => push(url)}>
-      <div className='img' style={{ backgroundImage: `url(${image})` }} />
+      <div className='promotion-card__img' style={{ backgroundImage: `url(${image})` }}>
+        <h2>Find chocolate you love</h2>
+        <p>Know more</p>
+      </div>
     </div>
   );
 };

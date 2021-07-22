@@ -1,0 +1,15 @@
+.promotions-preview {
+  display: grid;
+  place-items: center center;
+  height: 65vh;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+  z-index: 9;
+}
+
+.promotions-preview__main {
+  display: flex;
+  height: 75%;
+  width: 85%;
+}

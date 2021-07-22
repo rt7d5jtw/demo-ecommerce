@@ -9,6 +9,7 @@ import { IProduct } from '../../features/product/productSlice';
 import { selectItems } from '../../features/product/selectors';
 import ProductCard from '../../features/product/product-card/product-card.component';
 import { useRef, useEffect, useState } from 'react';
+import mainImg from './../../assets/Untitled.png';
 
 interface IHomefront {
   categories: ICategory[];
@@ -19,6 +20,7 @@ const Homefront = ({ categories, products }: IHomefront): JSX.Element => {
   const productsRef = useRef<HTMLDivElement>(null);
   const categoriesRef = useRef<HTMLDivElement>(null);
   const [isVisible, setVisible] = useState<boolean>(false);
+  const [preview, setPreview] = useState<boolean>(false);
 
   const callback = (entries: IntersectionObserverEntry[]) => {
     const [entry] = entries;
@@ -46,7 +48,8 @@ const Homefront = ({ categories, products }: IHomefront): JSX.Element => {
 
   return (
     <div className='homefront'>
-      <div className='menu-example'></div>
+      <h1 id='storefront__letters'>Rich Chocolate</h1>
+      <div id='storefront__block' />
       <div
         ref={categoriesRef}
         className={isVisible ? 'homefront__categories--fade' : 'homefront__categories'}
@@ -59,11 +62,17 @@ const Homefront = ({ categories, products }: IHomefront): JSX.Element => {
         <Link to='/'>Shop All</Link>
       </div>
 
-      <div className='homefront__hero'>
-        <p>Find books that interest you from wide collection</p>
+      <div style={preview ? { transform: 'translateY(20%)' } : {}} className='homefront__hero'>
+        <p>Interested in our products?</p>
+        <p onClick={() => setPreview(!preview)}>Preview few now</p>
       </div>
+      <div id='storefront__image' style={{ backgroundImage: `url(${mainImg})` }} />
 
-      <div ref={productsRef} className='homefront__product-windows'>
+      <div
+        ref={productsRef}
+        className='homefront__product-windows'
+        style={preview ? { visibility: 'visible', transform: 'translateX(0%)' } : {}}
+      >
         {products
           .filter((_e, idx) => idx < 3)
           .map(({ id, title, image, price, author, description, categoryId }: IProduct) => (

@@ -3,6 +3,35 @@
   place-items: start center;
   height: 100vh;
   background: #faeee7;
+  overflow-x: hidden;
+}
+
+#storefront__letters {
+  position: absolute;
+  top: .9em;
+  font-size: 35vh;
+  opacity: 0.2;
+}
+
+#storefront__block {
+  position: absolute;
+  top: 0em;
+  left: 1px;
+  background-color: black;
+  opacity: 0.1;
+  height: 341.9vh;
+  width: 40%;
+}
+
+#storefront__image {
+  position: absolute;
+  top: 14em;
+  right: 0em;
+  height: 500px;
+  width: 800px;
+  background: transparent;
+  background-size: cover;
+  background-position: center;
 }
 
 .homefront__categories {
@@ -50,17 +79,53 @@
   text-transform: capitalize;
 }
 
+.homefront__hero {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 300px;
+  width: 480px;
+  padding: 0em 0em 3em 0em;
+  transform: translateY(50%);
+  transition: 1s;
+}
+
 .homefront__hero p {
   font-family: 'Liberation Serif';
-  font-size: 1.2em;
-  margin: 0;
+  font-size: 2.1em;
+  font-weight: bold;
+  margin: auto;
+  color: #594a4e;
+  z-index: 2;
+  transition: color .5s;
+}
+
+.homefront__hero p:hover {
+  color: #33272a;
+}
+
+.homefront__hero p:last-child {
+  padding: .5em;
+  border-radius: 3%;
+  cursor: pointer;
+  transition: all .5s;
+  background-color: #594a4e;
+  color: #faeee7;
+}
+
+.homefront__hero p:last-child:active {
+  transform: translateX(1px);
 }
 
 .homefront__product-windows {
+  transform: translateX(125.5%);
   display: flex;
+  visibility: hidden;
+  transition: 1s;
 }
 
 .homefront__product-windows__product {
   margin-right: 2em;
+  transition: all 1s;
 }
-

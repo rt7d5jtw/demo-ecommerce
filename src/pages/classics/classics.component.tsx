@@ -1,7 +1,7 @@
 import * as React from 'react';
 import './classics.css';
 import Alert from '../../features/alert/alert/alert.component';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../app/store';
 import { userLogged, registered, selectMessage } from '../../features/alert/alertSlice';
 import { createStructuredSelector } from 'reselect';
@@ -21,11 +21,12 @@ import { fetchProducts, removeProduct } from '../../features/product/api';
 import { addOrderItems, getInvoice, removeOrder } from '../../features/order/api';
 import { checkIfCart, createCart, fetchCart, fetchCartState } from '../../features/cart/api';
 import { fetchState } from '../../features/cart/thunks';
-import { clearPromotions } from '../../features/promotion/promotionSlice';
+import { clearPromotions, IPromotions } from '../../features/promotion/promotionSlice';
 import { clearProducts } from '../../features/product/productSlice';
 import { fetchCategories } from '../../features/category/api';
 import DropdownMenu from '../../features/homepage-components/dropdown/dropdown.component';
 import { ProfileDropdown } from '../../features/homepage-components/dropdown/profile-drop.component';
+import { selectPromotionItems } from '../../features/promotion/selectors';
 
 interface IClassics {
   message: string;
@@ -34,6 +35,11 @@ interface IClassics {
 const Classics = () => {
   const dispatch = useDispatch();
   const [isChecked, setChecked] = React.useState(false);
+  const promotions = useSelector(selectPromotionItems);
+
+  React.useEffect(() => {
+    console.group('promotions =>', promotions);
+  });
 
   const handleChange = () => {
     setChecked(!isChecked);
@@ -72,9 +78,7 @@ const Classics = () => {
       >
         fetch invoice
       </button>
-      <div className='something'>
-        <ProfileDropdown />
-      </div>
+      <div className='something'></div>
     </div>
   );
 };

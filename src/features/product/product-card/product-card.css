@@ -9,7 +9,7 @@
   width: 22em;
   height: 26em;
   margin: 2em 0.6em;
-  transition: 1s;
+  transition: all 1s;
 }
 
 .product-card__image {
@@ -22,6 +22,7 @@
   background-position: center;
   cursor: pointer;
   z-index: 1;
+  transition: all 1s;
 }
 
 .product-card__price {
