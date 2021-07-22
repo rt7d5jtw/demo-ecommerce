@@ -3,19 +3,18 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: #f8e4cc;
+  background: #faeee7;
 }
 
 .order-summary {
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
-  height: 33.5rem;
+  height: 35.5rem;
   width: 23%;
   padding: 1em;
   background: transparent;
   transition: 1s;
-  border-top: 1px solid black;
 }
 
 .order-summary h1 {

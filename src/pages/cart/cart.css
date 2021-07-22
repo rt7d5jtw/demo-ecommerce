@@ -3,6 +3,12 @@
   display: grid;
   grid-template-columns: repeat(10, 1fr);
   grid-template-rows: repeat(10, 1fr);
+  background: #faeee7;
+}
+
+#cart-is-empty {
+  font-size: 2em;
+  padding: 10em;
 }
 
 .cart__wrapper {
@@ -36,7 +42,14 @@
   padding-right: 2.5em;
 }
 
+.ctw-qty {
+  position: relative;
+}
+
 .ctw-qty p {
+  font-size: 1em;
+  margin-right: 1.4em;
+  text-align: center;
   position: relative;
   padding: .4em;
 }
@@ -130,6 +143,10 @@
   border-bottom: 3px solid white;
 }
 
+.cart__wrapper__right__info p {
+  display: flex;
+}
+
 .cart__wrapper__right__info select {
   font-size: .8em;
   margin-left: 4.5em;
@@ -148,7 +165,7 @@
   padding: .5em;
   margin-left: 3em;
   border: none;
-  width: 38%;
+  width: 40%;
 }
 
 .cart__wrapper__right__info span {

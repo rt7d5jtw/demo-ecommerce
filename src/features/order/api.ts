@@ -1,7 +1,7 @@
 import axios, { AxiosError } from 'axios';
 import { ValidationErrors } from '../promotion/promotionSlice';
 import { authHeader } from '../user/api';
-import { IOrder, OrderDTO, OrderItem, OrderItemDto, PaymentIntentDTO } from './orderSlice';
+import { IOrder, OrderDTO, OrderItemDto, PaymentIntentDTO } from './orderSlice';
 
 export const ORDER_URL = 'http://localhost:3000/orders/';
 

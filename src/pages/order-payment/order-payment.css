@@ -5,7 +5,7 @@
   grid-template-rows: repeat(10, 1fr);
   grid-column-gap: 0px;
   grid-row-gap: 0px;
-  background: #f8e4cc;
+  background: #faeee7;
 }
 
 #checkout-step2 {

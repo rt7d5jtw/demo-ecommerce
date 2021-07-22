@@ -10,6 +10,9 @@ import { createStructuredSelector } from 'reselect';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
 import { CgProfile } from 'react-icons/cg';
+import { useState, useRef, useEffect } from 'react';
+import DropdownMenu from '../../homepage-components/dropdown/dropdown.component';
+import { ProfileDropdown } from '../../homepage-components/dropdown/profile-drop.component';
 
 type ProfileLinkProp = {
   currentUser: AccessTokenDTO | null;
@@ -18,59 +21,15 @@ type ProfileLinkProp = {
 };
 
 const ProfileLink = ({ currentUser, loggedIn }: ProfileLinkProp) => {
-  return <div className='profile'>{currentUser && loggedIn ? <LoggedIn /> : <Login />}</div>;
+  return <div className='profile'>{currentUser && loggedIn ? <ProfileDropdown /> : <Login />}</div>;
 };
 
 export const Login = (): JSX.Element => {
   return (
     <div className='login__link'>
       <Link className='link-wrapper' to='/login'>
-        <LoggedIn />
+        <h1>Login</h1>
       </Link>
-    </div>
-  );
-};
-
-export const LoggedIn = (): JSX.Element => {
-  const dispatch = useDispatch();
-  const { push } = useHistory();
-
-  function DropdownMenu() {
-    function DropdownItem() {
-      const Userole = useSelector(selectRole);
-      return (
-        <a href='#' className='dropdown-item'>
-          <span className='span-button' onClick={() => push('/profile')}>
-            Profile
-          </span>
-          {Userole == 'ADMIN' ? (
-            <span className='span-button' onClick={() => push('/admin-page')}>
-              Admin
-            </span>
-          ) : null}
-          <span className='span-button' onClick={() => dispatch(logout())}>
-            Logout
-          </span>
-        </a>
-      );
-    }
-    return (
-      <div className='dropdown'>
-        <DropdownItem />
-      </div>
-    );
-  }
-
-  return (
-    <div className='nav'>
-      <div className='menu'>
-        <li className='nav-item'>
-          <a href='#' className='icon-button'>
-            <CgProfile />
-            <DropdownMenu />
-          </a>
-        </li>
-      </div>
     </div>
   );
 };

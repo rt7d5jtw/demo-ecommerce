@@ -6,6 +6,7 @@
   width: 93%;
   height: 35em;
   border: 2px solid black;
+  transition: all 1s;
 }
 
 .gallery-arrow {

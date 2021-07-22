@@ -46,6 +46,7 @@ const Homefront = ({ categories, products }: IHomefront): JSX.Element => {
 
   return (
     <div className='homefront'>
+      <div className='menu-example'></div>
       <div
         ref={categoriesRef}
         className={isVisible ? 'homefront__categories--fade' : 'homefront__categories'}

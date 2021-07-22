@@ -24,6 +24,8 @@ import { fetchState } from '../../features/cart/thunks';
 import { clearPromotions } from '../../features/promotion/promotionSlice';
 import { clearProducts } from '../../features/product/productSlice';
 import { fetchCategories } from '../../features/category/api';
+import DropdownMenu from '../../features/homepage-components/dropdown/dropdown.component';
+import { ProfileDropdown } from '../../features/homepage-components/dropdown/profile-drop.component';
 
 interface IClassics {
   message: string;
@@ -31,6 +33,12 @@ interface IClassics {
 
 const Classics = () => {
   const dispatch = useDispatch();
+  const [isChecked, setChecked] = React.useState(false);
+
+  const handleChange = () => {
+    setChecked(!isChecked);
+  };
+
   return (
     <div className='classics'>
       <Alert />
@@ -64,6 +72,9 @@ const Classics = () => {
       >
         fetch invoice
       </button>
+      <div className='something'>
+        <ProfileDropdown />
+      </div>
     </div>
   );
 };

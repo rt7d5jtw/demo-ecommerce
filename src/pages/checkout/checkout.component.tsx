@@ -2,20 +2,22 @@ import * as React from 'react';
 import './checkout.css';
 import Alert from '../../features/alert/alert/alert.component';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectCartItems, selectCartTotal } from '../../features/cart/selectors';
+import { selectCartItems } from '../../features/cart/selectors';
 import { addShippingInformation } from '../../features/user/userSlice';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useState } from 'react';
 import { selectShippingInfo } from '../../features/user/selectors';
 import { shippingInfoAdded } from '../../features/alert/alertSlice';
 import { CheckoutItem } from '../checkout-item/checkout-item.component';
-import { StripeOrderWrapper } from '../stripe-order-wrapper/stripe-order-wrapper.component';
+import { useHistory } from 'react-router';
 
 type FormValues = {
   address: string;
   country: string;
   city: string;
   postalcode: string;
+  tax: number;
+  cost: number;
 };
 
 const Checkout = (): JSX.Element => {
@@ -23,16 +25,19 @@ const Checkout = (): JSX.Element => {
   const { register, handleSubmit } = useForm<FormValues>();
   const [warning, setWarning] = useState<string>();
   const [success, setSuccess] = useState<boolean>(false);
+  const { push } = useHistory();
 
   const shippingInfo = useSelector(selectShippingInfo);
   const cartItems = useSelector(selectCartItems);
-  const total = useSelector(selectCartTotal);
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
+    if (shippingInfo && shippingInfo.country == 'Finland') data['tax'] = 0;
+    if (shippingInfo && shippingInfo.country != 'Finland') data['tax'] = 2.5;
     if (shippingInfo === null) setWarning('Provide shipping information!');
     dispatch(addShippingInformation(data));
     dispatch(shippingInfoAdded());
     shippingInfo !== null && cartItems.length !== 0 ? setSuccess(true) : null;
+    if (success === true && shippingInfo !== null) push('/payment');
   };
   return (
     <div className='checkout'>

@@ -60,7 +60,7 @@ const OrderPayment = (): JSX.Element => {
   useEffect(() => {
     //dispatch(fetchAllOrders());
     if (orderItems === null) {
-      //dispatch(takeCart(cartItems));
+      dispatch(takeCart(cartItems));
     }
   }, [orderItems]);
 
@@ -122,7 +122,7 @@ const OrderPayment = (): JSX.Element => {
         setSuccess(!success);
         dispatch(clearCart());
         dispatch(clearCartDB());
-        setTimeout(() => push('/purchase-confirmed'), 1500);
+        if (cartItems.length === 0 && success === true) push('/purchase-confirmed');
       }
     }
   };

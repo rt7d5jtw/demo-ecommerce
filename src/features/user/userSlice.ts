@@ -61,7 +61,12 @@ export interface shippingInformation {
   country: string;
   city: string;
   postalcode: string;
+  tax: number;
+  cost: number;
+  promo: number;
 }
+
+export type shippinfInfoDto = Partial<shippingInformation>;
 
 export interface UserState {
   currentUser: null | AccessTokenDTO;
@@ -88,9 +93,7 @@ const initialState: UserState = {
 };
 
 export const clearErrors = createAction('user/clearErrors');
-export const addShippingInformation = createAction<shippingInformation>(
-  'user/addShippingInformation'
-);
+export const addShippingInformation = createAction<shippinfInfoDto>('user/addShippingInformation');
 export const clearShippingInfo = createAction('user/clearShippingInfo');
 
 export const userSlice = createSlice({

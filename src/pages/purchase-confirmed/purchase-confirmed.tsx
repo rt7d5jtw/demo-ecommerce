@@ -3,13 +3,11 @@ import './purchase-confirmed.css';
 import { useSelector } from 'react-redux';
 import { selectRecentOrder, selectRecentOrderItems } from '../../features/order/selectors';
 import { getInvoice } from '../../features/order/api';
-import { selectCartTotal } from '../../features/cart/selectors';
 import { selectShippingInfo } from '../../features/user/selectors';
 
 export const PurchaseConfirmed = (): JSX.Element => {
   const order = useSelector(selectRecentOrder);
   const orderItems = useSelector(selectRecentOrderItems);
-  const total = useSelector(selectCartTotal);
   const shippingInfo = useSelector(selectShippingInfo);
   return (
     <div className='purchase-confirmed'>
@@ -26,7 +24,7 @@ export const PurchaseConfirmed = (): JSX.Element => {
         <div className='purchase-col-2__right'>
           <div className='purchase-col-2__right__details'>
             <h2>Order Summary</h2>
-            <p>Products: ${total}</p>
+            <p>Products: ${order && order.total_price}</p>
             <p>Shipping: $5</p>
             <p>Tax: $0</p>
           </div>

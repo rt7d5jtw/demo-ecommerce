@@ -27,8 +27,8 @@
   -ms-user-select: none; /* IE10+/Edge */
   user-select: none; /* Standard */
   position: absolute;
-  top: 2.7em;
-  right: 2.8em;
+  top: 2.4em;
+  right: 4.3em;
   display: flex;
   justify-content: center;
   align-items: center;
