@@ -122,7 +122,7 @@ function generateTable(doc, y, item, description, productId, price, quantity, am
 }
 
 function generateHr(doc, y) {
-  doc.strokeColor('#cca154').lineWidth(1).moveTo(50, y).lineTo(550, y).stroke();
+  doc.strokeColor('#a76f4d').lineWidth(1).moveTo(50, y).lineTo(550, y).stroke();
 }
 
 function formatCurrency(cents) {
