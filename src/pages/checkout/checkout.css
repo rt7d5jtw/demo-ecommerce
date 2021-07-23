@@ -1,4 +1,5 @@
 .checkout {
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -46,6 +47,7 @@
 }
 
 .checkout__order-information {
+  position: relative;
   padding: 3em;
   height: 62%;
   transition: 1s;
@@ -73,6 +75,12 @@
   font-family: 'Roboto', sans-serif;
   font-weight: bold;
   color: #131313;
+}
+
+#checkout-warning {
+  position: absolute;
+  padding: 10px 5px;
+  width: 100%;
 }
 
 .order-form {

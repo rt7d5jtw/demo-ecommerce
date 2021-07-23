@@ -29,6 +29,10 @@ module.exports = {
         test: /\.(woff(2)?|eot|tff|otf|svg|)$/,
         type: 'asset/inline',
       },
+      {
+        test: /\.html$/i,
+        loader: 'html-loader',
+      },
     ],
   },
   output: {

@@ -5,6 +5,7 @@
   background: #faeee7;
 }
 
+
 .purchase-confirmed p {
   font-size: 1em;
   margin-bottom: 1em;
@@ -12,6 +13,19 @@
 
 .purchase-confirmed h1, p {
   font-family: 'Montserrat', sans-serif;
+}
+
+.purchase-confirmed__thanks {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 12em;
+  left: 39%;
+}
+
+.purchase-confirmed__thanks p {
+  font-size: 1.5em;
 }
 
 .purchase-col-1 {
@@ -36,11 +50,6 @@
 
 .purchase-col-2 a, p, h1 {
   font-family: 'Montserrat', sans-serif;
-}
-
-.purchase-col-2 h1 {
-  font-weight: bold;
-  margin: 2em 16.5em 2em 0px;
 }
 
 .order-table {
@@ -130,10 +139,11 @@
 }
 
 .purchase-col-2__right__invoice {
+  display: grid;
+  place-items: center center;
   font-size: 1em;
   padding: 1em;
-  display: grid;
-  margin-right: 10.5em;
+  width: 75%;
 }
 
 .purchase-col-2__right__invoice button {

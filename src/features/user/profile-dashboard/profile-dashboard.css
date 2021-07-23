@@ -19,7 +19,7 @@
     'profile-nav profile-main profile-main';
 }
 
-.profile-image {
+.profile-overview__wrapper__image {
   display: flex;
   background-size: cover;
   background-position: center;
@@ -28,7 +28,7 @@
   justify-content: center;
 }
 
-.profile-image h1 {
+.profile-overview__wrapper__image h1 {
   font-family: 'Roboto', sans-serif;
   display: grid;
   color: #fff;
@@ -42,7 +42,7 @@
   align-items: center;
 }
 
-.profile-overview-wrapper {
+.profile-overview__wrapper {
   height: 85%;
   width: 75%;
   background: white;
@@ -93,7 +93,7 @@
   font-weight: 200;
 }
 
-.profile-text {
+.profile-overview__wrapper__welcome-text {
   font-family: 'Roboto', sans-serif;
   font-size: 16px;
   color: black;

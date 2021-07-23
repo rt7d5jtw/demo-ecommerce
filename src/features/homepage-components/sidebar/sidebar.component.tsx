@@ -32,7 +32,7 @@ const Sidebar = ({ categories }: ISidebar) => {
     <div ref={menuRef} className={isActive ? 'sidebar' : 'sidebar-closed'}>
       <div className='sidebar-links'>
         <IoMdMenu className={isActive ? 'close-btn' : 'close-btn-closed'} onClick={toggleClass} />
-        <h1>Bookstore</h1>
+        <h1>Chocolatiste</h1>
         {categories.map(({ cname, id }) => (
           <Link to={'/books/' + cname} href={cname} key={id}>
             {cname}

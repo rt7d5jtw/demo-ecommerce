@@ -11,6 +11,7 @@ import { createStructuredSelector } from 'reselect';
 import CartItem from '../cart-item/cart-item.component';
 import { useHistory } from 'react-router-dom';
 import { useRef, useEffect } from 'react';
+import { takeCart } from '../../order/orderSlice';
 
 interface ICart {
   isOpen: boolean;
@@ -44,16 +45,17 @@ const CartContainer = ({ isOpen, cartItems, quantity }: ICart) => {
     };
   }, [isOpen]);
 
-  function checkout() {
-    push('/checkout');
-    dispatch(cartToggle(isOpen));
-  }
-
   function cartClear() {
     dispatch(clearCart());
     if (user && user.accessToken) {
       dispatch(clearCartDB());
     }
+  }
+
+  function checkoutHandler() {
+    dispatch(cartToggle(isOpen));
+    takeCart(cartItems);
+    push('/checkout');
   }
 
   return (
@@ -72,7 +74,7 @@ const CartContainer = ({ isOpen, cartItems, quantity }: ICart) => {
           <button className='cart-content__checkout_cart-btn' onClick={() => push('/cart')}>
             View shopping bag
           </button>
-          <button className='cart-content__checkout_checkout-btn' onClick={checkout}>
+          <button className='cart-content__checkout_checkout-btn' onClick={checkoutHandler}>
             Checkout
           </button>
           <button

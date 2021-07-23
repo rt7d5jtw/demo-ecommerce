@@ -6,7 +6,7 @@ export function ProfileHeader(): JSX.Element {
   return (
     <div className='profile-header'>
       <Link to='/'>
-        <h1 className='store-name'> &larr; Bookstore</h1>
+        <h1 className='store-name'> &larr; Chocolatiste</h1>
       </Link>
       <h1>My Profile</h1>
     </div>

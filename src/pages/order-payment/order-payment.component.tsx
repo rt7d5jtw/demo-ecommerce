@@ -91,6 +91,17 @@ const OrderPayment = (): JSX.Element => {
     const cardElement = elements && elements.getElement(CardElement);
     console.log('Form submitted');
 
+    if (shippingInfo)
+      dispatch(
+        createOrder({
+          total_price: total,
+          status: OrderStatus.UNPAID,
+          address: shippingInfo.address,
+          country: shippingInfo.country,
+          city: shippingInfo.city,
+          postalcode: shippingInfo.postalcode,
+        })
+      );
     /* Create payment intent on the server */
     const { data } = await axios.post(
       ORDER_URL + 'create-payment-intent',
@@ -108,22 +119,10 @@ const OrderPayment = (): JSX.Element => {
       },
     });
     if (paymentConfirmed) {
-      if (shippingInfo && shippingInfo) {
-        dispatch(
-          createOrder({
-            total_price: total,
-            status: OrderStatus.PAID,
-            address: shippingInfo.address,
-            country: shippingInfo.country,
-            city: shippingInfo.city,
-            postalcode: shippingInfo.postalcode,
-          })
-        );
-        setSuccess(!success);
-        dispatch(clearCart());
-        dispatch(clearCartDB());
-        if (cartItems.length === 0 && success === true) push('/purchase-confirmed');
-      }
+      setSuccess(!success);
+      dispatch(clearCart());
+      dispatch(clearCartDB());
+      setTimeout(() => push('/purchase-confirmed'), 1500);
     }
   };
 

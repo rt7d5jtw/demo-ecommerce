@@ -11,8 +11,10 @@ export const PurchaseConfirmed = (): JSX.Element => {
   const shippingInfo = useSelector(selectShippingInfo);
   return (
     <div className='purchase-confirmed'>
+      <div className='purchase-confirmed__thanks'>
+        <p>Thank you for your purchase!</p>
+      </div>
       <div className='purchase-col-2'>
-        <h1>Thank you for your purchase</h1>
         <div className='purchase-col-2__right__invoice'>
           <p>
             <b>Invoice #{order && order.id}</b>
@@ -65,8 +67,6 @@ export const PurchaseConfirmed = (): JSX.Element => {
           </table>
         </div>
         <div className='purchase-col-right__order-info'>
-          <p>Shipping total: 5$</p>
-          <p>Taxes: 0$</p>
           <p>Order total: {order && order.total_price}$</p>
         </div>
       </div>

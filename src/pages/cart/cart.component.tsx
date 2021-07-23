@@ -13,6 +13,7 @@ import Alert from '../../features/alert/alert/alert.component';
 import { promoAdded } from '../../features/alert/alertSlice';
 import { addItem, ICartItem, removeItem } from '../../features/cart/cartSlice';
 import { addItemDB, removeItemDB } from '../../features/cart/thunks';
+import { takeCart } from '../../features/order/orderSlice';
 
 const Cart = (): JSX.Element => {
   const { push } = useHistory();
@@ -63,6 +64,11 @@ const Cart = (): JSX.Element => {
     }
   }
 
+  function checkoutHandler() {
+    dispatch(takeCart(cartItems));
+    push('/checkout');
+  }
+
   let parsedTotal = total;
   if (shippingInfo !== null && shippingInfo.cost) {
     parsedTotal = shippingInfo.cost + total;
@@ -88,7 +94,7 @@ const Cart = (): JSX.Element => {
                       <i>
                         <HiOutlinePlusCircle onClick={() => addHandler(cartItem)} />
                       </i>
-                      <p>{cartItem.quantity}</p>
+                      {cartItem.quantity}
                       <i>
                         <BiMinusCircle onClick={() => removeHandler(cartItem)} />
                       </i>
@@ -135,7 +141,7 @@ const Cart = (): JSX.Element => {
             </h1>
           </div>
           <div className='cart__wrapper__right__ch'>
-            <button onClick={() => push('/checkout')}>Checkout</button>
+            <button onClick={checkoutHandler}>Checkout</button>
             <span>
               Payment options:{' '}
               <i>

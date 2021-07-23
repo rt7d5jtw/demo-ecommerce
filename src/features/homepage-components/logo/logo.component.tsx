@@ -6,7 +6,7 @@ export const Logo = (): JSX.Element => {
   return (
     <div className='logo'>
       <Link className='logo-link' to='/'>
-        <h1>Bookstore</h1>
+        <h1>Chocolatiste</h1>
       </Link>
     </div>
   );

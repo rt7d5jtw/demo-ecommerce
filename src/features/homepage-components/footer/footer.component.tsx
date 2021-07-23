@@ -47,6 +47,16 @@ export const Footer = (): JSX.Element => {
           </li>
         </ul>
       </div>
+
+      <p id='row-notice'>
+        All Images from Unsplash.com and Pexels, if they're not my own{' '}
+        <a id='row-notice-link1' href='https://unsplash.com/license'>
+          Unsplash Lisence
+        </a>
+        <a id='row-notice-link2' href='https://www.pexels.com/license/'>
+          Pexels Lisence
+        </a>
+      </p>
     </footer>
   );
 };

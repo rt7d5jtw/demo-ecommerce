@@ -3,7 +3,13 @@ import './classics.css';
 import Alert from '../../features/alert/alert/alert.component';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../app/store';
-import { userLogged, registered, selectMessage } from '../../features/alert/alertSlice';
+import {
+  userLogged,
+  registered,
+  selectMessage,
+  promoAdded,
+  paymentSuccess,
+} from '../../features/alert/alertSlice';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { fetchAll, fetch as fetchOrders } from '../../features/order/thunks';
@@ -27,6 +33,7 @@ import { fetchCategories } from '../../features/category/api';
 import DropdownMenu from '../../features/homepage-components/dropdown/dropdown.component';
 import { ProfileDropdown } from '../../features/homepage-components/dropdown/profile-drop.component';
 import { selectPromotionItems } from '../../features/promotion/selectors';
+import { fetchPicture } from '../../features/promotion/api';
 
 interface IClassics {
   message: string;
@@ -44,6 +51,21 @@ const Classics = () => {
   const handleChange = () => {
     setChecked(!isChecked);
   };
+
+  async function handleStuff() {
+    new Promise((resolve) => {
+      console.log('Calling...');
+      resolve('Resolved');
+    })
+      .then(() => {
+        return dispatch(promoAdded());
+      })
+      .then(() => {
+        setTimeout(() => console.log('Promotion succesful'), 2000);
+        setTimeout(() => dispatch(paymentSuccess()), 2000);
+      })
+      .then(() => setTimeout(() => console.log('Complete'), 2000));
+  }
 
   return (
     <div className='classics'>
@@ -69,8 +91,8 @@ const Classics = () => {
       <button className='cl-btn' onClick={() => console.log(fetchProducts())}>
         fetch products
       </button>
-      <button className='cl-btn' onClick={() => console.log(fetchCategories())}>
-        fetch categories
+      <button className='cl-btn' onClick={() => fetchPicture('fillbar.jpg')}>
+        fetch picture
       </button>
       <button
         className='cl-btn'
@@ -78,7 +100,9 @@ const Classics = () => {
       >
         fetch invoice
       </button>
-      <div className='something'></div>
+      <div className='something'>
+        <button onClick={handleStuff}>stuff</button>
+      </div>
     </div>
   );
 };

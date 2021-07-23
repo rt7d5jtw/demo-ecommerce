@@ -22,6 +22,7 @@ const Homefront = ({ categories, products }: IHomefront): JSX.Element => {
   const [isVisible, setVisible] = useState<boolean>(false);
   const [preview, setPreview] = useState<boolean>(false);
 
+  /*
   const callback = (entries: IntersectionObserverEntry[]) => {
     const [entry] = entries;
     if (entry.isIntersecting) {
@@ -45,6 +46,7 @@ const Homefront = ({ categories, products }: IHomefront): JSX.Element => {
       if (productsRef.current) observer.unobserve(productsRef.current);
     };
   }, [productsRef, options]);
+   */
 
   return (
     <div className='homefront'>
@@ -54,15 +56,22 @@ const Homefront = ({ categories, products }: IHomefront): JSX.Element => {
         ref={categoriesRef}
         className={isVisible ? 'homefront__categories--fade' : 'homefront__categories'}
       >
-        {categories.map(({ cname, id }) => (
-          <Link to={'/books/' + cname} href={cname} key={id}>
-            {cname}
-          </Link>
-        ))}
+        {categories
+          .filter(
+            (cat) =>
+              cat.cname === 'bestsellers' ||
+              cat.cname === 'Milk Chocolate' ||
+              cat.cname === 'Dark Chocolate'
+          )
+          .map(({ cname, id }) => (
+            <Link to={'/books/' + cname} href={cname} key={id}>
+              {cname}
+            </Link>
+          ))}
         <Link to='/'>Shop All</Link>
       </div>
 
-      <div style={preview ? { transform: 'translateY(20%)' } : {}} className='homefront__hero'>
+      <div style={preview ? { transform: 'translateY(30%)' } : {}} className='homefront__hero'>
         <p>Interested in our products?</p>
         <p onClick={() => setPreview(!preview)}>Preview few now</p>
       </div>
@@ -70,6 +79,7 @@ const Homefront = ({ categories, products }: IHomefront): JSX.Element => {
 
       <div
         ref={productsRef}
+        id='hf-pw'
         className='homefront__product-windows'
         style={preview ? { visibility: 'visible', transform: 'translateX(0%)' } : {}}
       >

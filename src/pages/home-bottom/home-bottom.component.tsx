@@ -1,12 +1,11 @@
 import * as React from 'react';
 import { useEffect, useRef, useState } from 'react';
 import './home-bottom.css';
+import image from '../../assets/nom.jpg';
 
 const Homebottom = (): JSX.Element => {
   const ref = useRef<HTMLDivElement>(null);
   const [isVisible, setVisible] = useState<boolean>(false);
-  const image =
-    'https://images.unsplash.com/photo-1608726025971-d7e9df684498?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1';
 
   const callback = (entries: IntersectionObserverEntry[]) => {
     const [entry] = entries;

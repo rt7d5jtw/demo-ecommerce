@@ -1,11 +1,7 @@
 import * as React from 'react';
-import { useState } from 'react';
 import './promotions-preview.css';
 import PromotionCard from '../promotion-card/promotion-card.component';
-import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
-import { useSelector } from 'react-redux';
-import { selectPromotionItems } from '../selectors';
-import { IPromotions, IPromotionsCard } from '../promotionSlice';
+import { IPromotions } from '../promotionSlice';
 
 interface IPromotionsPreview {
   img: string;
@@ -25,6 +21,7 @@ function PromotionsPreview({ img, promotions }: IPromotionsPreview): JSX.Element
           .filter((_el, idx) => idx < 3)
           .map((promotion: IPromotions) => (
             <PromotionCard
+              title={promotion.title}
               image={promotion.image}
               id={promotion.id}
               key={promotion.id}

@@ -60,3 +60,24 @@ export async function updatePromotion({ id, ...updateProps }: IPromotions): Prom
       return Promise.reject(err);
     });
 }
+
+export async function fetchPicture(filename: string): Promise<any> {
+  return axios
+    .get(PROMOTION_URL + `/stream?filename=${filename}`)
+    .then((res) => {
+      const url = window.URL.createObjectURL(new Blob([res.data], { type: 'image/jpeg' }));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', filename);
+      document.body.append(link);
+      link.click();
+      link.remove();
+    })
+    .catch((err) => {
+      const error: AxiosError<ValidationErrors> = err;
+      if (!error.response) {
+        throw err;
+      }
+      return Promise.reject(err);
+    });
+}

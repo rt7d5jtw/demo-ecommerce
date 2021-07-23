@@ -61,7 +61,7 @@ const ChangeEmail = (): JSX.Element => {
   return (
     <div className='profile-overview'>
       <Alert />
-      <div className='profile-overview-wrapper'>
+      <div className='profile-overview__wrapper'>
         <div className='profile-password'>
           <h1>Change my email</h1>
           <form className='profile-form' onSubmit={handleSubmit(onSubmit)}>
