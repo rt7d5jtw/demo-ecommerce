@@ -7,14 +7,23 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  Query,
+  Res,
+  UploadedFile,
   UseGuards,
+  UseInterceptors,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { PromotionDto } from './dto/promotion.dto';
 import { Promotion } from './promotion.entity';
 import { PromotionsService } from './promotions.service';
+import { diskStorage } from 'multer';
+import { extname, join } from 'path';
+import { createReadStream } from 'fs';
+import { Response } from 'express';
 
 @Controller('promotions')
 export class PromotionsController {
@@ -26,11 +35,30 @@ export class PromotionsController {
     return this.promotionService.fetchAll();
   }
 
+  @UseInterceptors(
+    FileInterceptor('file', {
+      storage: diskStorage({
+        destination: './images',
+        filename: (_req, file, cb) => {
+          cb(null, `${file.originalname}`);
+        },
+      }),
+    })
+  )
   @Post()
   @UseGuards(AuthGuard('jwt'))
   @UsePipes(ValidationPipe)
-  create(@Body() promotionDto: PromotionDto): Promise<Promotion> {
-    return this.promotionService.create(promotionDto);
+  create(
+    @Body() promotionDto: PromotionDto,
+    @UploadedFile() file: Express.Multer.File
+  ): Promise<Promotion> {
+    return this.promotionService.create(promotionDto, file);
+  }
+
+  @Get('stream')
+  async sendStream(@Res() res: Response, @Query() filename: string) {
+    const file = createReadStream(join(process.cwd(), `./images/${filename['filename']}`));
+    file.pipe(res);
   }
 
   @Patch(':id')

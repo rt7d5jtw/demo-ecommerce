@@ -1,6 +1,8 @@
 import { Test } from '@nestjs/testing';
 import { PromotionsController } from './promotions.controller';
 import { PromotionsService } from './promotions.service';
+import * as fs from 'fs';
+import { Readable } from 'stream';
 
 export const bunchOfPromotions = [
   {
@@ -50,6 +52,8 @@ describe('PromotionsController', () => {
     promotionsService = module.get<PromotionsService>(PromotionsService);
   });
 
+  jest.mock('fs');
+
   afterEach(() => {
     jest.clearAllMocks();
   });
@@ -82,7 +86,31 @@ describe('PromotionsController', () => {
   describe('create', () => {
     it('creates a new promotion and returns it', async () => {
       const dto = { title: 'test', url: '/testing', image: 'https://i.imgur.com/eUMEuJM.jpg' };
-      expect(promotionsController.create(dto)).resolves.toEqual({
+      const stuff = 'eating chocolate in controller';
+      let buffer: Buffer;
+      if (Buffer.from && Buffer.from !== Uint8Array.from) {
+        buffer = Buffer.from(stuff);
+      } else {
+        if (typeof stuff === 'number') {
+          throw new Error('The "size" argument must be not of type number.');
+        }
+        buffer = new Buffer(stuff);
+      }
+      const readable = Readable.from(buffer);
+      let file: Express.Multer.File = null;
+      file = {
+        buffer: buffer,
+        fieldname: 'stuff',
+        originalname: 'original',
+        encoding: '7bit',
+        mimetype: 'file-mimetype',
+        destination: 'destionation-path',
+        filename: 'filename',
+        path: 'filepath',
+        size: 1024,
+        stream: readable,
+      };
+      expect(promotionsController.create(dto, file)).resolves.toEqual({
         id: expect.any(Number),
         title: 'test',
         url: '/testing',
