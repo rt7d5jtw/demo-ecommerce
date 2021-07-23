@@ -8,7 +8,6 @@ import {
   addOrderItems,
   removeOrder,
   stripeCreateIntent,
-  getInvoice,
 } from './api';
 import { IOrder, OrderDTO, PaymentIntentDTO } from './orderSlice';
 
@@ -84,7 +83,3 @@ export const createIntent = createAsyncThunk(
     }
   }
 );
-
-export const invoice = createAsyncThunk('order/invoice', async () => {
-  return getInvoice();
-});
