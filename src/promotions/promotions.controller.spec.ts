@@ -87,17 +87,8 @@ describe('PromotionsController', () => {
 
   describe('create', () => {
     it('creates a new promotion and returns it', async () => {
-      const dto = { title: 'test', url: '/testing', image: 'https://i.imgur.com/eUMEuJM.jpg' };
-      const stuff = 'eating chocolate in controller';
-      let buffer: Buffer;
-      if (Buffer.from && Buffer.from !== Uint8Array.from) {
-        buffer = Buffer.from(stuff);
-      } else {
-        if (typeof stuff === 'number') {
-          throw new Error('The "size" argument must be not of type number.');
-        }
-        buffer = new Buffer(stuff);
-      }
+      const dto = { title: 'test', url: '/testing', image: 'chocolate.png' };
+      const buffer = Buffer.from('i like chocolate');
       const readable = Readable.from(buffer);
       let file: Express.Multer.File = null;
       file = {
@@ -116,7 +107,7 @@ describe('PromotionsController', () => {
         id: expect.any(Number),
         title: 'test',
         url: '/testing',
-        image: 'https://i.imgur.com/eUMEuJM.jpg',
+        image: 'chocolate.png',
       });
     });
   });
@@ -143,7 +134,7 @@ describe('PromotionsController', () => {
       const dto = {
         title: 'i like chocolate',
         url: '/chocolate',
-        image: 'https://i.imgur.com/1G1D5Aa.jpeg',
+        image: 'chocolate.png',
       };
       expect(promotionsController.update(17, dto)).resolves.toEqual({
         id: expect.any(Number),

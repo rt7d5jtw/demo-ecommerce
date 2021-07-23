@@ -35,9 +35,6 @@ export class Product extends BaseEntity {
   price: number;
 
   @Column()
-  author: string | null;
-
-  @Column()
   description: string;
 
   @Column()

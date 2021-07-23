@@ -22,7 +22,6 @@ describe('productRepository', () => {
       title: 'Dune',
       image: 'https://i.imgur.com/Hiw0N.jpg',
       price: 12,
-      author: 'Bob',
       description: 'nice boek',
       status: 'IN_STOCK',
       createdAt: '2021-07-02',
@@ -39,7 +38,6 @@ describe('productRepository', () => {
         title: expect.any(String),
         image: expect.any(String),
         price: expect.any(Number),
-        author: expect.any(String),
         description: expect.any(String),
         status: expect.any(String),
         createdAt: expect.any(String),
@@ -54,7 +52,7 @@ describe('productRepository', () => {
   });
 
   describe('createProduct', () => {
-    let save;
+    let save: any;
     beforeEach(() => {
       save = jest.fn();
       productRepository.create = jest.fn().mockReturnValue({ save });
@@ -67,7 +65,6 @@ describe('productRepository', () => {
         title: 'stuff',
         image: 'wat',
         price: 1.45,
-        author: 'Yeet',
         description: 'no',
         category: 'dcaa9f09-0dbe-4e81-af92-e15ee487beaa',
       };

@@ -13,7 +13,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ProductService } from './product.service';
-import { Product, ProductStatus } from './product.entity';
+import { Product } from './product.entity';
 import { CreateProductDto, UpdateProductDto } from './dto/product.dto';
 import { SearchProductDto } from './dto/search-product.dto';
 import { AuthGuard } from '@nestjs/passport';

@@ -21,7 +21,7 @@ import { PromotionDto } from './dto/promotion.dto';
 import { Promotion } from './promotion.entity';
 import { PromotionsService } from './promotions.service';
 import { diskStorage } from 'multer';
-import { extname, join } from 'path';
+import { join } from 'path';
 import { createReadStream } from 'fs';
 import { Response } from 'express';
 
