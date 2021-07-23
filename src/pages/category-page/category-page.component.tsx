@@ -56,12 +56,11 @@ function CategoryPage({ categories, products }: ICategoryPage): JSX.Element {
         {currentCategory && currentCategory.id
           ? products
               .filter((product: IProduct) => product.categoryId === currentCategory.id)
-              .map(({ title, price, id, image, categoryId, description, author }: IProduct) => (
+              .map(({ title, price, id, image, categoryId, description }: IProduct) => (
                 <ProductCard
                   key={id}
                   id={id}
                   title={title}
-                  author={author}
                   description={description}
                   price={price}
                   image={image}

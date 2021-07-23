@@ -21,7 +21,6 @@ describe('Product API Unit tests', () => {
             title: expect.any(String),
             image: expect.any(String),
             price: expect.any(Number),
-            author: expect.any(String),
             description: expect.any(String),
             status: expect.any(String),
             createdAt: expect.any(String),
@@ -53,7 +52,6 @@ describe('Product API Unit tests', () => {
       image: 'https://i.imgur.com/Hiw0N.jpg',
       price: 9.5,
       description: 'i like chocolate',
-      author: 'Herbert',
       categoryId: 'dcaa9f09-0dbe-4e81-af92-e15ee487beaa',
     };
     it('returns the created product', async () => {
@@ -64,7 +62,6 @@ describe('Product API Unit tests', () => {
         price: '9.50',
         description: 'i like chocolate',
         status: 'IN_STOCK',
-        author: 'Herbert',
         categoryId: 'dcaa9f09-0dbe-4e81-af92-e15ee487beaa',
         id: expect.any(Number),
         createdAt: expect.any(String),
@@ -175,7 +172,6 @@ describe('Product API Unit tests', () => {
               title: 'Dune',
               image: 'https://i.imgur.com/Hiw0N.jpg',
               price: 12,
-              author: 'Bob',
               description: expect.any(String),
               status: expect.any(String),
               createdAt: expect.any(String),

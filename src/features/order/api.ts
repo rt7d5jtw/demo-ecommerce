@@ -1,7 +1,7 @@
 import axios, { AxiosError } from 'axios';
 import { ValidationErrors } from '../promotion/promotionSlice';
 import { authHeader } from '../user/api';
-import { IOrder, OrderDTO, OrderItemDto, PaymentIntentDTO } from './orderSlice';
+import { IOrder, OrderDTO, OrderItemDto, PaymentIntentDTO, UpdateOrderDto } from './orderSlice';
 
 export const ORDER_URL = 'http://localhost:3000/orders/';
 
@@ -120,6 +120,19 @@ export async function getInvoice(orderId: string): Promise<void> {
       link.click();
       link.remove();
     })
+    .catch((err) => {
+      const error: AxiosError<ValidationErrors> = err;
+      if (!error.response) {
+        throw err;
+      }
+      return Promise.reject(err);
+    });
+}
+
+export async function updateOrder(orderId: string, updateDto: UpdateOrderDto): Promise<IOrder> {
+  return axios
+    .patch(ORDER_URL + orderId, updateDto, { headers: authHeader() })
+    .then((res) => res.data)
     .catch((err) => {
       const error: AxiosError<ValidationErrors> = err;
       if (!error.response) {

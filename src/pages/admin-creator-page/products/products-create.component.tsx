@@ -13,7 +13,6 @@ type FormValues = {
   image: string;
   price: number;
   description: string;
-  author: string;
   category: string;
   quantity: 1;
   id: number;
@@ -63,13 +62,6 @@ function ProductsCreate(): JSX.Element {
             type='number'
             placeholder='Product price'
             {...register('price', { required: 'You must specify a price' })}
-            required
-          />
-          <label>Product author</label>
-          <input
-            type='text'
-            placeholder='Product author'
-            {...register('author', { required: 'You must specify a author' })}
             required
           />
           <label>Product category</label>

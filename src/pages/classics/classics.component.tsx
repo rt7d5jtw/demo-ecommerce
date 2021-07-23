@@ -24,7 +24,7 @@ import {
 import { assignRole } from '../../features/user/thunks';
 import { clearErrors, clearShippingInfo } from '../../features/user/userSlice';
 import { fetchProducts, removeProduct } from '../../features/product/api';
-import { addOrderItems, getInvoice, removeOrder } from '../../features/order/api';
+import { addOrderItems, getInvoice, removeOrder, updateOrder } from '../../features/order/api';
 import { checkIfCart, createCart, fetchCart, fetchCartState } from '../../features/cart/api';
 import { fetchState } from '../../features/cart/thunks';
 import { clearPromotions, IPromotions } from '../../features/promotion/promotionSlice';
@@ -34,6 +34,7 @@ import DropdownMenu from '../../features/homepage-components/dropdown/dropdown.c
 import { ProfileDropdown } from '../../features/homepage-components/dropdown/profile-drop.component';
 import { selectPromotionItems } from '../../features/promotion/selectors';
 import { fetchPicture } from '../../features/promotion/api';
+import { OrderStatus } from '../../features/order/orderSlice';
 
 interface IClassics {
   message: string;
@@ -96,9 +97,13 @@ const Classics = () => {
       </button>
       <button
         className='cl-btn'
-        onClick={() => console.log(getInvoice('f29ca6ae-3aac-4794-b008-4d743901a226'))}
+        onClick={() =>
+          console.log(
+            updateOrder('490f374c-b448-4a7b-ad2c-0bedb9fe2163', { status: OrderStatus.PAID })
+          )
+        }
       >
-        fetch invoice
+        update order
       </button>
       <div className='something'>
         <button onClick={handleStuff}>stuff</button>

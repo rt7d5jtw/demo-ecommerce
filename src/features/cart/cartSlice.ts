@@ -3,11 +3,10 @@ import { fetchState, addItemDB, removeItemDB, clearCartDB } from './thunks';
 import { addItemToCart, removeItemFromCart } from './selectors';
 import { IProductCard } from '../product/productSlice';
 
-/* renames key id to productId and removes author, description and categoryId */
+/* renames key id to productId and description and categoryId */
 export function productToCartItem(product: IProductCard): ICartItem {
   /* deep copy the object & removes unwanted props */
   const cartItem = JSON.parse(JSON.stringify(product));
-  delete cartItem.author;
   delete cartItem.description;
   delete cartItem.categoryId;
 

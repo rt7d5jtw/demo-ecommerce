@@ -28,6 +28,8 @@ export interface IOrder {
 
 export type OrderDTO = Omit<IOrder, 'date' | 'id' | 'userId'>;
 
+export type UpdateOrderDto = Partial<OrderDTO>;
+
 export interface OrderItem {
   orderId: string;
   price: number;

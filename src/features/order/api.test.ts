@@ -7,6 +7,7 @@ import {
   createOrder,
   addOrderItems,
   removeOrder,
+  updateOrder,
 } from './api';
 import { OrderStatus } from './orderSlice';
 
@@ -180,6 +181,21 @@ describe('Order API tests', () => {
         })
       );
       expect(addOrderItems('')).rejects.toThrow('404');
+    });
+  });
+
+  describe('updateOrder', () => {
+    it('updates an order by calling api with id and returns updated properties', async () => {
+      expect(
+        updateOrder('490f374c-b448-4a7b-ad2c-0bedb9fe2163', {
+          status: OrderStatus.PAID,
+        })
+      ).resolves.toEqual({
+        id: '490f374c-b448-4a7b-ad2c-0bedb9fe2163',
+        userId: 'e6a23d5f-3a23-498f-9f61-ffb9ad34cb68',
+        status: 'PAID',
+        date: '2021-07-23',
+      });
     });
   });
 

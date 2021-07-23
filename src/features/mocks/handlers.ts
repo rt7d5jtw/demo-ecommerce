@@ -98,7 +98,6 @@ export const handlers = [
           title: 'Dune',
           image: 'https://i.imgur.com/Hiw0N.jpg',
           price: 12,
-          author: 'Bob',
           description: 'nice boek',
           status: 'IN_STOCK',
           createdAt: '2021-04-30T15:44:28.491Z',
@@ -117,7 +116,6 @@ export const handlers = [
         price: '9.50',
         description: 'i like chocolate',
         status: 'IN_STOCK',
-        author: 'Herbert',
         categoryId: 'dcaa9f09-0dbe-4e81-af92-e15ee487beaa',
         id: 27,
         createdAt: '2021-07-02',
@@ -161,7 +159,6 @@ export const handlers = [
             title: 'Dune',
             image: 'https://i.imgur.com/Hiw0N.jpg',
             price: 12,
-            author: 'Bob',
             description: 'nice boek',
             status: 'IN_STOCK',
             createdAt: '2021-07-02',
@@ -299,6 +296,18 @@ export const handlers = [
           CreatedAt: '2021-07-03',
         },
       ])
+    );
+  }),
+
+  rest.patch(ORDER_URL + '490f374c-b448-4a7b-ad2c-0bedb9fe2163', (_req, res, ctx) => {
+    return res(
+      ctx.status(200),
+      ctx.json({
+        id: '490f374c-b448-4a7b-ad2c-0bedb9fe2163',
+        userId: 'e6a23d5f-3a23-498f-9f61-ffb9ad34cb68',
+        status: 'PAID',
+        date: '2021-07-23',
+      })
     );
   }),
 
