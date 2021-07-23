@@ -12,7 +12,7 @@ import { OrderItem } from './order-item.entity';
 
 export enum OrderStatus {
   PROCESSING = 'PROCESSING',
-  SHIPPED = 'SHIPPED',
+  PAID = 'PAID',
 }
 
 @Entity('orders')

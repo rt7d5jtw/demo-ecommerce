@@ -61,6 +61,7 @@ const mockOrdersService = () => ({
   fetchOrderItems: jest.fn().mockResolvedValue(bunchOfOrders[0]),
   addOrderItems: jest.fn().mockResolvedValue(cartItems),
   removeOrder: jest.fn().mockResolvedValue(undefined),
+  update: jest.fn(),
   create: jest.fn((dto, user) => {
     dto.id = uuid();
     dto.status = OrderStatus.PROCESSING;
@@ -81,7 +82,7 @@ const mockOrdersService = () => ({
 
 describe('OrdersController', () => {
   let ordersController: OrdersController;
-  let ordersService: OrdersService;
+  let ordersService: any;
 
   jest.mock('stream');
   jest.mock('jest-mock-req-res');
@@ -239,6 +240,42 @@ describe('OrdersController', () => {
         date: expect.any(String),
       });
       expect(ordersService.create).toHaveBeenCalledWith(dto, mockUser);
+    });
+  });
+
+  describe('update', () => {
+    it('updates the order by calling ordersService', async () => {
+      ordersService.update.mockResolvedValue({
+        id: '725b3c5a-4f40-468e-aa9e-9057600d55af',
+        userId: 'e6a23d5f-3a23-498f-9f61-ffb9ad34cb68',
+        total_price: '10',
+        address: 'Yeetstreet',
+        country: 'Bruma',
+        city: 'Yes',
+        postalcode: '01000',
+        status: 'PAID',
+        date: '2021-07-23',
+      });
+      const dto = {
+        total_price: 10,
+        address: 'Yeetstreet',
+        country: 'Bruma',
+        city: 'Yes',
+        postalcode: '01000',
+        status: OrderStatus.PAID,
+      };
+      const id = '725b3c5a-4f40-468e-aa9e-9057600d55af';
+      expect(ordersController.update(id, dto)).resolves.toEqual({
+        id: '725b3c5a-4f40-468e-aa9e-9057600d55af',
+        userId: 'e6a23d5f-3a23-498f-9f61-ffb9ad34cb68',
+        total_price: '10',
+        address: 'Yeetstreet',
+        country: 'Bruma',
+        city: 'Yes',
+        postalcode: '01000',
+        status: 'PAID',
+        date: '2021-07-23',
+      });
     });
   });
 

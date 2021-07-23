@@ -13,20 +13,25 @@ import {
   UseInterceptors,
   Headers,
   Header,
+  Patch,
+  ParseUUIDPipe,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { CreateOrderDto } from './dto/order.do';
+import { CreateOrderDto, UpdateOrderDto } from './dto/order.do';
 import { SearchOrdersDto } from './dto/search-orders.dto';
 import { OrdersService } from './orders.service';
 import { Order } from './order.entity';
 import { OrderItem } from './order-item.entity';
-import { User } from '../users/user.entity';
+import { User, UserRole } from '../users/user.entity';
 import { GetUser } from '../users/get_user.decorator';
 import { PaymentDto } from './dto/payment.dto';
 import { Response } from 'express';
 import Stripe from 'stripe';
 import { InvoiceInterceptor } from './invoice.interceptor';
 import { Readable } from 'stream';
+import { UserRoleValidationPipe } from 'src/users/pipes/user-role-validation.pipe';
+import { RolesAllowed } from 'src/auth/roles.decorator';
+import { RolesGuard } from 'src/auth/roles.guard';
 
 @UseGuards(AuthGuard('jwt'))
 @Controller('orders')
@@ -95,6 +100,15 @@ export class OrdersController {
   @UsePipes(ValidationPipe)
   create(@Body() createOrderDto: CreateOrderDto, @GetUser() user: User): Promise<Order> {
     return this.ordersService.create(createOrderDto, user);
+  }
+
+  @Patch(':id')
+  @UsePipes(ValidationPipe)
+  update(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() updateOrderDto: UpdateOrderDto
+  ): Promise<Order> {
+    return this.ordersService.update(updateOrderDto, id);
   }
 
   @Delete(':id')

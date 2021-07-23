@@ -4,11 +4,12 @@ import { OrdersService } from './orders.service';
 import { User } from '../users/user.entity';
 import { bunchOfOrders } from './orders.controller.spec';
 import { OrdersRepository } from './orders.repository';
-import { OrderStatus } from './order.entity';
+import { Order, OrderStatus } from './order.entity';
 import { v4 as uuid } from 'uuid';
 import * as typeorm from 'typeorm';
 import { OrderItem } from './order-item.entity';
 import Stripe from 'stripe';
+import { BaseEntity } from 'typeorm';
 
 const mockOrdersRepository: () => MockType<OrdersRepository> = jest.fn(() => ({
   fetch: jest.fn(),
@@ -26,6 +27,7 @@ const mockOrdersRepository: () => MockType<OrdersRepository> = jest.fn(() => ({
     return Promise.resolve(dto);
   }),
   delete: jest.fn(),
+  save: jest.fn(),
 }));
 
 const orderItems = [
@@ -106,6 +108,8 @@ describe('OrdersService', () => {
     ordersService = module.get<OrdersService>(OrdersService);
     ordersRepository = module.get<OrdersRepository>(OrdersRepository);
   });
+
+  jest.mock('typeorm');
 
   afterEach(() => {
     jest.clearAllMocks();
@@ -297,6 +301,39 @@ describe('OrdersService', () => {
     });
   });
   */
+
+  describe('update', () => {
+    const mockOrder = {
+      id: '725b3c5a-4f40-468e-aa9e-9057600d55af',
+      userId: 'e6a23d5f-3a23-498f-9f61-ffb9ad34cb68',
+      status: 'PAID',
+      date: '2021-07-23',
+    };
+    it('calls ordersRepository.findOne and modifies user properties and saves the instance', async () => {
+      ordersRepository.findOne.mockReturnValue({
+        id: '725b3c5a-4f40-468e-aa9e-9057600d55af',
+        userId: 'e6a23d5f-3a23-498f-9f61-ffb9ad34cb68',
+        total_price: 3,
+        address: 'Yeetstreet',
+        country: 'Bruma',
+        city: 'Yes',
+        postalcode: '01000',
+        status: 'PAID',
+        date: '2021-07-23',
+      });
+      ordersService.update = jest.fn().mockImplementation(() => Promise.resolve(mockOrder));
+      const dto = {
+        status: OrderStatus.PAID,
+      };
+      const id = '725b3c5a-4f40-468e-aa9e-9057600d55af';
+      expect(ordersService.update(dto, id)).resolves.toEqual({
+        id: expect.any(String),
+        userId: 'e6a23d5f-3a23-498f-9f61-ffb9ad34cb68',
+        status: 'PAID',
+        date: '2021-07-23',
+      });
+    });
+  });
 
   describe('removeOrder', () => {
     it('calls ordersRepository.find and uses orderItemRepository.delete to delete items associated with the order along with the order', async () => {

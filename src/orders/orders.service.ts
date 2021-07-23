@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CreateOrderDto } from './dto/order.do';
+import { CreateOrderDto, UpdateOrderDto } from './dto/order.do';
 import { SearchOrdersDto } from './dto/search-orders.dto';
 import { Order } from './order.entity';
 import { User } from '../users/user.entity';
@@ -82,6 +82,24 @@ export class OrdersService {
     stream.push(null);
 
     return stream;
+  }
+
+  async update(updateOrderDto: UpdateOrderDto, id: string): Promise<Order> {
+    const order = await this.ordersRepository.findOne(id);
+    const { total_price, address, country, city, postalcode, status } = updateOrderDto;
+    order.total_price = total_price;
+    order.address = address;
+    order.country = country;
+    order.city = city;
+    order.postalcode = postalcode;
+    order.status = status;
+
+    try {
+      await order.save();
+    } catch {
+      throw new Error('Order could not be saved');
+    }
+    return order;
   }
 
   async removeOrder(id: string, user: User): Promise<void> {

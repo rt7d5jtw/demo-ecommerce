@@ -114,7 +114,7 @@ describe('PromotionsService', () => {
   });
 
   describe('update', () => {
-    let save;
+    let save: any;
     beforeEach(() => {
       save = jest.fn();
       promotionService.update = jest.fn().mockReturnValue(Promise.resolve({ save }));

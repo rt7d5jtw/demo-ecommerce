@@ -3,7 +3,7 @@ import { OrderStatus } from '../order.entity';
 
 export class SearchOrdersDto {
   @IsOptional()
-  @IsIn([OrderStatus.PROCESSING, OrderStatus.SHIPPED])
+  @IsIn([OrderStatus.PROCESSING, OrderStatus.PAID])
   status: OrderStatus;
 
   @IsOptional()
