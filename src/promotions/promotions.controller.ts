@@ -56,7 +56,7 @@ export class PromotionsController {
   }
 
   @Get('stream')
-  async sendStream(@Res() res: Response, @Query() filename: string) {
+  async sendStream(@Res() res: Response, @Query() filename: { filename: string }) {
     const file = createReadStream(join(process.cwd(), `./images/${filename['filename']}`));
     file.pipe(res);
   }

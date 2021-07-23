@@ -3,6 +3,8 @@ import { PromotionsController } from './promotions.controller';
 import { PromotionsService } from './promotions.service';
 import * as fs from 'fs';
 import { Readable } from 'stream';
+import { mockResponse, mockRequest } from 'jest-mock-req-res';
+import { join } from 'path';
 
 export const bunchOfPromotions = [
   {
@@ -116,6 +118,23 @@ describe('PromotionsController', () => {
         url: '/testing',
         image: 'https://i.imgur.com/eUMEuJM.jpg',
       });
+    });
+  });
+
+  describe('sendStream', () => {
+    it('sends a file as a stream', async () => {
+      jest.spyOn(fs, 'createReadStream').mockImplementation(() => {
+        const original = jest.requireActual('fs');
+        return {
+          ...original,
+          pipe: jest.fn().mockResolvedValue('yeet'),
+        };
+      });
+      const req = mockRequest();
+      req.res = mockResponse();
+      const query = { filename: 'example.png' };
+      expect(promotionsController.sendStream(req.res, query)).resolves.not.toThrow();
+      expect(fs.createReadStream).toHaveBeenCalledWith(join(process.cwd(), `./images/example.png`));
     });
   });
 
