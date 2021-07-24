@@ -66,7 +66,12 @@ const CartContainer = ({ isOpen, cartItems, quantity }: ICart) => {
         onClick={() => dispatch(cartToggle(isOpen))}
       >
         <GiShoppingBag className='cart-container__cart-icon' />
-        <span className='cart-container__cart-quantity'>{quantity}</span>
+        <span
+          style={quantity >= 100 ? { fontSize: '.8em', top: '1.8em', right: '1.2em' } : {}}
+          className='cart-container__cart-quantity'
+        >
+          {quantity}
+        </span>
       </div>
 
       <div

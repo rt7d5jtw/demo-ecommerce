@@ -2,14 +2,10 @@ import * as React from 'react';
 import { ChangeEvent, useState } from 'react';
 import './search.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { useForm, SubmitHandler } from 'react-hook-form';
 import { search } from '../../product/thunks';
 import { useHistory } from 'react-router';
 import { selectSearch, selectSearchItems } from '../../product/selectors';
-
-type Inputs = {
-  search: string;
-};
+import { BsSearch } from 'react-icons/bs';
 
 export const Search = (): JSX.Element => {
   const searchItems = useSelector(selectSearchItems);
@@ -18,13 +14,14 @@ export const Search = (): JSX.Element => {
   const dispatch = useDispatch();
   const { push } = useHistory();
 
-  const { handleSubmit } = useForm<Inputs>();
-  const onSubmit: SubmitHandler<Inputs> = () => {
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
     if (input.search) {
       dispatch(search(input.search));
       if (searchItems !== null && searchKeyword !== null) return push('/search-result');
     }
-  };
+    console.log(e);
+  }
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -32,17 +29,32 @@ export const Search = (): JSX.Element => {
   };
 
   return (
-    <div className='search__container'>
-      <form className='search-form' action='/search-result' onSubmit={handleSubmit(onSubmit)}>
-        <input
-          type='text'
-          placeholder='Search for Products..'
-          name='search'
-          value={input.search}
-          id='searchInput'
-          onChange={handleChange}
-        />
-      </form>
-    </div>
+    <form className='search' role='search' onSubmit={handleSubmit}>
+      <div className='search__wrapper'>
+        <div className='search__wrapper__left'>
+          <input
+            type='search'
+            placeholder='Search..'
+            name='search'
+            value={input.search}
+            id='searchInput'
+            onChange={handleChange}
+            aria-label='Write a keyword for search'
+            maxLength={75}
+          />
+        </div>
+        <div className='search__wrapper__right'>
+          <button
+            style={input.search.length > 0 ? { visibility: 'visible' } : {}}
+            aria-label='Search'
+            name='submit_search'
+            type='submit'
+            aria-disabled='true'
+          >
+            <BsSearch id='search-icon' />
+          </button>
+        </div>
+      </div>
+    </form>
   );
 };
