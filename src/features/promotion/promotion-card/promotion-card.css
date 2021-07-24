@@ -6,8 +6,6 @@
   transition: all 1s;
   margin-left: 2.5em;
   cursor: pointer;
-  -webkit-box-shadow: 0px 10px 13px -7px #000000, 5px 5px 15px 5px rgba(0,0,0,0.4); 
-  box-shadow: 0px 10px 13px -7px #000000, 5px 5px 15px 5px rgba(0,0,0,0.4);
 }
 
 .promotion-card__img {

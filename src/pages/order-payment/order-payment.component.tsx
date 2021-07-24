@@ -9,7 +9,7 @@ import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router';
 import { selectShippingInfo } from '../../features/user/selectors';
 import { clearCart } from '../../features/cart/cartSlice';
-import { fetchAllOrders, ORDER_URL } from '../../features/order/api';
+import { fetchAllOrders, ORDER_URL, updateOrder } from '../../features/order/api';
 import { clearCartDB } from '../../features/cart/thunks';
 import { IOrder, OrderStatus, takeCart } from '../../features/order/orderSlice';
 import { selectRecentOrderItems } from '../../features/order/selectors';
@@ -17,6 +17,7 @@ import { create as createOrder } from '../../features/order/thunks';
 import { createStructuredSelector } from 'reselect';
 import { RootState } from '../../app/store';
 import { AnyAction, Dispatch } from 'redux';
+import { paymentSuccess } from '../../features/alert/alertSlice';
 
 const CARD_OPTIONS = {
   iconStyle: 'solid' as const,
@@ -120,9 +121,10 @@ const OrderPayment = (): JSX.Element => {
     });
     if (paymentConfirmed) {
       setSuccess(!success);
+      dispatch(paymentSuccess());
       dispatch(clearCart());
       dispatch(clearCartDB());
-      setTimeout(() => push('/purchase-confirmed'), 1500);
+      setTimeout(() => push('/purchase-confirmed'), 1000);
     }
   };
 

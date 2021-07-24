@@ -36,7 +36,7 @@ export const Search = (): JSX.Element => {
       <form className='search-form' action='/search-result' onSubmit={handleSubmit(onSubmit)}>
         <input
           type='text'
-          placeholder='Search for books..'
+          placeholder='Search for Products..'
           name='search'
           value={input.search}
           id='searchInput'

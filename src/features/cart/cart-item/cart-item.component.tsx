@@ -21,10 +21,10 @@ const CartItem = (cartItem: ICartItem): JSX.Element => {
   return (
     <div className='cart-item'>
       <div className='cart-item__right'>
-        <div
+        <img
           className='cart-item__right__image'
-          style={{ backgroundImage: `url(${cartItem.image})` }}
-        ></div>
+          src={require(`../../../assets/${cartItem.image}`)}
+        />
       </div>
       <div className='cart-item__left'>
         <span className='cart-item__left__title'>{cartItem.title}</span>

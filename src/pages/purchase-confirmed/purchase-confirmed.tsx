@@ -2,13 +2,17 @@ import * as React from 'react';
 import './purchase-confirmed.css';
 import { useSelector } from 'react-redux';
 import { selectRecentOrder, selectRecentOrderItems } from '../../features/order/selectors';
-import { getInvoice } from '../../features/order/api';
+import { getInvoice, updateOrder } from '../../features/order/api';
 import { selectShippingInfo } from '../../features/user/selectors';
+import { OrderStatus } from '../../features/order/orderSlice';
 
 export const PurchaseConfirmed = (): JSX.Element => {
   const order = useSelector(selectRecentOrder);
   const orderItems = useSelector(selectRecentOrderItems);
   const shippingInfo = useSelector(selectShippingInfo);
+
+  order && order.id ? updateOrder(order.id, { status: OrderStatus.PAID }) : null;
+
   return (
     <div className='purchase-confirmed'>
       <div className='purchase-confirmed__thanks'>

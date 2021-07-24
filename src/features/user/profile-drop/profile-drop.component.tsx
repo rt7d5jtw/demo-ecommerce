@@ -2,10 +2,12 @@ import * as React from 'react';
 import './profile-drop.css';
 import { CgProfile } from 'react-icons/cg';
 import { logout } from '../../user/thunks';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { selectRole } from '../../user/selectors';
 
 export const ProfileDropdown = (): JSX.Element => {
+  const authorized = useSelector(selectRole);
   const [isChecked, setChecked] = React.useState(false);
   const handleChange = () => {
     setChecked(!isChecked);
@@ -21,9 +23,11 @@ export const ProfileDropdown = (): JSX.Element => {
           <li>
             <Link to='/profile'>Profile</Link>
           </li>
-          <li>
-            <Link to='/admin-page'>Admin</Link>
-          </li>
+          {authorized === 'ADMIN' ? (
+            <li>
+              <Link to='/admin-page'>Admin</Link>
+            </li>
+          ) : null}
           <li>
             <a onClick={() => dispatch(logout())}>Logout</a>
           </li>

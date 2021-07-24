@@ -37,7 +37,7 @@
 }
 
 .close-btn-closed {
-  top: 2em;
+  top: 1.5em;
   transform: translateX(-15.3125em);
   left: 15.5em;
   position: fixed;

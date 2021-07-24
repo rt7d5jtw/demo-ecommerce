@@ -11,7 +11,7 @@ import Main from '../../features/homepage-components/main/main.component';
 import { checkIfLoading, selectPromotionItems } from '../../features/promotion/selectors';
 import { fetch as fetchPromotions } from '../../features/promotion/thunks';
 import { Route, Switch, useRouteMatch } from 'react-router';
-import { selectLoggedIn } from '../../features/user/selectors';
+import { selectLoggedIn, selectRole } from '../../features/user/selectors';
 import { logout } from '../../features/user/thunks';
 import { selectItems } from '../../features/product/selectors';
 import { selectCategories } from '../../features/category/categorySlice';
@@ -26,7 +26,6 @@ import { NotFound } from '../404/404.component';
 import Homefront from '../homefront/homefront.component';
 import Homemiddle from '../home-middle/home-middle.component';
 import Homebottom from '../home-bottom/home-bottom.component';
-import CheckoutWrapper from '../checkout-wrapper/checkout-wrapper.component';
 import Cart from '../cart/cart.component';
 
 function Homepage(): JSX.Element {
@@ -38,6 +37,7 @@ function Homepage(): JSX.Element {
   const categories = useSelector(selectCategories);
   const products = useSelector(selectItems);
   const promotions = useSelector(selectPromotionItems);
+  const role = useSelector(selectRole);
 
   useEffect(() => {
     /* fetch categories and products for state */
@@ -72,9 +72,9 @@ function Homepage(): JSX.Element {
           <Route exact path='/purchase-confirmed' component={PurchaseConfirmed} />
           <Route exact path='/payment' component={StripeOrderWrapper} />
           <Route path='/cart' component={Cart} />
-          <Route exact path='/checkout' component={CheckoutWrapper} />
+          <Route exact path='/checkout' component={Checkout} />
           <Route path='/new' component={NewReleases} />
-          <Route exact path={`${match.path}books/:categoryId`} component={CategoryPage} />
+          <Route exact path={`${match.path}products/:categoryId`} component={CategoryPage} />
           <Route path='/books/:categoryId/:productId' component={SingleProductPage} />
           <Route path='/search-result' component={SearchPage} />
           <Route path='*' component={NotFound} />

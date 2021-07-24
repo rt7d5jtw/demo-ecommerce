@@ -34,7 +34,7 @@ const Sidebar = ({ categories }: ISidebar) => {
         <IoMdMenu className={isActive ? 'close-btn' : 'close-btn-closed'} onClick={toggleClass} />
         <h1>Chocolatiste</h1>
         {categories.map(({ cname, id }) => (
-          <Link to={'/books/' + cname} href={cname} key={id}>
+          <Link to={'/products/' + cname} href={cname} key={id}>
             {cname}
           </Link>
         ))}

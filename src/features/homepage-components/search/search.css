@@ -2,13 +2,18 @@
   display: grid;
   place-items: center center;
   transition: filter 300ms;
-  border: 2px cyan solid;
+  border: 2px solid red;
+}
+
+.search__container form {
+  border: 5px solid red;
 }
 
 input {
   border: 2px solid #000;
   transition: all 0.5s ease;
   margin-bottom: 20px;
+  border: 1px solid blue;
 }
 
 input:focus {

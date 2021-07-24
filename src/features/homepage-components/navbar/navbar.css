@@ -6,8 +6,7 @@
   z-index: 9;
 
   width: 100%;
-  justify-content: end;
-  padding: 1.5em;
+  padding: .4em;
 }
 
 .navbar h1 {
@@ -15,15 +14,20 @@
 }
 
 .nav-wrapper {
+  position: relative;
   display: grid;
   justify-content: space-between;
   grid-auto-flow: column;
-  width: 67.5em;
+  width: 100%;
 }
 
 .nav-wrapper__right {
+  position: relative;
+  display: flex;
   z-index: 999;
-  width: 100%;
+}
+
+.nav-wrapper__middle {
 }
 
 .nav-wrapper__left {

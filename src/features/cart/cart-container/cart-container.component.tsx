@@ -69,7 +69,11 @@ const CartContainer = ({ isOpen, cartItems, quantity }: ICart) => {
         <span className='cart-container__cart-quantity'>{quantity}</span>
       </div>
 
-      <div className={isOpen ? 'cart-content' : 'cart-content--closed'} ref={wrappedRef}>
+      <div
+        className={isOpen ? 'cart-content' : 'cart-content--closed'}
+        style={cartItems.length > 3 ? { overflowY: 'scroll' } : { overflowY: 'hidden' }}
+        ref={wrappedRef}
+      >
         <div className='cart-content__checkout'>
           <button className='cart-content__checkout_cart-btn' onClick={() => push('/cart')}>
             View shopping bag

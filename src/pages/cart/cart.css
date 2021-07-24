@@ -125,11 +125,6 @@
   transform: translateX(1.5px);
 }
 
-@keyframes btn-wiggle {
-  from { transform: translateY(-50%); }
-  to { transform: translateY(0%); }
-} 
-
 .cart__wrapper__right button:hover {
   color: white;
 }
@@ -166,7 +161,7 @@
   padding: .5em;
   margin-left: 3em;
   border: none;
-  width: 40%;
+  width: 45%;
 }
 
 .cart__wrapper__right__info span {

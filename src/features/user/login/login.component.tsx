@@ -4,7 +4,6 @@ import { Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginRequest } from '../../user/thunks';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { userLogged } from '../../alert/alertSlice';
 import { selectLoggedIn } from '../selectors';
 
 type FormValues = {
@@ -25,9 +24,7 @@ export const Login = (): JSX.Element => {
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     dispatch(loginRequest(data));
     if (loggedIn === true) {
-      console.log(data);
       push('/');
-      dispatch(userLogged());
     } else {
       setError('password', { type: 'manual', message: 'No such user exists' });
     }

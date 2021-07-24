@@ -24,18 +24,18 @@ const ProductCard = (product: IProductCard): JSX.Element => {
 
   return (
     <div className='product-card'>
-      <div
+      <img
         className='product-card__image'
-        style={{ backgroundImage: `url(${product.image})` }}
+        src={require(`../../../assets/${product.image}`)}
         onClick={() => push(`${params.categoryId}/${product.id}`)}
-      ></div>
+      />
       <span className='product-card__title'>
-        <p>{product.title}</p>
+        <p id='product__title'>{product.title}</p>
         <p>${product.price}</p>
-        <button className='product-card__card-button' onClick={buttonHandler}>
-          <GiShoppingBag />
-        </button>
       </span>
+      <button className='product-card__card-button' onClick={buttonHandler}>
+        <GiShoppingBag />
+      </button>
     </div>
   );
 };

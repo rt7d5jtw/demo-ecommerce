@@ -3,13 +3,16 @@ import './homefront.css';
 import { createStructuredSelector } from 'reselect';
 import { RootState } from '../../app/store';
 import { ICategory, selectCategories } from '../../features/category/categorySlice';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { IProduct } from '../../features/product/productSlice';
 import { selectItems } from '../../features/product/selectors';
 import ProductCard from '../../features/product/product-card/product-card.component';
 import { useRef, useEffect, useState } from 'react';
 import mainImg from './../../assets/Untitled.png';
+import Alert from '../../features/alert/alert/alert.component';
+import { userLogged } from '../../features/alert/alertSlice';
+import { assignRole } from '../../features/user/thunks';
 
 interface IHomefront {
   categories: ICategory[];
@@ -21,6 +24,10 @@ const Homefront = ({ categories, products }: IHomefront): JSX.Element => {
   const categoriesRef = useRef<HTMLDivElement>(null);
   const [isVisible, setVisible] = useState<boolean>(false);
   const [preview, setPreview] = useState<boolean>(false);
+  const dispatch = useDispatch();
+
+  //dispatch(userLogged())
+  //dispatch(assignRole())
 
   /*
   const callback = (entries: IntersectionObserverEntry[]) => {
@@ -50,6 +57,7 @@ const Homefront = ({ categories, products }: IHomefront): JSX.Element => {
 
   return (
     <div className='homefront'>
+      <Alert />
       <h1 id='storefront__letters'>Rich Chocolate</h1>
       <div id='storefront__block' />
       <div
@@ -64,7 +72,7 @@ const Homefront = ({ categories, products }: IHomefront): JSX.Element => {
               cat.cname === 'Dark Chocolate'
           )
           .map(({ cname, id }) => (
-            <Link to={'/books/' + cname} href={cname} key={id}>
+            <Link to={'/products/' + cname} href={cname} key={id}>
               {cname}
             </Link>
           ))}
@@ -85,7 +93,7 @@ const Homefront = ({ categories, products }: IHomefront): JSX.Element => {
       >
         {products
           .filter((_e, idx) => idx < 3)
-          .map(({ id, title, image, price, author, description, categoryId }: IProduct) => (
+          .map(({ id, title, image, price, description, categoryId }: IProduct) => (
             <div key={id} className='homefront__product-windows__product'>
               <ProductCard
                 key={id}
@@ -93,7 +101,6 @@ const Homefront = ({ categories, products }: IHomefront): JSX.Element => {
                 title={title}
                 image={image}
                 price={price}
-                author={author}
                 description={description}
                 categoryId={categoryId}
                 quantity={1}
