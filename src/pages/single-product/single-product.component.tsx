@@ -18,9 +18,9 @@ export const SingleProductPage = (): JSX.Element => {
   const product = products && products ? products.find((book: IProduct) => book.id === cId) : null;
   return (
     <div className='single-product'>
-      <div
+      <img
         className='single-product__col-1'
-        style={{ backgroundImage: `url(${product && product.image})` }}
+        src={require(`../../assets/${product && product.image}`)}
       />
       <div className='single-product__col-2'>
         <div className='single-product__col-2__header'>
@@ -30,7 +30,7 @@ export const SingleProductPage = (): JSX.Element => {
             <p className='single-product__col-2__header__pstatus'>{product?.status}</p>
           </div>
           <div className='single-product__col-2__header__right'>
-            <h2>SKU: {product?.id}</h2>
+            <h2>ID: {product?.id}</h2>
           </div>
         </div>
         <div className='single-product__col-2__main'>

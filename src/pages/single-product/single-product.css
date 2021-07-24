@@ -11,8 +11,9 @@
 .single-product__col-1 {
   display: grid;
   grid-area: 2 / 2 / 10 / 6;
-  background-size: cover;
-  background-position: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 4px;
 }
 
 .single-product__col-2 {

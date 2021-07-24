@@ -13,7 +13,7 @@
 
 .sidebar {
   position: fixed;
-  width: 35em;
+  width: 44em;
   height: 100%;
   display: grid;
   grid-area: 1 / 1 / 13 / 2;

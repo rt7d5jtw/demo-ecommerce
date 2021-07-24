@@ -8,6 +8,7 @@ import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { assignRole } from '../../features/user/thunks';
 import { clearErrors, clearShippingInfo } from '../../features/user/userSlice';
+import { Search } from '../../features/homepage-components/search/search.component';
 
 interface IClassics {
   message: string;
@@ -33,7 +34,9 @@ const Classics = () => {
       <button className='cl-btn' onClick={() => console.log(dispatch(clearErrors()))}>
         clearErrors
       </button>
-      <div className='something'></div>
+      <div className='something'>
+        <Search />
+      </div>
     </div>
   );
 };

@@ -4,13 +4,17 @@ import './search.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { search } from '../../product/thunks';
 import { useHistory } from 'react-router';
-import { selectSearch, selectSearchItems } from '../../product/selectors';
+import { selectItems, selectSearch, selectSearchItems } from '../../product/selectors';
 import { BsSearch } from 'react-icons/bs';
+import { IProduct } from '../../product/productSlice';
+import { GiShoppingBag } from 'react-icons/gi';
 
 export const Search = (): JSX.Element => {
   const searchItems = useSelector(selectSearchItems);
   const searchKeyword = useSelector(selectSearch);
+  const products = useSelector(selectItems);
   const [input, setInput] = useState({ search: '' });
+  const [data, setData] = useState<null | IProduct[]>(null);
   const dispatch = useDispatch();
   const { push } = useHistory();
 
@@ -20,10 +24,16 @@ export const Search = (): JSX.Element => {
       dispatch(search(input.search));
       if (searchItems !== null && searchKeyword !== null) return push('/search-result');
     }
-    console.log(e);
   }
 
+  data && data.length > 50 ? setData(data.slice(0, 50)) : null;
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const result = products.filter((elem) => {
+      return elem.title.match(new RegExp(input.search.trim(), 'gi'));
+    });
+    console.log(data);
+    setData(result);
     const { name, value } = e.target;
     setInput((input) => ({ ...input, [name]: value }));
   };
@@ -55,6 +65,29 @@ export const Search = (): JSX.Element => {
           </button>
         </div>
       </div>
+      <nav
+        className='search__suggestions'
+        style={input.search.length > 0 ? { height: '35.3rem' } : {}}
+      >
+        <section>
+          <ol>
+            {data && input.search.length > 0
+              ? data.map((el: IProduct) => (
+                  <li key={el.id}>
+                    <img src={require(`../../../assets/${el.image}`)} />
+                    <div className='search__suggestions__product-info'>
+                      <h2>{el.title}</h2>
+                      <h2>${el.price}</h2>
+                    </div>
+                    <button>
+                      <GiShoppingBag />
+                    </button>
+                  </li>
+                ))
+              : null}
+          </ol>
+        </section>
+      </nav>
     </form>
   );
 };

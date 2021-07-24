@@ -75,7 +75,7 @@ function Homepage(): JSX.Element {
           <Route exact path='/checkout' component={Checkout} />
           <Route path='/new' component={NewReleases} />
           <Route exact path={`${match.path}products/:categoryId`} component={CategoryPage} />
-          <Route path='/books/:categoryId/:productId' component={SingleProductPage} />
+          <Route path='/products/:categoryId/:productId' component={SingleProductPage} />
           <Route path='/search-result' component={SearchPage} />
           <Route path='*' component={NotFound} />
         </Switch>
