@@ -27,6 +27,7 @@ import Homefront from '../homefront/homefront.component';
 import Homemiddle from '../home-middle/home-middle.component';
 import Homebottom from '../home-bottom/home-bottom.component';
 import Cart from '../cart/cart.component';
+import { GiD10 } from 'react-icons/gi';
 
 function Homepage(): JSX.Element {
   const dispatch = useDispatch();
@@ -39,22 +40,16 @@ function Homepage(): JSX.Element {
   const promotions = useSelector(selectPromotionItems);
   const role = useSelector(selectRole);
 
-  useEffect(() => {
-    /* fetch categories and products for state */
-    categories.length === 0
-      ? dispatch(fetchCategories())
-      : products.length === 0
-      ? dispatch(fetchProducts())
-      : null;
+  categories.length === 0
+    ? dispatch(fetchCategories())
+    : products.length === 0
+    ? dispatch(fetchProducts())
+    : promotions.length === 0
+    ? dispatch(fetchPromotions())
+    : null;
 
-    if (localStorage.getItem('user') === null && loggedIn === true) {
-      dispatch(logout());
-    }
-  }, [dispatch]);
-
-  if (isLoading || promotions.length === 0) {
-    dispatch(fetchPromotions());
-    return <p>Loading...</p>;
+  if (localStorage.getItem('user') === null && loggedIn === true) {
+    dispatch(logout());
   }
 
   const match = useRouteMatch();

@@ -9,7 +9,11 @@ import { BsSearch } from 'react-icons/bs';
 import { IProduct } from '../../product/productSlice';
 import { GiShoppingBag } from 'react-icons/gi';
 
-export const Search = (): JSX.Element => {
+interface ISearch {
+  scrollEvent: boolean;
+}
+
+export const Search = ({ scrollEvent }: ISearch): JSX.Element => {
   const searchItems = useSelector(selectSearchItems);
   const searchKeyword = useSelector(selectSearch);
   const products = useSelector(selectItems);
@@ -61,7 +65,12 @@ export const Search = (): JSX.Element => {
   }, [ref]);
 
   return (
-    <form className='search' role='search' onSubmit={handleSubmit}>
+    <form
+      style={scrollEvent ? { transform: 'translateY(-120%)' } : {}}
+      className='search'
+      role='search'
+      onSubmit={handleSubmit}
+    >
       <div className='search__wrapper'>
         <div className='search__wrapper__left'>
           <input

@@ -1,9 +1,10 @@
 .logo {
+  position: relative;
   display: grid;
   place-items: center center;
   cursor: pointer;
-  transition: 1s;
   height: 100%;
+  transition: 1s;
 }
 
 .logo:hover {
