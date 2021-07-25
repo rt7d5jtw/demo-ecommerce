@@ -25,6 +25,7 @@
   display: flex;
   justify-content: space-between;
   border-bottom: 1px solid #131313;
+  cursor: pointer;
 }
 
 .search__suggestions section ol li img {
@@ -39,7 +40,8 @@
   place-items: center center;
 }
 
-.search__suggestions section ol li .search__suggestions__product-info h2 {
+.search__suggestions section ol li .search__suggestions__product-info h2:hover {
+  text-decoration: underline;
 }
 
 .search__suggestions section ol li button {
@@ -50,6 +52,11 @@
   border: 1px solid #594a4e;
   width: 5rem;
   cursor: pointer;
+  transition: 1s;
+}
+
+.search__suggestions section ol li button:hover {
+  background: #271c19;
 }
 
 .search__wrapper {
@@ -69,15 +76,17 @@
 }
 
 .search__wrapper input[type=search] {
-  border: 1px solid white;
+  border: 1px solid #e8e8e8;
   height: 100%;
   width: 100%;
   transition: width .5s;
   outline: white;
   border-radius: 4px;
+  transition: 1s;
 }
 
 .search__wrapper input[type=search]:focus {
+  background-color: white;
   width: 100%;
 }
 
@@ -106,8 +115,13 @@
 #searchInput {
   font-size: 16px;
   color: black;
-  background-color: white;
+  background-color: #E8E8E8;
   padding: 8px 20px 8px 20px;
+}
+
+#searchInput:focus {
+  border: 1px solid white;
+  background-color: white;
 }
 
 #search-icon {

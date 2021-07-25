@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import { assignRole } from '../../features/user/thunks';
 import { clearErrors, clearShippingInfo } from '../../features/user/userSlice';
 import { Search } from '../../features/homepage-components/search/search.component';
+import { fetchProducts } from '../../features/product/api';
 
 interface IClassics {
   message: string;
@@ -33,6 +34,9 @@ const Classics = () => {
       </button>
       <button className='cl-btn' onClick={() => console.log(dispatch(clearErrors()))}>
         clearErrors
+      </button>
+      <button className='cl-btn' onClick={() => console.log(fetchProducts())}>
+        fetch a product
       </button>
       <div className='something'>
         <Search />

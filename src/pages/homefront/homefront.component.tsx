@@ -93,7 +93,7 @@ const Homefront = ({ categories, products }: IHomefront): JSX.Element => {
       >
         {products
           .filter((_e, idx) => idx < 3)
-          .map(({ id, title, image, price, description, categoryId }: IProduct) => (
+          .map(({ id, title, image, price, description, categories }: IProduct) => (
             <div key={id} className='homefront__product-windows__product'>
               <ProductCard
                 key={id}
@@ -102,7 +102,7 @@ const Homefront = ({ categories, products }: IHomefront): JSX.Element => {
                 image={image}
                 price={price}
                 description={description}
-                categoryId={categoryId}
+                categories={categories}
                 quantity={1}
               />
             </div>

@@ -12,7 +12,8 @@ const ProductCard = (product: IProductCard): JSX.Element => {
   const user = JSON.parse(localStorage.getItem('user') || '{}');
   const dispatch = useDispatch();
   const { push } = useHistory();
-  const params = useParams<{ categoryId?: string }>();
+  const params = useParams<{ category?: string }>();
+  //params && Object.keys(params).length === 0 && params.constructor === Object;
 
   const buttonHandler = () => {
     /* copying an object into new CartItem from the ProductCard */
@@ -27,7 +28,13 @@ const ProductCard = (product: IProductCard): JSX.Element => {
       <img
         className='product-card__image'
         src={require(`../../../assets/${product.image}`)}
-        onClick={() => push(`${params.categoryId}/${product.id}`)}
+        onClick={() =>
+          push(
+            params && Object.keys(params).length === 0 && params.constructor === Object
+              ? `products/${product.categories[0]}/${product.id}`
+              : `${params.category}/${product.id}`
+          )
+        }
       />
       <span className='product-card__title'>
         <p id='product__title'>{product.title}</p>

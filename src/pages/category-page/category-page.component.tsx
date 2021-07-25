@@ -19,12 +19,12 @@ interface ICategoryPage {
 }
 
 function CategoryPage({ categories, products }: ICategoryPage): JSX.Element {
-  const { categoryId } = useParams<{ categoryId?: string }>();
+  const { category } = useParams<{ category?: string }>();
   const match = useRouteMatch();
   const dispatch = useDispatch();
 
   /* get the page category name */
-  const currentCategory = categories.find(({ cname }: ICategory) => cname === categoryId);
+  const currentCategory = categories.find(({ cname }: ICategory) => cname === category);
 
   useEffect(() => {
     categories.length === 0
@@ -55,8 +55,8 @@ function CategoryPage({ categories, products }: ICategoryPage): JSX.Element {
       <div className='category-page__products'>
         {currentCategory && currentCategory.id
           ? products
-              .filter((product: IProduct) => product.categoryId === currentCategory.id)
-              .map(({ title, price, id, image, categoryId, description }: IProduct) => (
+              .filter((product: IProduct) => product.categories.includes(currentCategory.cname))
+              .map(({ title, price, id, image, categories, description }: IProduct) => (
                 <ProductCard
                   key={id}
                   id={id}
@@ -65,7 +65,7 @@ function CategoryPage({ categories, products }: ICategoryPage): JSX.Element {
                   price={price}
                   image={image}
                   quantity={1}
-                  categoryId={categoryId}
+                  categories={categories}
                 />
               ))
           : 'Category ID could not be found!'}

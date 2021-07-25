@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useState, useRef, useEffect } from 'react';
 import './search.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { search } from '../../product/thunks';
@@ -18,6 +18,10 @@ export const Search = (): JSX.Element => {
   const dispatch = useDispatch();
   const { push } = useHistory();
 
+  const ref = useRef<HTMLDivElement>(null);
+  const ref2 = useRef<HTMLInputElement>(null);
+  const [isOpen, setOpen] = useState(false);
+
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (input.search) {
@@ -29,20 +33,40 @@ export const Search = (): JSX.Element => {
   data && data.length > 50 ? setData(data.slice(0, 50)) : null;
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    data && input.search.length > 0 ? setOpen(true) : null;
     const result = products.filter((elem) => {
       return elem.title.match(new RegExp(input.search.trim(), 'gi'));
     });
-    console.log(data);
     setData(result);
     const { name, value } = e.target;
     setInput((input) => ({ ...input, [name]: value }));
   };
+
+  useEffect(() => {
+    function handleClickOutside(event: Event) {
+      if (
+        ref.current &&
+        ref2.current &&
+        !ref2.current.contains(event.target as Node) &&
+        !ref.current.contains(event.target as Node)
+      ) {
+        setOpen(false);
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside, true);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside, true);
+    };
+  }, [ref]);
 
   return (
     <form className='search' role='search' onSubmit={handleSubmit}>
       <div className='search__wrapper'>
         <div className='search__wrapper__left'>
           <input
+            ref={ref2}
+            onClick={() => (data && input.search.length > 0 ? setOpen(true) : null)}
             type='search'
             placeholder='Search..'
             name='search'
@@ -65,19 +89,20 @@ export const Search = (): JSX.Element => {
           </button>
         </div>
       </div>
-      <nav
-        className='search__suggestions'
-        style={input.search.length > 0 ? { height: '35.3rem' } : {}}
-      >
+      <nav ref={ref} className='search__suggestions' style={isOpen ? { height: '35.3rem' } : {}}>
         <section>
           <ol>
-            {data && input.search.length > 0
-              ? data.map((el: IProduct) => (
-                  <li key={el.id}>
-                    <img src={require(`../../../assets/${el.image}`)} />
+            {isOpen
+              ? data &&
+                data.map((product: IProduct) => (
+                  <li
+                    key={product.id}
+                    onClick={() => push(`products/${product.categories[0]}/${product.id}`)}
+                  >
+                    <img src={require(`../../../assets/${product.image}`)} />
                     <div className='search__suggestions__product-info'>
-                      <h2>{el.title}</h2>
-                      <h2>${el.price}</h2>
+                      <h2>{product.title}</h2>
+                      <h2>${product.price}</h2>
                     </div>
                     <button>
                       <GiShoppingBag />
