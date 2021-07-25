@@ -1,10 +1,12 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from './product.entity';
 import { CreateProductDto, UpdateProductDto } from './dto/product.dto';
 import { SearchProductDto } from './dto/search-product.dto';
 import { ProductRepository } from './product.repository';
 import { Logger } from '@nestjs/common';
+import { getRepository } from 'typeorm';
+import { Category } from 'src/category/category.entity';
 
 @Injectable()
 export class ProductService {
@@ -33,16 +35,41 @@ export class ProductService {
   }
 
   async update(id: number, updateProductDto: UpdateProductDto): Promise<Product> {
-    const { title, image, price, description, status } = updateProductDto;
+    const { title, image, price, description, status, categoryIds } = updateProductDto;
     const product = await this.fetchById(id);
+
+    if (
+      updateProductDto &&
+      Object.keys(updateProductDto).length === 0 &&
+      updateProductDto.constructor === Object
+    ) {
+      throw new BadRequestException('Make sure correct inputs are provided');
+    }
+
+    let categories: any;
+    let ids = null;
+    if (categoryIds && categoryIds.length !== 0 && Array.isArray(categoryIds)) {
+      ids = categoryIds.map(({ id }) => id);
+      categories = await getRepository(Category)
+        .createQueryBuilder('category')
+        .where('category.id IN (:...ids)', {
+          ids: ids,
+        })
+        .getMany();
+    }
 
     product.title = title;
     product.image = image;
     product.price = price;
     product.description = description;
     product.status = status;
-    await this.productRepository.save(product);
+    product.categories = categories;
 
+    try {
+      await this.productRepository.save(product);
+    } catch (err) {
+      throw new Error('Failed to update the product');
+    }
     return product;
   }
 

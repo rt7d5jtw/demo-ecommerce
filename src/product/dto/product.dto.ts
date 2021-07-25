@@ -1,4 +1,4 @@
-import { IsUrl, IsString, IsNotEmpty, IsNumberString, IsUUID } from 'class-validator';
+import { IsUrl, IsString, IsNotEmpty, IsNumberString } from 'class-validator';
 import { ProductStatus } from '../product.entity';
 
 export class CreateProductDto {
@@ -11,10 +11,12 @@ export class CreateProductDto {
   image?: string;
   @IsString()
   description?: string;
-  @IsString()
-  @IsUUID()
-  category: string;
+  categoryIds: CategoryIdDto[];
 }
+
+type CategoryIdDto = {
+  id: string;
+};
 
 export interface IUpdateProduct extends CreateProductDto {
   status: ProductStatus;

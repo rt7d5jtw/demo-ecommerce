@@ -1,5 +1,6 @@
-import { Logger } from '@nestjs/common';
-import { EntityRepository, Repository } from 'typeorm';
+import { BadRequestException, Logger } from '@nestjs/common';
+import { Category } from 'src/category/category.entity';
+import { EntityRepository, getConnection, getRepository, Repository } from 'typeorm';
 import { CreateProductDto } from './dto/product.dto';
 import { SearchProductDto } from './dto/search-product.dto';
 import { Product, ProductStatus } from './product.entity';
@@ -26,8 +27,20 @@ export class ProductRepository extends Repository<Product> {
     return products;
   }
 
-  async createProduct(createProductDto: CreateProductDto): Promise<Product> {
-    const { title, image, price, description, category } = createProductDto;
+  async createProduct(createProductDto: CreateProductDto): Promise<any> {
+    const { title, image, price, description, categoryIds } = createProductDto;
+
+    if (categoryIds.length === 0 || !Array.isArray(categoryIds)) {
+      throw new BadRequestException('Input needs to be an array!');
+    }
+
+    const ids = categoryIds.map(({ id }) => id);
+    const categories = await getRepository(Category)
+      .createQueryBuilder('category')
+      .where('category.id IN (:...ids)', {
+        ids: ids,
+      })
+      .getMany();
 
     const product = this.create();
     product.title = title;
@@ -35,10 +48,10 @@ export class ProductRepository extends Repository<Product> {
     product.price = price;
     product.description = description;
     product.status = ProductStatus.IN_STOCK;
-    product.categoryId = category;
+    product.categories = categories;
 
     try {
-      await product.save();
+      await this.save(product);
     } catch (error) {
       this.logger.error(`Failed to create a product`, error.stack);
     }

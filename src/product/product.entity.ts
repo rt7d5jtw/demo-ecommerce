@@ -7,6 +7,9 @@ import {
   UpdateDateColumn,
   OneToMany,
   ManyToOne,
+  ManyToMany,
+  JoinTable,
+  RelationId,
 } from 'typeorm';
 import { CartItem } from '../cart/cart-item.entity';
 import { OrderItem } from '../orders/order-item.entity';
@@ -21,9 +24,6 @@ export enum ProductStatus {
 export class Product extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
-
-  @Column({ type: 'uuid' })
-  categoryId: string;
 
   @Column()
   title: string;
@@ -52,6 +52,19 @@ export class Product extends BaseEntity {
   @OneToMany(() => OrderItem, (orderitem) => orderitem.product)
   orderItem: OrderItem[];
 
-  @ManyToOne(() => Category, (category) => category.product)
-  category: Category;
+  @ManyToMany(() => Category, {
+    cascade: true,
+  })
+  @JoinTable({
+    name: 'product_categories',
+    joinColumn: {
+      name: 'productIds',
+      referencedColumnName: 'id',
+    },
+    inverseJoinColumn: {
+      name: 'categoryId',
+      referencedColumnName: 'id',
+    },
+  })
+  categories: Category[];
 }
