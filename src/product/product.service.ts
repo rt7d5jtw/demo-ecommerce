@@ -22,7 +22,10 @@ export class ProductService {
   }
 
   async fetchById(id: number): Promise<Product> {
-    const result = await this.productRepository.findOne(id);
+    const [result] = await this.productRepository.find({
+      relations: ['categories'],
+      where: { id: id },
+    });
     if (!result) {
       throw new NotFoundException(`Product with ID "${id}" not found`);
     }

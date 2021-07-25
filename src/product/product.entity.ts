@@ -58,7 +58,7 @@ export class Product extends BaseEntity {
   @JoinTable({
     name: 'product_categories',
     joinColumn: {
-      name: 'productIds',
+      name: 'productId',
       referencedColumnName: 'id',
     },
     inverseJoinColumn: {

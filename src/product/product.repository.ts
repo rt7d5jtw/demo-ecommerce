@@ -1,6 +1,6 @@
 import { BadRequestException, Logger } from '@nestjs/common';
 import { Category } from 'src/category/category.entity';
-import { EntityRepository, getConnection, getRepository, Repository } from 'typeorm';
+import { EntityRepository, getRepository, Repository } from 'typeorm';
 import { CreateProductDto } from './dto/product.dto';
 import { SearchProductDto } from './dto/search-product.dto';
 import { Product, ProductStatus } from './product.entity';
@@ -10,17 +10,18 @@ export class ProductRepository extends Repository<Product> {
   private logger = new Logger('ProductRepository');
 
   async fetch(searchProductDto: SearchProductDto): Promise<Product[]> {
-    const { search, cat } = searchProductDto;
+    const { search } = searchProductDto;
     const query = this.createQueryBuilder('product');
+    query.select('product');
+    query.leftJoinAndSelect('product.categories', 'category');
 
     if (search) {
-      query.andWhere('product.title LIKE :search OR product.description LIKE :search', {
-        search: `%${search}%`,
-      });
-    }
-
-    if (cat) {
-      query.andWhere('product.categoryId = :cat', { cat: `${cat}` });
+      query.andWhere(
+        'LOWER(product.title) LIKE LOWER(:search) OR LOWER(product.description) LIKE LOWER(:search)',
+        {
+          search: `%${search}%`,
+        }
+      );
     }
 
     const products = await query.getMany();
