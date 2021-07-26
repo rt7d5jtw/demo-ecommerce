@@ -23,7 +23,8 @@ export class CartService {
     return cartId;
   }
 
-  async fetchCartItems(user: User): Promise<CartItem[]> {
+  /* helper function */
+  async fetchItems(user: User): Promise<CartItem[]> {
     const cart = await this.fetchCart(user);
     const cartItem = await getRepository(CartItem)
       .createQueryBuilder('cartItem')
@@ -34,7 +35,7 @@ export class CartService {
     return cartItem;
   }
 
-  async fetchCartState(user: User): Promise<CartItemInfo> {
+  async fetchCartItems(user: User): Promise<CartItemInfo> {
     /* get cart id */
     const userId = user['id'];
     const cart = await this.cartRepository.findOne({
@@ -56,8 +57,11 @@ export class CartService {
   }
 
   async fetchProductPrice(id: number): Promise<any> {
-    const { price } = await getRepository(Product).findOne(id);
-    return price;
+    const price = await getRepository(Product).findOne(id);
+    if (!price) {
+      throw new NotFoundException(`Price with ID "${id}" not found`);
+    }
+    return price.price;
   }
 
   async createCart(user: User): Promise<Cart> {
@@ -88,7 +92,7 @@ export class CartService {
 
     /* checks if Cart Items with same productId and cartId exists in the Cart Item table
      * if so it sums quantity and price of the two objects and removes the redundant copy 'cart_copy' */
-    const cartItems = await this.fetchCartItems(user);
+    const cartItems = await this.fetchItems(user);
     for (let i = 0; i < cartItems.length; i++) {
       if (
         cartItems[i].cartId === cartItem.cartId &&

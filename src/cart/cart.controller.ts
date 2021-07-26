@@ -31,16 +31,11 @@ export class CartController {
     return this.cartService.fetchCart(user);
   }
 
-  /* fetches cart items for the user */
-  @Get('items')
-  fetchCartItems(@GetUser() user: User): Promise<CartItem[]> {
-    return this.cartService.fetchCartItems(user);
-  }
-
-  /* fetches cart state with title and image */
-  @Get('/state')
+  /* fetches cart items with corresponding product title,
+   * image and productId and without cartId, Id, and date */
+  @Get('/items')
   fetchCartState(@GetUser() user: User): Promise<CartItemInfo> {
-    return this.cartService.fetchCartState(user);
+    return this.cartService.fetchCartItems(user);
   }
 
   /* get product's price */
