@@ -37,7 +37,7 @@ export const Search = ({ scrollEvent }: ISearch): JSX.Element => {
   data && data.length > 50 ? setData(data.slice(0, 50)) : null;
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    data && input.search.length > 0 ? setOpen(true) : null;
+    data ? setOpen(true) : null;
     const result = products.filter((elem) => {
       return elem.title.match(new RegExp(input.search.trim(), 'gi'));
     });

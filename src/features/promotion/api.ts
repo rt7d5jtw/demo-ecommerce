@@ -61,7 +61,7 @@ export async function updatePromotion({ id, ...updateProps }: IPromotions): Prom
     });
 }
 
-export async function fetchPicture(filename: string): Promise<any> {
+export async function fetchPicture(filename: string): Promise<void> {
   return axios
     .get(PROMOTION_URL + `/stream?filename=${filename}`)
     .then((res) => {

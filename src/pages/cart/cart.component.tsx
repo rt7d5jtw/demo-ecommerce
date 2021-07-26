@@ -43,7 +43,6 @@ const Cart = (): JSX.Element => {
       dispatch(promoAdded());
     }
     event.target.value === 'CHOCOLATE' ? dispatch(addShippingInformation({ promo: 5 })) : null;
-    console.log(parsedTotal);
   };
 
   function addHandler(cartItem: ICartItem) {

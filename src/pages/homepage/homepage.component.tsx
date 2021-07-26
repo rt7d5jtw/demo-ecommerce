@@ -3,7 +3,6 @@ import './homepage.css';
 import { Navbar } from '../../features/homepage-components/navbar/navbar.component';
 import { Footer } from '../../features/homepage-components/footer/footer.component';
 import Sidebar from '../../features/homepage-components/sidebar/sidebar.component';
-import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetch as fetchCategories } from '../../features/category/thunks';
 import { fetch as fetchProducts } from '../../features/product/thunks';
@@ -15,7 +14,6 @@ import { selectLoggedIn, selectRole } from '../../features/user/selectors';
 import { logout } from '../../features/user/thunks';
 import { selectItems } from '../../features/product/selectors';
 import { selectCategories } from '../../features/category/categorySlice';
-import { NewReleases } from '../new_releases/new_releases.component';
 import CategoryPage from '../category-page/category-page.component';
 import { SingleProductPage } from '../single-product/single-product.component';
 import { PurchaseConfirmed } from '../purchase-confirmed/purchase-confirmed';
@@ -27,7 +25,6 @@ import Homefront from '../homefront/homefront.component';
 import Homemiddle from '../home-middle/home-middle.component';
 import Homebottom from '../home-bottom/home-bottom.component';
 import Cart from '../cart/cart.component';
-import { GiD10 } from 'react-icons/gi';
 
 function Homepage(): JSX.Element {
   const dispatch = useDispatch();
@@ -68,7 +65,6 @@ function Homepage(): JSX.Element {
           <Route exact path='/payment' component={StripeOrderWrapper} />
           <Route path='/cart' component={Cart} />
           <Route exact path='/checkout' component={Checkout} />
-          <Route path='/new' component={NewReleases} />
           <Route exact path={`${match.path}products/:category`} component={CategoryPage} />
           <Route path='/products/:category/:productId' component={SingleProductPage} />
           <Route path='/search-result' component={SearchPage} />

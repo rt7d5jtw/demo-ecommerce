@@ -1,5 +1,4 @@
 import * as React from 'react';
-import './admin-page.css';
 import { Route, RouteComponentProps, Switch, withRouter } from 'react-router-dom';
 import { ViewUsers } from '../../features/admin/admin-dashboard/admin-components/view-users/view-users.component';
 import ViewOrders from '../../features/admin/admin-dashboard/admin-components/view-orders/view-orders.component';

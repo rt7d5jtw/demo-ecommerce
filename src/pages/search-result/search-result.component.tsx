@@ -1,17 +1,13 @@
 import * as React from 'react';
-import { Footer } from '../../features/homepage-components/footer/footer.component';
-import { Navbar } from '../../features/homepage-components/navbar/navbar.component';
-import Sidebar from '../../features/homepage-components/sidebar/sidebar.component';
 import { connect } from 'react-redux';
 import ProductCard from '../../features/product/product-card/product-card.component';
 import { createStructuredSelector } from 'reselect';
 import { RootState } from '../../app/store';
-import { Product } from '../../features/product/productSlice';
+import { IProduct } from '../../features/product/productSlice';
 import { selectSearch, selectSearchItems } from '../../features/product/selectors';
-import Main from '../../features/homepage-components/main/main.component';
 
 interface ISearchPage {
-  searchItems: Product[];
+  searchItems: IProduct[];
   search: string;
 }
 
@@ -20,15 +16,8 @@ const SearchPage = ({ searchItems, search }: ISearchPage) => {
     <>
       <h1 className='category-page__title'>Searched for {search}</h1>
       <div className='products'>
-        {searchItems.map(({ title, price, id, image, quantity }) => (
-          <ProductCard
-            key={id}
-            id={id}
-            title={title}
-            price={price}
-            image={image}
-            quantity={quantity}
-          />
+        {searchItems.map(({ id, ...props }) => (
+          <ProductCard key={id} id={id} {...props} />
         ))}
       </div>
     </>

@@ -6,20 +6,12 @@ import { selectCurrentUser } from '../features/user/selectors';
 
 // pages
 import Homepage from '../pages/homepage/homepage.component';
-import { NewReleases } from '../pages/new_releases/new_releases.component';
-import { AuthorizationPage } from '../pages/authorization/authorization.component';
-import { AuthenticationPage } from '../pages/authentication/authentication.component';
-import SearchPage from '../pages/search-result/search-result.component';
-import Checkout from '../pages/checkout/checkout.component';
 import Classics from '../pages/classics/classics.component';
 import AdminPage from '../pages/admin-page/admin-page.component';
 import AdminCreatorPage from '../pages/admin-creator-page/admin-creator-page.component';
 import ProfilePage from '../pages/profile-page/profile-page.component';
-import CategoryPage from '../pages/category-page/category-page.component';
-import { StripeOrderWrapper } from '../pages/stripe-order-wrapper/stripe-order-wrapper.component';
-import { PurchaseConfirmed } from '../pages/purchase-confirmed/purchase-confirmed';
-import { SingleProductPage } from '../pages/single-product/single-product.component';
-import { NotFound } from '../pages/404/404.component';
+import { Register } from '../features/user/register/register.component';
+import { Login } from '../features/user/login/login.component';
 
 const App = (): JSX.Element => {
   const currentUser = useSelector(selectCurrentUser);
@@ -27,14 +19,10 @@ const App = (): JSX.Element => {
   return (
     <>
       <Switch>
-        <Route
-          exact
-          path='/login'
-          render={() => (currentUser ? <Redirect to='/' /> : <AuthenticationPage />)}
-        />
+        <Route exact path='/login' render={() => (currentUser ? <Redirect to='/' /> : <Login />)} />
         <Route
           path='/register'
-          component={() => (currentUser ? <Redirect to='/' /> : <AuthorizationPage />)}
+          component={() => (currentUser ? <Redirect to='/' /> : <Register />)}
         />
         <Route path='/profile' component={ProfilePage} />
         <Route path='/admin-creator' component={AdminCreatorPage} />

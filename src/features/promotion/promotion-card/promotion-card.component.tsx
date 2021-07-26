@@ -9,23 +9,6 @@ interface IPromotionCard {
   id: number;
 }
 
-/*
-function importAll(r: any) {
-  r.keys().forEach((key: any) => (cache[key] = r(key)));
-}
- */
-//      <div
-//        className='promotion-card__img'
-//        style={{ backgroundImage: `url('./../../../assets/bar.jpg')` }}
-//      >
-
-//importAll(require.context('../', true, /\.ts$/));
-//      <h2>{title}</h2>
-// <p>Know more</p>
-
-/* currently only way i know how to make images dynamically work */
-//<img className='promotion-card__img' src={require(`./../../../assets/${image}`)} />
-
 const PromotionCard = ({ image, url, title }: IPromotionCard): JSX.Element => {
   const { push } = useHistory();
   return (

@@ -24,6 +24,10 @@
   z-index: 10;
 }
 
+.sidebar-links {
+  position: relative;
+}
+
 .close-btn {
   top: 1.8em;
   left: 30em;
@@ -93,9 +97,9 @@
   font-family: 'Rubik';
   font-size: 1.4em;
   display: block;
-  width: 150px;
+  width: 250px;
   margin: 10px 35px;
-  padding: 5px 10px;
+  padding: 10px 10px;
   color: #bbb;
   text-decoration: none;
   letter-spacing: 2px;

@@ -1,5 +1,4 @@
 import * as React from 'react';
-import './view-orders.css';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectOrders } from '../../../../order/selectors';

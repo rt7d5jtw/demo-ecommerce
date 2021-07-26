@@ -8,12 +8,6 @@ import { IProduct } from '../../features/product/productSlice';
 export const SingleProductPage = (): JSX.Element => {
   const products = useAppSelector(selectItems);
   const { productId } = useParams<{ productId: string }>();
-
-  React.useEffect(() => {
-    console.log(cId);
-    console.log(product);
-  });
-
   const cId = Number(productId); // convert to Number
   const product = products && products ? products.find((book: IProduct) => book.id === cId) : null;
   return (

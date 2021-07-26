@@ -25,7 +25,6 @@ const ChangeEmail = (): JSX.Element => {
   const [disable, setDisable] = useState<boolean>(false);
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    console.log(data);
     setDisable(true);
     setTimeout(() => setDisable(false), 3000);
     dispatch(changeEmail(data));

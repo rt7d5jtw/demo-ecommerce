@@ -1,22 +1,18 @@
 import * as React from 'react';
 import './sidebar.css';
 import { Link } from 'react-router-dom';
-import { createStructuredSelector } from 'reselect';
 import { selectCategories } from '../../category/categorySlice';
-import { RootState } from '../../../app/store';
-import { ICategory } from '../../../features/category/categorySlice';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { IoMdMenu } from 'react-icons/io';
 import { useState, useRef, useEffect } from 'react';
 
-interface ISidebar {
-  categories: ICategory[];
-}
-
-const Sidebar = ({ categories }: ISidebar) => {
+const Sidebar = (): JSX.Element => {
+  const categories = useSelector(selectCategories);
+  const [isOpen, setOpen] = useState<boolean>(false);
+  const menuRef = useRef<HTMLDivElement>(null);
   const handleClickOutside = (event: Event) => {
     if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-      setActive(false);
+      setOpen(false);
     }
   };
   useEffect(() => {
@@ -25,35 +21,27 @@ const Sidebar = ({ categories }: ISidebar) => {
       document.addEventListener('click', handleClickOutside, true);
     };
   }, []);
-  const [isActive, setActive] = useState<boolean>(false);
-  const menuRef = useRef<HTMLDivElement>(null);
-  const toggleClass = () => setActive(!isActive);
   return (
-    <div ref={menuRef} className={isActive ? 'sidebar' : 'sidebar-closed'}>
+    <div ref={menuRef} className={isOpen ? 'sidebar' : 'sidebar-closed'}>
       <div className='sidebar-links'>
-        <IoMdMenu className={isActive ? 'close-btn' : 'close-btn-closed'} onClick={toggleClass} />
+        <IoMdMenu
+          className={isOpen ? 'close-btn' : 'close-btn-closed'}
+          onClick={() => setOpen(!isOpen)}
+        />
         <h1>Chocolatiste</h1>
         {categories.map(({ cname, id }) => (
-          <Link to={'/products/' + cname} href={cname} key={id}>
+          <Link to={'/products/' + cname} href={cname} key={id} onClick={() => setOpen(!isOpen)}>
             {cname}
           </Link>
         ))}
       </div>
       <div
-        className={isActive ? 'flat' : 'flat-closed'}
-        style={isActive ? { width: `70.7%` } : { width: `1%` }}
-        onClick={() => setActive(false)}
+        className={isOpen ? 'flat' : 'flat-closed'}
+        style={isOpen ? { width: `70.7%` } : { width: `1%` }}
+        onClick={() => setOpen(false)}
       />
     </div>
   );
 };
 
-interface IMapStateToProps {
-  categories: ICategory[];
-}
-
-const mapStateToProps = createStructuredSelector<RootState, IMapStateToProps>({
-  categories: selectCategories,
-});
-
-export default connect(mapStateToProps)(Sidebar);
+export default Sidebar;

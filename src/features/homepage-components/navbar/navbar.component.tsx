@@ -14,7 +14,6 @@ export const Navbar = (): JSX.Element => {
 
     const updateScrollDir = () => {
       const scrollY = window.pageYOffset;
-      console.log(scrollY);
       if (Math.abs(scrollY - lastScrollY) < threshold) {
         ticking = false;
         return;
@@ -32,7 +31,6 @@ export const Navbar = (): JSX.Element => {
     };
 
     window.addEventListener('scroll', onScroll);
-    console.log(scrollDir);
 
     return () => window.removeEventListener('scroll', onScroll);
   }, [scrollDir]);

@@ -34,7 +34,7 @@ const Alert = ({ message, timeout }: IAlert) => {
   }
 
   return (
-    <div className='alert' style={{ opacity: message ? '1' : '0' }}>
+    <div className='alert' style={message ? { opacity: '1' } : { display: 'none' }}>
       {message}
       <div className='alert__filler' style={{ width: `${percentage}%` }}></div>
     </div>

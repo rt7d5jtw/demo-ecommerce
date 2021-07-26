@@ -9,14 +9,11 @@ import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router';
 import { selectShippingInfo } from '../../features/user/selectors';
 import { clearCart } from '../../features/cart/cartSlice';
-import { fetchAllOrders, ORDER_URL, updateOrder } from '../../features/order/api';
+import { ORDER_URL } from '../../features/order/api';
 import { clearCartDB } from '../../features/cart/thunks';
-import { IOrder, OrderStatus, takeCart } from '../../features/order/orderSlice';
+import { OrderStatus, takeCart } from '../../features/order/orderSlice';
 import { selectRecentOrderItems } from '../../features/order/selectors';
 import { create as createOrder } from '../../features/order/thunks';
-import { createStructuredSelector } from 'reselect';
-import { RootState } from '../../app/store';
-import { AnyAction, Dispatch } from 'redux';
 import { paymentSuccess } from '../../features/alert/alertSlice';
 
 const CARD_OPTIONS = {
@@ -90,7 +87,7 @@ const OrderPayment = (): JSX.Element => {
     carddata.preventDefault();
     console.log(carddata);
     const cardElement = elements && elements.getElement(CardElement);
-    console.log('Form submitted');
+    console.group('Form submitted', carddata);
 
     if (shippingInfo)
       dispatch(

@@ -1,5 +1,4 @@
 import * as React from 'react';
-import './profile-page.css';
 import { Route, RouteComponentProps, Switch, withRouter } from 'react-router-dom';
 import ChangeEmail from '../../features/user/profile-dashboard/profile-components/change-email/change-email.component';
 import ChangePassword from '../../features/user/profile-dashboard/profile-components/change-password/change-password.component';

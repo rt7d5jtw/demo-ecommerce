@@ -20,7 +20,6 @@ export const Register = (): JSX.Element => {
     formState: { errors },
   } = useForm<FormValues>();
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    console.log(data);
     push('/login');
     dispatch(registerRequest(data));
     dispatch(registered());

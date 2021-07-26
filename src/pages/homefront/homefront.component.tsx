@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 import { IProduct } from '../../features/product/productSlice';
 import { selectItems } from '../../features/product/selectors';
 import ProductCard from '../../features/product/product-card/product-card.component';
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useState } from 'react';
 import mainImg from './../../assets/Untitled.png';
 import Alert from '../../features/alert/alert/alert.component';
 import { userLogged } from '../../features/alert/alertSlice';
