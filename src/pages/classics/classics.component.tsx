@@ -8,8 +8,8 @@ import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { assignRole } from '../../features/user/thunks';
 import { clearErrors, clearShippingInfo } from '../../features/user/userSlice';
-import { fetchProducts } from '../../features/product/api';
 import { Loading } from '../loading/loading.component';
+import { fetchCartItems } from '../../features/cart/api';
 
 interface IClassics {
   message: string;
@@ -35,7 +35,7 @@ const Classics = () => {
       <button className='cl-btn' onClick={() => console.log(dispatch(clearErrors()))}>
         clearErrors
       </button>
-      <button className='cl-btn' onClick={() => console.log(fetchProducts())}>
+      <button className='cl-btn' onClick={() => console.log(fetchCartItems())}>
         fetch a product
       </button>
       <div className='something'>

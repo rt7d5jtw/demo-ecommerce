@@ -10,7 +10,8 @@ export async function fetchCart(): Promise<ICart> {
     .get(CART_URL, { headers: authHeader() })
     .then((res) => {
       if (res.data.length === 0) {
-        console.info('User has no cart');
+        setTimeout(() => createCart(), 500);
+        console.info('User cart created');
       }
       return res.data;
     })
@@ -27,7 +28,6 @@ export async function createCart(): Promise<ICart> {
   return axios
     .post(CART_URL, {}, { headers: authHeader() })
     .then((res) => {
-      console.info('User cart created');
       return res.data;
     })
     .catch((err) => {
@@ -39,25 +39,9 @@ export async function createCart(): Promise<ICart> {
     });
 }
 
-/* checks if user has a cart, if not creates one */
-export async function checkIfCart(): Promise<void> {
+export async function fetchCartItems(): Promise<ICartItem[]> {
   return axios
-    .get(CART_URL, { headers: authHeader() })
-    .then((res) => {
-      res.data.length === 0 ? createCart() : null;
-    })
-    .catch((err) => {
-      const error: AxiosError<ValidationErrors> = err;
-      if (!error.response) {
-        throw err;
-      }
-      return Promise.reject(err);
-    });
-}
-
-export async function fetchCartState(): Promise<ICartItem[]> {
-  return axios
-    .get(CART_URL + 'state', { headers: authHeader() })
+    .get(CART_URL + 'items', { headers: authHeader() })
     .then((res) => {
       return res.data;
     })
@@ -100,7 +84,7 @@ export async function removeItemFromCartDB(productId: number): Promise<void> {
     });
 }
 
-export async function clearCartState(): Promise<void> {
+export async function clearCartItems(): Promise<void> {
   return axios
     .delete(CART_URL, { headers: authHeader() })
     .then((res) => res.data)

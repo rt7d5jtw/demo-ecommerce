@@ -11,8 +11,6 @@ import ProductCard from '../../features/product/product-card/product-card.compon
 import { useRef, useState } from 'react';
 import mainImg from './../../assets/Untitled.png';
 import Alert from '../../features/alert/alert/alert.component';
-import { userLogged } from '../../features/alert/alertSlice';
-import { assignRole } from '../../features/user/thunks';
 
 interface IHomefront {
   categories: ICategory[];
@@ -25,9 +23,6 @@ const Homefront = ({ categories, products }: IHomefront): JSX.Element => {
   const [isVisible, setVisible] = useState<boolean>(false);
   const [preview, setPreview] = useState<boolean>(false);
   const dispatch = useDispatch();
-
-  //dispatch(userLogged())
-  //dispatch(assignRole())
 
   /*
   const callback = (entries: IntersectionObserverEntry[]) => {

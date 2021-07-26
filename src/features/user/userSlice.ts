@@ -9,24 +9,6 @@ import {
   logout,
 } from './thunks';
 
-export interface AccessTokenDTO {
-  accessToken: string;
-}
-
-export interface AuthorizationDTO {
-  Authorization: string;
-}
-
-export const authHeader = (): AuthorizationDTO | unknown => {
-  const user = JSON.parse(localStorage.getItem('user') || '{}');
-
-  if (user && user.accessToken) {
-    return { Authorization: 'Bearer ' + user.accessToken };
-  } else {
-    return {};
-  }
-};
-
 export enum UserRole {
   ADMIN = 'ADMIN',
   USER = 'USER',

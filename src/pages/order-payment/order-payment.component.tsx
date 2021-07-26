@@ -2,7 +2,7 @@ import * as React from 'react';
 import './order-payment.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectCartItems, selectCartTotal } from '../../features/cart/selectors';
-import { authHeader } from '../../features/user/userSlice';
+import { authHeader } from '../../features/user/api';
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import axios from 'axios';
 import { useState, useEffect } from 'react';

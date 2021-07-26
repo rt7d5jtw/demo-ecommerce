@@ -1,8 +1,6 @@
 import {
   IUserCredentials,
-  AuthorizationDTO,
   IRegisterSuccess,
-  AccessTokenDTO,
   UserRole,
   PasswordObj,
   EmailObj,
@@ -14,8 +12,17 @@ import { ValidationErrors } from '../promotion/promotionSlice';
 export const USERS_URL = 'http://localhost:3000/users/';
 export const AUTH_URL = 'http://localhost:3000/auth/signin';
 
+export interface AccessTokenDTO {
+  accessToken: string;
+}
+
+export interface AuthorizationDTO {
+  Authorization: string;
+}
+
 export const authHeader = (): AuthorizationDTO | unknown => {
   const user = JSON.parse(localStorage.getItem('user') || '{}');
+
   if (user && user.accessToken) {
     return { Authorization: 'Bearer ' + user.accessToken };
   } else {
@@ -98,7 +105,6 @@ export async function updateEmail(emails: EmailObj): Promise<string> {
       if (!error.response) {
         throw err;
       }
-      //return Promise.reject([err.response.data.message, err]);
       return Promise.reject(err);
     });
 }
