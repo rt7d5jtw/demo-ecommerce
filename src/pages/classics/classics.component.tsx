@@ -38,9 +38,7 @@ const Classics = () => {
       <button className='cl-btn' onClick={() => console.log(fetchCartItems())}>
         fetch a product
       </button>
-      <div className='something'>
-        <Loading />
-      </div>
+      <div className='something'></div>
     </div>
   );
 };

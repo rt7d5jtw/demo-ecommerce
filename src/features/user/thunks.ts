@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
-import { emailUpdated, passwordUpdated, userLogged } from '../alert/alertSlice';
+import { emailUpdated, passwordUpdated, userLogged, registered } from '../alert/alertSlice';
 import { fetchItems } from '../cart/thunks';
 import { ValidationErrors } from '../promotion/promotionSlice';
 import { register, login, fetchRole, updatePassword, updateEmail, fetchAllUsers } from './api';
@@ -8,9 +8,12 @@ import { EmailObj, IUserCredentials, PasswordObj, UserRole } from './userSlice';
 
 export const registerRequest = createAsyncThunk(
   'user/register',
-  async (arg: IUserCredentials, { rejectWithValue }) => {
+  async (arg: IUserCredentials, { rejectWithValue, dispatch }) => {
     try {
-      return await register(arg);
+      return register(arg).then((res) => {
+        setTimeout(() => dispatch(registered()), 500);
+        return res;
+      });
     } catch (err) {
       const error: AxiosError<ValidationErrors> = err;
       if (!error.response) {

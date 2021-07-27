@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { registerRequest } from '../thunks';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
-import { registered } from '../../alert/alertSlice';
+import image from '../../../assets/bee.jpg';
 
 type FormValues = {
   email: string;
@@ -20,19 +20,15 @@ export const Register = (): JSX.Element => {
     formState: { errors },
   } = useForm<FormValues>();
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    push('/login');
     dispatch(registerRequest(data));
-    dispatch(registered());
+    push('/login');
   };
   return (
     <div className='register'>
-      <div
-        className='register-picture'
-        style={{ backgroundImage: `url('https://i.imgur.com/Esf8WO9.jpg')` }}
-      ></div>
-      <div className='registration-wrapper'>
+      <img className='register__picture' src={image} />
+      <div className='register__wrapper'>
         <h1>Register</h1>
-        <form className='form' onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <label>Email</label>
           <input
             type='email'
@@ -40,7 +36,7 @@ export const Register = (): JSX.Element => {
             {...register('email', { required: true })}
             id='email'
           />
-          {errors?.email && <p className='register-text'>{errors.email.message}</p>}
+          {errors?.email && <p className='warning-text'>{errors.email.message}</p>}
           <div>
             <label>Password</label>
             <input
@@ -53,7 +49,7 @@ export const Register = (): JSX.Element => {
               })}
               id='password'
             />
-            {errors?.password && <p className='register-text'>{errors.password.message}</p>}
+            {errors?.password && <p className='warning-text'>{errors.password.message}</p>}
           </div>
           <input type='submit' value='Register' />
         </form>

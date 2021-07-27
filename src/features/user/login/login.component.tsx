@@ -3,6 +3,7 @@ import './login.css';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { loginRequest } from '../../user/thunks';
+import image from '../../../assets/login photo.jpg';
 
 type FormValues = {
   email: string;
@@ -79,10 +80,10 @@ export const Login = (): JSX.Element => {
 
   return (
     <div className='login'>
-      <img className='login__picture' src={'https://i.imgur.com/0c2Zp0s.jpg'} />
+      <img className='login__picture' src={image} />
       <div className='login__wrapper'>
         <h1>Login</h1>
-        <form className='form' onSubmit={handleSubmit} method='POST'>
+        <form onSubmit={handleSubmit} method='POST'>
           <label>Email</label>
           <input type='email' name='email' placeholder='Email' id='email' onChange={handleChange} />
           <p className='warning-text'>{warning.emailWarning}</p>

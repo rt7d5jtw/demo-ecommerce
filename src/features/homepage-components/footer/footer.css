@@ -35,6 +35,7 @@ footer .row {
 #row-notice a {
   color: beige;
   margin: 0px 10px 0px 10px;
+  text-decoration: none;
 }
 
 footer .row a {

@@ -50,6 +50,7 @@
   z-index: 2;
 }
 
+.homefront__categories a { text-decoration: none; }
 
 .homefront__categories--fade {
   position: sticky;
