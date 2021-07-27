@@ -3,11 +3,10 @@ import { server } from '../mocks/server';
 import {
   addItemToCartDB,
   CART_URL,
-  checkIfCart,
-  clearCartState,
+  clearCartItems,
   createCart,
   fetchCart,
-  fetchCartState,
+  fetchCartItems,
   removeItemFromCartDB,
 } from './api';
 
@@ -24,6 +23,22 @@ describe('Cart API Unit tests', () => {
       expect(uuidRegex.test(result.id)).toEqual(true);
       expect(uuidRegex.test(result.userId)).toEqual(true);
     });
+
+    it('throws an error for nonexistant cart', async () => {
+      server.use(
+        rest.get(CART_URL + 'items', (_req, res, ctx) => {
+          return res(
+            ctx.status(401),
+            ctx.json({
+              statusCode: 401,
+              message: 'User has no cart',
+              error: 'Not Found',
+            })
+          );
+        })
+      );
+      expect(() => fetchCartItems()).rejects.toThrow('401');
+    });
   });
 
   describe('createCart', () => {
@@ -39,17 +54,9 @@ describe('Cart API Unit tests', () => {
     });
   });
 
-  describe('checkIfCart', () => {
-    it('checks if user has a cart, if not creates one otherwise returns null', async () => {
-      expect.assertions(1);
-      const result = await checkIfCart();
-      expect(result).toEqual(undefined);
-    });
-  });
-
-  describe('fetchCartState', () => {
+  describe('fetchCartItems', () => {
     it('returns cart items', async () => {
-      const result = await fetchCartState();
+      const result = await fetchCartItems();
       expect(result).toEqual([
         {
           productId: expect.any(Number),
@@ -66,22 +73,6 @@ describe('Cart API Unit tests', () => {
           quantity: expect.any(Number),
         },
       ]);
-    });
-
-    it('throws an error for nonexistant cart', async () => {
-      server.use(
-        rest.get(CART_URL + 'state', (_req, res, ctx) => {
-          return res(
-            ctx.status(404),
-            ctx.json({
-              statusCode: 404,
-              message: 'User has no cart',
-              error: 'Not Found',
-            })
-          );
-        })
-      );
-      expect(() => fetchCartState()).rejects.toThrow('404');
     });
   });
 
@@ -139,10 +130,10 @@ describe('Cart API Unit tests', () => {
     });
   });
 
-  describe('clearCartState', () => {
+  describe('clearCartItems', () => {
     it('removes all items from the cart and returns void', async () => {
       expect.assertions(2);
-      await expect(clearCartState()).resolves.not.toThrow();
+      await expect(clearCartItems()).resolves.not.toThrow();
     });
 
     it('throws an error for nonexistant cart', async () => {
@@ -158,7 +149,7 @@ describe('Cart API Unit tests', () => {
           );
         })
       );
-      expect(clearCartState()).rejects.toThrow('404');
+      expect(clearCartItems()).rejects.toThrow('404');
     });
   });
 });

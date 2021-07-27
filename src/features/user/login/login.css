@@ -1,4 +1,5 @@
 .login {
+  position: relative;
   height: 100vh;
   display: flex;
   justify-content: center;
@@ -6,94 +7,106 @@
   background: #87ceeb;
 }
 
-.login-wrapper {
-  background: #016064;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 60%;
-  width: 30%;
-}
+.login a { text-decoration: none; }
 
-.login-wrapper h1 {
-  font-size: 1.7em;
-  font-family: 'Roboto', sans-serif;
-  font-weight: bold;
-  position: absolute;
-  top: 10em;
-}
-
-.login-picture {
-  background-size: cover;
-  background-position: center;
+.login__picture {
+  position: relative;
   height: 60%;
   width: 35%;
 }
 
-.login-wrapper h1 {
+.login__wrapper {
+  position: relative;
+  background: #016064;
+  display: grid;
+  place-items: center center;
+  height: 60%;
+  width: 30%;
+}
+
+.login__wrapper h1 {
+  position: absolute;
+  left: 50px;
+  top: 80px;
+  font-size: 2em;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
   color: white;
 }
 
-.login-wrapper input {
+.login__wrapper form {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  padding: 50px;
 }
 
-.register-link {
+.login__wrapper form label {
+  line-height: 1;
+  color: white;
+  font-size: 1em;
+  font-weight: 300;
+}
+
+.login__wrapper form input {
+  font-size: 1em;
+  border-radius: 4px;
+  border: none;
+  padding: 10px 15px;
+  width: 75%;
+  margin-bottom: .5em;
+}
+
+.login__wrapper form input[type='submit'] {
   font-family: 'Roboto', sans-serif;
-  position: absolute;
-  bottom: 200px;
-  left: 67rem;
-  color: #c3b091;
-  font-size: 18px;
-}
-
-.register-link:hover {
-  color: #f5f5f5;
-}
-
-a {
-  text-decoration: none !important;
-}
-
-
-.form input[type='submit'] {
-  font-family: 'Roboto', sans-serif;
-  outline: 0;
-  border: 0;
+  font-size: 1em;
   background: #f5f5f5;
   color: #131313;
-  border: none;
-  margin-top: 40px;
+  outline: 0;
+  border: 0;
+  margin-top: 1em;
   padding: 15px;
-  width: 18rem;
-  font-size: 16px;
   letter-spacing: 1px;
-  -webkit-transition: color 1.5s;
-  -moz-transition: color 1.5s;
-  -ms-transition: color 1.5s;
-  -o-transition: color 1.5s;
-  transition: color 1.5s;
+  transition: all .5s;
   cursor: pointer;
 }
 
-.form input[type='submit']:hover {
+.login__wrapper form input[type='submit']:hover {
   background: #282828;
   color: #f5f5f5;
 }
 
-.form input[type='submit']:active {
+.login__wrapper form input[type='submit']:active {
   transition: 0.3s all;
   transform: translateY(3px);
   border: 1px solid transparent;
   opacity: 0.8;
 }
 
-.login-text {
+.warning-text {
   font-family: 'Roboto', sans-serif;
-  font-size: 18px;
+  font-size: 1em;
+  text-align: left;
   color: #fcae1e;
+  width: 75%;
+  padding: 3px 0px 3px 0px;
+  margin-left: 0;
+  margin-bottom: 5px;
 }
 
-.login-text::before {
-  display: inline;
-  content: '⚠ ';
+.register-link {
+  position: absolute;
+  left: 1em;
+  bottom: 1em;
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.1em;
+  color: #c3b091;
+  margin: 1em 0em 0em 0em;
+}
+
+.register-link:hover {
+  color: #f5f5f5;
 }

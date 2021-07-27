@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import { emailUpdated, passwordUpdated, userLogged } from '../alert/alertSlice';
-import { fetchState as fetchCartState } from '../cart/thunks';
+import { fetchItems } from '../cart/thunks';
 import { ValidationErrors } from '../promotion/promotionSlice';
 import { register, login, fetchRole, updatePassword, updateEmail, fetchAllUsers } from './api';
 import { EmailObj, IUserCredentials, PasswordObj, UserRole } from './userSlice';
@@ -26,7 +26,7 @@ export const loginRequest = createAsyncThunk(
   async (arg: IUserCredentials, { rejectWithValue, dispatch }) => {
     return login(arg)
       .then((res) => {
-        dispatch(fetchCartState());
+        dispatch(fetchItems());
         setTimeout(() => dispatch(userLogged()), 1000);
         setTimeout(() => dispatch(assignRole()), 1000);
         return res;

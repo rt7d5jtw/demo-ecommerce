@@ -1,4 +1,5 @@
 import { rest } from 'msw';
+import { server } from '../mocks/server';
 import {
   fetchAllUsers,
   fetchRole,
@@ -9,7 +10,6 @@ import {
   updateEmail,
   updatePassword,
 } from './api';
-import { server } from '../mocks/server';
 import { UserRole } from './userSlice';
 
 describe('User API Unit tests', () => {

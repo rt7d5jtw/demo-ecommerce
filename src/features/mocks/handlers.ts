@@ -381,7 +381,7 @@ export const handlers = [
     );
   }),
 
-  rest.get(CART_URL + 'state', (_req, res, ctx) => {
+  rest.get(CART_URL + 'items', (_req, res, ctx) => {
     return res(
       ctx.status(200),
       ctx.json([

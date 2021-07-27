@@ -3,7 +3,7 @@ import { AxiosError } from 'axios';
 import { ValidationErrors } from '../promotion/promotionSlice';
 import { fetchCartItems, addItemToCartDB, removeItemFromCartDB, clearCartItems } from './api';
 
-export const fetchState = createAsyncThunk('cart/fetch', async () => {
+export const fetchItems = createAsyncThunk('cart/fetch', async () => {
   return fetchCartItems();
 });
 
