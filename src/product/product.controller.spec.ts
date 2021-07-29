@@ -5,7 +5,16 @@ import { ProductService } from './product.service';
 export const productArr = [
   {
     id: 8,
-    categoryId: 'dcaa9f09-0dbe-4e81-af92-e15ee487beaa',
+    categories: [
+      {
+        id: '4b625d6c-2a13-4616-870e-9fbb235af59d',
+        cname: 'Dark Chocolate',
+      },
+      {
+        id: '273b6d03-46fa-49a7-bb47-ff141e814b0e',
+        cname: 'Chocolate truffles',
+      },
+    ],
     title: 'Dune',
     image: 'https://i.imgur.com/Hiw0N.jpg',
     price: 12,
@@ -16,7 +25,16 @@ export const productArr = [
   },
   {
     id: 18,
-    categoryId: 'dcaa9f09-0dbe-4e81-af92-e15ee487beaa',
+    categories: [
+      {
+        id: '4b625d6c-2a13-4616-870e-9fbb235af59d',
+        cname: 'Dark Chocolate',
+      },
+      {
+        id: '273b6d03-46fa-49a7-bb47-ff141e814b0e',
+        cname: 'Chocolate truffles',
+      },
+    ],
     title: 'Stranger',
     image: 'https://i.imgur.com/Hiw0N.jpg',
     price: 9.5,
@@ -27,7 +45,16 @@ export const productArr = [
   },
   {
     id: 10,
-    categoryId: 'a47ba957-a742-45de-8610-13ba3e0ba4a0',
+    categories: [
+      {
+        id: '4b625d6c-2a13-4616-870e-9fbb235af59d',
+        cname: 'Dark Chocolate',
+      },
+      {
+        id: '273b6d03-46fa-49a7-bb47-ff141e814b0e',
+        cname: 'Chocolate truffles',
+      },
+    ],
     title: 'Bear nap',
     image: 'https://i.imgur.com/CHFUX10.png',
     price: 420,
@@ -42,7 +69,16 @@ const mockProductService = () => ({
   fetch: jest.fn().mockResolvedValue(productArr),
   fetchById: jest.fn().mockResolvedValue({
     id: 10,
-    categoryId: 'a47ba957-a742-45de-8610-13ba3e0ba4a0',
+    categories: [
+      {
+        id: '4b625d6c-2a13-4616-870e-9fbb235af59d',
+        cname: 'Dark Chocolate',
+      },
+      {
+        id: '273b6d03-46fa-49a7-bb47-ff141e814b0e',
+        cname: 'Chocolate truffles',
+      },
+    ],
     title: 'Bear nap',
     image: 'https://i.imgur.com/CHFUX10.png',
     price: 420,
@@ -57,7 +93,16 @@ const mockProductService = () => ({
     price: 9.5,
     description: 'i like ice cream',
     status: 'IN_STOCK',
-    categoryId: 'a47ba957-a742-45de-8610-13ba3e0ba4a0',
+    categories: [
+      {
+        id: '4b625d6c-2a13-4616-870e-9fbb235af59d',
+        cname: 'Dark Chocolate',
+      },
+      {
+        id: '273b6d03-46fa-49a7-bb47-ff141e814b0e',
+        cname: 'Chocolate truffles',
+      },
+    ],
     id: 33,
     createdAt: '2021-07-10',
     updatedAt: '2021-07-10',
@@ -65,7 +110,16 @@ const mockProductService = () => ({
   update: jest.fn((id, dto) => {
     const obj = {
       id,
-      categoryId: 'a47ba957-a742-45de-8610-13ba3e0ba4a0',
+      categories: [
+        {
+          id: '4b625d6c-2a13-4616-870e-9fbb235af59d',
+          cname: 'Dark Chocolate',
+        },
+        {
+          id: '273b6d03-46fa-49a7-bb47-ff141e814b0e',
+          cname: 'Chocolate truffles',
+        },
+      ],
       title: 'Bear nap',
       image: 'https://i.imgur.com/CHFUX10.png',
       price: 420,
@@ -107,7 +161,7 @@ describe('ProductController', () => {
       await expect(productController.fetch(undefined)).resolves.toEqual([
         {
           id: expect.any(Number),
-          categoryId: expect.any(String),
+          categories: expect.any(Array),
           title: expect.any(String),
           image: expect.any(String),
           price: expect.any(Number),
@@ -118,7 +172,7 @@ describe('ProductController', () => {
         },
         {
           id: expect.any(Number),
-          categoryId: expect.any(String),
+          categories: expect.any(Array),
           title: expect.any(String),
           image: expect.any(String),
           price: expect.any(Number),
@@ -129,7 +183,7 @@ describe('ProductController', () => {
         },
         {
           id: expect.any(Number),
-          categoryId: expect.any(String),
+          categories: expect.any(Array),
           title: expect.any(String),
           image: expect.any(String),
           price: expect.any(Number),
@@ -148,7 +202,7 @@ describe('ProductController', () => {
       expect.assertions(2);
       await expect(productController.fetchById(10)).resolves.toEqual({
         id: expect.any(Number),
-        categoryId: expect.any(String),
+        categories: expect.any(Array),
         title: expect.any(String),
         image: expect.any(String),
         price: expect.any(Number),
@@ -168,12 +222,15 @@ describe('ProductController', () => {
         image: 'https://i.imgur.com/Hiw0N.jpg',
         price: 9.5,
         description: 'i like ice cream',
-        category: 'a47ba957-a742-45de-8610-13ba3e0ba4a0',
+        categoryIds: [
+          { id: 'a47ba957-a742-45de-8610-13ba3e0ba4a0', cname: 'bestsellers' },
+          { id: 'dcaa9f09-0dbe-4e81-af92-e15ee487beaa', cname: 'Milk Chocolate' },
+        ],
       };
       expect.assertions(2);
       await expect(productController.create(dto)).resolves.toEqual({
         id: expect.any(Number),
-        categoryId: expect.any(String),
+        categories: expect.any(Array),
         title: expect.any(String),
         image: expect.any(String),
         price: expect.any(Number),
@@ -190,7 +247,7 @@ describe('ProductController', () => {
     it('updates existing product by calling productService', async () => {
       await expect(productController.update(10, { price: 1.25 })).resolves.toEqual({
         id: 10,
-        categoryId: expect.any(String),
+        categories: expect.any(Array),
         title: expect.any(String),
         image: expect.any(String),
         price: 1.25,

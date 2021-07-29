@@ -34,7 +34,7 @@ export class CartController {
   /* fetches cart items with corresponding product title,
    * image and productId and without cartId, Id, and date */
   @Get('/items')
-  fetchCartState(@GetUser() user: User): Promise<CartItemInfo> {
+  fetchCartItems(@GetUser() user: User): Promise<CartItemInfo> {
     return this.cartService.fetchCartItems(user);
   }
 

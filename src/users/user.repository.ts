@@ -1,8 +1,12 @@
-import { EntityRepository, Repository } from 'typeorm';
+import { EntityRepository, getRepository, Repository } from 'typeorm';
 import { User, UserRole } from './user.entity';
 import { CreateUserDto, ChangePasswordDto, ChangeEmailDto } from './dto/user.dto';
 import { SearchUserDto } from './dto/search-user.dto';
-import { InternalServerErrorException, ConflictException } from '@nestjs/common';
+import {
+  InternalServerErrorException,
+  ConflictException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { LoginDto } from '../auth/dto/auth.dto';
 
@@ -32,7 +36,6 @@ export class UserRepository extends Repository<User> {
     user.password = await this.hashPassword(password, user.salt);
     user.email = email;
     user.role = UserRole.USER;
-
     try {
       await user.save();
     } catch (error) {
@@ -64,7 +67,7 @@ export class UserRepository extends Repository<User> {
       user.password = await this.hashPassword(newPassword, user.salt);
       await user.save();
     } else {
-      throw new ConflictException('Validation failed');
+      throw new UnauthorizedException(`Invalid credentials`);
     }
     return user.password;
   }

@@ -6,7 +6,6 @@ import { CartService } from './cart.service';
 const mockCartService = () => ({
   fetchCart: jest.fn(),
   fetchCartItems: jest.fn(),
-  fetchCartState: jest.fn(),
   fetchProductPrice: jest.fn(),
   createCart: jest.fn(),
   addToCart: jest.fn(),
@@ -79,9 +78,9 @@ describe('CartController', () => {
     });
   });
 
-  describe('fetchCartState', () => {
-    it('fetches cart items with title and image for the user by calling cartService.fetchCartState', async () => {
-      cartService.fetchCartState.mockResolvedValue([
+  describe('fetchCartItems', () => {
+    it('fetches cart items with title and image for the user by calling cartService.fetchCartItems', async () => {
+      cartService.fetchCartItems.mockResolvedValue([
         {
           productId: 28,
           title: 'chocolate',
@@ -90,7 +89,7 @@ describe('CartController', () => {
           quantity: 1,
         },
       ]);
-      await expect(cartController.fetchCartState(mockUser)).resolves.toEqual([
+      await expect(cartController.fetchCartItems(mockUser)).resolves.toEqual([
         {
           productId: expect.any(Number),
           title: expect.any(String),
@@ -99,7 +98,7 @@ describe('CartController', () => {
           quantity: expect.any(Number),
         },
       ]);
-      expect(cartService.fetchCartState).toHaveBeenCalledWith(mockUser);
+      expect(cartService.fetchCartItems).toHaveBeenCalledWith(mockUser);
     });
   });
 

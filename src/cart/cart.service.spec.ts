@@ -20,6 +20,7 @@ const mockCartRepository: () => MockType<Repository<any>> = jest.fn(() => ({
     id: '2828bfce-29a0-4953-b539-f6d61a400321',
     CreatedAt: '2021-07-14',
   }),
+  save: jest.fn().mockResolvedValue('yeet'),
 }));
 
 describe('CartService', () => {
@@ -78,10 +79,11 @@ describe('CartService', () => {
           CreatedAt: '2021-07-14',
         },
       ];
-      const cartItemRepo = jest.spyOn(typeorm, 'getRepository').mockImplementation(() => {
+      const cartItemRepo = jest.spyOn(typeorm, 'getManager').mockImplementation(() => {
         const original = jest.requireActual('typeorm');
         return {
           ...original,
+          query: jest.fn().mockReturnValue(result),
           createQueryBuilder: jest.fn().mockImplementation(() => ({
             select: jest.fn().mockReturnThis() as unknown,
             where: jest.fn().mockReturnThis() as unknown,
@@ -112,11 +114,10 @@ describe('CartService', () => {
         },
       ]);
       expect(cartRepository.findOne).toHaveBeenCalledWith({ where: { userId: mockUser.id } });
-      expect(cartItemRepo).toHaveBeenCalledWith(CartItem);
     });
   });
 
-  describe('fetchCartState', () => {
+  describe('fetchCartItems', () => {
     it('returns cart items with additional info by calling cartRepository.find and getManager.query', async () => {
       const cartItems = [
         {
@@ -141,7 +142,7 @@ describe('CartService', () => {
           query: jest.fn().mockResolvedValue(cartItems) as unknown,
         };
       });
-      await expect(cartService.fetchCartState(mockUser)).resolves.toEqual([
+      await expect(cartService.fetchCartItems(mockUser)).resolves.toEqual([
         {
           productId: expect.any(Number),
           title: expect.any(String),

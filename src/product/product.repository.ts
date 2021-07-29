@@ -1,5 +1,5 @@
 import { BadRequestException, Logger } from '@nestjs/common';
-import { Category } from 'src/category/category.entity';
+import { Category } from '../category/category.entity';
 import { EntityRepository, getRepository, Repository } from 'typeorm';
 import { CreateProductDto } from './dto/product.dto';
 import { SearchProductDto } from './dto/search-product.dto';
@@ -52,7 +52,7 @@ export class ProductRepository extends Repository<Product> {
     product.categories = categories;
 
     try {
-      await this.save(product);
+      await product.save();
     } catch (error) {
       this.logger.error(`Failed to create a product`, error.stack);
     }

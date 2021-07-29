@@ -6,7 +6,7 @@ import { SearchProductDto } from './dto/search-product.dto';
 import { ProductRepository } from './product.repository';
 import { Logger } from '@nestjs/common';
 import { getRepository } from 'typeorm';
-import { Category } from 'src/category/category.entity';
+import { Category } from '../category/category.entity';
 
 @Injectable()
 export class ProductService {

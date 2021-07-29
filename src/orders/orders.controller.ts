@@ -31,7 +31,7 @@ import { InvoiceInterceptor } from './invoice.interceptor';
 import { Readable } from 'stream';
 import { UserRoleValidationPipe } from 'src/users/pipes/user-role-validation.pipe';
 import { RolesAllowed } from 'src/auth/roles.decorator';
-import { RolesGuard } from 'src/auth/roles.guard';
+import { RolesGuard } from '../auth/roles.guard';
 
 @UseGuards(AuthGuard('jwt'))
 @Controller('orders')

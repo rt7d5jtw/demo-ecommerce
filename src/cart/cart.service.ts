@@ -16,11 +16,9 @@ export class CartService {
   ) {}
 
   async fetchCart(user: User): Promise<Cart> {
-    const userId = user['id'];
-    const cartId = await this.cartRepository.findOne({
-      where: { userId: userId },
+    return this.cartRepository.findOne({
+      where: { userId: user['id'] },
     });
-    return cartId;
   }
 
   /* helper function */
