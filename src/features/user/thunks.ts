@@ -1,6 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import { emailUpdated, passwordUpdated, userLogged, registered } from '../alert/alertSlice';
+import { fetchCart } from '../cart/api';
 import { fetchItems } from '../cart/thunks';
 import { ValidationErrors } from '../promotion/promotionSlice';
 import { register, login, fetchRole, updatePassword, updateEmail, fetchAllUsers } from './api';
@@ -29,9 +30,10 @@ export const loginRequest = createAsyncThunk(
   async (arg: IUserCredentials, { rejectWithValue, dispatch }) => {
     return login(arg)
       .then((res) => {
-        dispatch(fetchItems());
+        fetchCart();
         setTimeout(() => dispatch(userLogged()), 1000);
         setTimeout(() => dispatch(assignRole()), 1000);
+        setTimeout(() => dispatch(fetchItems()), 1500);
         return res;
       })
       .catch((err) => {

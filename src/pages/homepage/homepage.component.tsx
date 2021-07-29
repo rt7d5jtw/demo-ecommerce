@@ -10,7 +10,7 @@ import Main from '../../features/homepage-components/main/main.component';
 import { checkIfLoading, selectPromotionItems } from '../../features/promotion/selectors';
 import { fetch as fetchPromotions } from '../../features/promotion/thunks';
 import { Route, Switch, useRouteMatch } from 'react-router';
-import { selectLoggedIn } from '../../features/user/selectors';
+import { selectLoggedIn, selectRole } from '../../features/user/selectors';
 import { logout } from '../../features/user/thunks';
 import { selectItems } from '../../features/product/selectors';
 import { selectCategories } from '../../features/category/categorySlice';
@@ -32,9 +32,11 @@ function Homepage(): JSX.Element {
   /* selectors */
   const isLoading = useSelector(checkIfLoading);
   const loggedIn = useSelector(selectLoggedIn);
+  const role = useSelector(selectRole);
   const categories = useSelector(selectCategories);
   const products = useSelector(selectItems);
   const promotions = useSelector(selectPromotionItems);
+  console.log(role);
 
   categories.length === 0
     ? dispatch(fetchCategories())

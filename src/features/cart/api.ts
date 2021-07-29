@@ -9,9 +9,8 @@ export async function fetchCart(): Promise<ICart> {
   return axios
     .get(CART_URL, { headers: authHeader() })
     .then((res) => {
-      if (res.data.length === 0) {
-        setTimeout(() => createCart(), 500);
-        console.info('User cart created');
+      if (res.data === '' && res.headers['content-length'] === '0') {
+        createCart();
       }
       return res.data;
     })

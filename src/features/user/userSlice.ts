@@ -1,4 +1,5 @@
 import { createAction, createSlice } from '@reduxjs/toolkit';
+import { AccessTokenDTO } from './api';
 import {
   registerRequest,
   loginRequest,

@@ -7,14 +7,12 @@ import { selectOrders } from '../../../../order/selectors';
 export const MyOrders = (): JSX.Element => {
   const orders = useSelector(selectOrders);
   return (
-    <div className='profile-overview'>
-      <div className='profile-myorders-wrapper'>
-        <h1 id='order-title'>Browse your orders</h1>
-        <div className='order-wrapper'>
-          {orders.map(({ id, date, ...props }) => (
-            <OrderCard key={id} id={id} date={date} {...props} />
-          ))}
-        </div>
+    <div className='profile-myorders'>
+      <h1>Browse your orders</h1>
+      <div className='profile-myorders__order-wrapper'>
+        {orders.map(({ id, date, ...props }) => (
+          <OrderCard key={id} id={id} date={date} {...props} />
+        ))}
       </div>
     </div>
   );

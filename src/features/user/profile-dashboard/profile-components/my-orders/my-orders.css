@@ -1,4 +1,4 @@
-.profile-myorders-wrapper {
+.profile-myorders {
   position: absolute;
   height: 75%;
   width: 55%;
@@ -7,7 +7,7 @@
   background: white;
 }
 
-.profile-myorders-wrapper h1 {
+.profile-myorders h1 {
   text-align: center;
   font-family: 'Roboto', sans-serif;
   font-weight: 380;
@@ -16,7 +16,7 @@
   margin: 1em;
 }
 
-.order-wrapper {
+.profile-myorders__order-wrapper {
   position: absolute;
   left: 7%;
   top: 7%;

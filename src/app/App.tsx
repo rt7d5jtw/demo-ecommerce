@@ -9,9 +9,9 @@ import Homepage from '../pages/homepage/homepage.component';
 import Classics from '../pages/classics/classics.component';
 import AdminPage from '../pages/admin-page/admin-page.component';
 import AdminCreatorPage from '../pages/admin-creator-page/admin-creator-page.component';
-import ProfilePage from '../pages/profile-page/profile-page.component';
 import { Register } from '../features/user/register/register.component';
 import { Login } from '../features/user/login/login.component';
+import ProfileDashboard from '../features/user/profile-dashboard/profile-dashboard.component';
 
 const App = (): JSX.Element => {
   const currentUser = useSelector(selectCurrentUser);
@@ -24,7 +24,7 @@ const App = (): JSX.Element => {
           path='/register'
           component={() => (currentUser ? <Redirect to='/' /> : <Register />)}
         />
-        <Route path='/profile' component={ProfilePage} />
+        <Route path='/profile' component={ProfileDashboard} />
         <Route path='/admin-creator' component={AdminCreatorPage} />
         <Route path='/admin-page' component={AdminPage} />
         <Route path='/classics' component={Classics} />

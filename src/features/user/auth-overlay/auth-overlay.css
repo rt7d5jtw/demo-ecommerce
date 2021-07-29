@@ -1,0 +1,43 @@
+.auth-overlay {
+  position: relative;
+  display: flex;
+  width: 81.25rem;
+  height: 40.625rem;
+}
+
+.auth-overlay img {
+  position: relative;
+  object-fit: cover;
+  width: 40.625rem;
+  height: 40.625rem;
+}
+
+.auth-overlay form {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: #55423d;
+  flex-grow: 1;
+}
+
+.auth-overlay .register-link {
+  font-family: 'Montserrat';
+  position: absolute;
+  left: 8em;
+  bottom: 2em;
+  font-size: 1rem;
+  padding: .5rem;
+  color: white;
+  border-radius: 8px;
+}
+
+.auth-overlay .register-link:hover {
+  color: skyblue;
+}
+
+.auth-overlay .register-link .register-link__mask {
+  padding: .5rem;
+  border-radius: 1rem;
+  background: #55423d;
+}
