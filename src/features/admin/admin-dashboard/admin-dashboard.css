@@ -1,4 +1,4 @@
-.admin-information {
+.admin-dashboard {
   background: #f0ecec;
   width: 100%;
   height: 100vh;
@@ -19,7 +19,12 @@
     'admin-nav admin-main admin-main';
 }
 
-.admin-header {
+
+.admin-dashboard a {
+  text-decoration: none;
+}
+
+.admin-dashboard__header {
   display: grid;
   grid-area: admin-header;
   background: #f0ecec;
@@ -29,7 +34,7 @@
   border: 1px solid black;
 }
 
-.admin-header h1 {
+.admin-dashboard__header h1 {
   font-family: 'Lato', sans-serif;
   margin-left: 13rem;
   display: grid;
@@ -39,7 +44,7 @@
   font-weight: 350;
 }
 
-.store-name {
+.admin-dashboard__header__store-name {
   cursor: pointer;
   -webkit-transition: color 1s;
   -moz-transition: color 1s;
@@ -48,18 +53,18 @@
   transition: color 1s;
 }
 
-.store-name:hover {
+.admin-dashboard__header__store-name:hover {
   color: #ffab00;
 }
 
-.admin-nav {
+.admin-dashboard__nav {
   display: grid;
   grid-area: admin-nav;
   background: #f0ecec;
   place-items: center center;
 }
 
-.admin-nav h1 {
+.admin-dashboard__nav h1 {
   display: grid;
   place-items: center center;
   color: white;
@@ -74,35 +79,33 @@
   transition: color 1.5s;
 }
 
-.admin-nav h1:hover {
+.admin-dashboard__nav h1:hover {
   color: black;
   background: white;
 }
 
-.nav-element {
+.admin-dashboard__nav__wrapper a {
   font-family: 'Lato', sans-serif;
   font-size: 2em;
   display: grid;
   place-items: center center;
+  background: red;
   color: white;
   background: #181818;
   width: 21rem;
   height: 5rem;
   margin-bottom: 1em;
   cursor: pointer;
-  -webkit-transition: color 1.5s;
-  -moz-transition: color 1.5s;
-  -ms-transition: color 1.5s;
-  -o-transition: color 1.5s;
   transition: color 1.5s;
+  border: 5px solid red;
 }
 
-.nav-element:hover {
+.admin-dashboard__nav__wrapper a:hover {
   color: black;
   background: white;
 }
 
-.admin-nav-wrapper {
+.admin-dashboard__nav__wrapper {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -117,48 +120,6 @@
   display: grid;
   grid-area: admin-main;
   background: #f0ecec;
-}
-
-.admin-image {
-  display: flex;
-  background-size: cover;
-  background-position: center;
-  height: 100%;
-  width: 100%;
-  justify-content: center;
-}
-
-.admin-image h1 {
-  font-family: 'Roboto', sans-serif;
-  display: grid;
-  color: #fff;
-  font-size: 32px;
-  font-weight: 300;
-}
-
-.text-overlay {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: #131313;
-  height: 10%;
-  width: 100%;
-}
-
-.admin-overview {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.admin-overview-wrapper {
-  height: 85%;
-  width: 75%;
-  background: white;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
 }
 
 .profile-admin {

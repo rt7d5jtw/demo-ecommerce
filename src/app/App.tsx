@@ -7,15 +7,14 @@ import { selectCurrentUser } from '../features/user/selectors';
 // pages
 import Homepage from '../pages/homepage/homepage.component';
 import Classics from '../pages/classics/classics.component';
-import AdminPage from '../pages/admin-page/admin-page.component';
 import AdminCreatorPage from '../pages/admin-creator-page/admin-creator-page.component';
 import { Register } from '../features/user/register/register.component';
 import { Login } from '../features/user/login/login.component';
 import ProfileDashboard from '../features/user/profile-dashboard/profile-dashboard.component';
+import AdminDashboard from '../features/admin/admin-dashboard/admin-dashboard.component';
 
 const App = (): JSX.Element => {
   const currentUser = useSelector(selectCurrentUser);
-  const { path } = useRouteMatch();
   return (
     <>
       <Switch>
@@ -26,7 +25,7 @@ const App = (): JSX.Element => {
         />
         <Route path='/profile' component={ProfileDashboard} />
         <Route path='/admin-creator' component={AdminCreatorPage} />
-        <Route path='/admin-page' component={AdminPage} />
+        <Route path='/admin-page' component={AdminDashboard} />
         <Route path='/classics' component={Classics} />
         <Route path='/' component={Homepage} />
       </Switch>

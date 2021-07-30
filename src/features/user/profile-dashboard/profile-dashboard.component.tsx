@@ -16,15 +16,9 @@ function ProfileDashboard(): JSX.Element {
       </div>
       <div className='profile-nav'>
         <div className='profile-nav-wrapper'>
-          <Link to={`${match.url}/my-orders`} className='nav-element'>
-            My Orders
-          </Link>
-          <Link to={`${match.url}/change-password`} className='nav-element'>
-            Change Password
-          </Link>
-          <Link to={`${match.url}/change-email`} className='nav-element'>
-            Change Email
-          </Link>
+          <Link to={`${match.url}/my-orders`}>My Orders</Link>
+          <Link to={`${match.url}/change-password`}>Change Password</Link>
+          <Link to={`${match.url}/change-email`}>Change Email</Link>
         </div>
       </div>
       <div className='profile-main'>
