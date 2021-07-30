@@ -3,29 +3,34 @@ export function generateInvoiceInformation(doc, invoice) {
 
   doc.image('./images/logo.png', 200, 45, { width: 200 });
 
-  doc.fontSize(20).text('Invoice', 50, 160).text('Customer', 295, 160);
+  doc.fontSize(14).text('Invoice', 100, 160).text('Customer', 350, 160);
 
   generateHr(doc, 185);
 
   const customerInfoHeight = 200;
 
+  /* Order Information Table
+   *
+   * First value is the title of the row e.g. Order ID and the value
+   * under it invoice.invoice_nr is the value beside it */
+
   doc
-    .fontSize(10)
-    .text('Order ID:', 50, customerInfoHeight)
+    .fontSize(9)
+    .text('Order ID:', 100, customerInfoHeight)
     .font('Helvetica')
-    .text(invoice.invoice_nr, 100, customerInfoHeight)
-    .text('Order Date:', 50, customerInfoHeight + 15)
-    .text(formatDate(new Date()), 120, customerInfoHeight + 15)
-    .text('Total:', 50, customerInfoHeight + 30)
-    .text(formatCurrency(invoice.subtotal + invoice.delivery), 120, customerInfoHeight + 30)
+    .text(invoice.invoice_nr, 140, customerInfoHeight)
+    .text('Order Date:', 100, customerInfoHeight + 15)
+    .text(formatDate(new Date()), 150, customerInfoHeight + 15)
+    .text('Total:', 100, customerInfoHeight + 30)
+    .text(formatCurrency(invoice.subtotal + invoice.delivery), 125, customerInfoHeight + 30)
 
     .font('Helvetica')
-    .text('Email:', 300, customerInfoHeight)
-    .text(invoice.shipping.email, 400, customerInfoHeight)
-    .text('Shipping Address:', 300, customerInfoHeight + 15)
-    .text(invoice.shipping.address, 400, customerInfoHeight + 15)
-    .text('Country:', 300, customerInfoHeight + 30)
-    .text(invoice.shipping.city + ', ' + invoice.shipping.country, 400, customerInfoHeight + 30);
+    .text('Email:', 350, customerInfoHeight)
+    .text(invoice.shipping.email, 380, customerInfoHeight)
+    .text('Shipping Address:', 350, customerInfoHeight + 15)
+    .text(invoice.shipping.address, 430, customerInfoHeight + 15)
+    .text('Country:', 350, customerInfoHeight + 30)
+    .text(invoice.shipping.city + ', ' + invoice.shipping.country, 390, customerInfoHeight + 30);
 
   generateHr(doc, 252);
 }
@@ -35,16 +40,7 @@ export function generateInvoiceTable(doc, invoice) {
   const invoiceTableHeight = 330;
 
   doc.font('Helvetica-Bold');
-  generateTable(
-    doc,
-    invoiceTableHeight,
-    'Quantity',
-    'Description',
-    'Product ID',
-    'Price',
-    'Item',
-    'Amount'
-  );
+  generateTable(doc, invoiceTableHeight, 'Quantity', 'Product ID', 'Price', 'Item', 'Amount');
   generateHr(doc, invoiceTableHeight + 20);
   doc.font('Helvetica');
 
@@ -55,7 +51,6 @@ export function generateInvoiceTable(doc, invoice) {
       doc,
       position,
       item.quantity,
-      item.description,
       item.productId,
       formatCurrency(item.amount * item.quantity),
       item.item,
@@ -65,67 +60,62 @@ export function generateInvoiceTable(doc, invoice) {
     generateHr(doc, position + 20);
   }
 
-  /* Subtotal, Delivery and Total */
+  /* Subtotal, Delivery and Total
+   *
+   * totalPosition accounts for height,
+   * Horizontal position is based on which
+   * argument the string occupies, because
+   * it aligns with the item property */
 
   const subtotalPosition = invoiceTableHeight + (i + 1) * 35;
-  generateTable(
-    doc,
-    subtotalPosition,
-    '',
-    '',
-    '',
-    '',
-    'Subtotal',
-    formatCurrency(invoice.subtotal)
-  );
+  generateTable(doc, subtotalPosition, 'Subtotal', '', '', '', formatCurrency(invoice.subtotal));
 
   const deliveryPosition = subtotalPosition + 20;
-  generateTable(
-    doc,
-    deliveryPosition,
-    '',
-    '',
-    '',
-    '',
-    'Delivery',
-    formatCurrency(invoice.delivery)
-  );
+  generateTable(doc, deliveryPosition, 'Delivery', '', '', '', formatCurrency(invoice.delivery));
 
   const totalPosition = deliveryPosition + 25;
   doc.font('Helvetica-Bold');
   generateTable(
     doc,
     totalPosition,
-    '',
-    '',
-    '',
-    '',
     'Total',
+    '',
+    '',
+    '',
     formatCurrency(invoice.subtotal + invoice.delivery)
   );
   doc.font('Helvetica');
 
-  /* Footer */
+  /* Thank you message */
 
-  doc.fontSize(15).text('Thank you for your business', 50, 580, { align: 'center', width: 500 });
+  doc.fontSize(14).text(`Thank you for your purchase`, 50, 280, { align: 'center', width: 500 });
 }
 
-function generateTable(doc, y, item, description, productId, price, quantity, amount) {
+/* Product table */
+
+function generateTable(
+  doc,
+  y: number,
+  item: string,
+  productId: string,
+  price: string,
+  quantity: string,
+  amount: string
+) {
   doc
-    .fontSize(10)
-    .text(item, 50, y)
-    .text(description, 125, y)
-    .text(productId, 265, y)
-    .text(price, 280, y, { width: 90, align: 'right' })
-    .text(quantity, 370, y, { width: 90, align: 'right' })
-    .text(amount, 0, y, { align: 'right' });
+    .fontSize(9)
+    .text(quantity, 80, y, { width: 90, align: 'center' })
+    .text(productId, 160, y, { width: 90, align: 'center' })
+    .text(price, 240, y, { width: 90, align: 'center' })
+    .text(item, 320, y, { width: 90, align: 'center' })
+    .text(amount, 400, y, { width: 90, align: 'center' });
 }
 
-function generateHr(doc, y) {
+function generateHr(doc, y: number) {
   doc.strokeColor('#a76f4d').lineWidth(1).moveTo(50, y).lineTo(550, y).stroke();
 }
 
-function formatCurrency(cents) {
+function formatCurrency(cents: number) {
   return '$' + cents.toFixed(2);
 }
 

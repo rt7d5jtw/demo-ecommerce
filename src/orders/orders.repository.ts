@@ -36,8 +36,7 @@ export class OrdersRepository extends Repository<Order> {
     /* gets order items with product information for the invoice */
     const manager = getManager();
     const orderItems = await manager.query(`
-    SELECT "products"."title" AS "item", "products"."description",
-      "products"."id" as "productId", "order-item"."quantity", "products"."price" AS "amount"
+    SELECT "products"."title" AS "item", "products"."id" as "productId", "order-item"."quantity", "products"."price" AS "amount"
     FROM "orders"
     INNER JOIN "order-item" 
       ON "order-item"."orderId" = "orders"."id"
