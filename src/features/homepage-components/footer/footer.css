@@ -19,6 +19,7 @@ footer .row {
   color: #131313;
   font-size: 1em;
   text-align: center;
+  z-index: 2;
 }
 
 .row {

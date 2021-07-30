@@ -1,32 +1,27 @@
 .profile-myorders {
-  position: absolute;
-  height: 75%;
-  width: 55%;
-  max-height: 85%;
-  max-width: 75%;
+  position: relative;
+  height: 85%;
+  width: 75%;
   background: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-.profile-myorders h1 {
+#profile-myorders__header {
+  position: absolute;
+  top: .3em;
   text-align: center;
   font-family: 'Roboto', sans-serif;
   font-weight: 380;
-  font-size: 1.2em;
+  font-size: 2em;
   color: #131313;
-  margin: 1em;
 }
 
 .profile-myorders__order-wrapper {
-  position: absolute;
-  left: 7%;
-  top: 7%;
+  position: relative;
   border: 1px solid black;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  max-width: 85%;
-  max-height: 85%;
   width: 85%;
   height: 85%;
 }

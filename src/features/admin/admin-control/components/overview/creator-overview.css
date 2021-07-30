@@ -15,13 +15,14 @@
 
 #creator-welcome {
   position: absolute;
-  top: 6em;
-  font-size: 1.9em;
-  color: white;
+  top: 5em;
+  font-size: 2.9em;
+  color: #fef6e4;
 }
 
 #creator-text {
   position: absolute;
-  color: white;
-  top: 15.5em;
+  color: #fef6e4;
+  top: 10.5em;
+  font-size: 2em;
 }

@@ -2,8 +2,8 @@ import * as React from 'react';
 import './category-delete.css';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetch, remove } from '../../../features/category/thunks';
-import { selectCategories } from '../../../features/category/categorySlice';
+import { fetch, remove } from '../../../../../features/category/thunks';
+import { selectCategories } from '../../../../../features/category/categorySlice';
 import { useForm, SubmitHandler } from 'react-hook-form';
 
 type FormValues = {

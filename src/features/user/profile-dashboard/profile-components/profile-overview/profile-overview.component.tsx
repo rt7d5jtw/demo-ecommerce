@@ -5,13 +5,8 @@ import image from '../../../../../assets/hot-cofe.jpg';
 export const ProfileOverview = (): JSX.Element => {
   return (
     <div className='profile-overview'>
-      <div className='profile-overview__wrapper'>
-        <div
-          className='profile-overview__wrapper__image'
-          style={{ backgroundImage: `url(${image})` }}
-        >
-          <h1 className='profile-overview__wrapper__welcome-text'>Welcome to your profile</h1>
-        </div>
+      <div className='profile-overview__image' style={{ backgroundImage: `url(${image})` }}>
+        <h1 className='profile-overview__welcome-text'>Welcome to your profile</h1>
       </div>
     </div>
   );

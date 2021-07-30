@@ -3,9 +3,9 @@ import './products-edit.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { fetch as fetchProducts, update } from '../../../features/product/thunks';
-import { selectItems } from '../../../features/product/selectors';
-import { Product } from '../../../features/product/productSlice';
+import { fetch as fetchProducts, update } from '../../../../../features/product/thunks';
+import { selectItems } from '../../../../../features/product/selectors';
+import { IProduct } from '../../../../../features/product/productSlice';
 
 type FormValues = {
   title: string;
@@ -45,7 +45,7 @@ function ProductsEdit(): JSX.Element {
           <input type='text' placeholder='Product author' {...register('author')} />
           <label>Product category</label>
           <select {...register('id')} form='create-product' name='id' id='product-categories'>
-            {products.map(({ title, id }: Product) => (
+            {products.map(({ title, id }: IProduct) => (
               <option key={id} {...register} value={id}>
                 {title}
               </option>

@@ -17,6 +17,7 @@ import {
 } from '../../features/cart/api';
 import { authHeader, fetchRole } from '../../features/user/api';
 import axios from 'axios';
+import { AdminDropdown } from '../../features/admin/admin-dropdown/admin-dropdown.component';
 
 interface IClassics {
   message: string;
@@ -45,7 +46,9 @@ const Classics = () => {
       <button className='cl-btn' onClick={() => console.log(fetchCart())}>
         fetch cart
       </button>
-      <div className='something'></div>
+      <div className='something'>
+        <AdminDropdown />
+      </div>
     </div>
   );
 };

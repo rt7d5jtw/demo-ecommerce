@@ -1,8 +1,8 @@
 import * as React from 'react';
 import './category-edit.css';
 import { useEffect } from 'react';
-import { fetch, update } from '../../../features/category/thunks';
-import { selectCategories } from '../../../features/category/categorySlice';
+import { fetch, update } from '../../../../../features/category/thunks';
+import { selectCategories } from '../../../../../features/category/categorySlice';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useSelector, useDispatch } from 'react-redux';
 

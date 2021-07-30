@@ -2,11 +2,11 @@ import * as React from 'react';
 import './products-create.css';
 import { useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { selectCategories } from '../../../features/category/categorySlice';
-import { fetch as fetchCategories } from '../../../features/category/thunks';
-import { add as addProduct, fetch as fetchProducts } from '../../../features/product/thunks';
+import { selectCategories } from '../../../../../features/category/categorySlice';
+import { fetch as fetchCategories } from '../../../../../features/category/thunks';
+import { add as addProduct, fetch as fetchProducts } from '../../../../../features/product/thunks';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectItems } from '../../../features/product/selectors';
+import { selectItems } from '../../../../../features/product/selectors';
 
 type FormValues = {
   title: string;

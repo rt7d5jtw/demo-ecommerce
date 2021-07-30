@@ -1,9 +1,9 @@
 import * as React from 'react';
 import './delete-promotions.css';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { IPromotions } from '../../../features/promotion/promotionSlice';
-import { selectPromotionItems } from '../../../features/promotion/selectors';
-import { remove } from '../../../features/promotion/thunks';
+import { IPromotions } from '../../../../../features/promotion/promotionSlice';
+import { selectPromotionItems } from '../../../../../features/promotion/selectors';
+import { remove } from '../../../../../features/promotion/thunks';
 import { useDispatch, useSelector } from 'react-redux';
 
 type FormValues = {

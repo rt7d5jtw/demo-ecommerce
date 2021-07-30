@@ -1,5 +1,4 @@
 import * as React from 'react';
-import './change-password.css';
 import { useDispatch } from 'react-redux';
 import { changePassword } from '../../../thunks';
 import Alert from '../../../../alert/alert/alert.component';
@@ -13,7 +12,7 @@ const ChangePassword = (): JSX.Element => {
     dispatch(changePassword(handleForm(event.currentTarget.elements)));
   }
   return (
-    <div className='profile-overview'>
+    <div className='profile-changeform'>
       <Alert />
       <ProfileForm
         onSubmit={onSubmit}

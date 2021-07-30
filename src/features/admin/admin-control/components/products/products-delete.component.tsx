@@ -3,9 +3,9 @@ import './products-delete.css';
 import { useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectItems } from '../../../features/product/selectors';
-import { fetch, remove } from '../../../features/product/thunks';
-import { Product } from '../../../features/product/productSlice';
+import { selectItems } from '../../../../../features/product/selectors';
+import { fetch, remove } from '../../../../../features/product/thunks';
+import { IProduct } from '../../../../../features/product/productSlice';
 
 type FormValues = {
   id: number;
@@ -30,7 +30,7 @@ function ProductsDelete(): JSX.Element {
         <form onSubmit={handleSubmit(onSubmit)}>
           <h1>Delete a product</h1>
           <select {...register('id')} id='products'>
-            {products.map(({ id, title }: Product) => (
+            {products.map(({ id, title }: IProduct) => (
               <option value={id} key={id}>
                 {title}
               </option>

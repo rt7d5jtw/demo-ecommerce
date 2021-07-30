@@ -2,7 +2,7 @@ import * as React from 'react';
 import './category-create.css';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
-import { create } from '../../../features/category/thunks';
+import { create } from '../../../../../features/category/thunks';
 
 type FormValues = {
   cname: string;

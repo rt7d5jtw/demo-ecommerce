@@ -1,0 +1,26 @@
+.profile-changeform {
+  position: relative;
+  height: 85%;
+  width: 75%;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile-changeform form {
+  background-color: #f5f5f5;
+}
+
+.profile-changeform form label {
+  color: #131313
+}
+
+.profile-changeform form h1 {
+  color: black;
+}
+
+.profile-changeform form button[type=submit] {
+  border: 1px solid #131313;
+}

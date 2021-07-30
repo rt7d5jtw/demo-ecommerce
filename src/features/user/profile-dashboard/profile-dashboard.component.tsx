@@ -22,7 +22,9 @@ function ProfileDashboard(): JSX.Element {
         </div>
       </div>
       <div className='profile-main'>
-        <ConditionalPaging />
+        <div className='profile-main__wrapper'>
+          <ConditionalPaging />
+        </div>
       </div>
     </div>
   );

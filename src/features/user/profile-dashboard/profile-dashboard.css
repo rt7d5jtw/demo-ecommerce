@@ -43,6 +43,16 @@
   font-weight: 350;
 }
 
+.profile-header h1 {
+  font-family: 'Lato', sans-serif;
+  margin-left: 13rem;
+  display: grid;
+  color: #131313;
+  width: 75%;
+  font-size: 2em;
+  font-weight: 350;
+}
+
 .profile-nav {
   display: grid;
   grid-area: profile-nav;
@@ -92,12 +102,18 @@
 }
 
 .profile-nav-wrapper a:hover {
-  color: black;
-  background: white;
+  color: #a3a3a3;
 }
 
 .profile-main {
   display: grid;
   grid-area: profile-main;
   background: #f0ecec;
+}
+
+.profile-main__wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
 }

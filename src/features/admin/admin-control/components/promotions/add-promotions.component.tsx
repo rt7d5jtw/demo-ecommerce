@@ -1,8 +1,8 @@
 import * as React from 'react';
 import './add-promotions.css';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { create } from '../../../features/promotion/thunks';
 import { useDispatch } from 'react-redux';
+import { create } from '../../../../promotion/thunks';
 
 type FormValues = {
   title: string;

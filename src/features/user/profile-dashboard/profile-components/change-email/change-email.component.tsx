@@ -1,4 +1,5 @@
 import * as React from 'react';
+import './change-email.css';
 import { useDispatch } from 'react-redux';
 import { changeEmail } from '../../../thunks';
 import Alert from '../../../../alert/alert/alert.component';
@@ -13,7 +14,7 @@ const ChangeEmail = (): JSX.Element => {
     //dispatch(changeEmail(handleForm(event.currentTarget.elements)));
   }
   return (
-    <div className='profile-overview'>
+    <div className='profile-changeform'>
       <Alert />
       <ProfileForm
         onSubmit={onSubmit}

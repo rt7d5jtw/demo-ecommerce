@@ -89,7 +89,6 @@
   font-size: 2em;
   display: grid;
   place-items: center center;
-  background: red;
   color: white;
   background: #181818;
   width: 21rem;
@@ -97,7 +96,6 @@
   margin-bottom: 1em;
   cursor: pointer;
   transition: color 1.5s;
-  border: 5px solid red;
 }
 
 .admin-dashboard__nav__wrapper a:hover {

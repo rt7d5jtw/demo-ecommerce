@@ -1,12 +1,4 @@
 .profile-overview {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  border: 2px solid red;
-}
-
-.profile-overview__wrapper {
   position: relative;
   height: 85%;
   width: 75%;
@@ -17,7 +9,7 @@
   align-items: center;
 }
 
-.profile-overview__wrapper__image {
+.profile-overview__image {
   position: relative;
   display: flex;
   background-size: cover;
@@ -27,7 +19,7 @@
   justify-content: center;
 }
 
-.profile-overview__wrapper__welcome-text {
+.profile-overview__welcome-text {
   font-size: 2rem;
   position: absolute;
   top: 15px;
