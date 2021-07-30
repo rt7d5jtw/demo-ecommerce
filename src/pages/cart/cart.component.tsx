@@ -79,14 +79,17 @@ const Cart = (): JSX.Element => {
         <div className='cart__wrapper__header'>
           <h1>The Shopping Bag</h1>
         </div>
-        <div className='cart__wrapper__items'>
+        <div
+          style={cartItems.length > 4 ? { overflowY: 'scroll' } : {}}
+          className='cart__wrapper__items'
+        >
           <table>
             {cartItems.length !== 0 ? (
               <tbody>
                 {cartItems.map((cartItem: ICartItem) => (
                   <tr key={cartItem.productId}>
                     <td>
-                      <img src={cartItem.image} />
+                      <img src={require(`../../assets/${cartItem.image}`)} />
                     </td>
                     <td className='ctw-title'>{cartItem.title}</td>
                     <td className='ctw-qty'>

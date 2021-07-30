@@ -6,10 +6,10 @@ export const CheckoutItem = (cartItem: ICartItem): JSX.Element => {
   return (
     <div className='checkout-item'>
       <div className='checkout-item__right'>
-        <div
+        <img
           className='checkout-item__right__image'
-          style={{ backgroundImage: `url(${cartItem.image})` }}
-        ></div>
+          src={require(`../../assets/${cartItem.image}`)}
+        />
       </div>
       <div className='checkout-item__left'>
         <span className='checkout-item__left__title'>{cartItem.title}</span>

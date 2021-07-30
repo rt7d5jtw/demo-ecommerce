@@ -60,7 +60,7 @@ export const PurchaseConfirmed = (): JSX.Element => {
                 orderItems.map(({ productId, image, quantity, price }) => (
                   <tr key={productId}>
                     <td>
-                      <img src={image} />
+                      <img src={require(`../../assets/${image}`)} />
                     </td>
                     <td>{productId}</td>
                     <td>{quantity}</td>

@@ -20,14 +20,15 @@
   display: grid;
   place-items: center center;
   grid-area: 2 / 2 / 3 / 10;
-  background: #55423d;
+  background: #e9dec6;
   padding: .6em;
 }
 
 .cart__wrapper__header h1 {
+  font-family: 'Montserrat', sans-serif;
   font-size: 2em;
   font-weight: bold;
-  color: #fffffe;
+  color: #594a4e;
 }
 
 .ctw-title {
@@ -70,7 +71,7 @@
   place-items: auto center;
   grid-area: 3 / 2 / 10 / 7;
   background: #faeee7;
-  overflow-Y: scroll;
+  overflow-Y: hidden;
 }
 
 .cart__wrapper__items table {
@@ -101,7 +102,7 @@
   display: grid;
   place-items: start center;
   grid-area: 3 / 7 / 10 / 10;
-  background: #ffc0ad;
+  background: #e9dec6;
 }
 
 .cart__wrapper__right button {
