@@ -92,8 +92,8 @@ export class OrdersController {
   }
 
   @Get('/items/:id')
-  fetchOrderItems(@Param('id') id: string, @GetUser() user: User): Promise<OrderItem[]> {
-    return this.ordersService.fetchOrderItems(id, user);
+  fetchOrderItems(@Param('id') id: string): Promise<OrderItem[]> {
+    return this.ordersService.fetchOrderItems(id);
   }
 
   @Post()

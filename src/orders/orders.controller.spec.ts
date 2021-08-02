@@ -4,7 +4,7 @@ import { User } from '../users/user.entity';
 import { OrderStatus } from './order.entity';
 import { OrdersController } from './orders.controller';
 import { OrdersService } from './orders.service';
-import { Readable, Writable } from 'stream';
+import { Readable } from 'stream';
 import { mockResponse } from 'jest-mock-req-res';
 
 export const bunchOfOrders = [
@@ -179,7 +179,7 @@ describe('OrdersController', () => {
   describe('fetchOrderItems', () => {
     it("fetches order's items by calling ordersService", async () => {
       await expect(
-        ordersController.fetchOrderItems('f29ca6ae-3aac-4794-b008-4d743901a226', mockUser)
+        ordersController.fetchOrderItems('f29ca6ae-3aac-4794-b008-4d743901a226')
       ).resolves.toEqual({
         id: 'f29ca6ae-3aac-4794-b008-4d743901a226',
         userId: expect.any(String),
@@ -192,8 +192,7 @@ describe('OrdersController', () => {
         date: expect.any(String),
       });
       expect(ordersService.fetchOrderItems).toHaveBeenCalledWith(
-        'f29ca6ae-3aac-4794-b008-4d743901a226',
-        mockUser
+        'f29ca6ae-3aac-4794-b008-4d743901a226'
       );
     });
   });

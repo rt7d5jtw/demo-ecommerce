@@ -229,39 +229,89 @@ describe('OrdersService', () => {
   });
 
   describe('fetchOrderItems', () => {
+    const mockOrderItems = [
+      {
+        orderId: '96a94bbc-c18c-41a0-94c7-77320815c577',
+        price: 5.5,
+        quantity: 1,
+        productId: 41,
+        title: 'Chocolate Chip Cookies',
+        image: 'cookies.jpg',
+      },
+      {
+        orderId: '96a94bbc-c18c-41a0-94c7-77320815c577',
+        price: 3.5,
+        quantity: 1,
+        productId: 42,
+        title: 'Raspberry Chocolate',
+        image: 'raspberry.jpg',
+      },
+      {
+        orderId: '96a94bbc-c18c-41a0-94c7-77320815c577',
+        price: 7.5,
+        quantity: 1,
+        productId: 46,
+        title: 'Chocolate Balls',
+        image: 'round.jpg',
+      },
+      {
+        orderId: '96a94bbc-c18c-41a0-94c7-77320815c577',
+        price: 3.75,
+        quantity: 1,
+        productId: 48,
+        title: 'Wheat Cream Biscuits',
+        image: 'cremebiscuits.jpg',
+      },
+    ];
     it("returns order's items by calling ordersRepository.createQueryBuilder and orderItem.createQueryBuilder", async () => {
-      ordersRepository.createQueryBuilder = jest.fn(() => ({
-        where: jest.fn().mockReturnThis(),
-        andWhere: jest.fn().mockReturnThis(),
-        getOne: jest.fn().mockResolvedValue(bunchOfOrders[0]),
-      }));
       jest.spyOn(typeorm, 'getRepository').mockImplementation(() => {
         const original = jest.requireActual('typeorm');
         return {
           ...original,
           createQueryBuilder: jest.fn(() => ({
+            innerJoin: jest.fn().mockReturnThis(),
+            select: jest.fn().mockReturnThis(),
             where: jest.fn().mockReturnThis(),
-            getMany: jest.fn().mockResolvedValue(orderItems),
+            getRawMany: jest.fn().mockResolvedValue(mockOrderItems),
           })),
         };
       });
       expect(
-        ordersService.fetchOrderItems('f29ca6ae-3aac-4794-b008-4d743901a226', mockUser)
+        ordersService.fetchOrderItems('f29ca6ae-3aac-4794-b008-4d743901a226')
       ).resolves.toEqual([
         {
-          id: expect.any(String),
-          orderId: 'f29ca6ae-3aac-4794-b008-4d743901a226',
+          orderId: expect.any(String),
           price: expect.any(Number),
           quantity: expect.any(Number),
+          productId: expect.any(Number),
+          title: expect.any(String),
+          image: expect.any(String),
         },
         {
-          id: expect.any(String),
-          orderId: 'f29ca6ae-3aac-4794-b008-4d743901a226',
+          orderId: expect.any(String),
           price: expect.any(Number),
           quantity: expect.any(Number),
+          productId: expect.any(Number),
+          title: expect.any(String),
+          image: expect.any(String),
+        },
+        {
+          orderId: expect.any(String),
+          price: expect.any(Number),
+          quantity: expect.any(Number),
+          productId: expect.any(Number),
+          title: expect.any(String),
+          image: expect.any(String),
+        },
+        {
+          orderId: expect.any(String),
+          price: expect.any(Number),
+          quantity: expect.any(Number),
+          productId: expect.any(Number),
+          title: expect.any(String),
+          image: expect.any(String),
         },
       ]);
-      expect(ordersRepository.createQueryBuilder).toHaveBeenCalled();
     });
   });
 

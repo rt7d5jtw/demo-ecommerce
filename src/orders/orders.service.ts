@@ -10,6 +10,7 @@ import { getRepository } from 'typeorm';
 import { PaymentDto } from './dto/payment.dto';
 import { Readable } from 'stream';
 import Stripe from 'stripe';
+import { Product } from '../product/product.entity';
 //import { InjectStripeClient } from '@golevelup/nestjs-stripe';
 
 @Injectable()
@@ -36,19 +37,37 @@ export class OrdersService {
     return this.ordersRepository.query('SELECT * FROM public.orders');
   }
 
-  async fetchOrderItems(id: string, user: User): Promise<OrderItem[]> {
-    const userId = user['id'];
-    const order = await this.ordersRepository
-      .createQueryBuilder('orders')
-      .where('orders.userId = :userId', { userId: userId })
-      .andWhere('orders.id = :id', { id: id })
-      .getOne();
-
+  async fetchOrderItems(id: string): Promise<OrderItem[]> {
     const orderItems = await getRepository(OrderItem)
       .createQueryBuilder('orderItem')
-      .where('orderItem.orderId = :orderId', { orderId: order.id })
-      .getMany();
+      .innerJoin(Product, 'product', 'product.id = orderItem.productId')
+      .select([
+        'product.id',
+        'orderItem.orderId',
+        'orderItem.quantity',
+        'orderItem.price',
+        'product.title',
+        'product.image',
+      ])
+      .where('orderItem.orderId = :orderId', { orderId: id })
+      .getRawMany();
 
+    /* formats the array key names */
+    for (let i = 0; i < orderItems.length; i++) {
+      for (const key in orderItems[i]) {
+        RegExp('(orderItem_)').test(key)
+          ? delete Object.assign(orderItems[i], {
+              [`${key.replace(/orderItem_/, '')}`]: orderItems[i][key],
+            })[key]
+          : key === 'product_id'
+          ? ((orderItems[i]['productId'] = orderItems[i][key]), delete orderItems[i][key])
+          : RegExp('(product_)(?!id)').test(key)
+          ? delete Object.assign(orderItems[i], {
+              [`${key.replace(/product_/, '')}`]: orderItems[i][key],
+            })[key]
+          : null;
+      }
+    }
     return orderItems;
   }
 
@@ -103,15 +122,9 @@ export class OrdersService {
   }
 
   async removeOrder(id: string, user: User): Promise<void> {
-    const userId = user['id'];
     const order = await this.ordersRepository.findOne({
       where: { id: id },
     });
-    /*
-    if (order.userId !== userId && user.role != UserRole.ADMIN) {
-      throw new Error('Invalid authorization')
-    }
-    */
     getRepository(OrderItem).delete({ orderId: order.id });
 
     const result = await this.ordersRepository.delete(id);
