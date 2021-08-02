@@ -5,7 +5,6 @@ import {
   fetchOrders,
   fetchAllOrders,
   createOrder,
-  addOrderItems,
   removeOrder,
   updateOrder,
 } from './api';
@@ -147,40 +146,6 @@ describe('Order API tests', () => {
       Object.assign(arg, argCopy);
       delete argCopy.total_price;
       expect(createOrder(arg)).rejects.toThrow('422');
-    });
-  });
-
-  describe('addOrderItems', () => {
-    it('returns order items array of added items', async () => {
-      const result = await addOrderItems('0302370c-6f80-4932-9dd6-6364d01bf936');
-      expect(result).toEqual([
-        {
-          id: expect.any(String),
-          cartId: expect.any(String),
-          productId: expect.any(Number),
-          quantity: expect.any(Number),
-          price: expect.any(Number),
-          CreatedAt: expect.any(String),
-        },
-      ]);
-      expect(uuidRegex.test(result[0].id)).toEqual(true);
-      expect(uuidRegex.test(result[0].cartId)).toEqual(true);
-    });
-
-    it('throws an error for providing no orderId', async () => {
-      server.use(
-        rest.post(ORDER_URL + 'items/', (_req, res, ctx) => {
-          return res(
-            ctx.status(404),
-            ctx.json({
-              statusCode: 404,
-              message: 'Cannot POST /orders/items/',
-              error: 'Not Found',
-            })
-          );
-        })
-      );
-      expect(addOrderItems('')).rejects.toThrow('404');
     });
   });
 

@@ -15,31 +15,6 @@ import { OrderStatus } from '../../features/order/orderSlice';
 import { selectRecentOrderItems } from '../../features/order/selectors';
 import { create as createOrder } from '../../features/order/thunks';
 import { paymentSuccess } from '../../features/alert/alertSlice';
-import { handleForm } from '../../features/forms/utils/utils';
-
-const CARD_OPTIONS = {
-  iconStyle: 'solid' as const,
-  style: {
-    base: {
-      iconColor: '#6772e5',
-      color: '#6772e5',
-      fontWeight: 600,
-      fontFamily: 'Montserrat, Open Sans, Segoe UI, sans-serif',
-      fontSize: '16px',
-      fontSmoothing: 'antialiased',
-      ':-webkit-autofill': {
-        color: '#6772e5',
-      },
-      '::placeholder': {
-        color: '#6772e5',
-      },
-    },
-    invalid: {
-      iconColor: '#ffc7ee',
-      color: '#ffc7ee',
-    },
-  },
-};
 
 const OrderPayment = (): JSX.Element => {
   const dispatch = useDispatch();
@@ -51,12 +26,35 @@ const OrderPayment = (): JSX.Element => {
     value: '',
     status: '',
     paymentIntent: {},
+    submitCount: 0,
   });
   const [error, setError] = useState('');
-  const { push } = useHistory();
-  console.group('Error state', error);
-  console.log('Payment state', payment);
 
+  const CARD_OPTIONS = {
+    disabled: payment.submitted,
+    iconStyle: 'solid' as const,
+    style: {
+      base: {
+        iconColor: '#6772e5',
+        color: '#6772e5',
+        fontWeight: 600,
+        fontFamily: 'Montserrat, Open Sans, Segoe UI, sans-serif',
+        fontSize: '16px',
+        fontSmoothing: 'antialiased',
+        ':-webkit-autofill': {
+          color: '#6772e5',
+        },
+        '::placeholder': {
+          color: '#6772e5',
+        },
+      },
+      invalid: {
+        iconColor: '#ffc7ee',
+        color: '#ffc7ee',
+      },
+    },
+  };
+  const { push } = useHistory();
   const orderItems = useSelector(selectRecentOrderItems);
   const total = useSelector(selectCartTotal);
   const cartItems = useSelector(selectCartItems);
@@ -65,11 +63,7 @@ const OrderPayment = (): JSX.Element => {
   const stripe = useStripe();
   const elements = useElements();
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    //console.log(event.target.value);
-  };
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
+  const handleMethod = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
     console.group((event.currentTarget.elements.namedItem('method') as HTMLInputElement).value);
     if ((event.currentTarget.elements.namedItem('method') as HTMLInputElement).value === 'stripe') {
@@ -85,11 +79,17 @@ const OrderPayment = (): JSX.Element => {
 
   const handlePayment: React.FormEventHandler<HTMLFormElement> = async (e): Promise<void> => {
     e.preventDefault();
+    setPayment({ ...payment, submitted: true, submitCount: payment.submitCount + 1 });
     if (!stripe || !elements) return;
     if (!e.currentTarget.reportValidity()) return;
     const cardElement = elements && elements.getElement(CardElement);
 
-    if (shippingInfo)
+    if (payment.submitCount >= 1) {
+      setError('Too many submits, please wait for response');
+      return;
+    }
+
+    if (shippingInfo && payment.submitCount <= 1)
       dispatch(
         createOrder({
           total_price: total,
@@ -136,7 +136,7 @@ const OrderPayment = (): JSX.Element => {
       dispatch(paymentSuccess());
       dispatch(clearCart());
       dispatch(clearCartDB());
-      setTimeout(() => push('/purchase-confirmed'), 500);
+      setTimeout(() => push('/purchase-confirmed'), 5500);
     }
   };
 
@@ -144,24 +144,12 @@ const OrderPayment = (): JSX.Element => {
     <div className='order-payment'>
       <div className='order-payment__wrapper'>
         {!payment.payment_method_submit ? (
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleMethod}>
             <legend>Select payment method</legend>
             <fieldset>
-              <input
-                type='radio'
-                id='stripe'
-                name='method'
-                value='stripe'
-                onChange={handleChange}
-              />
+              <input type='radio' id='stripe' name='method' value='stripe' />
               <label htmlFor='stripe'>Stripe</label>
-              <input
-                type='radio'
-                id='paypal'
-                name='method'
-                value='paypal'
-                onChange={handleChange}
-              />
+              <input type='radio' id='paypal' name='method' value='paypal' />
               <label htmlFor='paypal'>Paypal</label>
             </fieldset>
             <input type='submit' value='Submit' />
@@ -184,7 +172,14 @@ const OrderPayment = (): JSX.Element => {
                 </div>
                 <button
                   className='elements-style'
-                  onClick={() => setPayment({ ...payment, submitted: true })}
+                  disabled={payment.submitted ? true : false}
+                  onClick={() =>
+                    setPayment({
+                      ...payment,
+                      submitted: true,
+                      submitCount: payment.submitCount + 1,
+                    })
+                  }
                 >
                   Pay ${total}
                 </button>

@@ -20,10 +20,17 @@
 }
 
 .profile-myorders__order-wrapper {
-  position: relative;
+  position: absolute;
+  left: 7%;
+  top: 7%;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
   border: 1px solid cyan;
+  max-width: 85%;
+  max-height: 85%;
   width: 85%;
   height: 85%;
+  overflow-y: scroll;
 }

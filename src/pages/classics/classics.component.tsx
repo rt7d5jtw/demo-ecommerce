@@ -21,6 +21,13 @@ interface IClassics {
 
 const Classics = () => {
   const dispatch = useDispatch();
+  const [add, setAdd] = React.useState({
+    count: 0,
+  });
+  console.log(add);
+  function handlesomething() {
+    console.log(add);
+  }
   return (
     <div className='classics'>
       <Alert />
@@ -45,7 +52,11 @@ const Classics = () => {
       >
         fetch order items
       </button>
-      <div className='something'></div>
+      <div className='something'>
+        <button onChange={handlesomething} onClick={() => setAdd({ count: add.count + 1 })}>
+          add
+        </button>
+      </div>
     </div>
   );
 };
