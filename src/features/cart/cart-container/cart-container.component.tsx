@@ -11,7 +11,6 @@ import { createStructuredSelector } from 'reselect';
 import CartItem from '../cart-item/cart-item.component';
 import { useHistory } from 'react-router-dom';
 import { useRef, useEffect } from 'react';
-import { takeCart } from '../../order/orderSlice';
 
 interface ICart {
   isOpen: boolean;
@@ -54,7 +53,6 @@ const CartContainer = ({ isOpen, cartItems, quantity }: ICart) => {
 
   function checkoutHandler() {
     dispatch(cartToggle(isOpen));
-    takeCart(cartItems);
     push('/checkout');
   }
 

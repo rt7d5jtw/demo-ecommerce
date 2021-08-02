@@ -1,15 +1,23 @@
 import * as React from 'react';
 import './purchase-confirmed.css';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectRecentOrder, selectRecentOrderItems } from '../../features/order/selectors';
 import { getInvoice, updateOrder } from '../../features/order/api';
 import { selectShippingInfo } from '../../features/user/selectors';
 import { OrderStatus } from '../../features/order/orderSlice';
+import { fetchItems as fetchOrderItems } from '../../features/order/thunks';
+import { Loading } from '../loading/loading.component';
 
 export const PurchaseConfirmed = (): JSX.Element => {
+  const dispatch = useDispatch();
   const order = useSelector(selectRecentOrder);
   const orderItems = useSelector(selectRecentOrderItems);
   const shippingInfo = useSelector(selectShippingInfo);
+
+  order && order.id && orderItems === null ? dispatch(fetchOrderItems(order.id)) : null;
+  if (orderItems === null) {
+    return <Loading />;
+  }
 
   order && order.id ? updateOrder(order.id, { status: OrderStatus.PAID }) : null;
 

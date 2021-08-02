@@ -1,6 +1,6 @@
 import { createAction, createSlice } from '@reduxjs/toolkit';
 import { ICartItem } from '../cart/cartSlice';
-import { fetch, fetchAll, create, addItems, remove, createIntent } from './thunks';
+import { fetch, fetchAll, create, fetchItems, remove, createIntent } from './thunks';
 
 export enum OrderStatus {
   UNPAID = 'UNPAID',
@@ -30,9 +30,11 @@ export type OrderDTO = Omit<IOrder, 'date' | 'id' | 'userId'>;
 
 export type UpdateOrderDto = Partial<OrderDTO>;
 
-export interface OrderItem {
+export interface IOrderItem {
   orderId: string;
   price: number;
+  image: string;
+  title: string;
   quantity: number;
   productId: number;
 }
@@ -45,11 +47,11 @@ export interface OrderItemDto {
   price: number;
   createdAt: string;
 }
-//[ICartItem[], IOrder]
+
 export interface OrderState {
   orders: IOrder[];
   recentOrder: IOrder | null;
-  recentOrderItems: ICartItem[] | null;
+  recentOrderItems: IOrderItem[] | null;
   invoice: any;
   loading: boolean;
   errors: unknown;
@@ -64,18 +66,15 @@ const initialState: OrderState = {
   errors: [],
 };
 
-export const takeCart = createAction<ICartItem[]>('order/takeCart');
 export const clearRecentOrder = createAction('order/clearRecentOrder');
 
 export const orderSlice = createSlice({
   name: 'order',
   initialState: initialState,
   reducers: {
-    takeCart: (state, { payload }) => {
-      state.recentOrderItems = payload;
-    },
     clearRecentOrder: (state) => {
       state.recentOrder = null;
+      state.recentOrderItems = null;
     },
   },
   extraReducers: (builder) => {
@@ -113,24 +112,25 @@ export const orderSlice = createSlice({
         state.errors = action.payload;
         state.loading = false;
       }),
-      builder.addCase(addItems.pending, (state) => {
-        state.loading = false;
-      }),
-      builder.addCase(addItems.fulfilled, (state) => {
-        state.loading = false;
-      }),
-      builder.addCase(addItems.rejected, (state, action) => {
-        state.errors = action.payload;
-        state.loading = false;
-      }),
       builder.addCase(createIntent.pending, (state) => {
-        state.loading = false;
+        state.loading = true;
       }),
       builder.addCase(createIntent.fulfilled, (state) => {
         state.loading = false;
       }),
       builder.addCase(createIntent.rejected, (state, action) => {
         state.errors = action.payload;
+        state.loading = false;
+      }),
+      builder.addCase(fetchItems.pending, (state) => {
+        state.loading = true;
+      }),
+      builder.addCase(fetchItems.fulfilled, (state, { payload }) => {
+        state.recentOrderItems = payload;
+        state.loading = false;
+      }),
+      builder.addCase(fetchItems.rejected, (state, { payload }) => {
+        state.errors = payload;
         state.loading = false;
       }),
       builder.addCase(remove.pending, (state) => {

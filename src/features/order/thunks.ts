@@ -5,13 +5,12 @@ import {
   fetchOrders,
   fetchAllOrders,
   createOrder,
-  addOrderItems,
   removeOrder,
   stripeCreateIntent,
+  fetchOrderItems,
 } from './api';
 import { IOrder, OrderDTO, PaymentIntentDTO } from './orderSlice';
 
-// this gets user's orders
 export const fetch = createAsyncThunk(
   'order/fetch',
   async (): Promise<IOrder[]> => {
@@ -41,11 +40,11 @@ export const create = createAsyncThunk(
   }
 );
 
-export const addItems = createAsyncThunk(
-  'order/addItems',
+export const fetchItems = createAsyncThunk(
+  'order/fetchItems',
   async (id: string, { rejectWithValue }) => {
     try {
-      return addOrderItems(id);
+      return fetchOrderItems(id);
     } catch (err) {
       const error: AxiosError<ValidationErrors> = err;
       if (!error.response) {

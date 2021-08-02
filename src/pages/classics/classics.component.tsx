@@ -8,16 +8,12 @@ import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { assignRole } from '../../features/user/thunks';
 import { clearErrors, clearShippingInfo } from '../../features/user/userSlice';
-import {
-  CART_URL,
-  createCart,
-  fetchCart,
-  fetchCartItems,
-  handleCart,
-} from '../../features/cart/api';
+import { CART_URL, createCart, fetchCart } from '../../features/cart/api';
 import { authHeader, fetchRole } from '../../features/user/api';
 import axios from 'axios';
 import { AdminDropdown } from '../../features/admin/admin-dropdown/admin-dropdown.component';
+import { fetchOrderItems } from '../../features/order/api';
+import { fetchItems } from '../../features/order/thunks';
 
 interface IClassics {
   message: string;
@@ -43,12 +39,13 @@ const Classics = () => {
       <button className='cl-btn' onClick={() => console.log(dispatch(clearErrors()))}>
         clearErrors
       </button>
-      <button className='cl-btn' onClick={() => console.log(fetchCart())}>
-        fetch cart
+      <button
+        className='cl-btn'
+        onClick={() => console.log(dispatch(fetchItems('96a94bbc-c18c-41a0-94c7-77320815c577')))}
+      >
+        fetch order items
       </button>
-      <div className='something'>
-        <AdminDropdown />
-      </div>
+      <div className='something'></div>
     </div>
   );
 };

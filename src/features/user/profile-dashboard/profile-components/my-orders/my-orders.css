@@ -21,7 +21,9 @@
 
 .profile-myorders__order-wrapper {
   position: relative;
-  border: 1px solid black;
+  display: flex;
+  justify-content: center;
+  border: 1px solid cyan;
   width: 85%;
   height: 85%;
 }

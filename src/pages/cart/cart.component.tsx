@@ -13,7 +13,6 @@ import Alert from '../../features/alert/alert/alert.component';
 import { promoAdded } from '../../features/alert/alertSlice';
 import { addItem, ICartItem, removeItem } from '../../features/cart/cartSlice';
 import { addItemDB, removeItemDB } from '../../features/cart/thunks';
-import { takeCart } from '../../features/order/orderSlice';
 
 const Cart = (): JSX.Element => {
   const { push } = useHistory();
@@ -64,7 +63,6 @@ const Cart = (): JSX.Element => {
   }
 
   function checkoutHandler() {
-    dispatch(takeCart(cartItems));
     push('/checkout');
   }
 

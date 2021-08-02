@@ -1,7 +1,14 @@
 import axios, { AxiosError } from 'axios';
 import { ValidationErrors } from '../promotion/promotionSlice';
 import { authHeader } from '../user/api';
-import { IOrder, OrderDTO, OrderItemDto, PaymentIntentDTO, UpdateOrderDto } from './orderSlice';
+import {
+  IOrder,
+  IOrderItem,
+  OrderDTO,
+  OrderItemDto,
+  PaymentIntentDTO,
+  UpdateOrderDto,
+} from './orderSlice';
 
 export const ORDER_URL = 'http://localhost:3000/orders/';
 
@@ -50,9 +57,9 @@ export async function createOrder(data: OrderDTO): Promise<IOrder> {
     });
 }
 
-export async function addOrderItems(id: string): Promise<[OrderItemDto]> {
+export async function fetchOrderItems(id: string): Promise<IOrderItem[]> {
   return axios
-    .post(ORDER_URL + `items/${id}`, {}, { headers: authHeader() })
+    .get(ORDER_URL + `items/${id}`, { headers: authHeader() })
     .then((res) => {
       return res.data;
     })

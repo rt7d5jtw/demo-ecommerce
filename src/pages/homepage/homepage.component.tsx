@@ -30,13 +30,10 @@ function Homepage(): JSX.Element {
   const dispatch = useDispatch();
 
   /* selectors */
-  const isLoading = useSelector(checkIfLoading);
   const loggedIn = useSelector(selectLoggedIn);
-  const role = useSelector(selectRole);
   const categories = useSelector(selectCategories);
   const products = useSelector(selectItems);
   const promotions = useSelector(selectPromotionItems);
-  console.log(role);
 
   categories.length === 0
     ? dispatch(fetchCategories())

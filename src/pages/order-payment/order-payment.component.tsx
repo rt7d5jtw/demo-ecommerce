@@ -5,32 +5,33 @@ import { selectCartItems, selectCartTotal } from '../../features/cart/selectors'
 import { authHeader } from '../../features/user/api';
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import axios from 'axios';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useHistory } from 'react-router';
 import { selectShippingInfo } from '../../features/user/selectors';
 import { clearCart } from '../../features/cart/cartSlice';
 import { ORDER_URL } from '../../features/order/api';
 import { clearCartDB } from '../../features/cart/thunks';
-import { OrderStatus, takeCart } from '../../features/order/orderSlice';
+import { OrderStatus } from '../../features/order/orderSlice';
 import { selectRecentOrderItems } from '../../features/order/selectors';
 import { create as createOrder } from '../../features/order/thunks';
 import { paymentSuccess } from '../../features/alert/alertSlice';
+import { handleForm } from '../../features/forms/utils/utils';
 
 const CARD_OPTIONS = {
   iconStyle: 'solid' as const,
   style: {
     base: {
-      iconColor: '#000',
-      color: '#000',
-      fontWeight: 500,
-      fontFamily: 'Roboto, Open Sans, Segoe UI, sans-serif',
+      iconColor: '#6772e5',
+      color: '#6772e5',
+      fontWeight: 600,
+      fontFamily: 'Montserrat, Open Sans, Segoe UI, sans-serif',
       fontSize: '16px',
       fontSmoothing: 'antialiased',
       ':-webkit-autofill': {
-        color: '#fce883',
+        color: '#6772e5',
       },
       '::placeholder': {
-        color: 'gray',
+        color: '#6772e5',
       },
     },
     invalid: {
@@ -41,53 +42,52 @@ const CARD_OPTIONS = {
 };
 
 const OrderPayment = (): JSX.Element => {
-  const [state, setState] = useState({
-    submitted: false,
-    value: '',
-  });
-  const [success, setSuccess] = useState(false);
-  const [paymentMethod, setPaymentMethod] = useState<string | null>(null);
-  const { push } = useHistory();
-
   const dispatch = useDispatch();
+  const [payment, setPayment] = useState({
+    success: false,
+    submitted: false,
+    payment_method_submit: false,
+    payment_method: '',
+    value: '',
+    status: '',
+    paymentIntent: {},
+  });
+  const [error, setError] = useState('');
+  const { push } = useHistory();
+  console.group('Error state', error);
+  console.log('Payment state', payment);
+
   const orderItems = useSelector(selectRecentOrderItems);
   const total = useSelector(selectCartTotal);
   const cartItems = useSelector(selectCartItems);
   const shippingInfo = useSelector(selectShippingInfo);
 
-  useEffect(() => {
-    //dispatch(fetchAllOrders());
-    if (orderItems === null) {
-      dispatch(takeCart(cartItems));
-    }
-  }, [orderItems]);
-
   const stripe = useStripe();
   const elements = useElements();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    setState({
-      value: event.target.value,
-      submitted: false,
-    });
-    console.log(state);
+    //console.log(event.target.value);
   };
 
-  const handleSubmit = (event: React.FormEvent): void => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
-    setState({
-      ...state,
-      submitted: true,
-    });
-    console.log(event.target);
+    console.group((event.currentTarget.elements.namedItem('method') as HTMLInputElement).value);
+    if ((event.currentTarget.elements.namedItem('method') as HTMLInputElement).value === 'stripe') {
+      console.info('Stripe');
+      setPayment({ ...payment, payment_method: 'stripe', payment_method_submit: true });
+    } else if (
+      (event.currentTarget.elements.namedItem('method') as HTMLInputElement).value === 'paypal'
+    ) {
+      console.info('Paypal');
+      setPayment({ ...payment, payment_method: 'paypal', payment_method_submit: true });
+    }
   };
 
-  const handlePayment = async (carddata: any) => {
+  const handlePayment: React.FormEventHandler<HTMLFormElement> = async (e): Promise<void> => {
+    e.preventDefault();
     if (!stripe || !elements) return;
-    carddata.preventDefault();
-    console.log(carddata);
+    if (!e.currentTarget.reportValidity()) return;
     const cardElement = elements && elements.getElement(CardElement);
-    console.group('Form submitted', carddata);
 
     if (shippingInfo)
       dispatch(
@@ -100,8 +100,9 @@ const OrderPayment = (): JSX.Element => {
           postalcode: shippingInfo.postalcode,
         })
       );
+
     /* Create payment intent on the server */
-    const { data } = await axios.post(
+    const res = await axios.post(
       ORDER_URL + 'create-payment-intent',
       { amount: total, currency: 'usd', payment_method_types: 'card' },
       {
@@ -109,81 +110,92 @@ const OrderPayment = (): JSX.Element => {
       }
     );
 
+    if (res.status === 500) {
+      setError(res.data.message);
+      setPayment({ ...payment, status: 'error' });
+      return;
+    }
+    console.group(res);
+
     if (!cardElement) return;
     /* Confirm the payment on the client */
-    const paymentConfirmed = await stripe?.confirmCardPayment(data.client_secret, {
+    const { error, paymentIntent } = await stripe?.confirmCardPayment(res.data.client_secret, {
       payment_method: {
         card: cardElement,
       },
     });
-    if (paymentConfirmed) {
-      setSuccess(!success);
+
+    if (error) {
+      setPayment({ ...payment, status: 'error' });
+      setError(error.message ?? 'An unknown error occured');
+    } else if (paymentIntent) {
+      setPayment({ ...payment, paymentIntent: paymentIntent });
+    }
+
+    if (paymentIntent && paymentIntent.status === 'succeeded') {
       dispatch(paymentSuccess());
       dispatch(clearCart());
       dispatch(clearCartDB());
-      setTimeout(() => push('/purchase-confirmed'), 1000);
+      setTimeout(() => push('/purchase-confirmed'), 500);
     }
   };
 
   return (
     <div className='order-payment'>
-      <h1 id='checkout-step2'>Payment</h1>
       <div className='order-payment__wrapper'>
-        <div
-          className='order-payment__wrapper__payment-method'
-          style={
-            state.value !== '' && state.submitted === true
-              ? { transform: 'translateY(-200%)', opacity: '0' }
-              : {}
-          }
-        >
-          <form name='payform' onSubmit={handleSubmit}>
-            <h1>Select payment method</h1>
+        {!payment.payment_method_submit ? (
+          <form onSubmit={handleSubmit}>
+            <legend>Select payment method</legend>
             <fieldset>
               <input
                 type='radio'
-                id='paymethod-stripe'
-                name='paymethod'
+                id='stripe'
+                name='method'
                 value='stripe'
                 onChange={handleChange}
               />
-              <label htmlFor='paymethod-stripe'>Stripe</label>
-            </fieldset>
-            <fieldset>
+              <label htmlFor='stripe'>Stripe</label>
               <input
                 type='radio'
-                id='paymethod-paypal'
-                name='paymethod'
+                id='paypal'
+                name='method'
                 value='paypal'
                 onChange={handleChange}
               />
-              <label htmlFor='paymethod-paypal'>Paypal</label>
+              <label htmlFor='paypal'>Paypal</label>
             </fieldset>
             <input type='submit' value='Submit' />
           </form>
-        </div>
-        <div className='order-payment__wrapper__payment-window'>
-          {!success ? (
-            <form
-              id='stripe-wrapper'
-              onSubmit={handlePayment}
-              style={
-                state.value !== '' && state.submitted === true
-                  ? { transform: 'translateY(-130%)', opacity: '1' }
-                  : {}
-              }
-            >
-              <fieldset>
-                <p>Pay with Stripe</p>
+        ) : payment.payment_method_submit && payment.payment_method === 'stripe' ? (
+          <div className='payment-stripe'>
+            <form onSubmit={handlePayment}>
+              <fieldset className='elements-style'>
+                <legend>Card details:</legend>
+                <div className='FormRow elements-style'>
+                  <CardElement
+                    options={CARD_OPTIONS}
+                    onChange={(e) => {
+                      if (e.error) {
+                        setPayment({ ...payment, status: 'error' });
+                        setError(e.error.message ?? 'An unknown error occured');
+                      }
+                    }}
+                  />
+                </div>
+                <button
+                  className='elements-style'
+                  onClick={() => setPayment({ ...payment, submitted: true })}
+                >
+                  Pay ${total}
+                </button>
               </fieldset>
-              <CardElement options={CARD_OPTIONS} />
-              <button disabled={!stripe} id='stripe-wrapper'>
-                Pay ${15}
-              </button>
             </form>
-          ) : (
-            <h2>Thanks for your purchase!</h2>
-          )}{' '}
+          </div>
+        ) : payment.payment_method_submit && payment.payment_method === 'paypal' ? (
+          <h1>Paypal Payment Prompt</h1>
+        ) : null}
+        <div className='order-payment__error-prompt'>
+          <p>{error}</p>
         </div>
       </div>
     </div>
