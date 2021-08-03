@@ -57,19 +57,30 @@
 
 .show-order {
   display: flex;
+  flex-direction: row;
   flex-grow: 1;
   margin: 1em;
   display: none;
-  border: 2px solid red;
+  width: 85%;
 }
 
 .show-order__row {
   border: 2px solid black;
 }
 
+.show-order__row2 {
+  flex-grow: 1;
+  padding: 1rem;
+}
+
+.show-order__row2 p {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1em;
+  padding: .5em;
+}
+
 .show-order__info {
   width: 100%;
   height: 150px;
-  background: skyblue;
   border: 2px solid black;
 }

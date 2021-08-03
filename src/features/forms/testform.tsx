@@ -1,11 +1,40 @@
 import * as React from 'react';
-import { useSelector } from 'react-redux';
+import './testform.css';
+
+interface ILabelForm {
+  label: string;
+  htmlFor?: string;
+}
 
 type FieldLabels = {
   head: string;
-  labelx: string;
-  labely: string;
   submit: string;
+  labels: ILabelForm[];
+};
+
+type FieldTextarea = {
+  name: string;
+  id: string;
+  placeholder: string;
+  form: string;
+  required: boolean;
+  disabled: boolean;
+  minLength: number;
+  maxLength: number;
+};
+
+type SelectOptions = {
+  value: string;
+  id: string;
+  label: string;
+};
+
+type FieldSelect = {
+  name: string;
+  form?: string;
+  id?: string;
+  required?: boolean;
+  options: SelectOptions;
 };
 
 type FieldInputs = {
@@ -21,90 +50,138 @@ type FieldInputs = {
   disabled?: boolean;
 };
 
-type InputArrayType = {
-  inputx: FieldInputs;
-  inputy: FieldInputs;
-};
-
 type FieldTypeArray = {
-  input: HTMLInputElement;
-  select: HTMLSelectElement;
-  textarea: HTMLTextAreaElement;
-};
-
-type FieldWarnings = {
-  statusCode?: string;
-  message: string;
-  error?: string;
-};
-
-type FieldTypes = {
-  warning?: FieldWarnings;
+  input: FieldInputs;
+  select: FieldSelect;
+  textarea: FieldTextarea;
   labels: FieldLabels;
-  inputs: InputArrayType;
-  fields: FieldTypeArray;
 };
 
 interface IProfileForm {
-  fields: FieldTypes;
+  fields: FieldTypeArray;
   onSubmit: React.FormEventHandler<HTMLFormElement> | undefined;
 }
 
-export function ProfileForm({ fields, onSubmit }: IProfileForm): JSX.Element {
-  //const errors = useSelector(selectUserErrors);
-  const [warning, setWarning] = React.useState({
-    statusCode: '',
-    message: '',
-    error: '',
-  });
-  const [input, updateInput] = React.useState<{ [key: string]: string }>({});
-
-  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-    const { name, value } = event.target;
-    updateInput({ ...input, [name]: value });
-
-    if (warning.message.length > 0 && value.length === 0) {
-      setWarning({ statusCode: '', message: '', error: '' });
-    }
-  }
-
-  /*
-  React.useEffect(() => {
-    setWarning({
-      ...warning,
-      message: errors.message,
-      statusCode: errors.statusCode,
-      error: errors.error,
-    });
-  }, [errors]);
-     */
-
+export function TestForm({ fields, onSubmit }: IProfileForm): JSX.Element {
   return (
     <form className='profile-form' onSubmit={onSubmit}>
       <h1 id='profile-form__headlabel'>{fields.labels.head}</h1>
-      <label>{fields.labels.labelx}</label>
-      <input
-        type={fields.inputs.inputx.type}
-        name={fields.inputs.inputx.name}
-        id={fields.inputs.inputx.id}
-        placeholder={fields.inputs.inputx.placeholder}
-        minLength={fields.inputs.inputx.minLength}
-        maxLength={fields.inputs.inputx.maxLength}
-        disabled={fields.inputs.inputx.disabled}
-        pattern={fields.inputs.inputx.pattern}
-        title={fields.inputs.inputx.title}
-        required={fields.inputs.inputx.required}
-        onChange={handleChange}
-      />
-      <p
-        className='warning-text'
-        style={warning && warning.message.length > 0 ? { display: 'inline' } : {}}
-      >
-        {warning.message}
-      </p>
+      {fields.map((field) => {
+        switch (field) {
+          case 'input':
+            return (
+              <InputForm
+                type={field.type}
+                name={field.name}
+                id={field.id}
+                placeholder={field.placeholder}
+                minLength={field.minLength}
+                maxLength={field.maxLength}
+                disabled={field.disabled}
+                pattern={field.pattern}
+                title={field.title}
+                required={field.required}
+              />
+            );
+          case 'label':
+            return <LabelForm label={field.label} htmlFor={field.htmlFor} />;
+          case 'select':
+            return (
+              <SelectForm
+                form={field.form}
+                name={field.name}
+                id={field.id}
+                options={field.options}
+              />
+            );
+          case 'textarea':
+            return (
+              <TextareaForm
+                name={field.name}
+                id={field.id}
+                placeholder={field.placeholder}
+                form={field.form}
+                required={field.required}
+                disabled={field.disabled}
+                maxLength={field.maxLength}
+                minLength={field.minLength}
+              />
+            );
+          default:
+            return;
+        }
+      })}
       <button type='submit' disabled={false}>
         {fields.labels.submit}
       </button>
     </form>
+  );
+}
+
+function LabelForm({ label, htmlFor }: ILabelForm): JSX.Element {
+  return <label htmlFor={htmlFor}>{label}</label>;
+}
+
+function InputForm({
+  type,
+  name,
+  id,
+  placeholder,
+  minLength,
+  maxLength,
+  disabled,
+  pattern,
+  title,
+  required,
+}: FieldInputs): JSX.Element {
+  return (
+    <input
+      type={type}
+      name={name}
+      id={id}
+      placeholder={placeholder}
+      minLength={minLength}
+      maxLength={maxLength}
+      disabled={disabled}
+      pattern={pattern}
+      title={title}
+      required={required}
+    />
+  );
+}
+
+function SelectForm({ form, name, id, options }: FieldSelect): JSX.Element {
+  return (
+    <select form={form} name={name} id={id}>
+      {
+        <option value={options.value} key={options.id}>
+          {options.label}
+        </option>
+      }
+    </select>
+  );
+}
+
+function TextareaForm({
+  name,
+  id,
+  placeholder,
+  form,
+  required,
+  disabled,
+  maxLength,
+  minLength,
+}: FieldTextarea): JSX.Element {
+  return (
+    <textarea
+      name={name}
+      id={id}
+      placeholder={placeholder}
+      form={form}
+      required={required}
+      disabled={disabled}
+      minLength={minLength}
+      maxLength={maxLength}
+    ></textarea>
   );
 }

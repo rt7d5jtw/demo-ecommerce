@@ -8,10 +8,20 @@ import { CheckoutItem } from '../../../pages/checkout-item/checkout-item.compone
 interface IOrderCard {
   id: string;
   date: string;
+  total_price: number;
+  address: string;
+  city: string;
+  postalcode: string;
 }
 
-export const OrderCard = ({ id, date }: IOrderCard): JSX.Element => {
-  const orders = useSelector(selectOrders);
+export const OrderCard = ({
+  id,
+  date,
+  total_price,
+  address,
+  city,
+  postalcode,
+}: IOrderCard): JSX.Element => {
   const orderItems = useSelector(selectRecentOrderItems);
   const [view, setView] = React.useState<boolean>(false);
 
@@ -24,7 +34,7 @@ export const OrderCard = ({ id, date }: IOrderCard): JSX.Element => {
       >
         {orderItems &&
           orderItems.map((order) => (
-            <div className='show-order__row'>
+            <div className='show-order__row' key={order.productId}>
               <CheckoutItem
                 key={order.productId}
                 productId={order.productId}
@@ -35,7 +45,15 @@ export const OrderCard = ({ id, date }: IOrderCard): JSX.Element => {
               />
             </div>
           ))}
-        <div className='show-order__info'></div>
+        <div className='show-order__row2'>
+          <p>Order Date: {date}</p>
+          <p>Order ID: {id}</p>
+          <p>Order total: {total_price}</p>
+          <hr />
+          <p>Address: {address}</p>
+          <p>City: {city}</p>
+          <p>Postal Code: {postalcode}</p>
+        </div>
       </div>
     );
   }
