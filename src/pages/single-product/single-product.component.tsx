@@ -4,12 +4,25 @@ import { useAppSelector } from '../../app/hooks';
 import { selectItems } from '../../features/product/selectors';
 import { useParams } from 'react-router';
 import { IProduct } from '../../features/product/productSlice';
+import { addItem, productToCartItem } from '../../features/cart/cartSlice';
+import { addItemDB } from '../../features/cart/thunks';
+import { useDispatch } from 'react-redux';
 
 export const SingleProductPage = (): JSX.Element => {
+  const user = JSON.parse(localStorage.getItem('user') || '{}');
+  const dispatch = useDispatch();
   const products = useAppSelector(selectItems);
   const { productId } = useParams<{ productId: string }>();
   const cId = Number(productId); // convert to Number
   const product = products && products ? products.find((book: IProduct) => book.id === cId) : null;
+
+  function addProductHandler(product: IProduct) {
+    dispatch(addItem(productToCartItem(product)));
+    if (user && user.accessToken) {
+      dispatch(addItemDB(product.id));
+    }
+  }
+
   return (
     <div className='single-product'>
       <img
@@ -40,7 +53,7 @@ export const SingleProductPage = (): JSX.Element => {
             <option>4</option>
             <option>5</option>
           </select>
-          <button className='' onClick={() => console.log(product)}>
+          <button className='' onClick={() => product && addProductHandler(product)}>
             Add to Cart
           </button>
         </div>

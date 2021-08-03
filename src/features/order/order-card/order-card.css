@@ -12,7 +12,6 @@
   display: grid;
   place-items: center center;
   flex-grow: 1; 
-  border: 1px solid blue;
 }
 
 .order-info h1 {
@@ -34,7 +33,6 @@
   display: flex;
   align-items: flex-start;
   height: 100%;
-  border: 1px solid red;
 }
 
 .view-order {

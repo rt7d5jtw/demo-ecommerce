@@ -52,29 +52,6 @@
 
 .homefront__categories a { text-decoration: none; }
 
-.homefront__categories--fade {
-  position: sticky;
-  top: 8em;
-  display: flex;
-  justify-content: space-evenly;
-  margin-top: 7.5em;
-  width: 50%;
-  opacity: 0.2;
-  transform: translateY(-350%);
-  transition: opacity 550ms ease-in , transform 1s ease-in;
-}
-
-.homefront__categories--fade a {
-  font-family: 'Liberation Serif';
-  font-size: 3em; 
-  color: #594a4e;
-  margin-right: 1em;
-}
-
-.homefront__categories--fade a:first-letter {
-  text-transform: capitalize;
-}
-
 .homefront__categories a {
   font-family: 'Liberation Serif';
   font-size: 2.8em; 

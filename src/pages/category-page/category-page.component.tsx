@@ -24,7 +24,10 @@ function CategoryPage({ categories, products }: ICategoryPage): JSX.Element {
   const dispatch = useDispatch();
 
   /* get the page category name */
-  const currentCategory = categories.find(({ cname }: ICategory) => cname === category);
+  const currentCategory =
+    category === 'shopall'
+      ? { cname: 'shopall', id: '' }
+      : categories.find(({ cname }: ICategory) => cname === category);
 
   useEffect(() => {
     categories.length === 0
@@ -40,6 +43,37 @@ function CategoryPage({ categories, products }: ICategoryPage): JSX.Element {
     return <p>Loading...</p>;
   }
 
+  const inviewRef = React.useRef<HTMLDivElement>(null);
+  const productsRef = React.useRef<HTMLDivElement>(null);
+
+  /*
+  const callback = (entries: IntersectionObserverEntry[]) => {
+    const [entry] = entries;
+    if (entry.isIntersecting) {
+      setVisible(entry.isIntersecting);
+    } else if (!entry.isIntersecting && entry.boundingClientRect.y > 153) {
+      setVisible(entry.isIntersecting);
+    }
+  };
+
+  const options = {
+    root: null,
+    rootMargin: '0px 0px -765px 0px',
+    threshold: 0.05,
+  };
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(callback, options);
+    if (productsRef.current) observer.observe(productsRef.current);
+
+    return () => {
+      if (productsRef.current) observer.unobserve(productsRef.current);
+    };
+  }, [productsRef, options]);
+   */
+
+  console.log(products.filter((value, idx) => idx < 20));
+
   return (
     <div className='category-page'>
       <Switch>
@@ -47,7 +81,9 @@ function CategoryPage({ categories, products }: ICategoryPage): JSX.Element {
       </Switch>
       <h1 className='category-page__title'>
         <p>
-          {currentCategory && currentCategory.cname
+          {currentCategory && currentCategory.cname === 'shopall'
+            ? 'All Products'
+            : currentCategory && currentCategory.cname
             ? currentCategory.cname
             : 'Category could not be found :('}
         </p>
@@ -56,6 +92,21 @@ function CategoryPage({ categories, products }: ICategoryPage): JSX.Element {
         {currentCategory && currentCategory.id
           ? products
               .filter((product: IProduct) => product.categories.includes(currentCategory.cname))
+              .map(({ title, price, id, image, categories, description }: IProduct) => (
+                <ProductCard
+                  key={id}
+                  id={id}
+                  title={title}
+                  description={description}
+                  price={price}
+                  image={image}
+                  quantity={1}
+                  categories={categories}
+                />
+              ))
+          : currentCategory && currentCategory.cname === 'shopall'
+          ? products
+              .filter((_value, idx) => idx < 20)
               .map(({ title, price, id, image, categories, description }: IProduct) => (
                 <ProductCard
                   key={id}

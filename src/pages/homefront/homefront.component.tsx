@@ -18,47 +18,14 @@ interface IHomefront {
 }
 
 const Homefront = ({ categories, products }: IHomefront): JSX.Element => {
-  const productsRef = useRef<HTMLDivElement>(null);
-  const categoriesRef = useRef<HTMLDivElement>(null);
   const [isVisible, setVisible] = useState<boolean>(false);
   const [preview, setPreview] = useState<boolean>(false);
-  const dispatch = useDispatch();
-
-  /*
-  const callback = (entries: IntersectionObserverEntry[]) => {
-    const [entry] = entries;
-    if (entry.isIntersecting) {
-      setVisible(entry.isIntersecting);
-    } else if (!entry.isIntersecting && entry.boundingClientRect.y > 153) {
-      setVisible(entry.isIntersecting);
-    }
-  };
-
-  const options = {
-    root: null,
-    rootMargin: '0px 0px -765px 0px',
-    threshold: 0.05,
-  };
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(callback, options);
-    if (productsRef.current) observer.observe(productsRef.current);
-
-    return () => {
-      if (productsRef.current) observer.unobserve(productsRef.current);
-    };
-  }, [productsRef, options]);
-   */
-
   return (
     <div className='homefront'>
       <Alert />
       <h1 id='storefront__letters'>Rich Chocolate</h1>
       <div id='storefront__block' />
-      <div
-        ref={categoriesRef}
-        className={isVisible ? 'homefront__categories--fade' : 'homefront__categories'}
-      >
+      <div className={isVisible ? 'homefront__categories--fade' : 'homefront__categories'}>
         {categories
           .filter(
             (cat) =>
@@ -71,7 +38,7 @@ const Homefront = ({ categories, products }: IHomefront): JSX.Element => {
               {cname}
             </Link>
           ))}
-        <Link to='/'>Shop All</Link>
+        <Link to='/products/shopall'>Shop All</Link>
       </div>
 
       <div style={preview ? { transform: 'translateY(30%)' } : {}} className='homefront__hero'>
@@ -81,7 +48,6 @@ const Homefront = ({ categories, products }: IHomefront): JSX.Element => {
       <div id='storefront__image' style={{ backgroundImage: `url(${mainImg})` }} />
 
       <div
-        ref={productsRef}
         id='hf-pw'
         className='homefront__product-windows'
         style={preview ? { visibility: 'visible', transform: 'translateX(0%)' } : {}}
