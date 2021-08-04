@@ -18,14 +18,13 @@ interface IHomefront {
 }
 
 const Homefront = ({ categories, products }: IHomefront): JSX.Element => {
-  const [isVisible, setVisible] = useState<boolean>(false);
   const [preview, setPreview] = useState<boolean>(false);
   return (
     <div className='homefront'>
       <Alert />
       <h1 id='storefront__letters'>Rich Chocolate</h1>
       <div id='storefront__block' />
-      <div className={isVisible ? 'homefront__categories--fade' : 'homefront__categories'}>
+      <div className='homefront__categories'>
         {categories
           .filter(
             (cat) =>

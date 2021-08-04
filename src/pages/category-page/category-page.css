@@ -26,3 +26,8 @@
 }
 
 /* If you're wondering why there is a p tag inside h1 tags its because css wont let me capitalize the first letter if its just a bare p element for some reason and also h1 offers nice preset for category title */
+
+#render-mark {
+  border-top: 1px solid transparent;
+  width: 85%;
+}

@@ -22,6 +22,8 @@ function CategoryPage({ categories, products }: ICategoryPage): JSX.Element {
   const { category } = useParams<{ category?: string }>();
   const match = useRouteMatch();
   const dispatch = useDispatch();
+  const [page, setPage] = React.useState<number>(20);
+  console.log(page);
 
   /* get the page category name */
   const currentCategory =
@@ -43,23 +45,19 @@ function CategoryPage({ categories, products }: ICategoryPage): JSX.Element {
     return <p>Loading...</p>;
   }
 
-  const inviewRef = React.useRef<HTMLDivElement>(null);
   const productsRef = React.useRef<HTMLDivElement>(null);
 
-  /*
   const callback = (entries: IntersectionObserverEntry[]) => {
     const [entry] = entries;
     if (entry.isIntersecting) {
-      setVisible(entry.isIntersecting);
-    } else if (!entry.isIntersecting && entry.boundingClientRect.y > 153) {
-      setVisible(entry.isIntersecting);
+      setPage(page + 20);
     }
   };
 
   const options = {
     root: null,
-    rootMargin: '0px 0px -765px 0px',
-    threshold: 0.05,
+    rootMargin: '0px -50px 0px -50px',
+    threshold: 1,
   };
 
   useEffect(() => {
@@ -69,10 +67,7 @@ function CategoryPage({ categories, products }: ICategoryPage): JSX.Element {
     return () => {
       if (productsRef.current) observer.unobserve(productsRef.current);
     };
-  }, [productsRef, options]);
-   */
-
-  console.log(products.filter((value, idx) => idx < 20));
+  }, []);
 
   return (
     <div className='category-page'>
@@ -106,7 +101,7 @@ function CategoryPage({ categories, products }: ICategoryPage): JSX.Element {
               ))
           : currentCategory && currentCategory.cname === 'shopall'
           ? products
-              .filter((_value, idx) => idx < 20)
+              .filter((_value, idx) => idx < page)
               .map(({ title, price, id, image, categories, description }: IProduct) => (
                 <ProductCard
                   key={id}
@@ -120,6 +115,7 @@ function CategoryPage({ categories, products }: ICategoryPage): JSX.Element {
                 />
               ))
           : 'Category ID could not be found!'}
+        <div id='render-mark' ref={productsRef} />
       </div>
     </div>
   );
