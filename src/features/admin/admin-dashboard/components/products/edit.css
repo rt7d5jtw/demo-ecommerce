@@ -1,0 +1,62 @@
+.admin-create {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  border: 5px solid red;
+}
+
+.admin-create__header #back-to-products {
+  position: absolute;
+  left: 4.5em;
+  top: .5em;
+  font-family: 'Montserrat';
+  font-size: 1.4em;
+  color: #131313;
+  cursor: pointer;
+  transition: all .5s;
+}
+
+.admin-create__header #back-to-products:hover {
+  color: pink;
+}
+
+.admin-create form h1 {
+  font-size: 1.2em;
+  font-weight: 400;
+  color: #131313;
+}
+
+.admin-create form {
+  font-size: 1.1em;
+  background: transparent;
+}
+
+.admin-create form label {
+  color: #131313;
+}
+
+.admin-create input[type=file] {
+  color: #131313;
+}
+
+.admin-create form input[type=text] {
+  width: 79%;
+}
+
+.admin-create form input[type=number] {
+  width: 79%;
+}
+
+.admin-create button[type=submit] {
+  color: white;
+  background: #131313;
+  width: 79%;
+}
+
+.admin-create select {
+  margin-bottom: 1em;
+}
+
+.admin-create form textarea {
+  resize: none;
+}

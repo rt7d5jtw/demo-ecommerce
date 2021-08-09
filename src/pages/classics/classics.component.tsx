@@ -1,7 +1,7 @@
 import * as React from 'react';
 import './classics.css';
 import Alert from '../../features/alert/alert/alert.component';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../app/store';
 import { userLogged, registered, selectMessage } from '../../features/alert/alertSlice';
 import { createStructuredSelector } from 'reselect';
@@ -14,6 +14,11 @@ import axios from 'axios';
 import { AdminDropdown } from '../../features/admin/admin-dropdown/admin-dropdown.component';
 import { fetchOrderItems } from '../../features/order/api';
 import { fetchItems } from '../../features/order/thunks';
+import { parseFormJSON, TestForm } from '../../features/forms/testform';
+import FormDataState from './fields.data';
+import { selectCategories } from '../../features/category/categorySlice';
+import { Paginator } from '../../features/forms/paginator';
+import { mockdata } from './mockdata';
 
 interface IClassics {
   message: string;
@@ -21,13 +26,19 @@ interface IClassics {
 
 const Classics = () => {
   const dispatch = useDispatch();
+  const categories = useSelector(selectCategories);
   const [add, setAdd] = React.useState({
     count: 0,
   });
-  console.log(add);
-  function handlesomething() {
-    console.log(add);
+  function onSubmit(e: any) {
+    console.log(e);
   }
+  const [currentPage, setCurrentPage] = React.useState(0);
+  const data = React.useMemo(() => {
+    const firstPage = currentPage * 10;
+    const lastPage = firstPage + 10;
+    return mockdata.slice(firstPage, lastPage);
+  }, [currentPage]);
   return (
     <div className='classics'>
       <Alert />
@@ -53,9 +64,36 @@ const Classics = () => {
         fetch order items
       </button>
       <div className='something'>
-        <button onChange={handlesomething} onClick={() => setAdd({ count: add.count + 1 })}>
-          add
-        </button>
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>FIRST NAME</th>
+              <th>LAST NAME</th>
+              <th>EMAIL</th>
+              <th>PHONE</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.map((item) => {
+              return (
+                <tr>
+                  <td>{item.id}</td>
+                  <td>{item.first_name}</td>
+                  <td>{item.last_name}</td>
+                  <td>{item.email}</td>
+                  <td>{item.phone}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+        <Paginator
+          totalItems={mockdata.length}
+          elementsPerPage={10}
+          currentPage={currentPage}
+          onChange={(page) => setCurrentPage(page)}
+        />
       </div>
     </div>
   );

@@ -1,0 +1,25 @@
+.paginator {
+  font-family: 'Montserrat', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  font-size: 2em;
+}
+
+.paginator #range-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.2em .5em 0.2em .5em;
+}
+
+.paginator #prev-page {
+  font-size: 1em;
+  cursor: pointer;
+}
+
+.paginator #next-page {
+  font-size: 1em;
+  cursor: pointer;
+}

@@ -1,0 +1,131 @@
+.admin-products {
+  font-family: 'Montserrat', sans-serif;
+  position: relative;
+  border: 5px solid red;
+  overflow-y: scroll;
+}
+
+.admin-products__options {
+  position: relative;
+  display: flex;
+  padding: 10px;
+  border: 2px solid green;
+}
+
+.admin-products__options p {
+  display: flex;
+  align-items: center;
+}
+
+.admin-products__options select {
+  margin-right: .4rem;
+}
+
+.admin-products__options #per-view {
+  margin-top: .1rem;
+  margin-left: 1.5em;
+}
+
+.admin-products__options .admin-searchbar {
+  margin-left: 1em;
+}
+
+.admin-products table {
+    border-collapse: collapse;
+    border: 2px solid rgb(200, 200, 200);
+    letter-spacing: 1px;
+    font-family: sans-serif;
+    font-size: .8rem;
+    width: 100%;
+}
+
+.admin-products thead,
+.admin-products tfoot {
+    background-color: #3f87a6;
+    color: #fff;
+}
+
+.admin-products tbody {
+    background-color: #e4f0f5;
+}
+
+.admin-products td,
+.admin-products th {
+    border: 1px solid rgb(190, 190, 190);
+    padding: 5px 10px;
+}
+
+.admin-products td {
+  font-size: 1.2em;
+  font-weight: 400;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.admin-products th img {
+  height: 150px;
+  width: 150px;
+}
+
+.admin-products #cat-row {
+  font-size: .8rem;
+  width: 25px;
+}
+
+.admin-products #delete-row {
+  padding: .5rem;
+  color: #131313;
+  background: transparent;
+  cursor: pointer;
+  border: none;
+  transition: all .5s;
+}
+
+.admin-products #delete-row:hover {
+  color: red;
+} 
+
+.admin-products #new-product {
+  position: absolute;
+  top: .4em;
+  left: 42em;
+  padding: .7em;
+  border: 1px solid #131313;
+  border-radius: 4px;
+  color: #131313;
+}
+
+.admin-products #products-selected {
+  font-size: 1em;
+  position: absolute;
+  top: 1.3em;
+  right: 22em;
+}
+
+.admin-products #change-page {
+  display: flex;
+  justify-content: center;
+  padding: .5rem;
+  font-size: 1.2em;
+  position: absolute;
+  top: .5em;
+  right: 2em;
+  border: 1px solid black;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all .5s;
+}
+
+.admin-products #change-page:hover {
+  background: #676767;
+}
+
+.admin-products .new-product:hover {
+  background: white;
+}
+
+.admin-products #pagination {
+  position: absolute;
+  top: .1em;
+  right: 2em;
+}

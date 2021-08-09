@@ -22,6 +22,8 @@ type FormValues = {
 };
 
 const Checkout = (): JSX.Element => {
+  const shippingInfo = useSelector(selectShippingInfo);
+  const cartItems = useSelector(selectCartItems);
   const dispatch = useDispatch();
   const { register, handleSubmit } = useForm<FormValues>();
   const [warning, setWarning] = useState<string>();
@@ -34,10 +36,11 @@ const Checkout = (): JSX.Element => {
       setWarning('You have to be logged in to continue with shipping!');
       setDisable(true);
     }
+    if (localStorage.getItem('user') !== null && cartItems.length === 0) {
+      setWarning('You have no items in your cart, so you cannot proceed with payment');
+      setDisable(true);
+    }
   }, [localStorage.getItem('user')]);
-
-  const shippingInfo = useSelector(selectShippingInfo);
-  const cartItems = useSelector(selectCartItems);
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     if (shippingInfo && shippingInfo.country == 'Finland') data['tax'] = 0;

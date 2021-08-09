@@ -25,7 +25,7 @@ export const ProfileDropdown = (): JSX.Element => {
           </li>
           {authorized === 'ADMIN' ? (
             <li>
-              <Link to='/admin-page'>Admin</Link>
+              <Link to='/admin-dashboard'>Admin</Link>
             </li>
           ) : null}
           <li>

@@ -7,20 +7,16 @@
   margin: 10px;
 }
 
-.moresomething {
-  padding: 5em;
-  background: #ece5da;
-  border: 2px solid skyblue;
-}
-
-.moresomething input[type=checkbox] {
-  padding: 1em;
-  border: 2px solid black;
-}
-
 .something {
   padding: 10em;
   background: #ece5da;
   border: 2px solid skyblue;
 }
 
+.something input[type=file] {
+  color: white;
+}
+
+.something select {
+  margin-bottom: 1em;
+}

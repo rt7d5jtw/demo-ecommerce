@@ -1,51 +1,54 @@
 import * as React from 'react';
 import './admin-dashboard.css';
-import { Link, useRouteMatch, withRouter } from 'react-router-dom';
-import { AdminOverview } from './components/admin-overview/admin-overview.component';
-import ViewOrders from './components/view-orders/view-orders.component';
-import { ViewUsers } from './components/view-users/view-users.component';
+import { useRouteMatch, Link, Switch, Route } from 'react-router-dom';
+import PromotionsDelete from './components/promotions/delete-promotions.component';
+import PromotionsEdit from './components/promotions/edit-promotions.component';
+import PromotionsAdd from './components/promotions/add-promotions.component';
+import { CategoryEdit } from './components/categories/category-edit.component';
+import { CategoryDelete } from './components/categories/category-delete.component';
+import CategoryCreate from './components/categories/category-create.component';
+import { ControlsOverview } from './components/overview/creator-overview.component';
+import { AdminDropdown } from '../admin-dropdown/admin-dropdown.component';
+import ProductDashboard from './components/products/products-dashboard.component';
+import Edit from './components/products/edit.component';
+import Create from './components/products/create.component';
+import PromotionsDashboard from './components/promotions/promotions-dashboard.component';
+import CategoriesDashboard from './components/categories/categories-dashboard.component';
+import OrdersDashboard from './components/orders/orders-dashboard.component';
+import UserDashboard from './components/users/users-dashboard.component';
 
-const AdminDashboard = () => {
+function AdminDashboard(): JSX.Element {
   const match = useRouteMatch();
-  function ConditionalPaging() {
-    switch (location.pathname) {
-      case '/admin-page':
-        return <AdminOverview />;
-      case '/admin-page/users':
-        return <ViewUsers />;
-      case '/admin-page/orders':
-        return <ViewOrders />;
-      default:
-        return <AdminOverview />;
-    }
-  }
   return (
-    <div className='admin-dashboard'>
-      <div className='admin-dashboard__header'>
-        <Link to='/'>
-          <h1 className='admin-dashboard__header__store-name'> &larr; Chocolatiste</h1>
-        </Link>
-        <h1>Administration</h1>
-      </div>
-      <div className='admin-dashboard__nav'>
-        <div className='admin-dashboard__nav__wrapper'>
-          <Link to={`${match.url}/admin-overview`}>Admin Overview</Link>
-          <Link to='/admin-controls/a' title='Create categories and products'>
-            Admin Controls
-          </Link>
-          <Link to={`${match.url}/orders`} title='View all orders made by users'>
-            View orders
-          </Link>
-          <Link to={`${match.url}/users`} title='View all users'>
-            View users
-          </Link>
+    <div className='admin-controls'>
+      <div className='admin-controls__header'>
+        <div className='admin-controls__header__go-to'>
+          <Link to='/'>&larr; Go to Store</Link>
         </div>
       </div>
-      <div className='admin-main'>
-        <ConditionalPaging />
+      <nav className='admin-controls__sidebar'>
+        <ul>
+          <AdminDropdown />
+        </ul>
+      </nav>
+      <div className='admin-controls__main'>
+        <Switch>
+          <Route exact path={`${match.url}/orders-dashboard`} component={OrdersDashboard} />
+          <Route exact path={`${match.url}/users-dashboard`} component={UserDashboard} />
+          <Route exact path={`${match.url}/categories-dashboard`} component={CategoriesDashboard} />
+          <Route exact path={`${match.url}/categories-create`} component={CategoryCreate} />
+          <Route exact path={`${match.url}/categories-edit/:id`} component={CategoryEdit} />
+          <Route exact path={`${match.url}/promotions-dashboard`} component={PromotionsDashboard} />
+          <Route exact path={`${match.url}/promotions-edit/:id`} component={PromotionsEdit} />
+          <Route exact path={`${match.url}/promotions-create`} component={PromotionsAdd} />
+          <Route exact path={`${match.url}/products-dashboard`} component={ProductDashboard} />
+          <Route path={`${match.url}/products-dashboard/edit/:id`} component={Edit} />
+          <Route exact path={`${match.url}/products-dashboard/create`} component={Create} />
+          <Route path={`${match.url}`} component={ControlsOverview} />
+        </Switch>
       </div>
     </div>
   );
-};
+}
 
-export default withRouter(AdminDashboard);
+export default AdminDashboard;

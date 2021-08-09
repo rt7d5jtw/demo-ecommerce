@@ -12,14 +12,24 @@ export const SingleProductPage = (): JSX.Element => {
   const user = JSON.parse(localStorage.getItem('user') || '{}');
   const dispatch = useDispatch();
   const products = useAppSelector(selectItems);
+  const [qty, setQty] = React.useState<number>(1);
   const { productId } = useParams<{ productId: string }>();
   const cId = Number(productId); // convert to Number
   const product = products && products ? products.find((book: IProduct) => book.id === cId) : null;
 
+  function handleQty(e: React.ChangeEvent<HTMLSelectElement>) {
+    setQty(Number(e.target.value));
+  }
+
   function addProductHandler(product: IProduct) {
-    dispatch(addItem(productToCartItem(product)));
-    if (user && user.accessToken) {
-      dispatch(addItemDB(product.id));
+    if (qty != 1) {
+      product['quantity'] = qty;
+    }
+    for (let i = 0; i < qty; i++) {
+      dispatch(addItem(productToCartItem(product)));
+      if (user && user.accessToken) {
+        dispatch(addItemDB(product.id));
+      }
     }
   }
 
@@ -46,12 +56,12 @@ export const SingleProductPage = (): JSX.Element => {
         </div>
         <div className='single-product__col-2__footer'>
           <p>Quantity</p>
-          <select>
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
+          <select onChange={handleQty}>
+            <option value={1}>1</option>
+            <option value={2}>2</option>
+            <option value={3}>3</option>
+            <option value={4}>4</option>
+            <option value={5}>5</option>
           </select>
           <button className='' onClick={() => product && addProductHandler(product)}>
             Add to Cart

@@ -2,25 +2,26 @@ import * as React from 'react';
 import './testform.css';
 
 interface ILabelForm {
+  orderIdentifier: number;
   label: string;
   htmlFor?: string;
+  key?: string | number;
 }
 
-type FieldLabels = {
-  head: string;
-  submit: string;
-  labels: ILabelForm[];
-};
-
 type FieldTextarea = {
+  orderIdentifier: number;
   name: string;
-  id: string;
-  placeholder: string;
+  id?: string;
+  placeholder?: string;
+  defaultValue?: string;
   form: string;
-  required: boolean;
-  disabled: boolean;
-  minLength: number;
-  maxLength: number;
+  required?: boolean;
+  disabled?: boolean;
+  minLength?: number;
+  maxLength?: number;
+  rows?: number;
+  cols?: number;
+  onChange?: React.ChangeEventHandler;
 };
 
 type SelectOptions = {
@@ -30,14 +31,17 @@ type SelectOptions = {
 };
 
 type FieldSelect = {
+  orderIdentifier: number;
   name: string;
   form?: string;
   id?: string;
   required?: boolean;
-  options: SelectOptions;
+  options: SelectOptions[];
+  onChange?: React.ChangeEventHandler;
 };
 
 type FieldInputs = {
+  orderIdentifier: number;
   type: string;
   name: string;
   pattern?: string;
@@ -47,64 +51,79 @@ type FieldInputs = {
   maxLength?: number;
   id?: string;
   placeholder?: string;
+  defaultValue?: string;
+  value?: string;
   disabled?: boolean;
+  onChange?: React.ChangeEventHandler;
 };
 
 type FieldTypeArray = {
-  input: FieldInputs;
-  select: FieldSelect;
-  textarea: FieldTextarea;
-  labels: FieldLabels;
+  labels?: ILabelForm[];
+  input?: FieldInputs[];
+  select?: FieldSelect[];
+  textarea?: FieldTextarea[];
 };
 
 interface IProfileForm {
   fields: FieldTypeArray;
+  headlabel: string;
+  submitlabel: string;
   onSubmit: React.FormEventHandler<HTMLFormElement> | undefined;
 }
 
-export function TestForm({ fields, onSubmit }: IProfileForm): JSX.Element {
+export function TestForm({ fields, onSubmit, headlabel, submitlabel }: IProfileForm): JSX.Element {
+  const parsed = parseFormJSON(fields);
   return (
-    <form className='profile-form' onSubmit={onSubmit}>
-      <h1 id='profile-form__headlabel'>{fields.labels.head}</h1>
-      {fields.map((field) => {
-        switch (field) {
+    <form className='badumts-form' onSubmit={onSubmit}>
+      <h1 id='badumts-form__headlabel'>{headlabel}</h1>
+      {parsed.map((com) => {
+        switch (com.component) {
           case 'input':
             return (
               <InputForm
-                type={field.type}
-                name={field.name}
-                id={field.id}
-                placeholder={field.placeholder}
-                minLength={field.minLength}
-                maxLength={field.maxLength}
-                disabled={field.disabled}
-                pattern={field.pattern}
-                title={field.title}
-                required={field.required}
+                orderIdentifier={com.orderIdentifier}
+                name={com.name}
+                id={com.id}
+                placeholder={com.placeholder}
+                defaultValue={com.defaultValue}
+                value={com.value}
+                title={com.title}
+                type={com.type}
+                required={com.required}
+                onChange={com.onChange}
               />
             );
-          case 'label':
-            return <LabelForm label={field.label} htmlFor={field.htmlFor} />;
+          case 'labels':
+            return (
+              <LabelForm
+                orderIdentifier={com.orderIdentifier}
+                htmlFor={com.htmlFor}
+                label={com.label}
+              />
+            );
           case 'select':
             return (
               <SelectForm
-                form={field.form}
-                name={field.name}
-                id={field.id}
-                options={field.options}
+                orderIdentifier={com.orderIdentifier}
+                form={com.form}
+                id={com.id}
+                name={com.name}
+                options={com.options}
+                onChange={com.onChange}
               />
             );
           case 'textarea':
             return (
               <TextareaForm
-                name={field.name}
-                id={field.id}
-                placeholder={field.placeholder}
-                form={field.form}
-                required={field.required}
-                disabled={field.disabled}
-                maxLength={field.maxLength}
-                minLength={field.minLength}
+                orderIdentifier={com.orderIdentifier}
+                form={com.form}
+                name={com.name}
+                id={com.id}
+                placeholder={com.placeholder}
+                defaultValue={com.defaultValue}
+                rows={com.rows}
+                cols={com.cols}
+                onChange={com.onChange}
               />
             );
           default:
@@ -112,14 +131,36 @@ export function TestForm({ fields, onSubmit }: IProfileForm): JSX.Element {
         }
       })}
       <button type='submit' disabled={false}>
-        {fields.labels.submit}
+        {submitlabel}
       </button>
     </form>
   );
 }
 
-function LabelForm({ label, htmlFor }: ILabelForm): JSX.Element {
-  return <label htmlFor={htmlFor}>{label}</label>;
+type OrderedFormOutput = {
+  orderIdentifier: number;
+  component: string;
+  element: ComponentType;
+};
+
+type ComponentType = ILabelForm | FieldInputs[] | FieldSelect[] | FieldTextarea[];
+
+export function parseFormJSON(fields: any) {
+  const ids = [];
+  const storage = [];
+  for (const i in fields) {
+    ids.push({ [i]: fields[i].length });
+    storage.push(fields[i].map((v: any) => ({ ...v, component: i })));
+  }
+  return storage
+    .flat()
+    .sort((a, b) =>
+      a.orderIdentifier > b.orderIdentifier ? 1 : a.orderIdentifier < b.orderIdentifier ? -1 : 0
+    );
+}
+
+function LabelForm({ label, htmlFor, key }: ILabelForm): JSX.Element {
+  return <label key={key} htmlFor={htmlFor}>{label}</label>;
 }
 
 function InputForm({
@@ -127,12 +168,15 @@ function InputForm({
   name,
   id,
   placeholder,
+  defaultValue,
+  value,
   minLength,
   maxLength,
   disabled,
   pattern,
   title,
   required,
+  onChange,
 }: FieldInputs): JSX.Element {
   return (
     <input
@@ -140,24 +184,27 @@ function InputForm({
       name={name}
       id={id}
       placeholder={placeholder}
+      defaultValue={defaultValue}
+      value={value}
       minLength={minLength}
       maxLength={maxLength}
       disabled={disabled}
       pattern={pattern}
       title={title}
       required={required}
+      onChange={onChange}
     />
   );
 }
 
-function SelectForm({ form, name, id, options }: FieldSelect): JSX.Element {
+function SelectForm({ form, name, id, options, onChange }: FieldSelect): JSX.Element {
   return (
-    <select form={form} name={name} id={id}>
-      {
-        <option value={options.value} key={options.id}>
-          {options.label}
+    <select form={form} name={name} id={id} onChange={onChange}>
+      {options.map(({ id, label, value }) => (
+        <option value={value} key={id}>
+          {label}
         </option>
-      }
+      ))}
     </select>
   );
 }
@@ -166,22 +213,30 @@ function TextareaForm({
   name,
   id,
   placeholder,
+  defaultValue,
   form,
   required,
   disabled,
   maxLength,
   minLength,
+  rows,
+  cols,
+  onChange,
 }: FieldTextarea): JSX.Element {
   return (
     <textarea
       name={name}
       id={id}
       placeholder={placeholder}
+      defaultValue={defaultValue}
       form={form}
       required={required}
       disabled={disabled}
+      rows={rows}
+      cols={cols}
       minLength={minLength}
       maxLength={maxLength}
+      onChange={onChange}
     ></textarea>
   );
 }

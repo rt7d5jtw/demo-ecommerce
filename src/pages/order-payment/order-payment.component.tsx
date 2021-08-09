@@ -1,7 +1,7 @@
 import * as React from 'react';
 import './order-payment.css';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectCartItems, selectCartTotal } from '../../features/cart/selectors';
+import { selectCartTotal } from '../../features/cart/selectors';
 import { authHeader } from '../../features/user/api';
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import axios from 'axios';
@@ -12,9 +12,9 @@ import { clearCart } from '../../features/cart/cartSlice';
 import { ORDER_URL } from '../../features/order/api';
 import { clearCartDB } from '../../features/cart/thunks';
 import { OrderStatus } from '../../features/order/orderSlice';
-import { selectRecentOrderItems } from '../../features/order/selectors';
 import { create as createOrder } from '../../features/order/thunks';
 import { paymentSuccess } from '../../features/alert/alertSlice';
+import { StripeCardElementChangeEvent } from '@stripe/stripe-js';
 
 const OrderPayment = (): JSX.Element => {
   const dispatch = useDispatch();
@@ -27,11 +27,12 @@ const OrderPayment = (): JSX.Element => {
     status: '',
     paymentIntent: {},
     submitCount: 0,
+    accepted: false,
   });
   const [error, setError] = useState('');
 
   const CARD_OPTIONS = {
-    disabled: payment.submitted,
+    disabled: false,
     iconStyle: 'solid' as const,
     style: {
       base: {
@@ -55,9 +56,7 @@ const OrderPayment = (): JSX.Element => {
     },
   };
   const { push } = useHistory();
-  const orderItems = useSelector(selectRecentOrderItems);
   const total = useSelector(selectCartTotal);
-  const cartItems = useSelector(selectCartItems);
   const shippingInfo = useSelector(selectShippingInfo);
 
   const stripe = useStripe();
@@ -65,7 +64,6 @@ const OrderPayment = (): JSX.Element => {
 
   const handleMethod = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
-    console.group((event.currentTarget.elements.namedItem('method') as HTMLInputElement).value);
     if ((event.currentTarget.elements.namedItem('method') as HTMLInputElement).value === 'stripe') {
       console.info('Stripe');
       setPayment({ ...payment, payment_method: 'stripe', payment_method_submit: true });
@@ -77,19 +75,42 @@ const OrderPayment = (): JSX.Element => {
     }
   };
 
+  const stripeElementChange = (e: StripeCardElementChangeEvent) => {
+    console.log(e);
+    if (e.empty) {
+      setError('Do not submit an empty form!');
+    }
+    if (e.error) {
+      setPayment({ ...payment, status: 'error' });
+      setError(e.error.message ?? 'An unknown error occured');
+    }
+    if (!e.empty && e.complete) {
+      console.log('WORKING');
+      setPayment({ ...payment, accepted: true });
+    }
+  };
+
+  console.log(payment.submitCount);
+
   const handlePayment: React.FormEventHandler<HTMLFormElement> = async (e): Promise<void> => {
     e.preventDefault();
+    if (payment.submitCount >= 1) {
+      setError('Too many submits, please wait for response');
+      setTimeout(() => setPayment({ ...payment, submitCount: 0, submitted: false }), 2000);
+    }
+    if (payment.submitCount >= 10) {
+      setError('Do not spam the prompt!');
+    }
     setPayment({ ...payment, submitted: true, submitCount: payment.submitCount + 1 });
     if (!stripe || !elements) return;
     if (!e.currentTarget.reportValidity()) return;
-    const cardElement = elements && elements.getElement(CardElement);
-
-    if (payment.submitCount >= 1) {
-      setError('Too many submits, please wait for response');
+    if (!payment.accepted) {
+      setError('Finish payment information!');
       return;
     }
+    const cardElement = elements && elements.getElement(CardElement);
 
-    if (shippingInfo && payment.submitCount <= 1)
+    if (shippingInfo && payment.accepted === true)
       dispatch(
         createOrder({
           total_price: total,
@@ -136,7 +157,7 @@ const OrderPayment = (): JSX.Element => {
       dispatch(paymentSuccess());
       dispatch(clearCart());
       dispatch(clearCartDB());
-      setTimeout(() => push('/purchase-confirmed'), 5500);
+      setTimeout(() => push('/purchase-confirmed'), 1500);
     }
   };
 
@@ -160,15 +181,7 @@ const OrderPayment = (): JSX.Element => {
               <fieldset className='elements-style'>
                 <legend>Card details:</legend>
                 <div className='FormRow elements-style'>
-                  <CardElement
-                    options={CARD_OPTIONS}
-                    onChange={(e) => {
-                      if (e.error) {
-                        setPayment({ ...payment, status: 'error' });
-                        setError(e.error.message ?? 'An unknown error occured');
-                      }
-                    }}
-                  />
+                  <CardElement options={CARD_OPTIONS} onChange={stripeElementChange} />
                 </div>
                 <button
                   className='elements-style'

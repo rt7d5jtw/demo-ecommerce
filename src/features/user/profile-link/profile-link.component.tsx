@@ -4,9 +4,10 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { selectCurrentUser, selectLoggedIn, selectRole } from '../selectors';
 import { RootState } from '../../../app/store';
-import { UserRole, AccessTokenDTO } from '../userSlice';
+import { UserRole } from '../userSlice';
 import { createStructuredSelector } from 'reselect';
 import { ProfileDropdown } from '../../user/profile-drop/profile-drop.component';
+import { AccessTokenDTO } from '../api';
 
 type ProfileLinkProp = {
   currentUser: AccessTokenDTO | null;

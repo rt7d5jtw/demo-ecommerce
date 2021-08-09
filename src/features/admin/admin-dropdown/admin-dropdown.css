@@ -1,5 +1,29 @@
 .admin-dropdown {
   border: 1px solid black;
-  width: 50%;
-  height: 500px;
+}
+
+.admin-dropdown ul li {
+  border: 1px solid #2e2e2e;
+  position: relative;
+  display: flex;
+  text-align: center;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.6em;
+  cursor: pointer;
+  transition: all .5s;
+}
+
+.admin-dropdown ul li a {
+  color: #696969;
+  font-size: 1em;
+  padding: .5rem;
+  transition: all .5s;
+  cursor: pointer;
+}
+
+.admin-dropdown ul li a:hover {
+  color: #faf0e6;
 }

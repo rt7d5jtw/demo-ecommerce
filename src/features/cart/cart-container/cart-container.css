@@ -40,10 +40,7 @@
   height: 1.5em;
   color: white;
   font-size: 1em;
-  font-weight: bold;
 }
-
-/* z-index puts the div over other divs */
 
 .cart-content {
   overflow-x: hidden;
@@ -51,7 +48,7 @@
   right: -2.5em;
   top: 5em;
 
-  z-index: 99999;
+  z-index: 10;
   overflow-y: hidden;
   background: #282828;
 
