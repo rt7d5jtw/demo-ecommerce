@@ -87,3 +87,31 @@ footer .row:last-child a {
     margin: 0% 3%;
   }
 }
+
+/* Portrait and Landscape */
+@media only screen 
+  and (min-device-width: 768px) 
+  and (max-device-width: 1024px) 
+  and (-webkit-min-device-pixel-ratio: 1) {
+  #row-notice {
+    position: absolute;
+    bottom: 20px;
+    font-size: .8em;
+    color: white;
+  }
+  #row-notice a {
+    color: beige;
+    margin: 0px 10px 0px 10px;
+    text-decoration: none;
+  }
+}
+
+/* Portrait and Landscape */
+@media only screen 
+  and (min-device-width: 320px) 
+  and (max-device-width: 480px)
+  and (-webkit-min-device-pixel-ratio: 2) {
+    footer {
+      display: none;
+    }
+}

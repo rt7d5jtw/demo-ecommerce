@@ -100,7 +100,7 @@ function CategoriesDashboard(): JSX.Element {
           />
         </div>
         <div>
-          <Link id='new-product' to={`/admin-controls/categories-create`}>
+          <Link id='new-product' to={`/admin-dashboard/categories-dashboard/categories-create`}>
             Create a new Category
           </Link>
         </div>
@@ -145,7 +145,9 @@ function CategoriesDashboard(): JSX.Element {
                     />
                   </td>
                   <td>
-                    <Link to={`/admin-controls/categories-edit/${id}`}>Edit</Link>
+                    <Link to={`/admin-dashboard/categories-dashboard/categories-edit/${id}`}>
+                      Edit
+                    </Link>
                   </td>
                   <td>
                     <button onClick={deleteHandler} id='delete-row' value={id}>
@@ -171,7 +173,9 @@ function CategoriesDashboard(): JSX.Element {
                     />
                   </td>
                   <td>
-                    <Link to={`/admin-controls/categories-edit/${id}`}>Edit</Link>
+                    <Link to={`/admin-dashboard/categories-dashboard/categories-edit/${id}`}>
+                      Edit
+                    </Link>
                   </td>
                   <td>
                     <button onClick={deleteHandler} id='delete-row' value={id}>

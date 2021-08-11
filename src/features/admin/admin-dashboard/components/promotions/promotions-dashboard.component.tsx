@@ -1,16 +1,10 @@
 import * as React from 'react';
+import './promotions-dashboard.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
-import { fetch as fetchProducts, update } from '../../../../../features/product/thunks';
-import { selectItems } from '../../../../../features/product/selectors';
-import { IProduct } from '../../../../../features/product/productSlice';
-import { remove as removeProduct } from '../../../../../features/product/thunks';
-import img1 from '../../../../../assets/bar.jpg';
-import { Link, useRouteMatch } from 'react-router-dom';
 import { Paginator } from '../../../../forms/paginator';
 import { remove as removePromotion } from '../../../../../features/promotion/thunks';
 import { selectPromotionItems } from '../../../../promotion/selectors';
+import { Link } from 'react-router-dom';
 
 type SelectionType = {
   id: string;
@@ -50,7 +44,7 @@ function PromotionsDashboard(): JSX.Element {
       : setSelections([...selections, { id: e.target.value }]);
   }
 
-  function onSelectAll(e: React.MouseEvent<HTMLInputElement>): void {
+  function onSelectAll(): void {
     selections.length === 0
       ? setSelections(promotions.map((el) => ({ id: el.id.toString() })))
       : setSelections([]);
@@ -101,7 +95,7 @@ function PromotionsDashboard(): JSX.Element {
           />
         </div>
         <div>
-          <Link id='new-product' to={`/admin-controls/promotions-create`}>
+          <Link id='new-category' to={`/admin-dashboard/promotions-dashboard/promotions-create`}>
             Create a new Promotion
           </Link>
         </div>
@@ -150,7 +144,9 @@ function PromotionsDashboard(): JSX.Element {
                     />
                   </td>
                   <td>
-                    <Link to={`/admin-controls/promotions-edit/${id}`}>Edit</Link>
+                    <Link to={`/admin-dashboard/promotions-dashboard/promotions-edit/${id}`}>
+                      Edit
+                    </Link>
                   </td>
                   <td>
                     <button onClick={deleteHandler} id='delete-row' value={id}>
@@ -179,7 +175,9 @@ function PromotionsDashboard(): JSX.Element {
                     />
                   </td>
                   <td>
-                    <Link to={`/admin-controls/promotions-edit/${id}`}>Edit</Link>
+                    <Link to={`/admin-dashboard/promotions-dashboard/promotions-edit/${id}`}>
+                      Edit
+                    </Link>
                   </td>
                   <td>
                     <button onClick={deleteHandler} id='delete-row' value={id}>

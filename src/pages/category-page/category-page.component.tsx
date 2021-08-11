@@ -11,7 +11,6 @@ import { Route, Switch, useParams, useRouteMatch } from 'react-router-dom';
 import { SingleProductPage } from '../single-product/single-product.component';
 import { fetch as fetchCategories } from '../../features/category/thunks';
 import { fetch as fetchProducts } from '../../features/product/thunks';
-import { useEffect } from 'react';
 
 interface ICategoryPage {
   categories: ICategory[];
@@ -23,7 +22,6 @@ function CategoryPage({ categories, products }: ICategoryPage): JSX.Element {
   const match = useRouteMatch();
   const dispatch = useDispatch();
   const [page, setPage] = React.useState<number>(20);
-  console.log(page);
 
   /* get the page category name */
   const currentCategory =
@@ -31,7 +29,7 @@ function CategoryPage({ categories, products }: ICategoryPage): JSX.Element {
       ? { cname: 'shopall', id: '' }
       : categories.find(({ cname }: ICategory) => cname === category);
 
-  useEffect(() => {
+  React.useEffect(() => {
     categories.length === 0
       ? dispatch(fetchCategories())
       : products.length === 0
@@ -60,7 +58,7 @@ function CategoryPage({ categories, products }: ICategoryPage): JSX.Element {
     threshold: 1,
   };
 
-  useEffect(() => {
+  React.useEffect(() => {
     const observer = new IntersectionObserver(callback, options);
     if (productsRef.current) observer.observe(productsRef.current);
 
@@ -68,7 +66,6 @@ function CategoryPage({ categories, products }: ICategoryPage): JSX.Element {
       if (productsRef.current) observer.unobserve(productsRef.current);
     };
   }, []);
-
   return (
     <div className='category-page'>
       <Switch>
@@ -86,7 +83,13 @@ function CategoryPage({ categories, products }: ICategoryPage): JSX.Element {
       <div className='category-page__products'>
         {currentCategory && currentCategory.id
           ? products
-              .filter((product: IProduct) => product.categories.includes(currentCategory.cname))
+              .filter(({ categories }) => {
+                for (const key in categories) {
+                  if (categories[key].cname.includes(currentCategory.cname)) {
+                    return categories[key];
+                  }
+                }
+              })
               .map(({ title, price, id, image, categories, description }: IProduct) => (
                 <ProductCard
                   key={id}

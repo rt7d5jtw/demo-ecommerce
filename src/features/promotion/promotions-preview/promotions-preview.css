@@ -6,7 +6,7 @@
   width: 100%;
   background-size: cover;
   background-position: center;
-  z-index: 9;
+  z-index: 2;
 }
 
 .promotions-preview__main {
@@ -15,4 +15,14 @@
   align-items: center;
   height: 85%;
   width: 85%;
+}
+
+/* Portrait and Landscape */
+@media only screen 
+  and (min-device-width: 320px) 
+  and (max-device-width: 480px)
+  and (-webkit-min-device-pixel-ratio: 2) {
+    .promotions-preview {
+      display: none;
+    }
 }

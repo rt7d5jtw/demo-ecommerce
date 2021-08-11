@@ -36,11 +36,27 @@ function AdminDashboard(): JSX.Element {
           <Route exact path={`${match.url}/orders-dashboard`} component={OrdersDashboard} />
           <Route exact path={`${match.url}/users-dashboard`} component={UserDashboard} />
           <Route exact path={`${match.url}/categories-dashboard`} component={CategoriesDashboard} />
-          <Route exact path={`${match.url}/categories-create`} component={CategoryCreate} />
-          <Route exact path={`${match.url}/categories-edit/:id`} component={CategoryEdit} />
+          <Route
+            exact
+            path={`${match.url}/categories-dashboard/categories-create`}
+            component={CategoryCreate}
+          />
+          <Route
+            exact
+            path={`${match.url}/categories-dashboard/categories-edit/:id`}
+            component={CategoryEdit}
+          />
           <Route exact path={`${match.url}/promotions-dashboard`} component={PromotionsDashboard} />
-          <Route exact path={`${match.url}/promotions-edit/:id`} component={PromotionsEdit} />
-          <Route exact path={`${match.url}/promotions-create`} component={PromotionsAdd} />
+          <Route
+            exact
+            path={`${match.url}/promotions-dashboard/promotions-edit/:id`}
+            component={PromotionsEdit}
+          />
+          <Route
+            exact
+            path={`${match.url}/promotions-dashboard/promotions-create`}
+            component={PromotionsAdd}
+          />
           <Route exact path={`${match.url}/products-dashboard`} component={ProductDashboard} />
           <Route path={`${match.url}/products-dashboard/edit/:id`} component={Edit} />
           <Route exact path={`${match.url}/products-dashboard/create`} component={Create} />

@@ -31,7 +31,7 @@ const ProductCard = (product: IProductCard): JSX.Element => {
         onClick={() =>
           push(
             params && Object.keys(params).length === 0 && params.constructor === Object
-              ? `products/${product.categories[0]}/${product.id}`
+              ? `products/${product.categories[0].cname}/${product.id}`
               : `${params.category}/${product.id}`
           )
         }

@@ -20,3 +20,7 @@
 .something select {
   margin-bottom: 1em;
 }
+
+.something nav {
+  width: 25em;
+}

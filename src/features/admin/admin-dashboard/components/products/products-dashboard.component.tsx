@@ -1,17 +1,10 @@
 import * as React from 'react';
 import './products-dashboard.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
-import { fetch as fetchProducts, update } from '../../../../../features/product/thunks';
 import { selectItems } from '../../../../../features/product/selectors';
-import { IProduct } from '../../../../../features/product/productSlice';
 import { remove as removeProduct } from '../../../../../features/product/thunks';
-import img1 from '../../../../../assets/bar.jpg';
-import { Link, Route, useRouteMatch } from 'react-router-dom';
+import { Link, useRouteMatch } from 'react-router-dom';
 import { Paginator } from '../../../../forms/paginator';
-import Edit from './edit.component';
-import Create from './create.component';
 
 type SelectionType = {
   id: string;
@@ -53,7 +46,7 @@ function ProductDashboard(): JSX.Element {
       : setSelections([...selections, { id: e.target.value }]);
   }
 
-  function onSelectAll(e: React.MouseEvent<HTMLInputElement>): void {
+  function onSelectAll(): void {
     selections.length === 0
       ? setSelections(products.map((el) => ({ id: el.id.toString() })))
       : setSelections([]);
@@ -179,7 +172,7 @@ function ProductDashboard(): JSX.Element {
                   <td>{title}</td>
                   <td>${price}</td>
                   <td>{status}</td>
-                  <td id='cat-row'>{categories.join(', ')}</td>
+                  <td id='cat-row'>{categories.map(({ cname }) => cname).join(', ')}</td>
                   <td>
                     <input
                       onChange={onCheckbox}

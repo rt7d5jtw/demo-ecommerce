@@ -35,11 +35,7 @@ const Sidebar = (): JSX.Element => {
           </Link>
         ))}
       </div>
-      <div
-        className={isOpen ? 'flat' : 'flat-closed'}
-        style={isOpen ? { width: `70.7%` } : { width: `1%` }}
-        onClick={() => setOpen(false)}
-      />
+      <div className={isOpen ? 'flat' : 'flat-closed'} onClick={() => setOpen(false)} />
     </div>
   );
 };

@@ -1,29 +1,40 @@
 import * as React from 'react';
 import './create.css';
-import { useEffect } from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectItems } from '../../../../../features/product/selectors';
-import { fetch, remove } from '../../../../../features/product/thunks';
+import { add as addProduct } from '../../../../../features/product/thunks';
 import { IProduct } from '../../../../../features/product/productSlice';
 import { selectCategories } from '../../../../category/categorySlice';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { TestForm } from '../../../../forms/testform';
+import Alert from '../../../../alert/alert/alert.component';
+import { handleForm } from '../../../../forms/utils/utils';
 
 type FormAction =
   | { type: 'title'; payload: string }
   | { type: 'price'; payload: string }
   | { type: 'description'; payload: string }
   | { type: 'categories'; payload: string }
-  | { type: 'image'; payload: FileList };
+  | { type: 'image'; payload: File };
 
 type IFormProduct = Partial<IProduct>;
 
-export function FormProductPreview({ image, title, price, description, categories }: IFormProduct) {
+export function FormProductPreview({
+  image,
+  title,
+  price,
+  description,
+  categories,
+}: IFormProduct): JSX.Element {
   return (
     <div className='admin-create__product_preview'>
       <h1>Product Preview</h1>
-      {image === null ? <div id='empty-img' /> : <img src={image} />}
+      {image === null ? (
+        <div id='empty-img' />
+      ) : image && image.substr(0, 4) === 'blob' ? (
+        <img src={image} />
+      ) : (
+        <img src={require(`../../../../../assets/${image}`)} />
+      )}
       <div className='admin-create__product_preview__col'>
         <p>{title}</p>
         <p>{price}</p>
@@ -36,12 +47,6 @@ export function FormProductPreview({ image, title, price, description, categorie
 
 function formReducer(state: typeof initialState, action: any) {
   switch (action.type) {
-    case 'field': {
-      return {
-        ...state,
-        [action.fieldName]: action.payload,
-      };
-    }
     case 'title': {
       return {
         ...state,
@@ -89,16 +94,29 @@ function Create(): JSX.Element {
   const dispatch = useDispatch();
   const categories = useSelector(selectCategories);
   const [formState, formDispatch] = React.useReducer(formReducer, initialState);
+  const [warning, setWarning] = React.useState<string>('');
   function onSubmit(event: React.BaseSyntheticEvent) {
-    confirm('Are you sure you want to create this product?') && console.log(event);
-    //dispatch(addProduct(data));
-    //dispatch(updateProduct(data));
-  }
-  function onChange(e: React.ChangeEvent<HTMLInputElement>) {
-    console.log(formState);
+    event.preventDefault();
+    const categoryValues: { id: string }[] = [];
+    Array.from(event.currentTarget.elements).forEach((e) => {
+      if ((e as HTMLSelectElement).nodeName === 'SELECT') {
+        Array.from((e as HTMLSelectElement).selectedOptions).forEach((e) => {
+          categoryValues.push({ id: (e as HTMLOptionElement).value });
+        });
+      }
+    });
+    const values = handleForm(event.currentTarget.elements);
+    values['categoryIds'] = categoryValues;
+    if (values.title.match(/^[^-\s][a-zA-Z0-9_\s-]+$/gi) !== null) {
+      console.log(values);
+      confirm('Are you sure you want to create this product?') && dispatch(addProduct(values));
+    } else {
+      setWarning('Validation error, give proper inputs');
+    }
   }
   return (
     <div className='admin-create'>
+      <Alert />
       <div className='admin-create__header'>
         <Link to={`/admin-dashboard/products-dashboard`} id='back-to-products'>
           &larr; Back to Product View
@@ -143,10 +161,10 @@ function Create(): JSX.Element {
           textarea: [
             {
               orderIdentifier: 10,
+              form: 'badumts-form',
               name: 'description',
               id: 'description',
               placeholder: 'Product description',
-              form: 'create-product',
               rows: 8,
               cols: 48,
               onChange: (e) =>
@@ -156,19 +174,20 @@ function Create(): JSX.Element {
                 }),
             },
           ],
-          select: [
+          multiselect: [
             {
               orderIdentifier: 8,
-              form: 'create-product',
-              name: 'category',
-              id: 'category',
+              label: 'Categories',
+              form: 'badumts-form',
+              name: 'categoryIds',
+              id: 'categoryIds',
+              required: true,
               options: categories.map((val) => ({
                 id: val.id,
-                value: val.cname,
+                value: val.id,
                 label: val.cname,
               })),
-              onChange: (e) =>
-                formDispatch({ type: 'categories', payload: (e.target as HTMLInputElement).value }),
+              onChange: (e) => console.log(e),
             },
           ],
           input: [
@@ -196,7 +215,7 @@ function Create(): JSX.Element {
                 if ((e.currentTarget as HTMLInputElement).files) {
                   formDispatch({
                     type: 'image',
-                    payload: URL.createObjectURL((e.currentTarget as HTMLInputElement).files[0]),
+                    payload: URL.createObjectURL((e.currentTarget as HTMLInputElement).files![0]),
                   });
                 }
               },
@@ -206,6 +225,7 @@ function Create(): JSX.Element {
               type: 'number',
               name: 'price',
               id: 'price',
+              step: '0.01',
               pattern: new RegExp(/^[0-9]*$/).toString().slice(1, -1),
               placeholder: 'Product Price',
               title: 'Specify a price',
@@ -217,6 +237,7 @@ function Create(): JSX.Element {
                 }),
             },
           ],
+          warning: [{ orderIdentifier: 11, warning: warning }],
         }}
         onSubmit={onSubmit}
         submitlabel='Submit'

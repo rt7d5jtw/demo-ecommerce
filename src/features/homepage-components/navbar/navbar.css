@@ -35,3 +35,68 @@
   grid-auto-flow: column;
   width: 100%;
 }
+
+/* Portrait and Landscape */
+@media only screen 
+  and (min-device-width: 320px) 
+  and (max-device-width: 480px)
+  and (-webkit-min-device-pixel-ratio: 2) {
+  .navbar {
+    display: flex;
+    flex-direction: column;
+    background: transparent;
+    position: fixed;
+    z-index: 9;
+    width: 100vw;
+  }
+  .nav-wrapper {
+    position: relative;
+    display: flex;
+  }
+  .nav-wrapper__right {
+    display: none;
+  }
+  .nav-wrapper__middle {
+  }
+  .nav-wrapper__left {
+    display: grid;
+    grid-auto-flow: column;
+  }
+}
+
+
+
+/* Portrait and Landscape */
+@media only screen 
+  and (min-device-width: 768px) 
+  and (max-device-width: 1024px) 
+  and (-webkit-min-device-pixel-ratio: 1) {
+  .navbar {
+    display: grid;
+    grid-area: 1 / 1 / 2 / 13;
+    position: fixed;
+    z-index: 9;
+    width: 100%;
+  }
+  .nav-wrapper {
+    position: relative;
+    display: grid;
+    justify-content: space-between;
+    grid-auto-flow: column;
+    width: 100%;
+  }
+  .nav-wrapper__right {
+    position: relative;
+    display: flex;
+    z-index: 999;
+  }
+
+  .nav-wrapper__middle {
+  }
+
+  .nav-wrapper__left {
+    display: grid;
+    grid-auto-flow: column;
+    width: 100%;
+  }
+}

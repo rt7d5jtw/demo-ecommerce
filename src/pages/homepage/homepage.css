@@ -18,3 +18,68 @@
   height: 340px;
   border: 2px solid black;
 }
+
+.mobile-menu {
+  display: none;
+  font-size: 3.5em;
+  justify-content: space-evenly;
+  align-items: center;
+  position: fixed;
+  bottom: 0em;
+  height: 100px;
+  width: 100%;
+  background: skyblue;
+  z-index: 9999;
+}
+
+.mobile-menu #shopicon {
+  cursor: pointer;
+}
+
+.mobile-menu #shopicon {
+  cursor: pointer;
+}
+
+.mobile-menu #homeicon {
+  cursor: pointer;
+}
+
+/* Portrait and Landscape */
+@media only screen 
+  and (min-device-width: 768px) 
+  and (max-device-width: 1024px)
+  and (-webkit-min-device-pixel-ratio: 2) {
+  .mobile-menu {
+    display: flex;
+    font-size: 3.5em;
+    justify-content: space-evenly;
+    align-items: center;
+    position: fixed;
+    bottom: 0em;
+    height: 100px;
+    width: 100%;
+    background: skyblue;
+    z-index: 9999;
+  }
+}
+
+/* Portrait and Landscape */
+@media only screen 
+  and (min-device-width: 320px) 
+  and (max-device-width: 480px)
+  and (-webkit-min-device-pixel-ratio: 2) {
+  .mobile-menu {
+    display: flex;
+    font-size: 3.5em;
+    justify-content: space-evenly;
+    align-items: center;
+    position: fixed;
+    bottom: 0em;
+    height: 100px;
+    width: 100%;
+    background: skyblue;
+    z-index: 9999;
+  }
+}
+
+

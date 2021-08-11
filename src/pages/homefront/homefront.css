@@ -114,3 +114,122 @@
   margin-right: 2em;
   transition: all 1s;
 }
+
+/* Portrait and Landscape */
+@media only screen 
+  and (min-device-width: 320px) 
+  and (max-device-width: 480px)
+  and (-webkit-min-device-pixel-ratio: 2) {
+  .homefront {
+    overflow-x: hidden;
+  }
+  .homefront__categories {
+    display: none;
+  }
+  #storefront__block {
+    display: none;
+  }
+  #storefront__image {
+    display: none;
+  }
+  #storefront__letters {
+    display: none;
+  }
+}
+
+/* Portrait */
+@media only screen 
+  and (min-device-width: 320px) 
+  and (max-device-width: 480px)
+  and (-webkit-min-device-pixel-ratio: 2)
+  and (orientation: portrait) {
+  #storefront__image {
+    position: absolute;
+    top: 14em;
+    right: 0em;
+    height: 100px;
+    width: 100px;
+    background: transparent;
+    background-size: cover;
+    background-position: center;
+  }
+}
+
+/* Landscape */
+@media only screen 
+  and (min-device-width: 320px) 
+  and (max-device-width: 480px)
+  and (-webkit-min-device-pixel-ratio: 2)
+  and (orientation: landscape) {
+
+}
+
+/* Portrait and Landscape */
+@media only screen 
+  and (min-device-width: 768px) 
+  and (max-device-width: 1024px) 
+  and (-webkit-min-device-pixel-ratio: 1) {
+  .homefront__categories a {
+    font-family: 'Liberation Serif';
+    font-size: 1.8em; 
+    color: #594a4e;
+    margin-right: 1em;
+  }
+  #storefront__letters {
+    position: absolute;
+    top: 1.8em;
+    left: 0em;
+    font-size: 26vh;
+    opacity: 0.2;
+    -webkit-user-select: none; /* Safari */        
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+/Edge */
+    user-select: none; /* Standard */
+  }
+  #storefront__block {
+    position: absolute;
+    top: 0em;
+    left: 1px;
+    background-color: black;
+    opacity: 0.1;
+    height: 333.7vh;
+    width: 30%;
+    z-index: 1;
+  }
+  .homefront {
+    display: flex;
+    background: #faeee7;
+  }
+  .homefront__categories {
+    position: absolute;
+    left: 1.8em;
+    width: 98vw;
+    transition: opacity 550ms ease-in , transform 1s ease-in;
+    z-index: 2;
+  }
+  .homefront__categories a {
+    font-family: 'Liberation Serif';
+    font-size: 2.5em; 
+    color: #594a4e;
+  }
+  .homefront__hero {
+    display: none;
+  }
+}
+
+/* Portrait */
+@media only screen 
+  and (min-device-width: 768px) 
+  and (max-device-width: 1024px) 
+  and (orientation: portrait) 
+  and (-webkit-min-device-pixel-ratio: 1) {
+}
+
+/* Landscape */
+@media only screen 
+  and (min-device-width: 768px) 
+  and (max-device-width: 1024px) 
+  and (orientation: landscape) 
+  and (-webkit-min-device-pixel-ratio: 1) {
+
+}

@@ -1,3 +1,9 @@
+.admin-create form button[type=submit] {
+  width: 79%;
+  color: #271c19;
+  background: #ffc0ad;
+}
+
 .admin-create__product_preview {
   display: flex;
   flex-direction: column;
@@ -43,4 +49,8 @@
   width: 15rem;
   margin-bottom: 1em;
   margin-top: 1em;
+}
+
+.admin-create form .multiple-select {
+  width: 50%;
 }

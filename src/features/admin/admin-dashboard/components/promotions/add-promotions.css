@@ -1,50 +1,37 @@
-.promotion-create {
-  display: grid;
-  place-items: start center;
-  width: 50%;
-  height: 100%;
+#promotions__header {
+  font-size: 1.4em;
+  font-family: 'Montserrat';
+  position: absolute;
+  top: 1rem;
+  left: 28em;
 }
 
-.promotion-create h1 {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 1.7em;
-  font-weight: bold;
-  margin-bottom: 1em;
-  margin-top: 1em;
-}
-
-.promotion-create form {
+.admin-create__promotion_preview {
+  position: absolute;
+  top: 4em;
+  left: 4em;
   display: flex;
-  justify-content: flex-start;
   flex-direction: column;
-  width: 45%;
+  justify-content: center;
+  align-items: center;
+  width: 30em;
+  flex-wrap: wrap;
+  border: 1px dotted black;
 }
 
-.promotion-create input {
-  font-size: 1em;
-  display: grid;
-  box-sizing: border-box;
+.admin-create__promotion_preview__col {
+  position: relative;
+  font-size: 1.2em;
+  padding: 1em;
   width: 100%;
-  border-radius: 4px;
-  border: none;
-  padding: 10px 15px;
-  margin-bottom: 15px;
 }
 
-.promotion-create input[type='submit']{
-  margin-top: 1em;
-  border: none;
-  height: 3em;
-  background: #228b22;
-  color: white;
-  transition: 1s;
-  cursor: pointer;
+.admin-create__promotion_preview__col p {
+  word-break: break-all;
+  padding: 1rem;
 }
 
-.promotion-create input[type='submit']:hover {
-  background: #2c6b2c;
-}
-
-.promotion-create input[type='submit']:active {
-  transform: translateY(2px);
+.admin-create__promotion_preview__col img {
+  height: 150px;
+  margin: 0em 5em;
 }

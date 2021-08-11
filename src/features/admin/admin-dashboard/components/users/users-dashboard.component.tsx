@@ -129,7 +129,6 @@ function UserDashboard(): JSX.Element {
               <input type='checkbox' onClick={onSelectAll} />
             </th>
             <th scope='col'></th>
-            <th scope='col'></th>
           </tr>
         </thead>
         {input.search.length > 0
@@ -177,9 +176,6 @@ function UserDashboard(): JSX.Element {
                       name='selection'
                       id='selection'
                     />
-                  </td>
-                  <td>
-                    <Link to={`/admin-controls/products-edit/${id}`}>Edit</Link>
                   </td>
                   <td>
                     <button onClick={deleteHandler} id='delete-row' value={id}>

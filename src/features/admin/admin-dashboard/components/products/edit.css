@@ -2,7 +2,6 @@
   position: relative;
   display: flex;
   justify-content: center;
-  border: 5px solid red;
 }
 
 .admin-create__header #back-to-products {

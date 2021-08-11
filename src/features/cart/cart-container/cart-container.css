@@ -4,6 +4,7 @@
   place-items: center center;
   margin-left: 2em;
   margin-right: 2em;
+  z-index: 12;
 }
 
 .cart-container__cart-icon:hover {
@@ -134,3 +135,24 @@
   color: red;
   background: #131313;
 }
+
+/* Portrait and Landscape */
+@media only screen 
+  and (min-device-width: 320px) 
+  and (max-device-width: 480px)
+  and (-webkit-min-device-pixel-ratio: 2) {
+  .cart-container__cart-quantity {
+    -webkit-user-select: none; /* Safari */        
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+/Edge */
+    user-select: none; /* Standard */
+    position: absolute;
+    top: .9em;
+    right: .65em;
+    display: block;
+    border-radius: 1.5625em;
+    font-size: 1.2em;
+    color: white;
+  }
+}
+

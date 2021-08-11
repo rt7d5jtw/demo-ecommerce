@@ -12,6 +12,7 @@
 }
 
 .badumts-form label {
+  color: #fffffe;
   line-height: 1;
   display: block;
   font-weight: 300;
@@ -48,4 +49,70 @@
   background: #dbdbdb;
 }
 
+#form-warning {
+  font-family: 'Montserrat';
+  font-size: 1.2em;
+  color: red;
+  position: absolute;
+  bottom: 3em;
+  padding: 10px 5px;
+  width: 100%;
+}
 
+.multiple-select {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #e3e3e3;
+  background: #fffffe;
+  transition: all .5s;
+  cursor: pointer;
+}
+
+.multiple-select .label {
+  width: 100%;
+  padding: .5em;
+  margin-left: .5em;
+}
+
+.multiple-select select {
+  display: none !important;
+}
+
+.multiple-select option {
+  display: none !important;
+}
+
+.multiple-ul--open {
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  font-size: 1em;
+  width: 100%;
+  cursor: pointer;
+  transition: all .5s;
+  margin-left: .5em;
+}
+
+.multiple-ul--closed {
+  display: none;
+  transition: all .5s;
+}
+
+.li--open {
+  padding: .2em;
+  font-size: 1.2em;
+  cursor: pointer;
+  transition: all .5s;
+}
+
+.li--open:hover {
+  background: rgba(0,0,0,.04);
+}
+
+.li--closed {
+  transition: all .5s;
+  display: none;
+}

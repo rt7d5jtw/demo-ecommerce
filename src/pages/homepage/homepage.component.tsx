@@ -9,7 +9,7 @@ import { fetch as fetchProducts } from '../../features/product/thunks';
 import Main from '../../features/homepage-components/main/main.component';
 import { checkIfLoading, selectPromotionItems } from '../../features/promotion/selectors';
 import { fetch as fetchPromotions } from '../../features/promotion/thunks';
-import { Route, Switch, useRouteMatch } from 'react-router';
+import { Route, Switch, useHistory, useRouteMatch } from 'react-router';
 import { selectLoggedIn, selectRole } from '../../features/user/selectors';
 import { logout } from '../../features/user/thunks';
 import { selectItems } from '../../features/product/selectors';
@@ -25,9 +25,13 @@ import Homefront from '../homefront/homefront.component';
 import Homemiddle from '../home-middle/home-middle.component';
 import Homebottom from '../home-bottom/home-bottom.component';
 import Cart from '../cart/cart.component';
+import { AiFillHome } from 'react-icons/ai';
+import { GiShoppingBag } from 'react-icons/gi';
+import { BiLogIn } from 'react-icons/bi';
 
 function Homepage(): JSX.Element {
   const dispatch = useDispatch();
+  const { push } = useHistory();
 
   /* selectors */
   const loggedIn = useSelector(selectLoggedIn);
@@ -70,6 +74,17 @@ function Homepage(): JSX.Element {
         </Switch>
       </Main>
       <Footer />
+      <div className='mobile-menu'>
+        <div>
+          <GiShoppingBag id='shopicon' onClick={() => push('/products/shopall')} />
+        </div>
+        <div>
+          <AiFillHome id='homeicon' onClick={() => push('/')} />
+        </div>
+        <div>
+          <BiLogIn id='login' onClick={() => push('/login')} />
+        </div>
+      </div>
     </div>
   );
 }

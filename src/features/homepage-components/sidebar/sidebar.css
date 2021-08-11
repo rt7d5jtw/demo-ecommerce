@@ -9,6 +9,12 @@
   opacity: 0.8;
   height: 100%;
   transition: 0.5s;
+  width: 70.7%
+}
+
+.flat-closed {
+  width: 1%;
+  opacity: 0.8;
 }
 
 .sidebar {
@@ -113,4 +119,81 @@
 .sidebar a:hover {
   color: #fff;
   transition: 0.4s;
+}
+
+/* Portrait and Landscape */
+@media only screen 
+  and (min-device-width: 320px) 
+  and (max-device-width: 480px)
+  and (-webkit-min-device-pixel-ratio: 2) {
+  .close-btn-closed {
+    display: none;
+  }
+}
+
+/* Portrait and Landscape */
+@media only screen 
+  and (min-device-width: 768px) 
+  and (max-device-width: 1024px) 
+  and (-webkit-min-device-pixel-ratio: 1) {
+  .flat {
+    position: fixed;
+    right: 0;
+    background: #131313;
+    opacity: 0.8;
+    height: 100%;
+    width: 62%;
+    transition: 0.5s;
+  }
+  .flat-closed {
+    width: 1%;
+    opacity: 0.8;
+  }
+  .sidebar {
+    position: fixed;
+    width: 25em;
+    height: 100%;
+    display: grid;
+    grid-area: 1 / 1 / 13 / 2;
+    place-items: start center;
+
+    background: #131313;
+    transition: 0.5s;
+    z-index: 10;
+  }
+  .close-btn {
+    font-size: 1.5em;
+    top: .8em;
+    left: 13em;
+    position: fixed;
+    cursor: pointer;
+    color: #efcba7;
+    transition: 0.5s;
+    z-index: 10;
+  }
+  .close-btn-closed {
+    font-size: 1.9em;
+    top: 0em;
+    right: 0em;
+    transform: translateX(-15.3125em);
+    position: fixed;
+    cursor: pointer;
+    color: #33272a;
+    background: transparent;
+    transition: 0.5s;
+    z-index: 10;
+  }
+  .sidebar a {
+    transition: 0.5s;
+    font-family: 'Rubik';
+    font-size: 1.6em;
+    display: block;
+    width: 300px;
+    margin: 10px 35px;
+    padding: 10px 10px;
+    color: #bbb;
+    text-decoration: none;
+    letter-spacing: 2px;
+    z-index: 10;
+  }
 }

@@ -200,7 +200,9 @@ const OrderPayment = (): JSX.Element => {
             </form>
           </div>
         ) : payment.payment_method_submit && payment.payment_method === 'paypal' ? (
-          <h1>Paypal Payment Prompt</h1>
+          <h1>
+            Paypal Support has not been added yet, please proceed with different payment method!
+          </h1>
         ) : null}
         <div className='order-payment__error-prompt'>
           <p>{error}</p>

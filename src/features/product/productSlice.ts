@@ -1,17 +1,6 @@
 import { createAction, createSlice } from '@reduxjs/toolkit';
-import { normalizeProduct, normalizeProducts } from './selectors';
+import { ICategory } from '../category/categorySlice';
 import { fetch, add, remove, update, search } from './thunks';
-
-export interface IProductRaw {
-  id: number;
-  title: string;
-  quantity: number;
-  image: string;
-  price: number;
-  description: string;
-  categories: any[];
-  status: string;
-}
 
 export interface IProduct {
   id: number;
@@ -20,7 +9,7 @@ export interface IProduct {
   image: string;
   price: number;
   description: string;
-  categories: string[];
+  categories: ICategory[];
   status: string;
 }
 
@@ -62,7 +51,7 @@ export const productSlice = createSlice({
     }),
       builder.addCase(fetch.fulfilled, (state, { payload }) => {
         state.loading = false;
-        state.items = normalizeProducts(payload);
+        state.items = payload;
       }),
       builder.addCase(fetch.rejected, (state, action) => {
         state.errors = action.payload;
@@ -72,7 +61,7 @@ export const productSlice = createSlice({
         state.loading = true;
       }),
       builder.addCase(add.fulfilled, (state, { payload }) => {
-        state.items.push(normalizeProduct(payload));
+        state.items.push(payload);
         state.loading = false;
       }),
       builder.addCase(add.rejected, (state, action) => {

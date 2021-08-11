@@ -209,3 +209,43 @@
   width: 650px;
   height: 160px;
 }
+
+/* Portrait and Landscape */
+@media only screen 
+  and (min-device-width: 768px) 
+  and (max-device-width: 1024px) 
+  and (-webkit-min-device-pixel-ratio: 1) {
+  .cart {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: repeat(10, 1fr);
+    background: #faeee7;
+    overflow: hidden;
+  }
+  .cart__wrapper__right {
+    display: grid;
+    place-items: start center;
+    grid-area: 3 / 5 / 10 / 9;
+    background: #e9dec6;
+  }
+  .cart__wrapper__items {
+    display: grid;
+    place-items: auto center;
+    grid-area: 3 / 9 / 10 / 9;
+    background: #faeee7;
+    overflow-Y: hidden;
+  }
+  .cart__wrapper__right__info {
+    color: #140d0b;
+    margin-top: 5em;
+    font-family: 'Montserrat';
+    width: inherit;
+    padding: 1em;
+    border-top: 3px solid white;
+    border-bottom: 3px solid white;
+  }
+  #cart-is-empty {
+    font-size: 2em;
+    padding: 4em;
+  }
+}

@@ -33,6 +33,8 @@ export const promoAdded = createAction('alert/promoAdded');
 
 export const paymentSuccess = createAction('alert/paymentSuccess');
 
+export const productCreated = createAction('alert/productCreated');
+
 export const hideout = createAction('alert/hideout');
 
 export const alertSlice = createSlice({
@@ -69,6 +71,10 @@ export const alertSlice = createSlice({
     },
     paymentSuccess: (state) => {
       state.message = 'Payment was succesful';
+      state.atype = alert_type.success;
+    },
+    productCreated: (state) => {
+      state.message = 'Product created';
       state.atype = alert_type.success;
     },
     hideout: (state) => {
