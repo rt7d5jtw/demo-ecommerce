@@ -50,12 +50,6 @@ const CartContainer = ({ isOpen, cartItems, quantity }: ICart) => {
       dispatch(clearCartDB());
     }
   }
-
-  function checkoutHandler() {
-    dispatch(cartToggle(isOpen));
-    push('/checkout');
-  }
-
   return (
     <div className='cart-container'>
       <div
@@ -80,9 +74,6 @@ const CartContainer = ({ isOpen, cartItems, quantity }: ICart) => {
         <div className='cart-content__checkout'>
           <button className='cart-content__checkout_cart-btn' onClick={() => push('/cart')}>
             View shopping bag
-          </button>
-          <button className='cart-content__checkout_checkout-btn' onClick={checkoutHandler}>
-            Checkout
           </button>
           <button
             className='cart-content__checkout_clear-cart-btn'

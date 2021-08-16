@@ -7,18 +7,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetch as fetchCategories } from '../../features/category/thunks';
 import { fetch as fetchProducts } from '../../features/product/thunks';
 import Main from '../../features/homepage-components/main/main.component';
-import { checkIfLoading, selectPromotionItems } from '../../features/promotion/selectors';
+import { selectPromotionItems } from '../../features/promotion/selectors';
 import { fetch as fetchPromotions } from '../../features/promotion/thunks';
 import { Route, Switch, useHistory, useRouteMatch } from 'react-router';
-import { selectLoggedIn, selectRole } from '../../features/user/selectors';
+import { selectLoggedIn } from '../../features/user/selectors';
 import { logout } from '../../features/user/thunks';
 import { selectItems } from '../../features/product/selectors';
 import { selectCategories } from '../../features/category/categorySlice';
 import CategoryPage from '../category-page/category-page.component';
 import { SingleProductPage } from '../single-product/single-product.component';
 import { PurchaseConfirmed } from '../purchase-confirmed/purchase-confirmed';
-import { StripeOrderWrapper } from '../stripe-order-wrapper/stripe-order-wrapper.component';
-import Checkout from '../checkout/checkout.component';
 import SearchPage from '../search-result/search-result.component';
 import { NotFound } from '../404/404.component';
 import Homefront from '../homefront/homefront.component';
@@ -64,9 +62,7 @@ function Homepage(): JSX.Element {
             <Homebottom />
           </Route>
           <Route exact path='/purchase-confirmed' component={PurchaseConfirmed} />
-          <Route exact path='/payment' component={StripeOrderWrapper} />
           <Route path='/cart' component={Cart} />
-          <Route exact path='/checkout' component={Checkout} />
           <Route exact path={`${match.path}products/:category`} component={CategoryPage} />
           <Route path='/products/:category/:productId' component={SingleProductPage} />
           <Route path='/search-result' component={SearchPage} />

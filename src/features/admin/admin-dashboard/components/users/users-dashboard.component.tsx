@@ -1,18 +1,10 @@
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
-import { fetch as fetchProducts, update } from '../../../../../features/product/thunks';
-import { selectItems } from '../../../../../features/product/selectors';
-import { IProduct } from '../../../../../features/product/productSlice';
 import { remove as removeProduct } from '../../../../../features/product/thunks';
-import img1 from '../../../../../assets/bar.jpg';
-import { Link, useRouteMatch } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Paginator } from '../../../../forms/paginator';
 import { selectUsers } from '../../../../user/selectors';
 import { fetch as fetchUsers } from '../../../../user/thunks';
-import { fetchAllUsers } from '../../../../user/api';
-import { Loading } from '../../../../../pages/loading/loading.component';
 
 type SelectionType = {
   id: string;
@@ -41,7 +33,7 @@ function UserDashboard(): JSX.Element {
       ? confirm(`Are you sure you wanna delete ${selections.length} products?`) &&
         console.log(value)
       : selections.length <= 1
-      ? confirm('Are you sure you want to delete this product?') &&
+      ? confirm('Are you sure you want to delete this user?') &&
         dispatch(removeProduct(Number(value)))
       : null;
   }
@@ -56,7 +48,7 @@ function UserDashboard(): JSX.Element {
       : setSelections([...selections, { id: e.target.value }]);
   }
 
-  function onSelectAll(e: React.MouseEvent<HTMLInputElement>): void {
+  function onSelectAll(): void {
     selections.length === 0
       ? setSelections(users.map((el) => ({ id: el.id.toString() })))
       : setSelections([]);
