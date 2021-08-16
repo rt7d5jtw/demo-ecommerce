@@ -10,9 +10,6 @@ import {
   Delete,
   Query,
   UseGuards,
-  UseInterceptors,
-  Headers,
-  Header,
   Patch,
   ParseUUIDPipe,
 } from '@nestjs/common';
@@ -22,16 +19,11 @@ import { SearchOrdersDto } from './dto/search-orders.dto';
 import { OrdersService } from './orders.service';
 import { Order } from './order.entity';
 import { OrderItem } from './order-item.entity';
-import { User, UserRole } from '../users/user.entity';
+import { User } from '../users/user.entity';
 import { GetUser } from '../users/get_user.decorator';
 import { PaymentDto } from './dto/payment.dto';
 import { Response } from 'express';
 import Stripe from 'stripe';
-import { InvoiceInterceptor } from './invoice.interceptor';
-import { Readable } from 'stream';
-import { UserRoleValidationPipe } from 'src/users/pipes/user-role-validation.pipe';
-import { RolesAllowed } from 'src/auth/roles.decorator';
-import { RolesGuard } from '../auth/roles.guard';
 
 @UseGuards(AuthGuard('jwt'))
 @Controller('orders')

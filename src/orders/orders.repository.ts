@@ -66,12 +66,10 @@ export class OrdersRepository extends Repository<Order> {
         margin: 50,
         bufferPages: true,
       });
-      const path = 'invoices/stuff.pdf';
 
       // customize your PDF document
       generateInvoiceInformation(doc, invoice);
       generateInvoiceTable(doc, invoice);
-      doc.pipe(fs.createWriteStream(path));
       doc.end();
 
       const buffer = [];
