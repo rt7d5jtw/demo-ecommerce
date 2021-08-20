@@ -53,7 +53,7 @@ export async function login(arg: IUserCredentials): Promise<AccessTokenDTO> {
       if (res.data.accessToken) {
         localStorage.setItem('user', JSON.stringify(res.data));
       }
-      return res.data;
+      return res.data.accessToken;
     })
     .catch((err) => {
       const error: AxiosError<ValidationErrors> = err;

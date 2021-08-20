@@ -2,7 +2,7 @@ import * as React from 'react';
 import './App.css';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { selectCurrentUser } from '../features/user/selectors';
+import { selectAccessToken } from '../features/user/selectors';
 
 import Homepage from '../pages/homepage/homepage.component';
 import Classics from '../pages/classics/classics.component';
@@ -14,14 +14,14 @@ import Checkout from '../pages/checkout/checkout.component';
 import { StripeOrderWrapper } from '../pages/stripe-order-wrapper/stripe-order-wrapper.component';
 
 const App = (): JSX.Element => {
-  const currentUser = useSelector(selectCurrentUser);
+  const accessToken = useSelector(selectAccessToken);
   return (
     <>
       <Switch>
-        <Route exact path='/login' render={() => (currentUser ? <Redirect to='/' /> : <Login />)} />
+        <Route exact path='/login' render={() => (accessToken ? <Redirect to='/' /> : <Login />)} />
         <Route
           path='/register'
-          component={() => (currentUser ? <Redirect to='/' /> : <Register />)}
+          component={() => (accessToken ? <Redirect to='/' /> : <Register />)}
         />
         <Route path='/profile' component={ProfileDashboard} />
         <Route path='/admin-dashboard' component={AdminDashboard} />

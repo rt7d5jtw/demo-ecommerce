@@ -27,7 +27,7 @@ export interface IUser {
 export type IRegisterSuccess = Pick<IUser, 'email' | 'id'>;
 export type OptUser = Partial<IUser>;
 
-export type IUserCredentials = Omit<IUser, 'id' | 'role' | 'salt' | 'createdAt'>;
+export type IUserCredentials = Pick<IUser, 'email' | 'password'>;
 
 export type PasswordObj = {
   currentPassword: string;
@@ -52,7 +52,7 @@ export interface shippingInformation {
 export type shippinfInfoDto = Partial<shippingInformation>;
 
 export interface UserState {
-  currentUser: null | AccessTokenDTO;
+  accessToken: null | AccessTokenDTO;
   loggedIn: boolean;
   loading: boolean;
   role: UserRole;
@@ -64,7 +64,7 @@ export interface UserState {
 }
 
 const initialState: UserState = {
-  currentUser: null,
+  accessToken: null,
   loggedIn: false,
   loading: false,
   role: UserRole.USER,
@@ -78,6 +78,9 @@ const initialState: UserState = {
 export const clearErrors = createAction('user/clearErrors');
 export const addShippingInformation = createAction<shippinfInfoDto>('user/addShippingInformation');
 export const clearShippingInfo = createAction('user/clearShippingInfo');
+export const setLoggedIn = createAction<{ loggedIn: boolean; accessToken: string }>(
+  'user/setLoggedIn'
+); // for cypress testing
 
 export const userSlice = createSlice({
   name: 'user',
@@ -91,6 +94,10 @@ export const userSlice = createSlice({
     },
     clearShippingInfo: (state) => {
       state.shippingInfo = null;
+    },
+    setLoggedIn: (state, { payload }) => {
+      state.accessToken = payload.accessToken;
+      state.loggedIn = payload.loggedIn;
     },
   },
   extraReducers: (builder) => {
@@ -109,7 +116,7 @@ export const userSlice = createSlice({
         state.loading = true;
       }),
       builder.addCase(loginRequest.fulfilled, (state, { payload }) => {
-        state.currentUser = payload;
+        state.accessToken = payload;
         state.loading = false;
         state.loggedIn = true;
       }),
@@ -123,7 +130,7 @@ export const userSlice = createSlice({
       builder.addCase(logout.fulfilled, (state) => {
         state.loading = false;
         state.loggedIn = false;
-        state.currentUser = null;
+        state.accessToken = null;
       }),
       builder.addCase(logout.rejected, (state, action) => {
         state.loading = false;

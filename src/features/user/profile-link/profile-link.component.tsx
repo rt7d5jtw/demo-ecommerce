@@ -2,7 +2,7 @@ import * as React from 'react';
 import './profile-link.css';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { selectCurrentUser, selectLoggedIn, selectRole } from '../selectors';
+import { selectAccessToken, selectLoggedIn, selectRole } from '../selectors';
 import { RootState } from '../../../app/store';
 import { UserRole } from '../userSlice';
 import { createStructuredSelector } from 'reselect';
@@ -10,13 +10,13 @@ import { ProfileDropdown } from '../../user/profile-drop/profile-drop.component'
 import { AccessTokenDTO } from '../api';
 
 type ProfileLinkProp = {
-  currentUser: AccessTokenDTO | null;
+  accessToken: AccessTokenDTO | null;
   loggedIn: boolean;
   role: UserRole;
 };
 
-const ProfileLink = ({ currentUser, loggedIn }: ProfileLinkProp) => {
-  return <div className='profile'>{currentUser && loggedIn ? <ProfileDropdown /> : <Login />}</div>;
+const ProfileLink = ({ accessToken, loggedIn }: ProfileLinkProp) => {
+  return <div className='profile'>{accessToken && loggedIn ? <ProfileDropdown /> : <Login />}</div>;
 };
 
 export const Login = (): JSX.Element => {
@@ -30,7 +30,7 @@ export const Login = (): JSX.Element => {
 };
 
 const mapStateToProps = createStructuredSelector<RootState, ProfileLinkProp>({
-  currentUser: selectCurrentUser,
+  accessToken: selectAccessToken,
   loggedIn: selectLoggedIn,
   role: selectRole,
 });

@@ -16,7 +16,8 @@
     "noEmitOnError": true,
     "strict": true,
     "skipLibCheck": true,
-    "outDir": "./dist"
+    "outDir": "./dist",
+    "types": ["cypress"]
   },
   "include": ["./src/**/*"],
   "exclude": ["node_modules"]

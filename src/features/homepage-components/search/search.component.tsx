@@ -8,19 +8,23 @@ import { selectItems, selectSearch, selectSearchItems } from '../../product/sele
 import { BsSearch } from 'react-icons/bs';
 import { IProduct } from '../../product/productSlice';
 import { GiShoppingBag } from 'react-icons/gi';
+import { addItem, productToCartItem } from '../../cart/cartSlice';
+import { selectAccessToken } from '../../user/selectors';
+import { addItemDB } from '../../cart/thunks';
 
 interface ISearch {
   scrollEvent: boolean;
 }
 
 export const Search = ({ scrollEvent }: ISearch): JSX.Element => {
+  const user = useSelector(selectAccessToken);
   const searchItems = useSelector(selectSearchItems);
   const searchKeyword = useSelector(selectSearch);
   const products = useSelector(selectItems);
   const [input, setInput] = useState({ search: '' });
   const [data, setData] = useState<null | IProduct[]>(null);
   const dispatch = useDispatch();
-  const { push } = useHistory();
+  const { push, replace } = useHistory();
 
   const ref = useRef<HTMLDivElement>(null);
   const ref2 = useRef<HTMLInputElement>(null);
@@ -45,6 +49,14 @@ export const Search = ({ scrollEvent }: ISearch): JSX.Element => {
     const { name, value } = e.target;
     setInput((input) => ({ ...input, [name]: value }));
   };
+
+  function cartAddhandler(product: IProduct) {
+    /* copying an object into new CartItem from the ProductCard */
+    dispatch(addItem(productToCartItem(product)));
+    if (user) {
+      dispatch(addItemDB(product.id));
+    }
+  }
 
   useEffect(() => {
     function handleClickOutside(event: Event) {
@@ -104,16 +116,27 @@ export const Search = ({ scrollEvent }: ISearch): JSX.Element => {
             {isOpen
               ? data &&
                 data.map((product: IProduct) => (
-                  <li
-                    key={product.id}
-                    onClick={() => push(`products/${product.categories[0]}/${product.id}`)}
-                  >
-                    <img src={require(`../../../assets/${product.image}`)} />
-                    <div className='search__suggestions__product-info'>
+                  <li key={product.id}>
+                    <img
+                      onClick={() =>
+                        location.pathname === '/'
+                          ? push(`/products/${product.categories[0].cname}/${product.id}`)
+                          : replace(`/products/${product.categories[0].cname}/${product.id}`)
+                      }
+                      src={require(`../../../assets/${product.image}`)}
+                    />
+                    <div
+                      onClick={() =>
+                        location.pathname === '/'
+                          ? push(`/products/${product.categories[0].cname}/${product.id}`)
+                          : replace(`/products/${product.categories[0].cname}/${product.id}`)
+                      }
+                      className='search__suggestions__product-info'
+                    >
                       <h2>{product.title}</h2>
                       <h2>${product.price}</h2>
                     </div>
-                    <button>
+                    <button type='button' onClick={() => cartAddhandler(product)}>
                       <GiShoppingBag />
                     </button>
                   </li>

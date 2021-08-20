@@ -16,7 +16,7 @@ export const Register = (): JSX.Element => {
   function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     dispatch(registerRequest(handleForm(event.currentTarget.elements)));
-    errors === undefined ? setTimeout(() => push('login'), 500) : null;
+    errors === null ? setTimeout(() => push('login'), 500) : null;
   }
   return (
     <div className='register'>

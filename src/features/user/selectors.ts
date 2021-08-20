@@ -4,9 +4,9 @@ import { UserState } from './userSlice';
 
 const selectUser = (state: RootState) => state.user;
 
-export const selectCurrentUser = createSelector(
+export const selectAccessToken = createSelector(
   [selectUser],
-  (user: UserState) => user.currentUser
+  (user: UserState) => user.accessToken
 );
 
 export const selectLoggedIn = createSelector([selectUser], (user: UserState) => user.loggedIn);

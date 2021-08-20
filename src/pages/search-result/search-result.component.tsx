@@ -13,14 +13,14 @@ interface ISearchPage {
 
 const SearchPage = ({ searchItems, search }: ISearchPage) => {
   return (
-    <>
+    <div className='category-page'>
       <h1 className='category-page__title'>Searched for {search}</h1>
-      <div className='products'>
+      <div className='category-page__products'>
         {searchItems.map(({ id, ...props }) => (
           <ProductCard key={id} id={id} {...props} />
         ))}
       </div>
-    </>
+    </div>
   );
 };
 
