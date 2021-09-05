@@ -16,8 +16,8 @@ export class PromotionsService {
     return await this.promotionRepository.find();
   }
 
-  async create(promotionDto: PromotionDto, file: Express.Multer.File): Promise<Promotion> {
-    return this.promotionRepository.createPromotion(promotionDto, file);
+  async create(promotionDto: PromotionDto): Promise<Promotion> {
+    return this.promotionRepository.createPromotion(promotionDto);
   }
 
   async update(id: number, promotionDto: PromotionDto): Promise<Promotion> {

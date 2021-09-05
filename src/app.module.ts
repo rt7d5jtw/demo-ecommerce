@@ -9,7 +9,6 @@ import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { CategoryModule } from './category/category.module';
 import { PromotionsModule } from './promotions/promotions.module';
-import { MulterModule } from '@nestjs/platform-express';
 
 @Module({
   imports: [

@@ -44,15 +44,11 @@ export class OrdersController {
   }
 
   @Post('create-payment-intent')
-  async addPaymentIntent(
-    @Body() paymentDto: PaymentDto,
-    @GetUser() user: User
-  ): Promise<Stripe.PaymentIntent> {
-    return this.ordersService.addPaymentIntent(paymentDto, user);
+  async addPaymentIntent(@Body() paymentDto: PaymentDto): Promise<Stripe.PaymentIntent> {
+    return this.ordersService.addPaymentIntent(paymentDto);
   }
 
   @Post('/pdf')
-  //@UseInterceptors(InvoiceInterceptor)
   async getInvoice(
     @GetUser()
     user: User,
@@ -104,7 +100,7 @@ export class OrdersController {
   }
 
   @Delete(':id')
-  removeOrder(@Param('id') id: string, @GetUser() user: User): Promise<void> {
-    return this.ordersService.removeOrder(id, user);
+  removeOrder(@Param('id') id: string): Promise<void> {
+    return this.ordersService.removeOrder(id);
   }
 }

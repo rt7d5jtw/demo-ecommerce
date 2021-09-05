@@ -6,7 +6,6 @@ import { SearchOrdersDto } from './dto/search-orders.dto';
 import { generateInvoiceInformation, generateInvoiceTable } from './invoice';
 import { OrderItem } from './order-item.entity';
 import * as PDFDocument from 'pdfkit';
-import * as fs from 'fs';
 import { UnprocessableEntityException } from '@nestjs/common';
 
 @EntityRepository(Order)

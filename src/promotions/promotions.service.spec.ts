@@ -2,9 +2,6 @@ import { Test } from '@nestjs/testing';
 import { PromotionRepository } from './promotions.repository';
 import { PromotionsService } from './promotions.service';
 import { bunchOfPromotions } from './promotions.controller.spec';
-import * as multer from 'multer';
-import * as fs from 'fs';
-import { Readable } from 'stream';
 
 const mockPromotionsRepository = () => ({
   find: jest.fn(() => Promise.resolve(bunchOfPromotions)),
@@ -30,7 +27,7 @@ const mockPromotionsRepository = () => ({
 
 describe('PromotionsService', () => {
   let promotionService: PromotionsService;
-  let promotionRepository;
+  let promotionRepository: any;
 
   beforeEach(async () => {
     const module = await Test.createTestingModule({
@@ -79,37 +76,13 @@ describe('PromotionsService', () => {
   const dto = { title: 'test', url: '/testing', image: './images/hazelnut' };
   describe('create', () => {
     it('creates a new promotion by calling createPromotion method in the user repo', async () => {
-      const stuff = 'eating chocolate in service';
-      let buffer: Buffer;
-      if (Buffer.from && Buffer.from !== Uint8Array.from) {
-        buffer = Buffer.from(stuff);
-      } else {
-        if (typeof stuff === 'number') {
-          throw new Error('The "size" argument must be not of type number.');
-        }
-        buffer = new Buffer(stuff);
-      }
-      const readable = Readable.from(stuff);
-      let file: Express.Multer.File = null;
-      file = {
-        buffer: buffer,
-        fieldname: 'stuff',
-        originalname: 'original',
-        encoding: '7bit',
-        mimetype: 'file-mimetype',
-        destination: 'destionation-path',
-        filename: 'filename',
-        path: 'filepath',
-        size: 1024,
-        stream: readable,
-      };
-      await expect(promotionService.create(dto, file)).resolves.toEqual({
+      await expect(promotionService.create(dto)).resolves.toEqual({
         id: expect.any(Number),
         title: expect.any(String),
         url: expect.any(String),
         image: expect.any(String),
       });
-      expect(promotionRepository.createPromotion).toHaveBeenCalledWith(dto, file);
+      expect(promotionRepository.createPromotion).toHaveBeenCalledWith(dto);
     });
   });
 

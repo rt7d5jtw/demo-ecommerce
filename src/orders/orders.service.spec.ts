@@ -4,12 +4,9 @@ import { OrdersService } from './orders.service';
 import { User } from '../users/user.entity';
 import { bunchOfOrders } from './orders.controller.spec';
 import { OrdersRepository } from './orders.repository';
-import { Order, OrderStatus } from './order.entity';
+import { OrderStatus } from './order.entity';
 import { v4 as uuid } from 'uuid';
 import * as typeorm from 'typeorm';
-import { OrderItem } from './order-item.entity';
-import Stripe from 'stripe';
-import { BaseEntity } from 'typeorm';
 
 const mockOrdersRepository: () => MockType<OrdersRepository> = jest.fn(() => ({
   fetch: jest.fn(),
@@ -29,21 +26,6 @@ const mockOrdersRepository: () => MockType<OrdersRepository> = jest.fn(() => ({
   delete: jest.fn(),
   save: jest.fn(),
 }));
-
-const orderItems = [
-  {
-    id: 'b6bc6594-c808-45fc-bbdb-2d0d32292f6e',
-    orderId: 'f29ca6ae-3aac-4794-b008-4d743901a226',
-    price: 9.5,
-    quantity: 1,
-  },
-  {
-    id: '7754c980-0e07-4505-82b6-d887bcaf8221',
-    orderId: 'f29ca6ae-3aac-4794-b008-4d743901a226',
-    price: 1.5,
-    quantity: 1,
-  },
-];
 
 export const mockPaymentIntent = {
   id: 'pi_MeFVjK2b1u9YsTDI8nc25QNQK104K',
@@ -339,19 +321,6 @@ describe('OrdersService', () => {
     });
   });
 
-  /*
-  describe('addPaymentIntent', () => {
-    it('calls new instance of Stripe and assign secret key to payment intent and returns it', async () => {
-      await expect(
-        ordersService.addPaymentIntent(
-          { amount: 2.5, currency: 'usd', payment_method_types: 'card', metadata: mockUser.email },
-          mockUser
-        )
-      ).resolves.toEqual(mockPaymentIntent);
-    });
-  });
-  */
-
   describe('update', () => {
     const mockOrder = {
       id: '725b3c5a-4f40-468e-aa9e-9057600d55af',
@@ -403,7 +372,7 @@ describe('OrdersService', () => {
         };
       });
       ordersRepository.find.mockResolvedValue(bunchOfOrders[0]);
-      expect(ordersService.removeOrder('f29ca6ae-3aac-4794-b008-4d743901a226', mockUser));
+      expect(ordersService.removeOrder('f29ca6ae-3aac-4794-b008-4d743901a226'));
       expect(ordersRepository.findOne).toHaveBeenCalledWith({
         where: { id: 'f29ca6ae-3aac-4794-b008-4d743901a226' },
       });

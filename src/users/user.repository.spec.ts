@@ -1,12 +1,11 @@
 import { Test } from '@nestjs/testing';
 import { UserRepository } from './user.repository';
 import { User } from './user.entity';
-import * as bcrypt from 'bcrypt';
 
 const mockUser = { email: 'test@testing', password: 'yeetmageet123' };
 
 describe('UserRepository', () => {
-  let userRepository;
+  let userRepository: any;
 
   beforeEach(async () => {
     const module = await Test.createTestingModule({
@@ -17,7 +16,7 @@ describe('UserRepository', () => {
   });
 
   describe('createUser', () => {
-    let save;
+    let save: any;
     beforeEach(() => {
       save = jest.fn();
       userRepository.create = jest.fn().mockReturnValue({ save });
@@ -30,7 +29,7 @@ describe('UserRepository', () => {
   });
 
   describe('validateUserPassword', () => {
-    let user;
+    let user: any;
 
     beforeEach(() => {
       userRepository.findOne = jest.fn();
@@ -64,11 +63,11 @@ describe('UserRepository', () => {
 
   describe('hashPassword', () => {
     it('calls bcrypt.hash to generate a hash', async () => {
-      jest.spyOn(bcrypt, 'hash').mockResolvedValue('testHash');
-      expect(bcrypt.hash).not.toHaveBeenCalled();
-      const result = await userRepository.hashPassword('yeetmageet123', 'testSalt');
-      expect(bcrypt.hash).toHaveBeenCalledWith('yeetmageet123', 'testSalt');
-      expect(result).toEqual('testHash');
+      const result = await userRepository.hashPassword(
+        'yeetmageet123',
+        '$2b$10$l8qAzxpZ1zoRoAT.z9Ew.e'
+      );
+      expect(result).toMatch(/^\$2[ayb]\$.{56}$/gi);
     });
   });
 });

@@ -2,7 +2,6 @@ import { Test } from '@nestjs/testing';
 import { PromotionsController } from './promotions.controller';
 import { PromotionsService } from './promotions.service';
 import * as fs from 'fs';
-import { Readable } from 'stream';
 import { mockResponse, mockRequest } from 'jest-mock-req-res';
 import { join } from 'path';
 
@@ -37,7 +36,7 @@ const mockPromotionsService = () => ({
     dto['id'] = id;
     return Promise.resolve(dto);
   }),
-  remove: jest.fn((id) => Promise.resolve()),
+  remove: jest.fn(() => Promise.resolve()),
 });
 
 describe('PromotionsController', () => {
@@ -88,22 +87,7 @@ describe('PromotionsController', () => {
   describe('create', () => {
     it('creates a new promotion and returns it', async () => {
       const dto = { title: 'test', url: '/testing', image: 'chocolate.png' };
-      const buffer = Buffer.from('i like chocolate');
-      const readable = Readable.from(buffer);
-      let file: Express.Multer.File = null;
-      file = {
-        buffer: buffer,
-        fieldname: 'stuff',
-        originalname: 'original',
-        encoding: '7bit',
-        mimetype: 'file-mimetype',
-        destination: 'destionation-path',
-        filename: 'filename',
-        path: 'filepath',
-        size: 1024,
-        stream: readable,
-      };
-      expect(promotionsController.create(dto, file)).resolves.toEqual({
+      expect(promotionsController.create(dto)).resolves.toEqual({
         id: expect.any(Number),
         title: 'test',
         url: '/testing',

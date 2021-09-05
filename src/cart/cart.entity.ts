@@ -22,12 +22,14 @@ export class Cart extends BaseEntity {
   @CreateDateColumn({ type: 'date' })
   CreatedAt: Date;
 
-  @OneToMany(() => CartItem, (cartItem) => cartItem.cart)
+  @OneToMany(() => CartItem, (cartItem) => cartItem.cart, {
+    onDelete: 'CASCADE',
+  })
   cartItems: CartItem[];
 
   @OneToOne(() => User, (user) => user.cart, {
-    onDelete: 'RESTRICT',
-    onUpdate: 'RESTRICT',
+    onDelete: 'CASCADE',
+    cascade: true,
   })
   @JoinColumn([{ name: 'userId', referencedColumnName: 'id' }])
   user: User;

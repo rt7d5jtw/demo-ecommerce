@@ -3,7 +3,6 @@ import { Test } from '@nestjs/testing';
 import { productArr } from './product.controller.spec';
 import { ProductRepository } from './product.repository';
 import { ProductService } from './product.service';
-import typeorm from 'typeorm';
 import { Product } from './product.entity';
 
 const mockProductRepository = () => ({

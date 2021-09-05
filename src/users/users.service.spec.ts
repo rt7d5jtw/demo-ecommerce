@@ -1,7 +1,7 @@
 import { Test } from '@nestjs/testing';
 import { UsersService } from './users.service';
 import { UserRepository } from './user.repository';
-import { User, UserRole } from './user.entity';
+import { User } from './user.entity';
 import { NotFoundException } from '@nestjs/common';
 
 const bunchOfUsers = [
@@ -25,7 +25,7 @@ const mockUserRepository = () => ({
   createUser: jest.fn(),
   updateUser: jest.fn(),
   delete: jest.fn(),
-  updateUserRole: jest.fn((id, role) => role),
+  updateUserRole: jest.fn((_id, role) => role),
   validateUserPassword: jest.fn(),
 });
 

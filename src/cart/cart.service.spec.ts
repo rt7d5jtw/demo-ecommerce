@@ -79,7 +79,7 @@ describe('CartService', () => {
           CreatedAt: '2021-07-14',
         },
       ];
-      const cartItemRepo = jest.spyOn(typeorm, 'getManager').mockImplementation(() => {
+      jest.spyOn(typeorm, 'getManager').mockImplementation(() => {
         const original = jest.requireActual('typeorm');
         return {
           ...original,

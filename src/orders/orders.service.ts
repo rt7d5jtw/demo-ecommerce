@@ -11,12 +11,10 @@ import { PaymentDto } from './dto/payment.dto';
 import { Readable } from 'stream';
 import Stripe from 'stripe';
 import { Product } from '../product/product.entity';
-//import { InjectStripeClient } from '@golevelup/nestjs-stripe';
 
 @Injectable()
 export class OrdersService {
   constructor(
-    //@InjectStripeClient() private readonly stripeClient: Stripe,
     @InjectRepository(OrdersRepository)
     private ordersRepository: OrdersRepository
   ) {}
@@ -71,7 +69,7 @@ export class OrdersService {
     return orderItems;
   }
 
-  async addPaymentIntent(paymentDto: PaymentDto, user: User): Promise<Stripe.PaymentIntent> {
+  async addPaymentIntent(paymentDto: PaymentDto): Promise<Stripe.PaymentIntent> {
     const stripe = new Stripe(process.env.STRIPE_SECRET, { apiVersion: '2020-08-27' });
     const { amount, currency, payment_method_types, metadata } = paymentDto;
     const params: Stripe.PaymentIntentCreateParams = {
@@ -121,7 +119,7 @@ export class OrdersService {
     return order;
   }
 
-  async removeOrder(id: string, user: User): Promise<void> {
+  async removeOrder(id: string): Promise<void> {
     const order = await this.ordersRepository.findOne({
       where: { id: id },
     });

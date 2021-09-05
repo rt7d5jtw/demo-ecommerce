@@ -36,7 +36,9 @@ export class User extends BaseEntity {
   @CreateDateColumn({ name: 'registered_at', type: 'date' })
   createdAt: Date;
 
-  @OneToOne(() => Cart, (cart) => cart.user)
+  @OneToOne(() => Cart, (cart) => cart.user, {
+    onDelete: 'CASCADE',
+  })
   cart: Cart;
 
   @OneToMany(() => Order, (order) => order.user, { eager: true })

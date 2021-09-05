@@ -30,19 +30,17 @@ const mockUsersService = () => ({
     });
   }),
   remove: jest.fn(),
-  changePassword: jest.fn((_user, { currentPassword, newPassword }) =>
-    Promise.resolve(newPassword)
-  ),
-  changeEmail: jest.fn((_user, { currentEmail, newEmail }) => Promise.resolve(newEmail)),
+  changePassword: jest.fn((_user, { newPassword }) => Promise.resolve(newPassword)),
+  changeEmail: jest.fn((_user, { newEmail }) => Promise.resolve(newEmail)),
   fetch: jest.fn(() => Promise.resolve(bunchOfUsers)),
-  fetchById: jest.fn((id) => {
+  fetchById: jest.fn(() => {
     return Promise.resolve({
       id: '872f17ee-45a2-409b-b74a-eea6753f38fb',
       email: 'miumau@gmail.com',
     });
   }),
-  getRoleByUser: jest.fn((user) => Promise.resolve(UserRole.USER)),
-  updateUserRole: jest.fn((id, role) => Promise.resolve(role)),
+  getRoleByUser: jest.fn(() => Promise.resolve(UserRole.USER)),
+  updateUserRole: jest.fn((_id, role) => Promise.resolve(role)),
 });
 
 describe('UsersController', () => {

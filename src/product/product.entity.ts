@@ -6,10 +6,8 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   OneToMany,
-  ManyToOne,
   ManyToMany,
   JoinTable,
-  RelationId,
 } from 'typeorm';
 import { CartItem } from '../cart/cart-item.entity';
 import { OrderItem } from '../orders/order-item.entity';

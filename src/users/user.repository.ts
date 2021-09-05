@@ -1,4 +1,4 @@
-import { EntityRepository, getRepository, Repository } from 'typeorm';
+import { EntityRepository, Repository } from 'typeorm';
 import { User, UserRole } from './user.entity';
 import { CreateUserDto, ChangePasswordDto, ChangeEmailDto } from './dto/user.dto';
 import { SearchUserDto } from './dto/search-user.dto';
