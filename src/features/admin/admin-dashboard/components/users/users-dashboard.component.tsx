@@ -1,10 +1,9 @@
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { remove as removeProduct } from '../../../../../features/product/thunks';
 import { Link } from 'react-router-dom';
 import { Paginator } from '../../../../forms/paginator';
 import { selectUsers } from '../../../../user/selectors';
-import { fetch as fetchUsers } from '../../../../user/thunks';
+import { fetch as fetchUsers, removeUser } from '../../../../user/thunks';
 
 type SelectionType = {
   id: string;
@@ -29,12 +28,8 @@ function UserDashboard(): JSX.Element {
 
   function deleteHandler(e: React.MouseEvent<HTMLButtonElement>) {
     const value = (e.target as HTMLInputElement).value;
-    selections.length > 1
-      ? confirm(`Are you sure you wanna delete ${selections.length} products?`) &&
-        console.log(value)
-      : selections.length <= 1
-      ? confirm('Are you sure you want to delete this user?') &&
-        dispatch(removeProduct(Number(value)))
+    selections.length <= 1
+      ? confirm('Are you sure you want to delete this user?') && dispatch(removeUser(value))
       : null;
   }
 

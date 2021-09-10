@@ -6,6 +6,7 @@ import {
   assignRole,
   changePassword,
   changeEmail,
+  removeUser,
   fetch,
   logout,
 } from './thunks';
@@ -25,6 +26,7 @@ export interface IUser {
 }
 
 export type IRegisterSuccess = Pick<IUser, 'email' | 'id'>;
+
 export type OptUser = Partial<IUser>;
 
 export type IUserCredentials = Pick<IUser, 'email' | 'password'>;
@@ -52,13 +54,13 @@ export interface shippingInformation {
 export type shippinfInfoDto = Partial<shippingInformation>;
 
 export interface UserState {
-  accessToken: null | AccessTokenDTO;
+  accessToken: AccessTokenDTO | null;
   loggedIn: boolean;
   loading: boolean;
-  role: UserRole;
+  role: UserRole | null;
   hash: string | null;
   users: IUser[];
-  errors: null | any;
+  errors: unknown | null;
   shippingInfo: shippingInformation | null;
   email: string | null;
 }
@@ -67,7 +69,7 @@ const initialState: UserState = {
   accessToken: null,
   loggedIn: false,
   loading: false,
-  role: UserRole.USER,
+  role: null,
   hash: null,
   users: [],
   errors: null,
@@ -76,11 +78,14 @@ const initialState: UserState = {
 };
 
 export const clearErrors = createAction('user/clearErrors');
+
 export const addShippingInformation = createAction<shippinfInfoDto>('user/addShippingInformation');
+
 export const clearShippingInfo = createAction('user/clearShippingInfo');
+
 export const setLoggedIn = createAction<{ loggedIn: boolean; accessToken: string }>(
   'user/setLoggedIn'
-); // for cypress testing
+);
 
 export const userSlice = createSlice({
   name: 'user',
@@ -104,9 +109,8 @@ export const userSlice = createSlice({
     builder.addCase(registerRequest.pending, (state) => {
       state.loading = true;
     }),
-      builder.addCase(registerRequest.fulfilled, (state, { payload }) => {
+      builder.addCase(registerRequest.fulfilled, (state) => {
         state.loading = false;
-        //state.users = [...state.users, payload];
       });
     builder.addCase(registerRequest.rejected, (state, action) => {
       state.loading = false;
@@ -117,8 +121,8 @@ export const userSlice = createSlice({
       }),
       builder.addCase(loginRequest.fulfilled, (state, { payload }) => {
         state.accessToken = payload;
-        state.loading = false;
         state.loggedIn = true;
+        state.loading = false;
       }),
       builder.addCase(loginRequest.rejected, (state, action) => {
         state.errors = action.payload;
@@ -166,6 +170,16 @@ export const userSlice = createSlice({
         state.email = payload;
       }),
       builder.addCase(changeEmail.rejected, (state, { payload }) => {
+        state.loading = false;
+        state.errors = payload;
+      }),
+      builder.addCase(removeUser.pending, (state) => {
+        state.loading = true;
+      });
+    builder.addCase(removeUser.fulfilled, (state) => {
+      state.loading = false;
+    }),
+      builder.addCase(removeUser.rejected, (state, { payload }) => {
         state.loading = false;
         state.errors = payload;
       }),

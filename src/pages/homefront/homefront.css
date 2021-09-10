@@ -1,235 +1,109 @@
 .homefront {
   display: grid;
-  place-items: start center;
   height: 100vh;
-  background: #faeee7;
-  overflow: hidden;
-}
-
-#storefront__letters {
-  position: absolute;
-  top: .9em;
-  font-size: 35vh;
-  opacity: 0.2;
-  -webkit-user-select: none; /* Safari */        
-  -moz-user-select: none; /* Firefox */
-  -ms-user-select: none; /* IE10+/Edge */
-  user-select: none; /* Standard */
-}
-
-#storefront__block {
-  position: absolute;
-  top: 0em;
-  left: 1px;
-  background-color: black;
-  opacity: 0.1;
-  height: 341.9vh;
-  width: 40%;
-  z-index: 1;
-}
-
-#storefront__image {
-  position: absolute;
-  top: 14em;
-  right: 0em;
-  height: 500px;
-  width: 800px;
-  background: transparent;
+  width: 100vw;
+  background-repeat: no-repeat;
   background-size: cover;
-  background-position: center;
+  background-position: center 75%;
+  place-items: center center;
 }
 
-.homefront__categories {
-  position: sticky;
-  position: webkit-sticky;
-  top: 8em;
+.ellipse__container {
+  position: relative;
+  height: 35rem;
+  width: 35rem;
+}
+
+.ellipse {
+  position: relative;
+  display: grid;
+  place-items: center center;
+  color: white;
+  background-color: transparent;
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+  border: 2px solid rgb(255,255,255, 0.65);
+}
+
+.ellipse__stuff {
+  display: grid;
+  place-items: center center;
+  width: 85%;
+  height: 55%;
+}
+
+.ellipse p {
+  font-size: 1rem;
+  font-family: 'Rubik', sans-serif;
+  font-style: italic;
+  padding: .5rem;
+}
+
+.ellipse a {
   display: flex;
-  justify-content: space-evenly;
-  width: 60%;
-  transition: opacity 550ms ease-in , transform 1s ease-in;
-  z-index: 2;
-}
-
-.homefront__categories a { text-decoration: none; }
-
-.homefront__categories a {
-  font-family: 'Liberation Serif';
-  font-size: 2.8em; 
-  color: #594a4e;
-  margin-right: 1em;
-}
-
-.homefront__categories a:first-letter {
-  text-transform: capitalize;
-}
-
-.homefront__hero {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  height: 300px;
-  width: 480px;
-  padding: 0em 0em 3em 0em;
-  transform: translateY(50%);
-  transition: 1s;
-}
-
-.homefront__hero p {
-  font-family: 'Liberation Serif';
-  font-size: 2.1em;
-  font-weight: bold;
-  margin: auto;
-  color: #594a4e;
-  z-index: 2;
-  transition: color .5s;
-}
-
-.homefront__hero p:hover {
-  color: #33272a;
-}
-
-.homefront__hero p:last-child {
-  padding: .5em;
-  border-radius: 3%;
-  cursor: pointer;
+  padding: .5em .8em;
+  border: 1px solid rgb(0,0,0,0.5);
+  border-radius: 6px;
+  box-sizing: border-box;
+  text-decoration: none;
+  font-family: 'Rubik',sans-serif;
+  font-style: italic;
+  font-size: 1.4rem;
+  font-weight: 300;
+  color: white;
+  background: rgb(0,0,0,.75);
   transition: all .5s;
-  background-color: #594a4e;
-  color: #faeee7;
 }
 
-.homefront__hero p:last-child:active {
-  transform: translateX(1px);
+.ellipse a:after {
+  display: block;
+  content: ' ';
+  background-image: url('../../assets/chocolate.svg');
+  background-size: 32px 32px;
+  height: 32px;
+  width: 32px;
 }
 
-.homefront__product-windows {
-  transform: translateX(325.5%);
-  display: flex;
-  visibility: hidden;
-  transition: 1s;
-  z-index: 2;
+.ellipse a .ellipse__button__icon {
+  font-size: 2rem;
+  color: white;
 }
 
-.homefront__product-windows__product {
-  margin-right: 2em;
-  transition: all 1s;
+.ellipse a:hover {
 }
 
-/* Portrait and Landscape */
-@media only screen 
-  and (min-device-width: 320px) 
-  and (max-device-width: 480px)
-  and (-webkit-min-device-pixel-ratio: 2) {
-  .homefront {
-    overflow-x: hidden;
-  }
-  .homefront__categories {
-    display: none;
-  }
-  #storefront__block {
-    display: none;
-  }
-  #storefront__image {
-    display: none;
-  }
-  #storefront__letters {
-    display: none;
+@media (max-width: 320px) {
+  .ellipse {
   }
 }
 
-/* Portrait */
-@media only screen 
-  and (min-device-width: 320px) 
-  and (max-device-width: 480px)
-  and (-webkit-min-device-pixel-ratio: 2)
-  and (orientation: portrait) {
-  #storefront__image {
-    position: absolute;
-    top: 14em;
-    right: 0em;
-    height: 100px;
-    width: 100px;
-    background: transparent;
-    background-size: cover;
-    background-position: center;
+@media (max-width: 570px) {
+  .ellipse__container {
+    height: 32rem;
+    width: 32rem;
   }
 }
 
-/* Landscape */
-@media only screen 
-  and (min-device-width: 320px) 
-  and (max-device-width: 480px)
-  and (-webkit-min-device-pixel-ratio: 2)
-  and (orientation: landscape) {
-
-}
-
-/* Portrait and Landscape */
-@media only screen 
-  and (min-device-width: 768px) 
-  and (max-device-width: 1024px) 
-  and (-webkit-min-device-pixel-ratio: 1) {
-  .homefront__categories a {
-    font-family: 'Liberation Serif';
-    font-size: 1.8em; 
-    color: #594a4e;
-    margin-right: 1em;
-  }
-  #storefront__letters {
-    position: absolute;
-    top: 1.8em;
-    left: 0em;
-    font-size: 26vh;
-    opacity: 0.2;
-    -webkit-user-select: none; /* Safari */        
-    -moz-user-select: none; /* Firefox */
-    -ms-user-select: none; /* IE10+/Edge */
-    user-select: none; /* Standard */
-  }
-  #storefront__block {
-    position: absolute;
-    top: 0em;
-    left: 1px;
-    background-color: black;
-    opacity: 0.1;
-    height: 333.7vh;
-    width: 30%;
-    z-index: 1;
-  }
-  .homefront {
-    display: flex;
-    background: #faeee7;
-  }
-  .homefront__categories {
-    position: absolute;
-    left: 1.8em;
-    width: 98vw;
-    transition: opacity 550ms ease-in , transform 1s ease-in;
-    z-index: 2;
-  }
-  .homefront__categories a {
-    font-family: 'Liberation Serif';
-    font-size: 2.5em; 
-    color: #594a4e;
-  }
-  .homefront__hero {
-    display: none;
+@media (max-width: 520px) {
+  .ellipse__container {
+    height: 30rem;
+    width: 30rem;
   }
 }
 
-/* Portrait */
-@media only screen 
-  and (min-device-width: 768px) 
-  and (max-device-width: 1024px) 
-  and (orientation: portrait) 
-  and (-webkit-min-device-pixel-ratio: 1) {
+@media (max-width: 480px) {
+  .ellipse__container {
+    height: 25rem;
+    width: 25rem;
+  }
 }
 
-/* Landscape */
-@media only screen 
-  and (min-device-width: 768px) 
-  and (max-device-width: 1024px) 
-  and (orientation: landscape) 
-  and (-webkit-min-device-pixel-ratio: 1) {
-
+@media (max-width: 400px) {
+  .ellipse__container {
+    height: 20rem;
+    width: 20rem;
+  }
 }

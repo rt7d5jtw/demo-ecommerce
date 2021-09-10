@@ -48,12 +48,8 @@ describe('User API Unit tests', () => {
     const regex = /^[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+/=]*$/i;
     it('calls api with user credentials and returns JWT token', async () => {
       const result = await login(arg);
-      expect(result).toEqual({
-        accessToken: expect.any(String),
-      });
-      expect(regex.test(result.accessToken)).toEqual(true);
-      const token = JSON.parse(localStorage.getItem('user') || '{}');
-      expect(token.accessToken).toMatch(regex);
+      expect(result).toMatch(regex);
+      expect(regex.test(result)).toEqual(true);
     });
 
     it('throws an error for incorrect email', async () => {

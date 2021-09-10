@@ -3,20 +3,8 @@
   height: 100vh;
   background: #f0ecec;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(10, 1fr);
-  grid-gap: 20px 20px;
-  grid-template-areas:
-    'profile-header profile-header profile-header'
-    'profile-nav profile-main profile-main'
-    'profile-nav profile-main profile-main'
-    'profile-nav profile-main profile-main'
-    'profile-nav profile-main profile-main'
-    'profile-nav profile-main profile-main'
-    'profile-nav profile-main profile-main'
-    'profile-nav profile-main profile-main'
-    'profile-nav profile-main profile-main'
-    'profile-nav profile-main profile-main';
+  grid-template-columns: 30% 1fr;
+  grid-template-rows: 10% 1fr 1fr;
 }
 
 .profile-page a {
@@ -25,7 +13,8 @@
 
 .profile-header {
   display: grid;
-  grid-area: profile-header;
+  grid-row: 1 / 2;
+  grid-column: 1 / 6;
   background: #f0ecec;
   grid-auto-flow: column;
   place-items: center start;
@@ -35,7 +24,7 @@
 
 .profile-header a {
   font-family: 'Lato', sans-serif;
-  margin-left: 13rem;
+  margin-left: 1rem;
   display: grid;
   color: #131313;
   width: 75%;
@@ -45,7 +34,6 @@
 
 .profile-header h1 {
   font-family: 'Lato', sans-serif;
-  margin-left: 13rem;
   display: grid;
   color: #131313;
   width: 75%;
@@ -55,9 +43,10 @@
 
 .profile-nav {
   display: grid;
-  grid-area: profile-nav;
   background: #f0ecec;
   place-items: center center;
+  grid-row: 2 / 4;
+  grid-column: 1 / 2;
 }
 
 .profile-nav h1 {
@@ -83,7 +72,7 @@
   align-items: center;
   border: 1px solid black;
   height: 85%;
-  width: 85%;
+  width: 95%;
   background: white;
 }
 
@@ -94,8 +83,8 @@
   place-items: center center;
   color: white;
   background: #181818;
-  width: 21rem;
-  height: 5rem;
+  width: 85%;
+  height: 20%;
   margin-bottom: 1em;
   cursor: pointer;
   transition: all 1s;
@@ -109,6 +98,8 @@
   display: grid;
   grid-area: profile-main;
   background: #f0ecec;
+  grid-row: 2 / 4;
+  grid-column: 2 / 3;
 }
 
 .profile-main__wrapper {
@@ -118,36 +109,74 @@
   position: relative;
 }
 
-/* Portrait and Landscape */
-@media only screen 
-  and (min-device-width: 768px) 
-  and (max-device-width: 1024px) 
-  and (-webkit-min-device-pixel-ratio: 1) {
+.profile-warnings {
+  margin-top: 1rem;
+  font-size: 1rem;
+  color: #cc5500;
+}
 
-  .profile-nav-wrapper {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    border: 1px solid black;
-    height: 85%;
-    width: inherit;
-    background: white;
-    margin-left: 2em;
-    padding: 2.5em;
-  }
-
+@media (max-width: 1175px) {
   .profile-nav-wrapper a {
-    font-family: 'Lato', sans-serif;
-    font-size: 2em;
-    display: grid;
-    place-items: center center;
-    color: white;
-    background: #181818;
-    width: 21rem;
-    height: 5rem;
-    margin-bottom: 1em;
-    cursor: pointer;
-    transition: all 1s;
+    font-size: 1.6rem;
+  }
+}
+
+@media (max-width: 1024px) {
+  .profile-page {
+    grid-template-columns: 1fr;
+    grid-template-rows: .1fr 1fr .3fr;
+  }
+  .profile-header {
+    grid-row: auto;
+    grid-column: auto;
+  }
+  .profile-nav {
+    grid-row: 3 / 4;
+    grid-column: auto;
+  }
+  .profile-main {
+    grid-row: auto;
+    grid-column: auto;
+  }
+  .profile-nav-wrapper {
+    flex-direction: row;
+    height: 100%;
+    width: 100%;
+  }
+  .profile-nav-wrapper a {
+    height: 100%;
+    border: 1px solid white;
+    margin-bottom: 0rem;
+  }
+}
+
+@media (max-width: 720px) {
+  .profile-nav-wrapper a {
+    font-size: 1.4rem;
+  }
+}
+
+@media (max-width: 620px) {
+  .profile-main {
+    margin: auto;
+    height: 100%;
+    width: 100%;
+  }
+  .profile-main__wrapper {
+    width: 100%;
+    height: 100%;
+  }
+  .profile-changeform {
+    height: 100%;
+    width: 100%;
+  }
+  .profile-nav-wrapper a {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 520px) {
+  .profile-nav-wrapper a {
+    font-size: 1rem;
   }
 }

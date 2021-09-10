@@ -1,41 +1,54 @@
 /// <reference types="cypress" />
+import { AnyAction } from 'redux';
 import { setLoggedIn } from '../../src/features/user/userSlice';
 
-describe('Test authentication flow', function () {
+describe('Test authentication and authorization flow', function () {
+  let userId: string;
+  const dispatch = (action: AnyAction) => cy.window().its('store').invoke('dispatch', action);
+
   this.beforeEach(() => {
-    /*
     cy.request('POST', 'http://localhost:3000/users', {
       email: 'jauhopussi@gmail.com',
       password: 'miukumauku123',
-    });
-    */
-  });
-  it('Sign up and login a user', function () {
-    /* This can only be used once I figure out how
-     * to set the redux store to set user.loggedIn to true
-     * and set user.token to jwt token from the server
-    cy.visit('/');
-    cy.request('POST', 'http://localhost:3000/auth/signin', {
-      email: 'jauhopussi@gmail.com',
-      password: 'miukumauku123',
     }).then((res) => {
-      localStorage.setItem('user', JSON.stringify(res.body));
+      userId = res.body.id;
     });
-    cy.wait(1500);
-    cy.reload();
-    */
+  });
 
-    cy.visit('./register');
-    cy.get('input[name="email"]').type('jauhopussi@gmail.com');
-    cy.get('input[name="password"]').type('miukumauku123');
-    cy.get('button[type="submit"]').click();
-    cy.location('pathname').should('eq', '/login');
-    cy.get('input[name="email"]').type('jauhopussi@gmail.com');
-    cy.get('input[name="password"]').type('miukumauku123');
-    cy.get('button[type="submit"]').click();
-    cy.location('pathname').should('eq', '/', () => {
-      expect(localStorage.getItem('user')).to.not.be.null;
+  it('Sign up and login a user', function () {
+    cy.visit('/');
+    cy.location('pathname').should('eq', '/');
+    cy.request({
+      method: 'POST',
+      url: 'http://localhost:3000/auth/signin',
+      form: true,
+      body: {
+        email: 'jauhopussi@gmail.com',
+        password: 'miukumauku123',
+      },
+    }).then(function (res) {
+      dispatch(setLoggedIn({ loggedIn: true, accessToken: res.body.accessToken }));
     });
-    cy.get('div[class="profile-dropdown"]').click();
+    cy.window()
+      .its('store')
+      .invoke('getState')
+      .its('user')
+      .as('state:user')
+      .its('loggedIn')
+      .should('eq', true);
+    cy.get('@state:user').its('accessToken');
+    cy.get('@state:user')
+      .its('accessToken')
+      .should('not.eq', null)
+      .then(function (token) {
+        cy.request({
+          method: 'DELETE',
+          url: `http://localhost:3000/users/${userId}`,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          form: true,
+        }).then((res) => expect(res.status === 200));
+      });
   });
 });

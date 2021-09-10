@@ -19,7 +19,7 @@ export const ProfileDropdown = (): JSX.Element => {
         <i>
           <CgProfile />
         </i>
-        <ul style={isChecked ? { height: '320px', width: '200px' } : {}}>
+        <ul data-cy='profile-ul' style={isChecked ? { height: '320px', width: '200px' } : {}}>
           <li>
             <Link to='/profile'>Profile</Link>
           </li>

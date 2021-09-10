@@ -1,5 +1,6 @@
 import axios, { AxiosError } from 'axios';
 import { ValidationErrors } from '../promotion/promotionSlice';
+import { authHeader } from '../user/api';
 import { ICategory } from './categorySlice';
 
 export const CATEGORY_URL = 'http://localhost:3000/category/';
@@ -21,7 +22,7 @@ export async function fetchCategories(): Promise<ICategory[]> {
 
 export async function createCategory(cname: string): Promise<ICategory> {
   return axios
-    .post(CATEGORY_URL, { cname: cname })
+    .post(CATEGORY_URL, { cname: cname }, { headers: authHeader() })
     .then((res) => {
       return res.data;
     })
@@ -36,7 +37,7 @@ export async function createCategory(cname: string): Promise<ICategory> {
 
 export async function removeCategory(id: string): Promise<void> {
   return axios
-    .delete(CATEGORY_URL + id)
+    .delete(CATEGORY_URL + id, { headers: authHeader() })
     .then((res) => {
       return res.data;
     })
@@ -52,7 +53,7 @@ export async function removeCategory(id: string): Promise<void> {
 export async function updateCategory(data: ICategory): Promise<ICategory> {
   const { id, cname } = data;
   return axios
-    .patch(CATEGORY_URL + id, cname)
+    .patch(CATEGORY_URL + id, { cname: cname }, { headers: authHeader() })
     .then((res) => {
       return res.data;
     })

@@ -1,36 +1,43 @@
 .admin-products {
+  display: flex;
+  flex-direction: column;
   font-family: 'Montserrat', sans-serif;
   position: relative;
   overflow-y: scroll;
+  background: #eaddcf;
 }
 
 .admin-products__options {
   position: relative;
   display: flex;
-  padding: 10px;
+  font-size: 1.2rem;
 }
 
-.admin-products__options p {
+.admin-products__options >* {
+  flex-grow: 1;
   display: flex;
+  justify-content: center;
   align-items: center;
 }
 
-.admin-products__options select {
-  margin-right: .4rem;
+.admin-products__options >*:nth-child(2) label {
+  margin-left: .5rem;
 }
 
-.admin-products__options #per-view {
-  margin-top: .1rem;
-  margin-left: 1.5em;
+.admin-products__options >*:nth-child(3) input {
+  padding: .5rem 1rem;
+  border: none;
+  border-radius: 6px;
+  margin: 0;
 }
 
-.admin-products__options .admin-searchbar {
-  margin-left: 1em;
+.admin-products__options >*:nth-last-child(2) a {
+  padding: .5rem;
 }
 
 .admin-products table {
     border-collapse: collapse;
-    border: 2px solid rgb(200, 200, 200);
+    border: 2px solid #8c7851;
     letter-spacing: 1px;
     font-family: sans-serif;
     font-size: .8rem;
@@ -39,17 +46,17 @@
 
 .admin-products thead,
 .admin-products tfoot {
-    background-color: #3f87a6;
+    background-color: #8c7851;
     color: #fff;
 }
 
 .admin-products tbody {
-    background-color: #e4f0f5;
+    background-color: #faeee7;
 }
 
 .admin-products td,
 .admin-products th {
-    border: 1px solid rgb(190, 190, 190);
+    border: 1px solid #020826;
     padding: 5px 10px;
 }
 
@@ -84,10 +91,6 @@
 } 
 
 .admin-products #new-product {
-  position: absolute;
-  top: .4em;
-  left: 42em;
-  padding: .7em;
   border: 1px solid #131313;
   border-radius: 4px;
   color: #131313;
@@ -96,8 +99,11 @@
 .admin-products #products-selected {
   font-size: 1em;
   position: absolute;
-  top: 1.3em;
-  right: 22em;
+  top: .1em;
+  right: 17.5em;
+  color: #fffffe;
+  background: #131313;
+  padding: 1rem 1.2rem;
 }
 
 .admin-products #change-page {
@@ -120,10 +126,4 @@
 
 .admin-products .new-product:hover {
   background: white;
-}
-
-.admin-products #pagination {
-  position: absolute;
-  top: .1em;
-  right: 2em;
 }

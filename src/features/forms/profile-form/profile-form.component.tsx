@@ -1,6 +1,4 @@
 import * as React from 'react';
-import { useSelector } from 'react-redux';
-import { selectUserErrors } from '../../user/selectors';
 import './profile-form.css';
 
 type FieldLabels = {

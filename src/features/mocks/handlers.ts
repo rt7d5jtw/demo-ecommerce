@@ -147,7 +147,7 @@ export const handlers = [
 
   rest.get(PRODUCT_URL, (req, res, ctx) => {
     const query = req.url.searchParams;
-    const search = query.get('Dune');
+    query.get('Dune');
     return res(
       ctx.status(200),
       ctx.json({

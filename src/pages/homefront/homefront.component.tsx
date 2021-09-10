@@ -1,85 +1,26 @@
 import * as React from 'react';
 import './homefront.css';
-import { createStructuredSelector } from 'reselect';
-import { RootState } from '../../app/store';
-import { ICategory, selectCategories } from '../../features/category/categorySlice';
-import { connect, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { IProduct } from '../../features/product/productSlice';
-import { selectItems } from '../../features/product/selectors';
-import ProductCard from '../../features/product/product-card/product-card.component';
-import { useRef, useState } from 'react';
-import mainImg from './../../assets/Untitled.png';
-import Alert from '../../features/alert/alert/alert.component';
+import background from './../../assets/homefront.jpg';
+import { MdKeyboardArrowRight } from 'react-icons/md';
 
-interface IHomefront {
-  categories: ICategory[];
-  products: IProduct[];
-}
-
-const Homefront = ({ categories, products }: IHomefront): JSX.Element => {
-  const [preview, setPreview] = useState<boolean>(false);
+const Homefront = (): JSX.Element => {
   return (
-    <div className='homefront'>
-      <Alert />
-      <h1 id='storefront__letters'>Rich Chocolate</h1>
-      <div id='storefront__block' />
-      <div className='homefront__categories'>
-        {categories
-          .filter(
-            (cat) =>
-              cat.cname === 'bestsellers' ||
-              cat.cname === 'Milk Chocolate' ||
-              cat.cname === 'Dark Chocolate'
-          )
-          .map(({ cname, id }) => (
-            <Link to={'/products/' + cname} href={cname} key={id}>
-              {cname}
+    <div className='homefront' style={{ backgroundImage: `url(${background})` }}>
+      <div className='ellipse__container'>
+        <div className='ellipse'>
+          <div className='ellipse__stuff'>
+            <p>Quality chocolates since 1894, made from fresh ingredients</p>
+            <Link to='/products/bestsellers' className='ellipse__button'>
+              Bestsellers
+              <MdKeyboardArrowRight className='ellipse__button__icon' />
             </Link>
-          ))}
-        <Link to='/products/shopall'>Shop All</Link>
-      </div>
-
-      <div style={preview ? { transform: 'translateY(30%)' } : {}} className='homefront__hero'>
-        <p>Interested in our products?</p>
-        <p onClick={() => setPreview(!preview)}>Preview few now</p>
-      </div>
-      <div id='storefront__image' style={{ backgroundImage: `url(${mainImg})` }} />
-
-      <div
-        id='hf-pw'
-        className='homefront__product-windows'
-        style={preview ? { visibility: 'visible', transform: 'translateX(0%)' } : {}}
-      >
-        {products
-          .filter((_e, idx) => idx < 3)
-          .map(({ id, title, image, price, description, categories }: IProduct) => (
-            <div key={id} className='homefront__product-windows__product'>
-              <ProductCard
-                key={id}
-                id={id}
-                title={title}
-                image={image}
-                price={price}
-                description={description}
-                categories={categories}
-                quantity={1}
-              />
-            </div>
-          ))}
+            <p>Finest ingredients straight from producers</p>
+          </div>
+        </div>
       </div>
     </div>
   );
 };
 
-interface IMapStateToProps {
-  categories: ICategory[];
-  products: IProduct[];
-}
-
-const mapStateToProps = createStructuredSelector<RootState, IMapStateToProps>({
-  categories: selectCategories,
-  products: selectItems,
-});
-
-export default connect(mapStateToProps)(Homefront);
+export default Homefront;

@@ -24,13 +24,13 @@ function PromotionsDashboard(): JSX.Element {
   }
 
   function deleteHandler(e: React.MouseEvent<HTMLButtonElement>) {
-    const value = (e.target as HTMLInputElement).value;
+    const value = JSON.parse((e.target as HTMLInputElement).value);
     selections.length > 1
       ? confirm(`Are you sure you wanna delete ${selections.length} promotions?`) &&
-        console.log(value)
+        console.info('No implementation')
       : selections.length <= 1
       ? confirm('Are you sure you want to delete this promotion?') &&
-        dispatch(removePromotion(Number(value)))
+        dispatch(removePromotion(value))
       : null;
   }
 
@@ -39,9 +39,10 @@ function PromotionsDashboard(): JSX.Element {
   }
 
   function onCheckbox(e: React.ChangeEvent<HTMLInputElement>) {
-    selections.some((obj) => obj.id === e.target.value)
-      ? setSelections(selections.filter((obj) => obj.id !== e.target.value))
-      : setSelections([...selections, { id: e.target.value }]);
+    const { id } = JSON.parse(e.target.value);
+    selections.some((obj) => obj.id === id)
+      ? setSelections(selections.filter((obj) => obj.id !== id))
+      : setSelections([...selections, { id: id }]);
   }
 
   function onSelectAll(): void {
@@ -95,7 +96,7 @@ function PromotionsDashboard(): JSX.Element {
           />
         </div>
         <div>
-          <Link id='new-category' to={`/admin-dashboard/promotions-dashboard/promotions-create`}>
+          <Link id='new-promotion' to={`/admin-dashboard/promotions-dashboard/promotions-create`}>
             Create a new Promotion
           </Link>
         </div>
@@ -124,69 +125,85 @@ function PromotionsDashboard(): JSX.Element {
             <th scope='col'></th>
           </tr>
         </thead>
-        {input.search.length > 0
-          ? rankedIndex.map(({ image, title, id }) => (
-              <tbody>
-                <tr>
+        <tbody>
+          {input.search.length > 0
+            ? rankedIndex.map((promotion) => (
+                <tr key={promotion.id}>
                   <th scope='row' className='img-row'>
-                    <img src={require(`../../../../../assets/${image}`)} />
+                    <img src={require(`../../../../../assets/${promotion.image}`)} />
                   </th>
-                  <td>{id}</td>
-                  <td>{title}</td>
+                  <td>{promotion.id}</td>
+                  <td>{promotion.title}</td>
                   <td>
                     <input
                       onChange={onCheckbox}
-                      checked={selections.find((e) => e.id === id.toString()) !== undefined}
+                      checked={
+                        selections.find((e) => e.id === promotion.id.toString()) !== undefined
+                      }
                       type='checkbox'
-                      value={id}
+                      value={promotion.id}
                       name='selection'
                       id='selection'
                     />
                   </td>
                   <td>
-                    <Link to={`/admin-dashboard/promotions-dashboard/promotions-edit/${id}`}>
+                    <Link
+                      to={`/admin-dashboard/promotions-dashboard/promotions-edit/${promotion.id}`}
+                      id='edit-link'
+                    >
                       Edit
                     </Link>
                   </td>
                   <td>
-                    <button onClick={deleteHandler} id='delete-row' value={id}>
+                    <button
+                      onClick={deleteHandler}
+                      id='delete-row'
+                      value={JSON.stringify(promotion)}
+                    >
                       Delete
                     </button>
                   </td>
                 </tr>
-              </tbody>
-            ))
-          : miumau.map(({ image, title, id }) => (
-              <tbody>
-                <tr>
+              ))
+            : miumau.map((promotion) => (
+                <tr key={promotion.id}>
                   <th scope='row' className='img-row'>
-                    <img src={require(`../../../../../assets/${image}`)} />
+                    <img src={require(`../../../../../assets/${promotion.image}`)} />
                   </th>
-                  <td>{id}</td>
-                  <td>{title}</td>
+                  <td>{promotion.id}</td>
+                  <td>{promotion.title}</td>
                   <td>
                     <input
                       onChange={onCheckbox}
-                      checked={selections.find((e) => e.id === id.toString()) !== undefined}
+                      checked={
+                        selections.find((e) => e.id === promotion.id.toString()) !== undefined
+                      }
                       type='checkbox'
-                      value={id}
+                      value={promotion.id}
                       name='selection'
                       id='selection'
                     />
                   </td>
                   <td>
-                    <Link to={`/admin-dashboard/promotions-dashboard/promotions-edit/${id}`}>
+                    <Link
+                      to={`/admin-dashboard/promotions-dashboard/promotions-edit/${promotion.id}`}
+                      id='edit-link'
+                    >
                       Edit
                     </Link>
                   </td>
                   <td>
-                    <button onClick={deleteHandler} id='delete-row' value={id}>
+                    <button
+                      onClick={deleteHandler}
+                      id='delete-row'
+                      value={JSON.stringify(promotion)}
+                    >
                       Delete
                     </button>
                   </td>
                 </tr>
-              </tbody>
-            ))}
+              ))}
+        </tbody>
       </table>
     </div>
   );

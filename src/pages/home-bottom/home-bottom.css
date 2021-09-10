@@ -1,9 +1,12 @@
 .homebottom {
   display: grid;
   place-items: center center;
-  height: 100vh;
+  min-height: 100vh;
   background: #faeee7;
-  overflow-y: hidden;
+  overflow: hidden;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center 50%;
 }
 
 .homebottom__wrapper {
@@ -16,7 +19,7 @@
 }
 
 .homebottom__wrapper__text {
-  font-family: 'Montserrat';
+  font-family: 'Rubik', sans-serif;
   font-size: 1.2em;
   letter-spacing: 0.05rem;
   width: 25%;
@@ -26,18 +29,27 @@
 
 .homebottom__wrapper__text--slidein {
   font-family: 'Montserrat';
-  font-size: 1.2em;
+  font-size: 1.1em;
   letter-spacing: 0.05rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   width: 25%;
   padding: 1em;
   transform: translateX(0%);
   transition: transform 1s ease-in;
   margin-left: 1em;
+  color: white;
+}
+
+.homebottom__wrapper__text--slidein >* {
+  margin: .5rem;
 }
 
 .homebottom__wrapper__image {
-  border: 2px solid red;
   display: flex;
+  flex-direction: column;
   flex-grow: 1;
   background-size: cover;
   background-position: center;
@@ -46,7 +58,12 @@
 }
 
 .homebottom__wrapper__image--slidein {
+  font-size: 1.1rem;
+  color: white;
   display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
   height: 100%;
   width: 50%;
   background-size: cover;
@@ -54,4 +71,65 @@
   transform: translateX(0%);
   opacity: 1;
   transition: transform 1s ease-in;
+}
+
+.homebottom__wrapper__image--slidein >* {
+  margin: .5rem;
+}
+
+@media (max-width: 1300px) {
+  .homebottom >* >* {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 1200px) {
+  .homebottom >* >* {
+    font-size: .9rem;
+  }
+}
+
+@media (max-width: 1000px) {
+  .homebottom >* >* {
+    font-size: .8rem;
+  }
+}
+
+@media (max-width: 780px) {
+  .homebottom__wrapper {
+    height: 60%;
+  }
+  .homebottom >* >* {
+    font-size: .7rem;
+    letter-spacing: 0;
+  }
+}
+
+@media (max-width: 780px) {
+  .homebottom__wrapper {
+    flex-direction: column;
+    align-items: center;
+  }
+  .homebottom >* >* {
+    width: 85%;
+  }
+
+  .homebottom >* >*:first-child {
+    margin-bottom: 1rem;
+  } 
+}
+
+@media (max-width: 660px) {
+  .homebottom >* >* {
+    font-size: .6rem;
+  }
+}
+
+@media (max-width: 470px) {
+  .homebottom >* >* {
+    width: 95%;
+  }
+  .homebottom__wrapper {
+    height: 80%;
+  }
 }

@@ -6,22 +6,27 @@ import { HiOutlinePlusCircle } from 'react-icons/hi';
 import { BiMinusCircle } from 'react-icons/bi';
 import { FaStripe } from 'react-icons/fa';
 import { FaCcPaypal } from 'react-icons/fa';
-import { useHistory } from 'react-router';
+import { useHistory, useLocation } from 'react-router';
 import { addShippingInformation } from '../../features/user/userSlice';
-import { selectShippingInfo } from '../../features/user/selectors';
-import Alert from '../../features/alert/alert/alert.component';
+import { selectAccessToken, selectShippingInfo } from '../../features/user/selectors';
 import { promoAdded } from '../../features/alert/alertSlice';
 import { addItem, ICartItem, removeItem } from '../../features/cart/cartSlice';
 import { addItemDB, removeItemDB } from '../../features/cart/thunks';
 
 const Cart = (): JSX.Element => {
+  const token = useSelector(selectAccessToken);
   const { push } = useHistory();
   const cartItems = useSelector(selectCartItems);
   const total = useSelector(selectCartTotal);
   const shippingInfo = useSelector(selectShippingInfo);
   const dispatch = useDispatch();
   const [disabled, setDisabled] = React.useState<boolean>(false);
-  const user = JSON.parse(localStorage.getItem('user') || '{}');
+
+  const { pathname } = useLocation();
+
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
 
   React.useEffect(() => {
     if (shippingInfo === null || (shippingInfo.cost == null && parsedTotal == 0)) {
@@ -46,7 +51,7 @@ const Cart = (): JSX.Element => {
 
   function addHandler(cartItem: ICartItem) {
     dispatch(addItem(cartItem));
-    if (user && user.accessToken) {
+    if (token) {
       if (cartItem.productId != undefined) {
         dispatch(addItemDB(cartItem.productId));
       }
@@ -55,7 +60,7 @@ const Cart = (): JSX.Element => {
 
   function removeHandler(cartItem: ICartItem) {
     dispatch(removeItem(cartItem));
-    if (user && user.accessToken) {
+    if (token) {
       if (cartItem.productId != undefined) {
         dispatch(removeItemDB(cartItem.productId));
       }
@@ -72,7 +77,6 @@ const Cart = (): JSX.Element => {
   }
   return (
     <div className='cart'>
-      <Alert />
       <div className='cart__wrapper'>
         <div className='cart__wrapper__header'>
           <h1>The Shopping Bag</h1>
@@ -101,44 +105,53 @@ const Cart = (): JSX.Element => {
                     </td>
                     <td className='ctw-price'>${cartItem.price}</td>
                     <td>
-                      <p className='ctw-remove' onClick={() => removeHandler(cartItem)}>
+                      <span className='ctw-remove' onClick={() => removeHandler(cartItem)}>
                         Remove
-                      </p>
+                      </span>
                     </td>
                   </tr>
                 ))}
               </tbody>
             ) : (
-              <p id='cart-is-empty'>Cart is empty :(</p>
+              <p id='cart-is-empty'>Shopping bag is empty :(</p>
             )}
           </table>
         </div>
         <div className='cart__wrapper__right'>
           <div className='cart__wrapper__right__info'>
-            <p>
-              Subtotal: <span>${total}</span>
-            </p>
-            <p>
-              Shipping:{' '}
-              <select onChange={deliveryHandler}>
-                <option value='Standard Pick Up Point'>Standard Pick Up Point</option>
-                <option value='Express Delivery'>Express Delivery</option>
-              </select>
-            </p>
-            <p>
-              Promocode:{' '}
-              <input
-                disabled={disabled}
-                onChange={promoHandler}
-                id='promocode'
-                type='text'
-                placeholder='Promotion code'
-              />
-            </p>
-            <br />
-            <h1>
-              Order Total: <span id='order-total'>${parsedTotal}</span>
-            </h1>
+            <table>
+              <tbody>
+                <tr>
+                  <td>Subtotal</td>
+                  <td>${total}</td>
+                </tr>
+                <tr>
+                  <td>Shipping</td>
+                  <td>
+                    <select onChange={deliveryHandler}>
+                      <option value='Standard Pick Up Point'>Standard Pick Up Point</option>
+                      <option value='Express Delivery'>Express Delivery</option>
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Promocode</td>
+                  <td>
+                    <input
+                      disabled={disabled}
+                      onChange={promoHandler}
+                      id='promocode'
+                      type='text'
+                      placeholder='Promotion code'
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>Order total</td>
+                  <td>${parsedTotal}</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
           <div className='cart__wrapper__right__ch'>
             <button onClick={checkoutHandler}>Checkout</button>

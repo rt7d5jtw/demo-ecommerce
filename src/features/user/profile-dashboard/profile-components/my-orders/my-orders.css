@@ -34,3 +34,13 @@
   height: 85%;
   overflow-y: scroll;
 }
+
+@media (max-width: 1024px) {
+  .profile-myorders {
+    height: 100%;
+    width: 100%;
+  }
+  #profile-myorders__header {
+    font-size: 1.7rem;
+  }
+}

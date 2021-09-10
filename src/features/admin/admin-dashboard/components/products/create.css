@@ -1,3 +1,7 @@
+.admin-create {
+  background: #eaddcf;
+}
+
 .admin-create form button[type=submit] {
   width: 79%;
   color: #271c19;

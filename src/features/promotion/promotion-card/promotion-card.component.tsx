@@ -14,8 +14,8 @@ const PromotionCard = ({ image, url, title }: IPromotionCard): JSX.Element => {
   return (
     <div className='promotion-card' onClick={() => push(url)}>
       <img className='promotion-card__img' src={require(`../../../assets/${image}`)} />
-      <h2 className='promotion-card__h2'>{title}</h2>
-      <p className='promotion-card__p'>Know more</p>
+      <h2 className='promotion-card__h2'></h2>
+      <p className='promotion-card__p'>{title}</p>
     </div>
   );
 };

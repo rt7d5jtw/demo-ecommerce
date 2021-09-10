@@ -9,8 +9,8 @@ import { fetch as fetchProducts } from '../../features/product/thunks';
 import Main from '../../features/homepage-components/main/main.component';
 import { selectPromotionItems } from '../../features/promotion/selectors';
 import { fetch as fetchPromotions } from '../../features/promotion/thunks';
-import { Route, Switch, useHistory, useRouteMatch } from 'react-router';
-import { selectLoggedIn } from '../../features/user/selectors';
+import { Route, Switch, useRouteMatch } from 'react-router';
+import { selectAccessToken, selectLoggedIn } from '../../features/user/selectors';
 import { logout } from '../../features/user/thunks';
 import { selectItems } from '../../features/product/selectors';
 import { selectCategories } from '../../features/category/categorySlice';
@@ -26,16 +26,22 @@ import Cart from '../cart/cart.component';
 import { AiFillHome } from 'react-icons/ai';
 import { GiShoppingBag } from 'react-icons/gi';
 import { BiLogIn } from 'react-icons/bi';
+import { AiOutlineShop } from 'react-icons/ai';
+import { Link } from 'react-router-dom';
+import { selectMessage } from '../../features/alert/alertSlice';
+import Alert from '../../features/alert/alert/alert.component';
 
 function Homepage(): JSX.Element {
+  const match = useRouteMatch();
   const dispatch = useDispatch();
-  const { push } = useHistory();
 
   /* selectors */
+  const accessToken = useSelector(selectAccessToken);
   const loggedIn = useSelector(selectLoggedIn);
   const categories = useSelector(selectCategories);
   const products = useSelector(selectItems);
   const promotions = useSelector(selectPromotionItems);
+  const alertMessage = useSelector(selectMessage);
 
   categories.length === 0
     ? dispatch(fetchCategories())
@@ -45,13 +51,12 @@ function Homepage(): JSX.Element {
     ? dispatch(fetchPromotions())
     : null;
 
-  if (localStorage.getItem('user') === null && loggedIn === true) {
+  if (accessToken === null && loggedIn === true) {
     dispatch(logout());
   }
-
-  const match = useRouteMatch();
   return (
     <div className='homepage'>
+      {alertMessage.length > 0 ? <Alert /> : null}
       <Navbar />
       <Sidebar />
       <Main>
@@ -71,15 +76,18 @@ function Homepage(): JSX.Element {
       </Main>
       <Footer />
       <div className='mobile-menu'>
-        <div>
-          <GiShoppingBag id='shopicon' onClick={() => push('/products/shopall')} />
-        </div>
-        <div>
-          <AiFillHome id='homeicon' onClick={() => push('/')} />
-        </div>
-        <div>
-          <BiLogIn id='login' onClick={() => push('/login')} />
-        </div>
+        <Link to='/products/shopall'>
+          <AiOutlineShop id='shopicon' />
+        </Link>
+        <Link to='/'>
+          <AiFillHome id='homeicon' />
+        </Link>
+        <Link to='/cart'>
+          <GiShoppingBag id='carticon' />
+        </Link>
+        <Link to={!loggedIn ? '/login' : '/profile'}>
+          <BiLogIn id='login' />
+        </Link>
       </div>
     </div>
   );

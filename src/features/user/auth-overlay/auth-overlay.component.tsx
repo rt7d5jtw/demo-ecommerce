@@ -10,16 +10,16 @@ interface IAuthOverlay {
 export function AuthOverlay({ img, children }: IAuthOverlay): JSX.Element {
   const { url } = useRouteMatch();
   return (
-    <div className='auth-overlay'>
-      <img src={img} />
-      {children}
+    <>
+      <div className='auth-overlay'>
+        <img src={img} />
+        {children}
+      </div>
       {url === '/login' ? (
         <Link to='/register' className='register-link'>
-          <div className='register-link__mask'>
-            Dont have an account yet? Click here to register
-          </div>
+          Dont have an account yet? Click here to register
         </Link>
       ) : null}
-    </div>
+    </>
   );
 }

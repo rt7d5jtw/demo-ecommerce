@@ -2,14 +2,15 @@ import * as React from 'react';
 import './product-card.css';
 import { addItem, productToCartItem } from '../../cart/cartSlice';
 import { addItemDB } from '../../cart/thunks';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { IProductCard } from '../../../features/product/productSlice';
 import { useHistory, useParams } from 'react-router';
 import { GiShoppingBag } from 'react-icons/gi';
+import { selectAccessToken } from '../../user/selectors';
 
 /* CategoryPage component feeds data to ProductCard from props */
 const ProductCard = (product: IProductCard): JSX.Element => {
-  const user = JSON.parse(localStorage.getItem('user') || '{}');
+  const token = useSelector(selectAccessToken);
   const dispatch = useDispatch();
   const { push } = useHistory();
   const params = useParams<{ category?: string }>();
@@ -18,7 +19,7 @@ const ProductCard = (product: IProductCard): JSX.Element => {
   const buttonHandler = () => {
     /* copying an object into new CartItem from the ProductCard */
     dispatch(addItem(productToCartItem(product)));
-    if (user && user.accessToken) {
+    if (token) {
       dispatch(addItemDB(product.id));
     }
   };

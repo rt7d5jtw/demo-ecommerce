@@ -1,8 +1,7 @@
 import * as React from 'react';
 import './order-card.css';
-import img from '../../../assets/bar.jpg';
 import { useSelector } from 'react-redux';
-import { selectOrders, selectRecentOrderItems } from '../selectors';
+import { selectRecentOrderItems } from '../selectors';
 import { CheckoutItem } from '../../../pages/checkout-item/checkout-item.component';
 
 interface IOrderCard {

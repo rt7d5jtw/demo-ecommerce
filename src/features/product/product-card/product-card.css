@@ -13,7 +13,7 @@
   transition: all 1s;
 }
 
-.product-card__image {
+.product-card img {
   display: flex;
   justify-content: center;
   align-items: flex-end;
@@ -28,25 +28,26 @@
 
 .product-card__card-button {
   position: absolute;
-  top: 25px;
+  bottom: 5%;
   right: 45px;
   display: flex;
   background-color: transparent;
-  color: #594a4e;
+  color: white;
   border: none;
   outline: 0;
   padding: 12.5px;
   margin-top: .3em;
   font-size: 1.2em;
   cursor: pointer;
-  border: 1px solid #594a4e;
+  border: 1px solid white;
   border-radius: 100%;
   transition: .5s ease-in;
   z-index: 2;
 }
 
 .product-card__card-button:hover {
-  background: white;
+  background: black;
+  color: black;
 }
 
 .card-button:hover {
@@ -57,10 +58,21 @@
 .product-card__title {
   position: relative;
   display: flex;
-  font-family: 'Liberation', sans-serif;
-  color: #131313;
+  flex-direction: column;
+  align-items: start;
+  justify-content: start;
+  font-size: 1.2rem;
+  font-family: 'Rubik', sans-serif;
+  font-weight: 300;
+  color: beige;
   width: 85%;
-  padding: 10px;
+  padding: 1rem 0rem;
+}
+
+.product-card__title p:first-child {
+  margin-bottom: .4rem;
+  width: 85%;
+  text-align: start;
 }
 
 .product-card__title p {
@@ -69,4 +81,46 @@
 
 .product-card__title p:first-letter {
   text-transform: capitalize;
+}
+
+
+
+@media (max-width: 600px) {
+  .product-card {
+    width: 80%;
+    height: 28.5em;
+  }
+  .product-card__title p {
+    font-size: 1em;
+  }
+}
+
+@media (max-width: 450px) {
+  .product-card {
+    height: 20rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .product-card__title p {
+    font-size: .9em;
+  }
+  .product-card__card-button {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .product-card__title p {
+    font-size: .8em;
+  }
+}
+
+@media (max-width: 350px) {
+  .product-card__title p {
+    font-size: .7em;
+  }
+  .product-card__card-button {
+    font-size: .8em;
+  }
 }

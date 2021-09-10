@@ -1,21 +1,20 @@
 import * as React from 'react';
 import './change-email.css';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { changeEmail } from '../../../thunks';
-import Alert from '../../../../alert/alert/alert.component';
 import { ProfileForm } from '../../../../forms/profile-form/profile-form.component';
 import { handleForm } from '../../../../forms/utils/utils';
+import { selectUserErrors } from '../../../selectors';
 
 const ChangeEmail = (): JSX.Element => {
   const dispatch = useDispatch();
+  const errors = useSelector(selectUserErrors);
   function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    console.log(handleForm(event.currentTarget.elements));
-    //dispatch(changeEmail(handleForm(event.currentTarget.elements)));
+    dispatch(changeEmail(handleForm(event.currentTarget.elements)));
   }
   return (
     <div className='profile-changeform'>
-      <Alert />
       <ProfileForm
         onSubmit={onSubmit}
         fields={{
@@ -55,6 +54,9 @@ const ChangeEmail = (): JSX.Element => {
           },
         }}
       />
+      <p className='profile-warnings'>
+        {errors && errors?.statusCode === 401 ? 'Invalid credentials!' : null}
+      </p>
     </div>
   );
 };

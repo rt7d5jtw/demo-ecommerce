@@ -1,19 +1,19 @@
 import * as React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { changePassword } from '../../../thunks';
-import Alert from '../../../../alert/alert/alert.component';
 import { ProfileForm } from '../../../../forms/profile-form/profile-form.component';
 import { handleForm } from '../../../../forms/utils/utils';
+import { selectUserErrors } from '../../../selectors';
 
 const ChangePassword = (): JSX.Element => {
   const dispatch = useDispatch();
+  const errors = useSelector(selectUserErrors);
   function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     dispatch(changePassword(handleForm(event.currentTarget.elements)));
   }
   return (
     <div className='profile-changeform'>
-      <Alert />
       <ProfileForm
         onSubmit={onSubmit}
         fields={{
@@ -49,6 +49,9 @@ const ChangePassword = (): JSX.Element => {
           },
         }}
       />
+      <p className='profile-warnings'>
+        {errors && errors?.statusCode === 401 ? 'Invalid credentials!' : null}
+      </p>
     </div>
   );
 };

@@ -1,8 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=MonteCarlo&display=swap');
+
 /* http://meyerweb.com/eric/tools/css/reset/ 
    v2.0 | 20110126
    License: none (public domain)
 */
-
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -69,6 +70,8 @@ body::-webkit-scrollbar-thumb {
 
 html {
   background: #f0ecec;
+  height: 100%;
+  overflow: auto;
 }
 
 * {
@@ -77,4 +80,6 @@ html {
 
 body {
   margin: 0;
+  height: 100%;
 }
+

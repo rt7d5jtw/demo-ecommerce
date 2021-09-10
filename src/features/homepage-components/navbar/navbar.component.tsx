@@ -38,15 +38,13 @@ export const Navbar = (): JSX.Element => {
   return (
     <nav className='navbar'>
       <div className='nav-wrapper'>
-        <div />
-        <div className='nav-wrapper__right'>
+        <div className='nav-wrapper__left'>
           <Search scrollEvent={scrollDir} />
         </div>
         <div className='nav-wrapper__middle'>
           <Logo scrollEvent={scrollDir} />
         </div>
-        <div />
-        <div className='nav-wrapper__left'>
+        <div className='nav-wrapper__right'>
           <ProfileLink />
           <CartContainer />
         </div>

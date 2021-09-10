@@ -1,17 +1,10 @@
-export function formValidate(input: string, type: string) {
-  switch (type) {
-    case 'isEmail':
-      return input.match(/^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/gi) !== null;
-    case 'isPassword':
-      return input.match(/^(?=.*[A-Za-z])[A-Za-z\d!]{6,}$/gi) !== null;
-    case 'NoWhitespaces':
-      return input.match(/^[^-\s][a-zA-Z0-9_\s-]+$/gi) !== null;
-    default:
-      console.log('Provide type of validation wanted');
-  }
-}
+import { CategoryDTO } from '../../category/categorySlice';
 
-export function handleForm(nodelist: HTMLFormControlsCollection) {
+type FormObject = {
+  [key: string]: string;
+};
+
+export function handleForm(nodelist: HTMLFormControlsCollection): FormObject {
   const list = Array.from(nodelist)
     .filter(
       (e) =>
@@ -22,8 +15,12 @@ export function handleForm(nodelist: HTMLFormControlsCollection) {
     .map((e) => [
       (e as HTMLInputElement).name,
       (e as HTMLInputElement).type === 'file'
-        ? (e as HTMLInputElement).files![0].name
+        ? ((e as HTMLInputElement).files as FileList)[0].name
         : (e as HTMLInputElement).value,
     ]);
   return Object.fromEntries(list);
+}
+
+export function handleFormCategories(selectForm: HTMLSelectElement): CategoryDTO[] {
+  return Array.from(selectForm.selectedOptions).map((optionEl) => ({ id: optionEl.value }));
 }

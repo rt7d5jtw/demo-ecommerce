@@ -15,7 +15,6 @@ export function Paginator({
   currentPage,
   onChange,
 }: IPaginator): JSX.Element {
-  console.log(currentPage);
   const totalPages = Math.ceil(totalItems / elementsPerPage);
   return (
     <div className='paginator'>

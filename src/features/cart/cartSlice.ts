@@ -1,5 +1,5 @@
 import { createSlice, createAction } from '@reduxjs/toolkit';
-import { fetchItems, addItemDB, removeItemDB, clearCartDB } from './thunks';
+import { fetchCart, fetchItems, addItemDB, removeItemDB, clearCartDB } from './thunks';
 import { addItemToCart, removeItemFromCart } from './selectors';
 import { IProductCard } from '../product/productSlice';
 
@@ -85,9 +85,19 @@ export const cartSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(fetchItems.pending, (state) => {
+    builder.addCase(fetchCart.pending, (state) => {
       state.loading = true;
     }),
+      builder.addCase(fetchCart.fulfilled, (state) => {
+        state.loading = false;
+      }),
+      builder.addCase(fetchCart.rejected, (state, { payload }) => {
+        state.errors = payload;
+        state.loading = false;
+      }),
+      builder.addCase(fetchItems.pending, (state) => {
+        state.loading = true;
+      }),
       builder.addCase(fetchItems.fulfilled, (state, { payload }) => {
         state.items = payload;
         state.quantity = payload.reduce((acc: number, curr: ICartItem) => acc + curr.quantity, 0);

@@ -50,7 +50,7 @@
 
 .view-order:hover {
   background: #131313;
-  color: white;
+  color: orange;
 }
 
 .show-order {
@@ -64,9 +64,11 @@
 
 .show-order__row {
   border: 2px solid black;
+  background: #38242c;
 }
 
 .show-order__row2 {
+  color: #131313;
   flex-grow: 1;
   padding: 1rem;
 }
@@ -75,6 +77,7 @@
   font-family: 'Montserrat', sans-serif;
   font-size: 1em;
   padding: .5em;
+  color: #131313;
 }
 
 .show-order__info {

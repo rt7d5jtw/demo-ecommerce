@@ -1,8 +1,5 @@
 .admin-products #new-category {
-  position: absolute;
-  top: .4em;
-  left: 45em;
-  padding: .7em;
+  padding: .5em;
   border: 1px solid #131313;
   border-radius: 4px;
   color: #131313;

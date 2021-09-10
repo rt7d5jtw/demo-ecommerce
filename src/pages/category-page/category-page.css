@@ -1,7 +1,15 @@
 .category-page {
-  background: #faeee7;
+  background: #38242c;
   min-height: 100vh;
   padding-top: 50px;
+  padding-top: 80px;
+}
+
+.category-page >*:first-child {
+  height: 50px;
+  padding-top: .5rem;
+  padding-left: 5.5rem;
+  background: transparent;
 }
 
 .category-page__products {
@@ -11,14 +19,11 @@
 }
 
 .category-page__title {
-  font-size: 1.7em;
-  font-weight: bold;
-  font-family: 'Liberation', serif;
+  font-size: 2em;
+  font-weight: 400;
+  font-family: 'Rubik', sans-serif;
   display: flex;
-  color: #131313;
-
-  margin-left: 6em;
-  margin-top: 1em;
+  color: white;
 }
 
 .category-page p:first-letter {
@@ -30,4 +35,10 @@
 #render-mark {
   border-top: 1px solid transparent;
   width: 85%;
+}
+
+@media (max-width: 500px) {
+  .category-page__title {
+    font-size: 1.5em;
+  }
 }

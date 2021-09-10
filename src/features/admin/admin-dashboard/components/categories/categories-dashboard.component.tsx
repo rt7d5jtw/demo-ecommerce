@@ -1,15 +1,10 @@
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
-import { fetch as fetchProducts, update } from '../../../../../features/product/thunks';
-import { selectItems } from '../../../../../features/product/selectors';
-import { IProduct } from '../../../../../features/product/productSlice';
-import { remove as removeProduct } from '../../../../../features/product/thunks';
-import img1 from '../../../../../assets/bar.jpg';
-import { Link, useRouteMatch } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Paginator } from '../../../../forms/paginator';
 import { selectCategories } from '../../../../category/categorySlice';
+import { fetchCategories } from '../../../../category/api';
+import { remove as removeCategory } from '../../../../category/thunks';
 
 type SelectionType = {
   id: string;
@@ -23,19 +18,19 @@ function CategoriesDashboard(): JSX.Element {
   const [input, setInput] = React.useState({ search: '' });
   const [selections, setSelections] = React.useState<SelectionType[]>([]);
 
+  React.useEffect(() => {
+    fetchCategories();
+  }, [categories]);
+
   function onSearch(e: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target;
     setInput((input) => ({ ...input, [name]: value }));
   }
 
   function deleteHandler(e: React.MouseEvent<HTMLButtonElement>) {
-    const value = (e.target as HTMLInputElement).value;
-    selections.length > 1
-      ? confirm(`Are you sure you wanna delete ${selections.length} products?`) &&
-        console.log(value)
-      : selections.length <= 1
+    selections.length <= 1
       ? confirm('Are you sure you want to delete this product?') &&
-        dispatch(removeProduct(Number(value)))
+        dispatch(removeCategory(JSON.parse(e.currentTarget.value)))
       : null;
   }
 
@@ -44,12 +39,13 @@ function CategoriesDashboard(): JSX.Element {
   }
 
   function onCheckbox(e: React.ChangeEvent<HTMLInputElement>) {
-    selections.some((obj) => obj.id === e.target.value)
-      ? setSelections(selections.filter((obj) => obj.id !== e.target.value))
-      : setSelections([...selections, { id: e.target.value }]);
+    const category = JSON.parse(e.target.value);
+    selections.some((obj) => obj.id === category.id)
+      ? setSelections(selections.filter((obj) => obj.id !== category.id))
+      : setSelections([...selections, { id: category.id }]);
   }
 
-  function onSelectAll(e: React.MouseEvent<HTMLInputElement>): void {
+  function onSelectAll(): void {
     selections.length === 0
       ? setSelections(categories.map((el) => ({ id: el.id.toString() })))
       : setSelections([]);
@@ -100,7 +96,7 @@ function CategoriesDashboard(): JSX.Element {
           />
         </div>
         <div>
-          <Link id='new-product' to={`/admin-dashboard/categories-dashboard/categories-create`}>
+          <Link id='new-category' to={`/admin-dashboard/categories-dashboard/categories-create`}>
             Create a new Category
           </Link>
         </div>
@@ -128,10 +124,10 @@ function CategoriesDashboard(): JSX.Element {
             <th scope='col'></th>
           </tr>
         </thead>
-        {input.search.length > 0
-          ? rankedIndex.map(({ id, cname }) => (
-              <tbody>
-                <tr>
+        <tbody>
+          {input.search.length > 0
+            ? rankedIndex.map(({ id, cname }) => (
+                <tr key={id}>
                   <td>{id}</td>
                   <td>{cname}</td>
                   <td>
@@ -145,21 +141,26 @@ function CategoriesDashboard(): JSX.Element {
                     />
                   </td>
                   <td>
-                    <Link to={`/admin-dashboard/categories-dashboard/categories-edit/${id}`}>
+                    <Link
+                      to={`/admin-dashboard/categories-dashboard/categories-edit/${id}`}
+                      id='edit-link'
+                    >
                       Edit
                     </Link>
                   </td>
                   <td>
-                    <button onClick={deleteHandler} id='delete-row' value={id}>
+                    <button
+                      onClick={deleteHandler}
+                      id='delete-row'
+                      value={JSON.stringify({ id, cname })}
+                    >
                       Delete
                     </button>
                   </td>
                 </tr>
-              </tbody>
-            ))
-          : miumau.map(({ id, cname }) => (
-              <tbody>
-                <tr>
+              ))
+            : miumau.map(({ id, cname }) => (
+                <tr key={id}>
                   <td>{id}</td>
                   <td>{cname}</td>
                   <td>
@@ -167,24 +168,31 @@ function CategoriesDashboard(): JSX.Element {
                       onChange={onCheckbox}
                       checked={selections.find((e) => e.id === id.toString()) !== undefined}
                       type='checkbox'
-                      value={id}
+                      value={JSON.stringify({ id, cname })}
                       name='selection'
                       id='selection'
                     />
                   </td>
                   <td>
-                    <Link to={`/admin-dashboard/categories-dashboard/categories-edit/${id}`}>
+                    <Link
+                      to={`/admin-dashboard/categories-dashboard/categories-edit/${id}`}
+                      id='edit-link'
+                    >
                       Edit
                     </Link>
                   </td>
                   <td>
-                    <button onClick={deleteHandler} id='delete-row' value={id}>
+                    <button
+                      onClick={deleteHandler}
+                      id='delete-row'
+                      value={JSON.stringify({ id, cname })}
+                    >
                       Delete
                     </button>
                   </td>
                 </tr>
-              </tbody>
-            ))}
+              ))}
+        </tbody>
       </table>
     </div>
   );

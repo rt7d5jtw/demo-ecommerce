@@ -40,7 +40,7 @@ const OrderPayment = (): JSX.Element => {
         color: '#6772e5',
         fontWeight: 600,
         fontFamily: 'Montserrat, Open Sans, Segoe UI, sans-serif',
-        fontSize: '16px',
+        fontSize: '10px',
         fontSmoothing: 'antialiased',
         ':-webkit-autofill': {
           color: '#6772e5',
@@ -55,6 +55,7 @@ const OrderPayment = (): JSX.Element => {
       },
     },
   };
+
   const { push } = useHistory();
   const total = useSelector(selectCartTotal);
   const shippingInfo = useSelector(selectShippingInfo);
@@ -65,18 +66,15 @@ const OrderPayment = (): JSX.Element => {
   const handleMethod = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
     if ((event.currentTarget.elements.namedItem('method') as HTMLInputElement).value === 'stripe') {
-      console.info('Stripe');
       setPayment({ ...payment, payment_method: 'stripe', payment_method_submit: true });
     } else if (
       (event.currentTarget.elements.namedItem('method') as HTMLInputElement).value === 'paypal'
     ) {
-      console.info('Paypal');
       setPayment({ ...payment, payment_method: 'paypal', payment_method_submit: true });
     }
   };
 
   const stripeElementChange = (e: StripeCardElementChangeEvent) => {
-    console.log(e);
     if (e.empty) {
       setError('Do not submit an empty form!');
     }
@@ -85,12 +83,9 @@ const OrderPayment = (): JSX.Element => {
       setError(e.error.message ?? 'An unknown error occured');
     }
     if (!e.empty && e.complete) {
-      console.log('WORKING');
       setPayment({ ...payment, accepted: true });
     }
   };
-
-  console.log(payment.submitCount);
 
   const handlePayment: React.FormEventHandler<HTMLFormElement> = async (e): Promise<void> => {
     e.preventDefault();
@@ -136,7 +131,6 @@ const OrderPayment = (): JSX.Element => {
       setPayment({ ...payment, status: 'error' });
       return;
     }
-    console.group(res);
 
     if (!cardElement) return;
     /* Confirm the payment on the client */
@@ -157,7 +151,7 @@ const OrderPayment = (): JSX.Element => {
       dispatch(paymentSuccess());
       dispatch(clearCart());
       dispatch(clearCartDB());
-      setTimeout(() => push('/purchase-confirmed'), 1500);
+      setTimeout(() => push('/purchase-confirmed'), 500);
     }
   };
 

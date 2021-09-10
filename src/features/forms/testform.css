@@ -30,7 +30,7 @@
 }
 
 .badumts-form button[type=submit] {
-  width: 100%;
+  width: auto;
   font-family: 'Roboto', sans-serif;
   font-size: 1em;
   background: #f5f5f5;
@@ -45,17 +45,11 @@
   transition: all .5s;
 }
 
-.badumts-form button[type=submit]:hover {
-  background: #dbdbdb;
-}
-
 #form-warning {
-  font-family: 'Montserrat';
+  display: inline-block;
+  font-family: 'Rubik', sans-serif;
+  color: orange;
   font-size: 1.2em;
-  color: red;
-  position: absolute;
-  bottom: 3em;
-  padding: 10px 5px;
   width: 100%;
 }
 

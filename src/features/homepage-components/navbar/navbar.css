@@ -1,10 +1,8 @@
 .navbar {
   display: grid;
-  grid-area: 1 / 1 / 2 / 13;
   background: transparent;
-  position: fixed;
   z-index: 9;
-
+  position: fixed;
   width: 100%;
   padding: .4em;
 }
@@ -16,87 +14,39 @@
 .nav-wrapper {
   position: relative;
   display: grid;
-  justify-content: space-between;
   grid-auto-flow: column;
-  width: 100%;
 }
 
-.nav-wrapper__right {
-  position: relative;
-  display: flex;
-  z-index: 999;
-}
-
-.nav-wrapper__middle {
-}
-
-.nav-wrapper__left {
+.nav-wrapper >* {
   display: grid;
   grid-auto-flow: column;
-  width: 100%;
+  align-items: center;
 }
 
-/* Portrait and Landscape */
-@media only screen 
-  and (min-device-width: 320px) 
-  and (max-device-width: 480px)
-  and (-webkit-min-device-pixel-ratio: 2) {
-  .navbar {
-    display: flex;
-    flex-direction: column;
-    background: transparent;
-    position: fixed;
-    z-index: 9;
-    width: 100vw;
+.nav-wrapper >*:first-child {
+  justify-content: end;
+}
+
+.nav-wrapper >*:nth-child(2){
+  justify-content: center;
+}
+
+.nav-wrapper >*:last-child {
+  justify-content: end;
+}
+
+@media (max-width: 800px) {
+  .nav-wrapper >*:first-child {
+    min-width: 75px;
+    width: 75px;
   }
-  .nav-wrapper {
-    position: relative;
-    display: flex;
-  }
-  .nav-wrapper__right {
+}
+
+@media (max-width: 450px) {
+  .nav-wrapper >*:last-child {
     display: none;
   }
-  .nav-wrapper__middle {
-  }
-  .nav-wrapper__left {
-    display: grid;
-    grid-auto-flow: column;
-  }
-}
-
-
-
-/* Portrait and Landscape */
-@media only screen 
-  and (min-device-width: 768px) 
-  and (max-device-width: 1024px) 
-  and (-webkit-min-device-pixel-ratio: 1) {
-  .navbar {
-    display: grid;
-    grid-area: 1 / 1 / 2 / 13;
-    position: fixed;
-    z-index: 9;
-    width: 100%;
-  }
-  .nav-wrapper {
-    position: relative;
-    display: grid;
-    justify-content: space-between;
-    grid-auto-flow: column;
-    width: 100%;
-  }
-  .nav-wrapper__right {
-    position: relative;
-    display: flex;
-    z-index: 999;
-  }
-
-  .nav-wrapper__middle {
-  }
-
-  .nav-wrapper__left {
-    display: grid;
-    grid-auto-flow: column;
-    width: 100%;
+  .nav-wrapper >*:nth-child(-n+2) {
+    justify-content: start;
   }
 }

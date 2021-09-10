@@ -5,16 +5,16 @@ import {
   CART_URL,
   clearCartItems,
   createCart,
-  fetchCart,
+  apifetchCart,
   fetchCartItems,
   removeItemFromCartDB,
 } from './api';
 
 describe('Cart API Unit tests', () => {
   const uuidRegex = /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
-  describe('fetchCart', () => {
+  describe('apifetchCart', () => {
     it('fetches user cart and returns it', async () => {
-      const result = await fetchCart();
+      const result = await apifetchCart();
       expect(result).toEqual({
         id: expect.any(String),
         userId: expect.any(String),

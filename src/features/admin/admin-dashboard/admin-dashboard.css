@@ -3,20 +3,7 @@
   height: 100vh;
   display: grid;
   grid-template-columns: repeat(12, 1fr);
-  grid-template-rows: 0.5fr 1.5fr repeat(10, 1fr);
-  grid-template-areas:
-    "creator-header creator-header creator-header creator-header creator-header creator-header creator-header creator-header creator-header creator-header creator-header creator-header"
-    "creator-sidebar creator-sidebar creator-main creator-main creator-main creator-main creator-main creator-main creator-main creator-main creator-main creator-main"
-    "creator-sidebar creator-sidebar creator-main creator-main creator-main creator-main creator-main creator-main creator-main creator-main creator-main creator-main"
-    "creator-sidebar creator-sidebar creator-main creator-main creator-main creator-main creator-main creator-main creator-main creator-main creator-main creator-main"
-    "creator-sidebar creator-sidebar creator-main creator-main creator-main creator-main creator-main creator-main creator-main creator-main creator-main creator-main"
-    "creator-sidebar creator-sidebar creator-main creator-main creator-main creator-main creator-main creator-main creator-main creator-main creator-main creator-main"
-    "creator-sidebar creator-sidebar creator-main creator-main creator-main creator-main creator-main creator-main creator-main creator-main creator-main creator-main"
-    "creator-sidebar creator-sidebar creator-main creator-main creator-main creator-main creator-main creator-main creator-main creator-main creator-main creator-main"
-    "creator-sidebar creator-sidebar creator-main creator-main creator-main creator-main creator-main creator-main creator-main creator-main creator-main creator-main"
-    "creator-sidebar creator-sidebar creator-main creator-main creator-main creator-main creator-main creator-main creator-main creator-main creator-main creator-main"
-    "creator-sidebar creator-sidebar creator-main creator-main creator-main creator-main creator-main creator-main creator-main creator-main creator-main creator-main"
-    "creator-sidebar creator-sidebar creator-main creator-main creator-main creator-main creator-main creator-main creator-main creator-main creator-main creator-main";
+  grid-template-rows: repeat(12, 1fr);
 }
 
 .admin-controls a {
@@ -36,13 +23,14 @@
   display: flex;
   justify-content: space-between;
 
-  grid-area: creator-header;
+  grid-row: 1 / 2;
+  grid-column: 1 / 13;
   background: #171717;
 }
 
 .admin-controls__header a {
   font-family: 'Roboto', sans-serif;
-  font-size: 1em;
+  font-size: 1.2rem;
   font-weight: bold;
   color: #676767;
   transition: 1.5s;
@@ -79,13 +67,15 @@
 
 .admin-controls__main {
   display: grid;
-  grid-area: creator-main;
+  grid-row: 2 / 13;
+  grid-column: 3 / 13;
 }
 
 .admin-controls__sidebar {
   display: grid;
-  grid-area: creator-sidebar;
   background: #171717;
+  grid-row: 2 / 13;
+  grid-column: 1 / 3;
 }
 
 .admin-controls__sidebar ul {
@@ -130,4 +120,90 @@
 
 .admin-controls__sidebar a:hover {
   color: white;
+}
+
+@media (max-width: 1250px) {
+  .admin-products td, .admin-products th {
+    padding: 2px 2px;
+  }
+
+  .admin-products th img {
+    max-height: 100px;
+    max-width: 100px;
+  }
+
+  .admin-products td {
+    font-size: 1rem;
+  }
+
+  .admin-products__options > * {
+    font-size: .9rem;
+  }
+  .admin-products #cat-row {
+    font-size: .7rem;
+  }
+}
+
+@media (max-width: 1150px) {
+
+  .admin-controls__header {
+    grid-row: 11 / 13;
+    grid-column: 1 / 2;
+  }
+
+  .admin-controls__header a {
+    text-align: center;
+  }
+
+  .admin-controls__header__go-to {
+    width: 100%;
+  }
+
+  .admin-controls__sidebar {
+    grid-row: 11 / 13;
+    grid-column: 2 / 13;
+    overflow-y: scroll;
+  }
+
+  .admin-controls__main {
+    grid-row: 1 / 11;
+    grid-column: 1 / 13;
+  }
+
+}
+
+@media (max-width: 1024px) {
+
+  .admin-products table tbody tr > td, .admin-products .img-row {
+    font-size: .8rem;
+    width: 1rem;
+  }
+
+  .admin-products__options > * {
+    font-size: .7rem;
+  }
+
+}
+
+@media (max-width: 790px) {
+  .admin-products th img {
+    max-height: 80px;
+    max-width: 80px;
+  }
+  .admin-products__options >*:nth-child(3) input {
+    max-width: 50%;
+    padding: .5rem .5rem;
+  }
+  .admin-products__options >*:nth-last-child(2) a {
+    padding: .4rem;
+  }
+  .paginator {
+    font-size: 1.8rem;
+  }
+  #per-view {
+    display: none;
+  }
+  .admin-products table tbody tr > td, .admin-products .img-row {
+    font-size: .7rem;
+  }
 }

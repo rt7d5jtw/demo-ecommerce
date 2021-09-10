@@ -1,13 +1,7 @@
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
-import { fetch as fetchProducts, update } from '../../../../../features/product/thunks';
-import { selectItems } from '../../../../../features/product/selectors';
-import { IProduct } from '../../../../../features/product/productSlice';
-import { remove as removeProduct } from '../../../../../features/product/thunks';
-import img1 from '../../../../../assets/bar.jpg';
-import { Link, useRouteMatch } from 'react-router-dom';
+import { fetchAll, remove as removeOrder } from '../../../../../features/order/thunks';
+import { Link } from 'react-router-dom';
 import { Paginator } from '../../../../forms/paginator';
 import { selectOrders } from '../../../../order/selectors';
 
@@ -23,6 +17,10 @@ function OrdersDashboard(): JSX.Element {
   const [input, setInput] = React.useState({ search: '' });
   const [selections, setSelections] = React.useState<SelectionType[]>([]);
 
+  React.useEffect(() => {
+    dispatch(fetchAll());
+  }, []);
+
   function onSearch(e: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target;
     setInput((input) => ({ ...input, [name]: value }));
@@ -32,10 +30,9 @@ function OrdersDashboard(): JSX.Element {
     const value = (e.target as HTMLInputElement).value;
     selections.length > 1
       ? confirm(`Are you sure you wanna delete ${selections.length} products?`) &&
-        console.log(value)
+        console.info(`No implementation. ${value}`)
       : selections.length <= 1
-      ? confirm('Are you sure you want to delete this product?') &&
-        dispatch(removeProduct(Number(value)))
+      ? confirm('Are you sure you want to delete this product?') && dispatch(removeOrder(value))
       : null;
   }
 
@@ -49,7 +46,7 @@ function OrdersDashboard(): JSX.Element {
       : setSelections([...selections, { id: e.target.value }]);
   }
 
-  function onSelectAll(e: React.MouseEvent<HTMLInputElement>): void {
+  function onSelectAll(): void {
     selections.length === 0
       ? setSelections(orders.map((el) => ({ id: el.id.toString() })))
       : setSelections([]);
@@ -129,11 +126,11 @@ function OrdersDashboard(): JSX.Element {
             <th scope='col'></th>
           </tr>
         </thead>
-        {input.search.length > 0
-          ? rankedIndex.map(
-              ({ total_price, address, country, city, postalcode, status, userId, id }) => (
-                <tbody>
-                  <tr>
+        <tbody>
+          {input.search.length > 0
+            ? rankedIndex.map(
+                ({ total_price, address, country, city, postalcode, status, userId, id }) => (
+                  <tr key={id}>
                     <td>{id}</td>
                     <td>{userId}</td>
                     <td>${total_price}</td>
@@ -153,7 +150,9 @@ function OrdersDashboard(): JSX.Element {
                       />
                     </td>
                     <td>
-                      <Link to={`/admin-controls/products-edit/${id}`}>Edit</Link>
+                      <Link to={`/admin-controls/products-edit/${id}`} id='edit-link'>
+                        Edit
+                      </Link>
                     </td>
                     <td>
                       <button onClick={deleteHandler} id='delete-row' value={id}>
@@ -161,13 +160,11 @@ function OrdersDashboard(): JSX.Element {
                       </button>
                     </td>
                   </tr>
-                </tbody>
+                )
               )
-            )
-          : miumau.map(
-              ({ total_price, address, country, city, postalcode, status, userId, id }) => (
-                <tbody>
-                  <tr>
+            : miumau.map(
+                ({ total_price, address, country, city, postalcode, status, userId, id }) => (
+                  <tr key={id}>
                     <td>{id}</td>
                     <td>{userId}</td>
                     <td>${total_price}</td>
@@ -187,7 +184,9 @@ function OrdersDashboard(): JSX.Element {
                       />
                     </td>
                     <td>
-                      <Link to={`/admin-controls/products-edit/${id}`}>Edit</Link>
+                      <Link to={`/admin-controls/products-edit/${id}`} id='edit-link'>
+                        Edit
+                      </Link>
                     </td>
                     <td>
                       <button onClick={deleteHandler} id='delete-row' value={id}>
@@ -195,9 +194,9 @@ function OrdersDashboard(): JSX.Element {
                       </button>
                     </td>
                   </tr>
-                </tbody>
-              )
-            )}
+                )
+              )}
+        </tbody>
       </table>
     </div>
   );

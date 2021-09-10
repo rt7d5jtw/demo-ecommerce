@@ -22,9 +22,10 @@ export const create = createAsyncThunk(
   }
 );
 
-export const remove = createAsyncThunk('promotions/remove', async (id: number) => {
+export const remove = createAsyncThunk('promotions/remove', async (promotion: IPromotions) => {
   try {
-    return removePromotion(id);
+    removePromotion(promotion.id);
+    return promotion;
   } catch (err) {
     const error: AxiosError<ValidationErrors> = err;
     if (!error.response) {
@@ -34,17 +35,14 @@ export const remove = createAsyncThunk('promotions/remove', async (id: number) =
   }
 });
 
-export const update = createAsyncThunk(
-  'promotions/update',
-  async ({ id, ...updateProps }: IPromotions) => {
-    try {
-      return updatePromotion({ id, ...updateProps });
-    } catch (err) {
-      const error: AxiosError<ValidationErrors> = err;
-      if (!error.response) {
-        throw err;
-      }
-      return Promise.reject(err);
+export const update = createAsyncThunk('promotions/update', async (promotion: IPromotions) => {
+  try {
+    return updatePromotion(promotion);
+  } catch (err) {
+    const error: AxiosError<ValidationErrors> = err;
+    if (!error.response) {
+      throw err;
     }
+    return Promise.reject(err);
   }
-);
+});

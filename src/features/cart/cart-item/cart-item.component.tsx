@@ -2,16 +2,17 @@ import * as React from 'react';
 import './cart-item.css';
 import { ICartItem } from '../../../features/cart/cartSlice';
 import { removeItemDB } from '../../../features/cart/thunks';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { removeItem } from '../../cart/cartSlice';
+import { selectAccessToken } from '../../user/selectors';
 
 const CartItem = (cartItem: ICartItem): JSX.Element => {
-  const user = JSON.parse(localStorage.getItem('user') || '{}');
+  const token = useSelector(selectAccessToken);
   const dispatch = useDispatch();
 
   function removeHandler() {
     dispatch(removeItem(cartItem));
-    if (user && user.accessToken) {
+    if (token) {
       if (cartItem.productId != undefined) {
         dispatch(removeItemDB(cartItem.productId));
       }

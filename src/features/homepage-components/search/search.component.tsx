@@ -11,6 +11,7 @@ import { GiShoppingBag } from 'react-icons/gi';
 import { addItem, productToCartItem } from '../../cart/cartSlice';
 import { selectAccessToken } from '../../user/selectors';
 import { addItemDB } from '../../cart/thunks';
+import { IoMdSearch } from 'react-icons/io';
 
 interface ISearch {
   scrollEvent: boolean;
@@ -21,7 +22,7 @@ export const Search = ({ scrollEvent }: ISearch): JSX.Element => {
   const searchItems = useSelector(selectSearchItems);
   const searchKeyword = useSelector(selectSearch);
   const products = useSelector(selectItems);
-  const [input, setInput] = useState({ search: '' });
+  const [input, setInput] = useState({ search: '', focused: false });
   const [data, setData] = useState<null | IProduct[]>(null);
   const dispatch = useDispatch();
   const { push, replace } = useHistory();
@@ -85,9 +86,12 @@ export const Search = ({ scrollEvent }: ISearch): JSX.Element => {
     >
       <div className='search__wrapper'>
         <div className='search__wrapper__left'>
+          <IoMdSearch id='searching-icon' />
           <input
             ref={ref2}
             onClick={() => (data && input.search.length > 0 ? setOpen(true) : null)}
+            onFocus={() => setInput({ ...input, focused: true })}
+            onBlur={() => setInput({ ...input, focused: false })}
             type='search'
             placeholder='Search..'
             name='search'
@@ -100,7 +104,9 @@ export const Search = ({ scrollEvent }: ISearch): JSX.Element => {
         </div>
         <div className='search__wrapper__right'>
           <button
-            style={input.search.length > 0 ? { visibility: 'visible' } : {}}
+            style={
+              input.search.length > 0 && input.focused === true ? { visibility: 'visible' } : {}
+            }
             aria-label='Search'
             name='submit_search'
             type='submit'
@@ -110,7 +116,11 @@ export const Search = ({ scrollEvent }: ISearch): JSX.Element => {
           </button>
         </div>
       </div>
-      <nav ref={ref} className='search__suggestions' style={isOpen ? { height: '35.3rem' } : {}}>
+      <nav
+        ref={ref}
+        className='search__suggestions'
+        style={isOpen ? { maxHeight: '35.3rem', height: 'auto' } : {}}
+      >
         <section>
           <ol>
             {isOpen

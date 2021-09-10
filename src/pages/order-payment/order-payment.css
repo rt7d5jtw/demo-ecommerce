@@ -2,7 +2,7 @@
   display: grid;
   justify-content: center;
   height: 100vh;
-  background: #faeee7;
+  background: #38242c;
   font-family: 'Montserrat', sans-serif;
 }
 
@@ -81,7 +81,7 @@
   position: relative;
   border: 3px solid #6772e5;
   background-color: white;
-  width: 80%;
+  width: 70%;
 }
 
 .payment-stripe form {
@@ -122,4 +122,59 @@
   color: white;
   background-color: #6772e5;
   cursor: pointer;
+}
+
+@media (max-width: 1350px) {
+  .payment-stripe {
+    width: 85%;
+  }
+}
+
+@media (max-width: 1280px) {
+  .payment-stripe {
+    width: 90%;
+  }
+}
+
+@media (max-width: 1205px) {
+  .payment-stripe {
+    width: 100%;
+  }
+}
+
+@media (max-width: 1100px) {
+  .order-payment__wrapper {
+    width: 65vw;
+    border: 1px solid white;
+  }
+  .payment-stripe {
+    width: 90%;
+  }
+}
+
+@media (max-width: 940px) {
+  .order-payment__wrapper {
+    width: 85vw;
+    border: 1px solid white;
+  }
+}
+
+@media (max-width: 720px) {
+  .order-payment__wrapper {
+    width: 95vw;
+    border: 1px solid white;
+  }
+  .payment-stripe {
+    width: 100%;
+  }
+}
+
+@media (max-width: 580px) {
+  .order-payment__wrapper {
+    width: 100vw;
+    border: 1px solid white;
+  }
+  .payment-stripe {
+    width: 100vw;
+  }
 }

@@ -2,6 +2,7 @@
   position: relative;
   display: flex;
   justify-content: center;
+  padding: 1rem;
 }
 
 .admin-create__header #back-to-products {
@@ -15,16 +16,18 @@
   transition: all .5s;
 }
 
-.admin-create__categories form h1 {
-  font-size: 1.2em;
-  font-weight: 400;
-  color: #131313;
+.admin-create__categories #category__header {
+  font-family: 'Montserrat';
+  position: absolute;
+  font-size: 1.8em;
+  top: .5em;
+  left: 22em;
 }
 
 .admin-create__categories form {
   font-size: 1.1em;
   background: transparent;
-  margin-top: 1rem;
+  overflow: hidden;
 }
 
 .admin-create__categories form label {
@@ -46,34 +49,3 @@
 .admin-create__categories form input[type=text] {
   width: 79%;
 }
-
-.admin-create__category_preview {
-  position: absolute;
-  top: 6.5em;
-  left: 15em;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 20em;
-  max-width: 15em;
-  flex-wrap: wrap;
-}
-
-.admin-create__category_preview__col {
-  font-size: 1.2em;
-  padding: 1em;
-}
-
-.admin-create__category_preview__col p {
-  word-break: break-all;
-}
-
-.admin-create__categories #category__header {
-  font-family: 'Montserrat';
-  position: absolute;
-  font-size: 1.8em;
-  top: .5em;
-  left: 22em;
-}
-

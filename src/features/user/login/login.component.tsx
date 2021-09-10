@@ -1,22 +1,20 @@
 import * as React from 'react';
 import './login.css';
-import { useDispatch } from 'react-redux';
-import { loginRequest } from '../../user/thunks';
 import img from '../../../assets/delicious2.jpg';
+import { useDispatch } from 'react-redux';
+import { handleSignIn } from '../../user/thunks';
 import { ProfileForm } from '../../forms/profile-form/profile-form.component';
 import { handleForm } from '../../forms/utils/utils';
 import { AuthOverlay } from '../auth-overlay/auth-overlay.component';
-import Alert from '../../alert/alert/alert.component';
 
 export const Login = (): JSX.Element => {
   const dispatch = useDispatch();
   function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    dispatch(loginRequest(handleForm(event.currentTarget.elements)));
+    dispatch(handleSignIn(handleForm(event.currentTarget.elements)));
   }
   return (
     <div className='login'>
-      <Alert />
       <AuthOverlay img={img}>
         {
           <ProfileForm

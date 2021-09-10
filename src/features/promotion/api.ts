@@ -1,4 +1,5 @@
 import axios, { AxiosError } from 'axios';
+import { authHeader } from '../user/api';
 import { ValidationErrors, IPromotions, CreatePromotionDto } from './promotionSlice';
 
 export const PROMOTION_URL = 'http://localhost:3000/promotions';
@@ -20,7 +21,7 @@ export async function fetchPromotions(): Promise<IPromotions[]> {
 
 export async function createPromotion(data: CreatePromotionDto): Promise<IPromotions> {
   return axios
-    .post(PROMOTION_URL, data)
+    .post(PROMOTION_URL, data, { headers: authHeader() })
     .then((res) => {
       return res.data;
     })
@@ -35,7 +36,7 @@ export async function createPromotion(data: CreatePromotionDto): Promise<IPromot
 
 export async function removePromotion(id: number): Promise<void> {
   return axios
-    .delete(PROMOTION_URL + `/${id}`)
+    .delete(PROMOTION_URL + `/${id}`, { headers: authHeader() })
     .then((res) => res.data)
     .catch((err) => {
       const error: AxiosError<ValidationErrors> = err;
@@ -48,7 +49,7 @@ export async function removePromotion(id: number): Promise<void> {
 
 export async function updatePromotion({ id, ...updateProps }: IPromotions): Promise<IPromotions> {
   return axios
-    .patch(PROMOTION_URL + `/${id}`, { updateProps })
+    .patch(PROMOTION_URL + `/${id}`, { ...updateProps }, { headers: authHeader() })
     .then((res) => {
       return res.data;
     })

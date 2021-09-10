@@ -3,48 +3,49 @@ import './alert.css';
 import { createStructuredSelector } from 'reselect';
 import { connect, useDispatch } from 'react-redux';
 import { RootState } from '../../../app/store';
-import { hideout, selectAlertType, selectMessage, selectTimeout } from '../../alert/alertSlice';
+import { hideout, selectAlertType, selectMessage } from '../../alert/alertSlice';
 import { alert_type } from '../../alert/alertSlice';
-import { useEffect, useState } from 'react';
 
 interface IAlert {
   message: string;
   atype: alert_type;
-  timeout: number;
+  timeout?: number;
 }
 
-const Alert = ({ message, timeout }: IAlert) => {
+const Alert = ({ message, timeout = 3500 }: IAlert) => {
   const dispatch = useDispatch();
-  const [percentage, setPercentage] = useState(0);
-
-  useEffect(() => {
-    if (message) {
-      setTimeout(hide, timeout);
-      setPercentage(100);
-      setTimeout(reset, timeout);
-    }
+  const [state, setState] = React.useState({
+    fade: 0,
+    mounted: 0,
   });
 
-  function hide() {
-    dispatch(hideout());
-  }
+  React.useEffect(() => {
+    if (message.length > 0) {
+      setState({ ...state, fade: 1 });
+      setTimeout(hide, timeout);
+    }
+  }, []);
 
-  function reset() {
-    setPercentage(0);
+  function hide() {
+    setState({ ...state, fade: 0 });
+    setTimeout(() => dispatch(hideout()), timeout);
   }
 
   return (
-    <div className='alert' style={message ? { opacity: '1' } : { display: 'none' }}>
+    <div className='alert' style={state.fade === 0 ? { opacity: '0' } : { opacity: '1' }}>
       {message}
-      <div className='alert__filler' style={{ width: `${percentage}%` }}></div>
     </div>
   );
 };
 
-const mapStateToProps = createStructuredSelector<RootState, IAlert>({
+type AlertState = {
+  message: string;
+  atype: alert_type;
+};
+
+const mapStateToProps = createStructuredSelector<RootState, AlertState>({
   message: selectMessage,
   atype: selectAlertType,
-  timeout: selectTimeout,
 });
 
 export default connect(mapStateToProps)(Alert);

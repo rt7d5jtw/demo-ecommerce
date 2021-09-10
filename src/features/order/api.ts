@@ -1,14 +1,7 @@
 import axios, { AxiosError } from 'axios';
 import { ValidationErrors } from '../promotion/promotionSlice';
 import { authHeader } from '../user/api';
-import {
-  IOrder,
-  IOrderItem,
-  OrderDTO,
-  OrderItemDto,
-  PaymentIntentDTO,
-  UpdateOrderDto,
-} from './orderSlice';
+import { IOrder, IOrderItem, OrderDTO, PaymentIntentDTO, UpdateOrderDto } from './orderSlice';
 
 export const ORDER_URL = 'http://localhost:3000/orders/';
 
@@ -101,14 +94,14 @@ export async function removeOrder(id: string): Promise<void> {
 }
 
 export async function getInvoice(orderId: string): Promise<void> {
-  const user = JSON.parse(localStorage.getItem('user') || '{}');
+  const auth = authHeader();
   return axios
     .post(
       ORDER_URL + 'pdf',
       { orderId: orderId },
       {
         headers: {
-          Authorization: `Bearer ${user.accessToken}`,
+          Authorization: `${auth}`,
           'Content-Type': 'application/json',
           'Content-Disposition': 'attachment',
           Accept: 'application/pdf',

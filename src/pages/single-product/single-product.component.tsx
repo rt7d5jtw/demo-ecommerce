@@ -2,14 +2,15 @@ import * as React from 'react';
 import './single-product.css';
 import { useAppSelector } from '../../app/hooks';
 import { selectItems } from '../../features/product/selectors';
-import { useParams } from 'react-router';
+import { useLocation, useParams } from 'react-router';
 import { IProduct } from '../../features/product/productSlice';
 import { addItem, productToCartItem } from '../../features/cart/cartSlice';
 import { addItemDB } from '../../features/cart/thunks';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectAccessToken } from '../../features/user/selectors';
 
 export const SingleProductPage = (): JSX.Element => {
-  const user = JSON.parse(localStorage.getItem('user') || '{}');
+  const token = useSelector(selectAccessToken);
   const dispatch = useDispatch();
   const products = useAppSelector(selectItems);
   const [qty, setQty] = React.useState<number>(1);
@@ -27,18 +28,27 @@ export const SingleProductPage = (): JSX.Element => {
     }
     for (let i = 0; i < qty; i++) {
       dispatch(addItem(productToCartItem(product)));
-      if (user && user.accessToken) {
+      if (token) {
         dispatch(addItemDB(product.id));
       }
     }
   }
 
+  const { pathname } = useLocation();
+
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
   return (
     <div className='single-product'>
-      <img
-        className='single-product__col-1'
-        src={require(`../../assets/${product && product.image}`)}
-      />
+      <div className='header-filler'></div>
+      <div className='single-product__img__container'>
+        <img
+          className='single-product__col-1'
+          src={require(`../../assets/${product && product.image}`)}
+        />
+      </div>
       <div className='single-product__col-2'>
         <div className='single-product__col-2__header'>
           <div className='single-product__col-2__header__left'>

@@ -16,7 +16,6 @@ export type Alert = {
 export interface AlertState {
   message: string;
   atype: alert_type;
-  timeout: number;
 }
 
 export const userLogged = createAction('alert/userLogged');
@@ -42,7 +41,6 @@ export const alertSlice = createSlice({
   initialState: {
     message: '',
     atype: alert_type.nostate,
-    timeout: 5000,
   },
   reducers: {
     userLogged: (state) => {
@@ -78,7 +76,8 @@ export const alertSlice = createSlice({
       state.atype = alert_type.success;
     },
     hideout: (state) => {
-      (state.message = ''), (state.atype = alert_type.nostate);
+      state.message = '';
+      state.atype = alert_type.nostate;
     },
   },
 });
@@ -88,7 +87,5 @@ const selectAlert = (state: RootState) => state.alert;
 export const selectMessage = createSelector([selectAlert], (alert: AlertState) => alert.message);
 
 export const selectAlertType = createSelector([selectAlert], (alert: AlertState) => alert.atype);
-
-export const selectTimeout = createSelector([selectAlert], (alert: AlertState) => alert.timeout);
 
 export default alertSlice.reducer;

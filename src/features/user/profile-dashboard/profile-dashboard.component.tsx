@@ -1,6 +1,6 @@
 import * as React from 'react';
 import './profile-dashboard.css';
-import { Link, useRouteMatch } from 'react-router-dom';
+import { Link, Route, Switch, useRouteMatch } from 'react-router-dom';
 import { ProfileOverview } from './profile-components/profile-overview/profile-overview.component';
 import { MyOrders } from './profile-components/my-orders/my-orders.component';
 import ChangePassword from './profile-components/change-password/change-password.component';
@@ -23,26 +23,16 @@ function ProfileDashboard(): JSX.Element {
       </div>
       <div className='profile-main'>
         <div className='profile-main__wrapper'>
-          <ConditionalPaging />
+          <Switch>
+            <Route exact path={`${match.url}`} component={ProfileOverview} />
+            <Route exact path={`${match.url}/my-orders`} component={MyOrders} />
+            <Route exact path={`${match.url}/change-password`} component={ChangePassword} />
+            <Route exact path={`${match.url}/change-email`} component={ChangeEmail} />
+          </Switch>
         </div>
       </div>
     </div>
   );
-}
-
-function ConditionalPaging() {
-  switch (location.pathname) {
-    case '/profile':
-      return <ProfileOverview />;
-    case '/profile/my-orders':
-      return <MyOrders />;
-    case '/profile/change-password':
-      return <ChangePassword />;
-    case '/profile/change-email':
-      return <ChangeEmail />;
-    default:
-      return <ProfileOverview />;
-  }
 }
 
 export default ProfileDashboard;

@@ -20,11 +20,11 @@ interface IFormField {
 }
 
 function FormField({ label, input, warning }: IFormField): JSX.Element {
-  const [error, setError] = React.useState({
+  const [error] = React.useState({
     message: '',
   });
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-    console.log(event);
+    console.info(event);
   }
   return (
     <div className='form-field'>

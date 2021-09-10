@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { ICategory } from '../category/categorySlice';
 import './testform.css';
 
 interface IFormWarning {
@@ -10,7 +11,6 @@ interface ILabelForm {
   orderIdentifier: number;
   label: string;
   htmlFor?: string;
-  key?: string | number;
 }
 
 type FieldTextarea = {
@@ -44,6 +44,9 @@ type MultipleFieldSelect = {
   required?: boolean;
   options: SelectOptions[];
   onChange?: React.ChangeEventHandler;
+  onClickListener?: (e: MultipleSelectStateValues) => void;
+  onStateListener?: (e: MultipleSelectState) => void;
+  feedState?: ICategory[];
 };
 
 type FieldSelect = {
@@ -103,7 +106,7 @@ export function TestForm({ fields, onSubmit, headlabel, submitlabel }: IProfileF
               <InputForm
                 orderIdentifier={com.orderIdentifier}
                 name={com.name}
-                id={com.id}
+                id={com.index}
                 step={com.step}
                 placeholder={com.placeholder}
                 defaultValue={com.defaultValue}
@@ -112,6 +115,7 @@ export function TestForm({ fields, onSubmit, headlabel, submitlabel }: IProfileF
                 type={com.type}
                 required={com.required}
                 onChange={com.onChange}
+                key={com.orderIdentifier}
               />
             );
           case 'labels':
@@ -120,6 +124,7 @@ export function TestForm({ fields, onSubmit, headlabel, submitlabel }: IProfileF
                 orderIdentifier={com.orderIdentifier}
                 htmlFor={com.htmlFor}
                 label={com.label}
+                key={com.orderIdentifier}
               />
             );
           case 'select':
@@ -132,12 +137,14 @@ export function TestForm({ fields, onSubmit, headlabel, submitlabel }: IProfileF
                 multiple={com.multiple}
                 options={com.options}
                 onChange={com.onChange}
+                key={com.orderIdentifier}
               />
             );
           case 'multiselect':
             return (
               <MultipleSelectForm
                 orderIdentifier={com.orderIdentifier}
+                key={com.orderIdentifier}
                 form={com.form}
                 id={com.id}
                 name={com.name}
@@ -145,12 +152,16 @@ export function TestForm({ fields, onSubmit, headlabel, submitlabel }: IProfileF
                 onChange={com.onChange}
                 required={com.required}
                 label={com.label}
+                onClickListener={com.onClickListener}
+                onStateListener={com.onStateListener}
+                feedState={com.feedState}
               />
             );
           case 'textarea':
             return (
               <TextareaForm
                 orderIdentifier={com.orderIdentifier}
+                key={com.orderIdentifier}
                 form={com.form}
                 name={com.name}
                 id={com.id}
@@ -162,7 +173,13 @@ export function TestForm({ fields, onSubmit, headlabel, submitlabel }: IProfileF
               />
             );
           case 'warning':
-            return <FormWarning warning={com.warning} orderIdentifier={com.orderIdentifier} />;
+            return (
+              <FormWarning
+                warning={com.warning}
+                orderIdentifier={com.orderIdentifier}
+                key={com.orderIdentifier}
+              />
+            );
           default:
             return;
         }
@@ -174,34 +191,36 @@ export function TestForm({ fields, onSubmit, headlabel, submitlabel }: IProfileF
   );
 }
 
-type OrderedFormOutput = {
+//type ComponentKey = 'labels' | 'inputs' | 'selects' | 'multiselects' | 'textareas' | 'warnings';
+
+type FormComponent =
+  | ILabelForm
+  | FieldInputs
+  | FieldSelect
+  | MultipleFieldSelect
+  | FieldTextarea
+  | IFormWarning;
+
+interface hasOrderIdentifier {
   orderIdentifier: number;
-  component: string;
-  element: ComponentType;
-};
-
-type ComponentType = ILabelForm | FieldInputs[] | FieldSelect[] | FieldTextarea[];
-
-export function parseFormJSON(fields: any) {
-  const ids = [];
-  const storage = [];
-  for (const i in fields) {
-    ids.push({ [i]: fields[i].length });
-    storage.push(fields[i].map((v: any) => ({ ...v, component: i })));
-  }
-  return storage
-    .flat()
-    .sort((a, b) =>
-      a.orderIdentifier > b.orderIdentifier ? 1 : a.orderIdentifier < b.orderIdentifier ? -1 : 0
-    );
 }
 
-function LabelForm({ label, htmlFor, key }: ILabelForm): JSX.Element {
-  return (
-    <label key={key} htmlFor={htmlFor}>
-      {label}
-    </label>
-  );
+function sortByOI<T extends hasOrderIdentifier>(a: T, b: T): number {
+  if (a.orderIdentifier > b.orderIdentifier) return 1;
+  if (a.orderIdentifier < b.orderIdentifier) return -1;
+  return 0;
+}
+
+export function parseFormJSON<Fields extends FieldTypeArray>(fields: Fields): any[] {
+  const storage = [];
+  for (const i in fields) {
+    storage.push(fields[i].map((v: FormComponent) => ({ ...v, component: i })));
+  }
+  return storage.flat().sort(sortByOI);
+}
+
+function LabelForm({ label, htmlFor }: ILabelForm): JSX.Element {
+  return <label htmlFor={htmlFor}>{label}</label>;
 }
 
 function InputForm({
@@ -222,6 +241,7 @@ function InputForm({
 }: FieldInputs): JSX.Element {
   return (
     <input
+      key={id}
       type={type}
       name={name}
       id={id}
@@ -252,12 +272,16 @@ function SelectForm({ form, name, id, multiple, options, onChange }: FieldSelect
   );
 }
 
-type FormValue = {
-  value: string;
-  index: number;
+export type MultipleSelectState = {
+  open: boolean;
+  values: MultipleSelectStateValues[];
 };
 
-type FormAction = { type: 'open'; payload: boolean } | { type: 'values'; payload: FormValue };
+export type MultipleSelectStateValues = {
+  id: string;
+  name: string;
+  index: number;
+};
 
 export function MultipleSelectForm({
   required,
@@ -266,19 +290,27 @@ export function MultipleSelectForm({
   name,
   label,
   options,
-  onChange,
+  onClickListener,
+  onStateListener,
+  feedState,
 }: MultipleFieldSelect): JSX.Element {
-  function addToState(state: FormValue[], item: FormValue): FormValue[] {
+  type FormAction =
+    | { type: 'open'; payload: boolean }
+    | { type: 'values'; payload: MultipleSelectStateValues };
+  function addToState(
+    state: MultipleSelectStateValues[],
+    item: MultipleSelectStateValues
+  ): MultipleSelectStateValues[] {
     if (state.length === 0) {
       return [...state, item];
     }
-    const existingItem = state.find((e) => item.value === e.value);
+    const existingItem = state.find((e) => item.id === e.id);
     if (existingItem) {
-      return state.filter((e) => e.value !== item.value);
+      return state.filter((e) => e.id !== item.id);
     }
     return [...state, { ...item }];
   }
-  function formReducer(state: typeof initialState, action: FormAction): FormState {
+  function formReducer(state: typeof initialState, action: FormAction): MultipleSelectState {
     switch (action.type) {
       case 'open': {
         return {
@@ -296,11 +328,7 @@ export function MultipleSelectForm({
         return state;
     }
   }
-  type FormState = {
-    open: boolean;
-    values: FormValue[];
-  };
-  const initialState: FormState = {
+  const initialState: MultipleSelectState = {
     open: false,
     values: [],
   };
@@ -321,7 +349,11 @@ export function MultipleSelectForm({
     }
   };
 
-  const formStruct: any[] = [];
+  /* Do not delete!
+   * This is used make a copy out of selection options,
+   * so that the clickHandler can ensure the selected item
+   * exists in the selection options */
+  const formStruct: Array<{ value: string; index: number }> = [];
   const testEl: HTMLOptionElement[] = [];
 
   React.useEffect(() => {
@@ -340,19 +372,61 @@ export function MultipleSelectForm({
       : null;
   }, [formStruct]);
 
+  React.useEffect(() => {
+    onStateListener && onStateListener(formState);
+  }, [formState]);
+
+  React.useEffect(() => {
+    if (feedState) {
+      initialStateHandler(feedState);
+    }
+  }, []);
+
+  /* if initialState is provided */
+  /* if initialState is provided, array of category ids is constructed
+   * to see if the initialState has categories by comparing their values
+   * to the HTMLOptionElements dataset values. If the values collide,
+   * then selected property is flipped (to be selected) */
+  function initialStateHandler(feedState: ICategory[]) {
+    const matchArr = feedState.map(({ id }) => id);
+    if (feedState.length >= 1 && kref.current) {
+      Array.from(kref.current.options).forEach((e) => {
+        if (matchArr.includes(e.value) && e.dataset['id'] && e.dataset['name']) {
+          e.selected = !e.selected;
+          formDispatch({
+            type: 'values',
+            payload: { id: e.dataset['id'], index: e.index, name: e.dataset['name'] },
+          });
+        }
+      });
+    }
+  }
+
   function clickHandler(event: React.MouseEvent<HTMLDivElement | HTMLOptionElement>) {
     if (!Array.from(event.currentTarget.classList).includes('item')) {
       formDispatch({ type: 'open', payload: !formState.open });
     }
+
+    /* flips the HTMLOptionElement's selected property by comparing it to the clicked HTMLDivElement
+     * and also sets the index to keep the items sorted */
     if (kref.current && event.currentTarget.classList.contains('item')) {
-      const refVal = event.currentTarget.dataset['value'];
-      const itemToSend = formStruct.find((e) => e.value === refVal);
+      const refVal = { ...event.currentTarget.dataset };
+      let oindex;
       Array.from(kref.current.options).forEach((e) => {
-        if (e.value === refVal) {
+        if (e.dataset.id === refVal.id) {
           e.selected = !e.selected;
+          oindex = e.index;
         }
       });
-      formDispatch({ type: 'values', payload: itemToSend });
+
+      if (refVal.name && refVal.id && oindex !== undefined) {
+        onClickListener &&
+          onClickListener({ id: refVal['id'], index: oindex, name: refVal['name'] });
+        formDispatch({
+          type: 'values',
+          payload: { id: refVal.id, index: oindex, name: refVal.name },
+        });
+      }
     }
   }
 
@@ -368,28 +442,23 @@ export function MultipleSelectForm({
       <div className='label' ref={uref} onClick={(e) => clickHandler(e)}>
         {label}
       </div>
-      <select
-        required={required}
-        multiple
-        form={form}
-        name={name}
-        id={id}
-        onChange={onChange}
-        ref={kref}
-      >
+      <select required={required} multiple form={form} name={name} id={id} ref={kref}>
         {options.map(({ id, label, value }) => (
-          <option value={value} key={id}>
+          <option value={value} key={id} data-id={id} data-name={label}>
             {label}
           </option>
         ))}
       </select>
       <div ref={jref} className={formState.open ? 'multiple-ul--open' : 'multiple-ul--closed'}>
-        {options.map(({ value, id, label }) => (
+        {options.map(({ id, label }) => (
           <div
+            key={id}
             onClick={(e) => clickHandler(e)}
             className={formState.open ? 'item li--open' : 'item li--closed'}
-            style={formState.values.find((e) => e.value === value) ? { background: 'gray' } : {}}
-            data-value={value}
+            style={formState.values.find((e) => e.id === id) ? { background: '#d3d3d3' } : {}}
+            data-name={label}
+            data-id={id}
+            data-cy={`option-${label}`}
             id={id}
           >
             {label}

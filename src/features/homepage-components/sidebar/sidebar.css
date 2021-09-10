@@ -3,13 +3,11 @@
 .flat {
   position: fixed;
   right: 0;
-
-  background: #131313;
-
+  background: rgb(0,0,0,0.8);
   opacity: 0.8;
   height: 100%;
   transition: 0.5s;
-  width: 70.7%
+  width: calc(100% - 35vw);
 }
 
 .flat-closed {
@@ -19,14 +17,14 @@
 
 .sidebar {
   position: fixed;
-  width: 44em;
+  width: 35vw;
+  min-width: 375px;
   height: 100%;
   display: grid;
-  grid-area: 1 / 1 / 13 / 2;
   place-items: start center;
 
   background: #131313;
-  transition: 0.5s;
+  transition: all 0.5s;
   z-index: 10;
 }
 
@@ -35,14 +33,15 @@
 }
 
 .close-btn {
-  top: 1.8em;
-  left: 30em;
+  top: .5%;
+  left: 30%;
   position: fixed;
   cursor: pointer;
-  color: #efcba7;
+  color: white;
   width: 3em;
   height: 2.5em;
   transition: 0.5s;
+  margin-top: 1.5rem;
   z-index: 10;
 }
 
@@ -52,7 +51,7 @@
   left: 15.5em;
   position: fixed;
   cursor: pointer;
-  color: #33272a;
+  color: white;
   background: transparent;
   width: 5em;
   height: 2.5em;
@@ -67,7 +66,7 @@
   place-items: start center;
 
   background: #000;
-  transition: 0.5s;
+  transition: all 0.5s;
   z-index: 10;
 }
 
@@ -81,7 +80,7 @@
 
 .sidebar h1 {
   display: block;
-  color: #fff;
+  color: beige;
   font-size: 2em;
   text-decoration: none;
   letter-spacing: 2px;
@@ -100,13 +99,13 @@
 
 .sidebar a {
   transition: 0.5s;
-  font-family: 'Rubik';
+  font-family: 'Rubik', sans-serif;
   font-size: 1.4em;
   display: block;
   width: 250px;
   margin: 10px 35px;
   padding: 10px 10px;
-  color: #bbb;
+  color: beige;
   text-decoration: none;
   letter-spacing: 2px;
   z-index: 10;
@@ -121,79 +120,34 @@
   transition: 0.4s;
 }
 
-/* Portrait and Landscape */
-@media only screen 
-  and (min-device-width: 320px) 
-  and (max-device-width: 480px)
-  and (-webkit-min-device-pixel-ratio: 2) {
-  .close-btn-closed {
-    display: none;
+@media (max-width: 1072px) {
+  .flat {
+    width: calc(100vw - 375px);
+  }
+  .sidebar__links__wrapper {
+    font-size: .9rem;
+    text-align: center;
+  }
+  .sidebar-links h1 {
+    font-size: 1.5rem;
+    text-align: center;
+  }
+  .close-btn {
+    top: 1rem;
+    left: 30%;
+    height: 3em;
+    margin-top: unset;
   }
 }
 
-/* Portrait and Landscape */
-@media only screen 
-  and (min-device-width: 768px) 
-  and (max-device-width: 1024px) 
-  and (-webkit-min-device-pixel-ratio: 1) {
-  .flat {
-    position: fixed;
-    right: 0;
-    background: #131313;
-    opacity: 0.8;
-    height: 100%;
-    width: 62%;
-    transition: 0.5s;
-  }
-  .flat-closed {
-    width: 1%;
-    opacity: 0.8;
-  }
-  .sidebar {
-    position: fixed;
-    width: 25em;
-    height: 100%;
-    display: grid;
-    grid-area: 1 / 1 / 13 / 2;
-    place-items: start center;
-
-    background: #131313;
-    transition: 0.5s;
-    z-index: 10;
-  }
+@media (max-width: 995px) {
   .close-btn {
-    font-size: 1.5em;
-    top: .8em;
-    left: 13em;
-    position: fixed;
-    cursor: pointer;
-    color: #efcba7;
-    transition: 0.5s;
-    z-index: 10;
+    left: calc(2vw + 30%);
   }
-  .close-btn-closed {
-    font-size: 1.9em;
-    top: 0em;
-    right: 0em;
-    transform: translateX(-15.3125em);
-    position: fixed;
-    cursor: pointer;
-    color: #33272a;
-    background: transparent;
-    transition: 0.5s;
-    z-index: 10;
-  }
-  .sidebar a {
-    transition: 0.5s;
-    font-family: 'Rubik';
-    font-size: 1.6em;
-    display: block;
-    width: 300px;
-    margin: 10px 35px;
-    padding: 10px 10px;
-    color: #bbb;
-    text-decoration: none;
-    letter-spacing: 2px;
-    z-index: 10;
+}
+
+@media (max-width: 920px) {
+  .close-btn {
+    left: calc(2vw + 1%);
   }
 }

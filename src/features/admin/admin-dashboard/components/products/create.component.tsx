@@ -2,19 +2,18 @@ import * as React from 'react';
 import './create.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { add as addProduct } from '../../../../../features/product/thunks';
-import { IProduct } from '../../../../../features/product/productSlice';
+import { IProduct, ProductDto } from '../../../../../features/product/productSlice';
 import { selectCategories } from '../../../../category/categorySlice';
 import { Link } from 'react-router-dom';
 import { TestForm } from '../../../../forms/testform';
-import Alert from '../../../../alert/alert/alert.component';
-import { handleForm } from '../../../../forms/utils/utils';
+import { handleForm, handleFormCategories } from '../../../../forms/utils/utils';
 
-type FormAction =
-  | { type: 'title'; payload: string }
-  | { type: 'price'; payload: string }
-  | { type: 'description'; payload: string }
-  | { type: 'categories'; payload: string }
-  | { type: 'image'; payload: File };
+type FormActionConstants = 'title' | 'price' | 'description' | 'categories' | 'image';
+
+interface FormAction {
+  type: FormActionConstants;
+  payload: any;
+}
 
 type IFormProduct = Partial<IProduct>;
 
@@ -45,7 +44,7 @@ export function FormProductPreview({
   );
 }
 
-function formReducer(state: typeof initialState, action: any) {
+function formReducer(state: typeof initialState, action: FormAction) {
   switch (action.type) {
     case 'title': {
       return {
@@ -97,26 +96,17 @@ function Create(): JSX.Element {
   const [warning, setWarning] = React.useState<string>('');
   function onSubmit(event: React.BaseSyntheticEvent) {
     event.preventDefault();
-    const categoryValues: { id: string }[] = [];
-    Array.from(event.currentTarget.elements).forEach((e) => {
-      if ((e as HTMLSelectElement).nodeName === 'SELECT') {
-        Array.from((e as HTMLSelectElement).selectedOptions).forEach((e) => {
-          categoryValues.push({ id: (e as HTMLOptionElement).value });
-        });
-      }
-    });
     const values = handleForm(event.currentTarget.elements);
-    values['categoryIds'] = categoryValues;
+    const categoryIds = handleFormCategories(event.currentTarget.elements['categoryIds']);
     if (values.title.match(/^[^-\s][a-zA-Z0-9_\s-]+$/gi) !== null) {
-      console.log(values);
-      confirm('Are you sure you want to create this product?') && dispatch(addProduct(values));
+      confirm('Are you sure you want to create this product?') &&
+        dispatch(addProduct({ ...values, categoryIds } as ProductDto));
     } else {
       setWarning('Validation error, give proper inputs');
     }
   }
   return (
     <div className='admin-create'>
-      <Alert />
       <div className='admin-create__header'>
         <Link to={`/admin-dashboard/products-dashboard`} id='back-to-products'>
           &larr; Back to Product View
@@ -187,7 +177,11 @@ function Create(): JSX.Element {
                 value: val.id,
                 label: val.cname,
               })),
-              onChange: (e) => console.log(e),
+              onStateListener: (e) =>
+                formDispatch({
+                  type: 'categories',
+                  payload: e.values.map(({ name }) => name).join(', '),
+                }),
             },
           ],
           input: [
@@ -215,7 +209,9 @@ function Create(): JSX.Element {
                 if ((e.currentTarget as HTMLInputElement).files) {
                   formDispatch({
                     type: 'image',
-                    payload: URL.createObjectURL((e.currentTarget as HTMLInputElement).files![0]),
+                    payload: URL.createObjectURL(
+                      ((e.currentTarget as HTMLInputElement).files as FileList)[0]
+                    ),
                   });
                 }
               },

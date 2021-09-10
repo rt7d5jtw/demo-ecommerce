@@ -1,13 +1,12 @@
 footer {
   position: relative;
-  display: grid;
   grid-area: 12 / 1 / 13 / 13;
-
+  display: grid;
+  grid-template-rows: repeat(4, 1fr);
   place-items: center center;
-  font-family: 'Play', sans-serif;
+  font-family: 'Rubik', sans-serif;
   padding: 3%;
-  background: rgb(51,39,42);
-  background: linear-gradient(0deg, rgba(51,39,42,1) 0%, rgba(234,221,207,1) 35%, rgba(250,238,231,1) 100%); 
+  background: #38242c;
 }
 
 footer .row {
@@ -16,10 +15,10 @@ footer .row {
   width: 100%;
   margin: 1% 0%;
   padding: 0.6% 0%;
-  color: #131313;
   font-size: 1em;
   text-align: center;
   z-index: 2;
+  color: beige;
 }
 
 .row {
@@ -27,14 +26,13 @@ footer .row {
 }
 
 #row-notice {
-  position: absolute;
   bottom: 40px;
   font-size: .7em;
   color: white;
 }
 
 #row-notice a {
-  color: beige;
+  color: white;
   margin: 0px 10px 0px 10px;
   text-decoration: none;
 }
@@ -43,7 +41,7 @@ footer .row a {
   margin-left: 2em;
   margin-right: 2em;
   text-decoration: none;
-  color: #131313;
+  color: beige;
   transition: 0.5s;
 }
 
@@ -71,47 +69,64 @@ footer .row:last-child a {
   color: #fffffe;
 }
 
-@media (max-width: 720px) {
-  footer {
-    text-align: left;
-    padding: 5%;
-  }
-
-  footer .row ul li {
-    display: block;
-    margin: 10px 0px;
-    text-align: left;
-  }
-
-  footer .row a i {
-    margin: 0% 3%;
-  }
-}
-
-/* Portrait and Landscape */
-@media only screen 
-  and (min-device-width: 768px) 
-  and (max-device-width: 1024px) 
-  and (-webkit-min-device-pixel-ratio: 1) {
+@media (max-width: 1024px) {
   #row-notice {
-    position: absolute;
-    bottom: 20px;
-    font-size: .8em;
-    color: white;
+    font-size: .7em;
   }
-  #row-notice a {
-    color: beige;
-    margin: 0px 10px 0px 10px;
-    text-decoration: none;
+
+}
+
+@media (max-width: 870px) {
+  footer .row a {
+    margin-right: 1em;
+    margin-left: 1em;
   }
 }
 
-/* Portrait and Landscape */
-@media only screen 
-  and (min-device-width: 320px) 
-  and (max-device-width: 480px)
-  and (-webkit-min-device-pixel-ratio: 2) {
-    footer {
-      display: none;
-    }
+@media (max-width: 768px) {
+  footer {
+    margin-bottom: 100px;
+  }
+}
+
+@media (max-width: 720px) {
+  footer >*:first-child >* {
+    font-size: .9rem;
+  }
+  footer .row ul li {
+    font-size: .9rem;
+  }
+}
+
+@media (max-width: 675px) {
+  #row-notice {
+    font-size: .5em;
+  }
+  footer .row {
+    font-size: .9em;
+  }
+}
+
+@media (max-width: 500px) {
+  footer >*:first-child >* {
+    font-size: .7rem;
+  }
+}
+
+@media (max-width: 440px) {
+  footer >*:first-child >* {
+    font-size: .7rem;
+  }
+  footer {
+    padding: 10%;
+  }
+}
+
+@media (max-width: 400px) {
+  footer .row {
+    font-size: .8rem;
+  }
+  footer .row ul li {
+    margin: 0em;
+  }
 }

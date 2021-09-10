@@ -1,13 +1,13 @@
 import axios, { AxiosError } from 'axios';
 import { ValidationErrors } from '../promotion/promotionSlice';
 import { authHeader } from '../user/api';
-import { CreateProductDto, IProduct, UpdateProductDto } from './productSlice';
+import { IProduct, ProductDto, UpdateProductDto } from './productSlice';
 
 export const PRODUCT_URL = 'http://localhost:3000/product';
 
 export async function fetchProducts(): Promise<IProduct[]> {
   return axios
-    .get(PRODUCT_URL, { headers: authHeader() })
+    .get(PRODUCT_URL)
     .then((res) => {
       return res.data;
     })
@@ -20,7 +20,7 @@ export async function fetchProducts(): Promise<IProduct[]> {
     });
 }
 
-export async function createProduct(data: CreateProductDto): Promise<IProduct> {
+export async function createProduct(data: ProductDto): Promise<IProduct> {
   return axios
     .post(PRODUCT_URL, data, { headers: authHeader() })
     .then((res) => res.data)

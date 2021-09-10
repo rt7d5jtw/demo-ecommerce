@@ -1,7 +1,7 @@
 import * as React from 'react';
 import './cart-container.css';
 import { GiShoppingBag } from 'react-icons/gi';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import { RootState } from '../../../app/store';
 import { cartToggle, clearCart, ICartItem } from '../../cart/cartSlice';
 import { selectOpen, selectCartItems, selectQuantity } from '../../cart/selectors';
@@ -11,6 +11,7 @@ import { createStructuredSelector } from 'reselect';
 import CartItem from '../cart-item/cart-item.component';
 import { useHistory } from 'react-router-dom';
 import { useRef, useEffect } from 'react';
+import { selectAccessToken } from '../../user/selectors';
 
 interface ICart {
   isOpen: boolean;
@@ -19,7 +20,7 @@ interface ICart {
 }
 
 const CartContainer = ({ isOpen, cartItems, quantity }: ICart) => {
-  const user = JSON.parse(localStorage.getItem('user') || '{}');
+  const token = useSelector(selectAccessToken);
   const dispatch = useDispatch();
   const wrappedRef = useRef<HTMLDivElement>(null);
   const iconRef = useRef<HTMLDivElement>(null);
@@ -46,7 +47,7 @@ const CartContainer = ({ isOpen, cartItems, quantity }: ICart) => {
 
   function cartClear() {
     dispatch(clearCart());
-    if (user && user.accessToken) {
+    if (token) {
       dispatch(clearCartDB());
     }
   }

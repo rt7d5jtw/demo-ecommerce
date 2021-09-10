@@ -5,7 +5,7 @@ import { ICart, ICartItem, AddItemSuccess } from './cartSlice';
 
 export const CART_URL = 'http://localhost:3000/cart/';
 
-export async function fetchCart(): Promise<ICart> {
+export async function apifetchCart(): Promise<ICart> {
   return axios
     .get(CART_URL, { headers: authHeader() })
     .then((res) => {

@@ -28,9 +28,10 @@ export const create = createAsyncThunk(
 
 export const remove = createAsyncThunk(
   'category/remove',
-  async (id: string, { rejectWithValue }) => {
+  async (category: ICategory, { rejectWithValue }) => {
     try {
-      return removeCategory(id);
+      removeCategory(category.id);
+      return category;
     } catch (err) {
       const error: AxiosError<ValidationErrors> = err;
       if (!error.response) {

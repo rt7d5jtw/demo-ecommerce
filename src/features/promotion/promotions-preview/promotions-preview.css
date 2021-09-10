@@ -2,11 +2,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 65vh;
+  min-height: 65vh;
   width: 100%;
-  background-size: cover;
-  background-position: center;
   z-index: 2;
+  background: transparent;
 }
 
 .promotions-preview__main {
@@ -17,12 +16,21 @@
   width: 85%;
 }
 
-/* Portrait and Landscape */
-@media only screen 
-  and (min-device-width: 320px) 
-  and (max-device-width: 480px)
-  and (-webkit-min-device-pixel-ratio: 2) {
-    .promotions-preview {
-      display: none;
-    }
+@media (max-width: 1150px) {
+  .promotions-preview__main {
+    width: 95%;
+  }
+}
+
+@media (max-width: 670px) {
+  .promotions-preview {
+    overflow-y: scroll;
+  }
+  .promotions-preview__main {
+    height: 95%;
+    width: 100%;
+    justify-content: unset;
+    align-items: normal;
+    flex-direction: column;
+  }
 }

@@ -12,7 +12,6 @@ type SelectionType = {
 
 function ProductDashboard(): JSX.Element {
   const match = useRouteMatch();
-  console.log(match);
   const dispatch = useDispatch();
   const products = useSelector(selectItems);
   const [currentPage, setCurrentPage] = React.useState<number>(0);
@@ -21,19 +20,22 @@ function ProductDashboard(): JSX.Element {
   const [selections, setSelections] = React.useState<SelectionType[]>([]);
 
   function onSearch(e: React.ChangeEvent<HTMLInputElement>) {
+    e.preventDefault();
     const { name, value } = e.target;
     setInput((input) => ({ ...input, [name]: value }));
   }
 
   function deleteHandler(e: React.MouseEvent<HTMLButtonElement>) {
     const value = (e.target as HTMLInputElement).value;
-    selections.length > 1
-      ? confirm(`Are you sure you wanna delete ${selections.length} products?`) &&
-        console.log(value)
-      : selections.length <= 1
-      ? confirm('Are you sure you want to delete this product?') &&
-        dispatch(removeProduct(Number(value)))
-      : null;
+    if (e.currentTarget.dataset['bind']) {
+      selections.length > 1
+        ? confirm(`Are you sure you wanna delete ${selections.length} products?`) &&
+          console.info(`No implementation yet, ${value}`)
+        : selections.length <= 1
+        ? confirm('Are you sure you want to delete this product?') &&
+          dispatch(removeProduct(JSON.parse(e.currentTarget.dataset['bind'])))
+        : null;
+    }
   }
 
   function onChange(e: React.ChangeEvent<HTMLSelectElement>) {
@@ -94,6 +96,7 @@ function ProductDashboard(): JSX.Element {
             onChange={onSearch}
             aria-label='Write a keyword for search'
             maxLength={75}
+            onSubmit={onSearch}
           />
         </div>
         <div>
@@ -129,71 +132,83 @@ function ProductDashboard(): JSX.Element {
             <th scope='col'></th>
           </tr>
         </thead>
-        {input.search.length > 0
-          ? rankedIndex.map(({ image, title, price, id, status, categories }) => (
-              <tbody key={id}>
-                <tr>
+        <tbody>
+          {input.search.length > 0
+            ? rankedIndex.map((product) => (
+                <tr key={product.id}>
                   <th scope='row' className='img-row'>
-                    <img src={require(`../../../../../assets/${image}`)} />
+                    <img src={require(`../../../../../assets/${product.image}`)} />
                   </th>
-                  <td>{id}</td>
-                  <td>{title}</td>
-                  <td>${price}</td>
+                  <td>{product.id}</td>
+                  <td>{product.title}</td>
+                  <td>${product.price}</td>
                   <td>{status}</td>
-                  <td id='cat-row'>{categories.join(', ')}</td>
+                  <td id='cat-row'>{product.categories.join(', ')}</td>
                   <td>
                     <input
                       onChange={onCheckbox}
-                      checked={selections.find((e) => e.id === id.toString()) !== undefined}
+                      checked={selections.find((e) => e.id === product.id.toString()) !== undefined}
                       type='checkbox'
-                      value={id}
+                      value={product.id}
                       name='selection'
                       id='selection'
                     />
                   </td>
                   <td>
-                    <Link to={`${match.url}/edit/${id}`}>Edit</Link>
+                    <Link id='edit-link' to={`${match.url}/edit/${product.id}`}>
+                      Edit
+                    </Link>
                   </td>
                   <td>
-                    <button onClick={deleteHandler} id='delete-row' value={id}>
+                    <button
+                      onClick={deleteHandler}
+                      id='delete-row'
+                      data-bind={JSON.stringify(product)}
+                      value={product.id}
+                    >
                       Delete
                     </button>
                   </td>
                 </tr>
-              </tbody>
-            ))
-          : miumau.map(({ image, title, price, id, status, categories }) => (
-              <tbody key={id}>
-                <tr>
+              ))
+            : miumau.map((product) => (
+                <tr key={product.id}>
                   <th scope='row' className='img-row'>
-                    <img src={require(`../../../../../assets/${image}`)} />
+                    <img src={require(`../../../../../assets/${product.image}`)} />
                   </th>
-                  <td>{id}</td>
-                  <td>{title}</td>
-                  <td>${price}</td>
-                  <td>{status}</td>
-                  <td id='cat-row'>{categories.map(({ cname }) => cname).join(', ')}</td>
+                  <td>{product.id}</td>
+                  <td>{product.title}</td>
+                  <td>${product.price}</td>
+                  <td>{product.status}</td>
+                  <td id='cat-row'>{product.categories.map(({ cname }) => cname).join(', ')}</td>
                   <td>
                     <input
                       onChange={onCheckbox}
-                      checked={selections.find((e) => e.id === id.toString()) !== undefined}
+                      checked={selections.find((e) => e.id === product.id.toString()) !== undefined}
                       type='checkbox'
-                      value={id}
+                      value={product.id}
                       name='selection'
                       id='selection'
                     />
                   </td>
                   <td>
-                    <Link to={`${match.url}/edit/${id}`}>Edit</Link>
+                    <Link to={`${match.url}/edit/${product.id}`} id='edit-link'>
+                      Edit
+                    </Link>
                   </td>
                   <td>
-                    <button onClick={deleteHandler} id='delete-row' value={id}>
+                    <button
+                      onClick={deleteHandler}
+                      id='delete-row'
+                      data-bind={JSON.stringify(product)}
+                      value={product.id}
+                    >
                       Delete
                     </button>
                   </td>
                 </tr>
-              </tbody>
-            ))}
+              ))}
+        </tbody>
       </table>
     </div>
   );

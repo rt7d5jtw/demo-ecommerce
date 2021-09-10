@@ -1,8 +1,6 @@
 .profile-form {
   font-family: 'Montserrat';
   position: relative;
-  min-width: 250px;
-  max-width: 450px;
   padding: 2.5rem;
   background-color: #232946;
 }
@@ -59,4 +57,11 @@
   font-size: 1rem;
   color: #ff8906;
   margin: 1px 0px 10px 0px;
+}
+
+@media (max-width: 620px) {
+  .profile-form {
+    height: inherit;
+    width: 100%;
+  }
 }

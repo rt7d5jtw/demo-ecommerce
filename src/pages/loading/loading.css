@@ -2,7 +2,7 @@
   display: grid;
   place-items: center center;
   min-height: 100vh;
-  background-color: #faeee7;
+  background: #38242c;
 }
 
 .loading-spinner__wrapper {
@@ -21,8 +21,7 @@
   font-size: 1.4em;
   position: absolute;
   top: 1em;
-  left: 3em;
-  color: #594a4e;
+  color: beige;
 }
 
 .spinner {
@@ -41,7 +40,7 @@
 .spinner-core {
   width: 100%;
   height: 100%;
-  background-color: #faeee7;
+  background: #38242c;
   border-radius: 50%;
 }
 

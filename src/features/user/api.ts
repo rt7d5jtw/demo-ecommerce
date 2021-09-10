@@ -20,11 +20,19 @@ export interface AuthorizationDTO {
   Authorization: string;
 }
 
-export const authHeader = (): AuthorizationDTO | unknown => {
-  const user = JSON.parse(localStorage.getItem('user') || '{}');
+function parseStorage(location: string, target: string) {
+  if (localStorage.getItem(`${location}`) !== null) {
+    const res = JSON.parse(localStorage.getItem(`${location}`) || '{}')[target];
+    if (res === 'null' || null) return null;
+    return JSON.parse(res);
+  }
+  return null;
+}
 
-  if (user && user.accessToken) {
-    return { Authorization: 'Bearer ' + user.accessToken };
+export const authHeader = (): AuthorizationDTO | unknown => {
+  const token = parseStorage('persist:user', 'accessToken');
+  if (token !== null) {
+    return { Authorization: `Bearer ${token}` };
   } else {
     return {};
   }
@@ -50,9 +58,6 @@ export async function login(arg: IUserCredentials): Promise<AccessTokenDTO> {
   return axios
     .post(AUTH_URL, arg)
     .then((res) => {
-      if (res.data.accessToken) {
-        localStorage.setItem('user', JSON.stringify(res.data));
-      }
       return res.data.accessToken;
     })
     .catch((err) => {
@@ -124,9 +129,9 @@ export async function fetchAllUsers(): Promise<IUser[]> {
     });
 }
 
-export async function deleteUser(): Promise<void> {
+export async function deleteUser(id: string): Promise<void> {
   return axios
-    .delete(USERS_URL, { headers: authHeader() })
+    .delete(USERS_URL + id, { headers: authHeader() })
     .then((res) => {
       return res.data;
     })

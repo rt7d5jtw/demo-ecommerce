@@ -7,7 +7,7 @@ import { createStructuredSelector } from 'reselect';
 import { RootState } from '../../app/store';
 import { selectItems } from '../../features/product/selectors';
 import { selectCategories, ICategory } from '../../features/category/categorySlice';
-import { Route, Switch, useParams, useRouteMatch } from 'react-router-dom';
+import { Route, Switch, useLocation, useParams, useRouteMatch } from 'react-router-dom';
 import { SingleProductPage } from '../single-product/single-product.component';
 import { fetch as fetchCategories } from '../../features/category/thunks';
 import { fetch as fetchProducts } from '../../features/product/thunks';
@@ -58,6 +58,12 @@ function CategoryPage({ categories, products }: ICategoryPage): JSX.Element {
     threshold: 1,
   };
 
+  const { pathname } = useLocation();
+
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
   React.useEffect(() => {
     const observer = new IntersectionObserver(callback, options);
     if (productsRef.current) observer.observe(productsRef.current);
@@ -71,15 +77,17 @@ function CategoryPage({ categories, products }: ICategoryPage): JSX.Element {
       <Switch>
         <Route path={`${match.path}/:productId`} component={SingleProductPage} />
       </Switch>
-      <h1 className='category-page__title'>
-        <p>
-          {currentCategory && currentCategory.cname === 'shopall'
-            ? 'All Products'
-            : currentCategory && currentCategory.cname
-            ? currentCategory.cname
-            : 'Category could not be found :('}
-        </p>
-      </h1>
+      <div>
+        <h1 className='category-page__title'>
+          <p>
+            {currentCategory && currentCategory.cname === 'shopall'
+              ? 'All Products'
+              : currentCategory && currentCategory.cname
+              ? currentCategory.cname
+              : 'Category could not be found :('}
+          </p>
+        </h1>
+      </div>
       <div className='category-page__products'>
         {currentCategory && currentCategory.id
           ? products

@@ -24,3 +24,10 @@
 .profile-changeform form button[type=submit] {
   border: 1px solid #131313;
 }
+
+@media (max-width: 620px) {
+  .profile-changeform {
+    height: 100%;
+    width: 100%;
+  }
+}

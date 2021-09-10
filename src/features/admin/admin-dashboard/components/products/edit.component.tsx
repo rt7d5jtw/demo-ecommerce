@@ -1,24 +1,22 @@
 import * as React from 'react';
 import './edit.css';
-import { selectCategories } from '../../../../../features/category/categorySlice';
+import { ICategory, selectCategories } from '../../../../../features/category/categorySlice';
 import { update as updateProduct } from '../../../../../features/product/thunks';
 import { useDispatch, useSelector } from 'react-redux';
-import { TestForm } from '../../../../forms/testform';
+import { MultipleSelectState, TestForm } from '../../../../forms/testform';
 import { Link, useParams } from 'react-router-dom';
 import { selectItems } from '../../../../product/selectors';
-import { IProduct } from '../../../../product/productSlice';
+import { IProduct, UpdateProductDto } from '../../../../product/productSlice';
 import { Loading } from '../../../../../pages/loading/loading.component';
-import { handleForm } from '../../../../forms/utils/utils';
+import { handleForm, handleFormCategories } from '../../../../forms/utils/utils';
 import { FormProductPreview } from './create.component';
 
-type FormAction =
-  | { type: 'title'; payload: string }
-  | { type: 'price'; payload: string }
-  | { type: 'description'; payload: string }
-  | { type: 'categories'; payload: string }
-  | { type: 'image'; payload: File };
+type FormAction = {
+  type: 'title' | 'price' | 'description' | 'categories' | 'image';
+  payload: any;
+};
 
-function formReducer(state: typeof initialState, action: any) {
+function formReducer(state: typeof initialState, action: FormAction) {
   switch (action.type) {
     case 'title': {
       return {
@@ -58,7 +56,7 @@ function formReducer(state: typeof initialState, action: any) {
 const initialState = {
   title: '',
   price: null,
-  description: '',
+  description: null,
   categories: [],
   image: null,
 };
@@ -66,11 +64,18 @@ const initialState = {
 function Edit(): JSX.Element {
   const { id } = useParams<{ id?: string }>();
   const products = useSelector(selectItems);
-  const categories = useSelector(selectCategories);
+  const categories: ICategory[] = useSelector(selectCategories);
   const [formState, formDispatch] = React.useReducer(formReducer, initialState);
   const [warning, setWarning] = React.useState<string>('');
   const dispatch = useDispatch();
   const cId = Number(id);
+
+  function selectHandler(e: MultipleSelectState) {
+    formDispatch({
+      type: 'categories',
+      payload: e.values.map(({ name }) => name).join(', '),
+    });
+  }
 
   const product = products && products ? products.find((prod: IProduct) => prod.id === cId) : null;
   if (product === null || product === undefined) {
@@ -78,33 +83,31 @@ function Edit(): JSX.Element {
   }
 
   React.useEffect(() => {
+    formDispatch({
+      type: 'categories',
+      payload: product.categories.map(({ cname }) => cname).join(', '),
+    });
+  }, []);
+
+  React.useEffect(() => {
     if (product) {
       formDispatch({ type: 'title', payload: product.title });
       formDispatch({ type: 'price', payload: '$' + product.price });
       formDispatch({ type: 'description', payload: product.description });
-      formDispatch({
-        type: 'categories',
-        payload: product.categories.map(({ cname }) => cname).join(', '),
-      });
       formDispatch({ type: 'image', payload: product.image });
     }
   }, [product]);
 
   function onSubmit(event: React.BaseSyntheticEvent) {
     event.preventDefault();
-    const categoryValues: { id: string }[] = [];
-    Array.from(event.currentTarget.elements).forEach((e) => {
-      if ((e as HTMLSelectElement).nodeName === 'SELECT') {
-        Array.from((e as HTMLSelectElement).selectedOptions).forEach((e) => {
-          categoryValues.push({ id: (e as HTMLOptionElement).value });
-        });
-      }
-    });
     const values = handleForm(event.currentTarget.elements);
-    values['categoryIds'] = categoryValues;
+    const categoryIds = handleFormCategories(event.currentTarget.elements['categoryIds']);
+    console.group('Here => ', event.currentTarget.elements);
     if (values.title.match(/^[^-\s][a-zA-Z0-9_\s-]+$/gi) !== null) {
-      console.log(values);
-      confirm('Are you sure you want to edit this product?') && dispatch(updateProduct(values));
+      confirm('Are you sure you want to edit this product?') &&
+        dispatch(
+          updateProduct({ id: cId, status: 'IN_STOCK', ...values, categoryIds } as UpdateProductDto)
+        );
     } else {
       setWarning('Validation error, give proper inputs');
     }
@@ -114,10 +117,11 @@ function Edit(): JSX.Element {
     if (e.currentTarget.files) {
       formDispatch({
         type: 'image',
-        payload: URL.createObjectURL((e.currentTarget as HTMLInputElement).files![0]),
+        payload: URL.createObjectURL(e.currentTarget.files[0]),
       });
     }
   }
+
   return (
     <div className='admin-create'>
       <div className='admin-create__header'>
@@ -188,11 +192,11 @@ function Edit(): JSX.Element {
               required: true,
               options: categories.map((val) => ({
                 id: val.id,
-                value: val.cname,
+                value: val.id,
                 label: val.cname,
               })),
-              onChange: (e) =>
-                formDispatch({ type: 'categories', payload: (e.target as HTMLInputElement).value }),
+              onStateListener: (e) => selectHandler(e),
+              feedState: product.categories,
             },
           ],
           input: [

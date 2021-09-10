@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import { ValidationErrors } from '../promotion/promotionSlice';
 import { fetchProducts, createProduct, removeProduct, updateProduct, searchProducts } from './api';
-import { IProduct } from './productSlice';
+import { IProduct, ProductDto, UpdateProductDto } from './productSlice';
 
 export const fetch = createAsyncThunk('product/fetchProducts', async () => {
   return fetchProducts();
@@ -10,7 +10,7 @@ export const fetch = createAsyncThunk('product/fetchProducts', async () => {
 
 export const add = createAsyncThunk(
   'product/addProducts',
-  async (data: IProduct, { rejectWithValue }) => {
+  async (data: ProductDto, { rejectWithValue }) => {
     try {
       return createProduct(data);
     } catch (err) {
@@ -25,9 +25,10 @@ export const add = createAsyncThunk(
 
 export const remove = createAsyncThunk(
   'product/removeProducts',
-  async (id: number, { rejectWithValue }) => {
+  async (product: IProduct, { rejectWithValue }) => {
     try {
-      return removeProduct(id);
+      removeProduct(product.id);
+      return product;
     } catch (err) {
       const error: AxiosError<ValidationErrors> = err;
       if (!error.response) {
@@ -40,7 +41,7 @@ export const remove = createAsyncThunk(
 
 export const update = createAsyncThunk(
   'product/updateProducts',
-  async (updateProps: IProduct, { rejectWithValue }) => {
+  async (updateProps: UpdateProductDto, { rejectWithValue }) => {
     try {
       return updateProduct(updateProps);
     } catch (err) {

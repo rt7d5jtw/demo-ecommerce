@@ -1,25 +1,30 @@
-// ***********************************************
-// This example commands.js shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add('dismiss', { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+/// <reference types="cypress" />
+import { setLoggedIn } from '../../src/features/user/userSlice';
+
+const dispatch = (action) => cy.window().its('store').invoke('dispatch', action);
+
+Cypress.Commands.add('register', (email, pw) => {
+  cy.request({
+    method: 'POST',
+    url: 'http://localhost:3000/users',
+    form: true,
+    body: {
+      email: email,
+      password: pw,
+    },
+  });
+});
+
+Cypress.Commands.add('login', (email, pw) => {
+  cy.request({
+    method: 'POST',
+    url: 'http://localhost:3000/auth/signin',
+    form: true,
+    body: {
+      email: email,
+      password: pw,
+    },
+  }).then((res) => {
+    localStorage.setItem('user', JSON.stringify(res.body));
+  });
+});

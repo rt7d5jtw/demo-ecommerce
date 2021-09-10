@@ -1,6 +1,5 @@
 .alert {
   position: absolute;
-  opacity: 0;
   z-index: 10;
 
   top: 45px;
@@ -17,20 +16,5 @@
   border-radius: 12px;
   width: 250px;
   height: 80px;
-  -webkit-transition: opacity 0.5s ease;
-  -moz-transition: opacity 0.5s ease;
-  -ms-transition: opacity 0.5s ease;
-  -o-transition: opacity 0.5s ease;
-  transition: opacity 0.5s ease;
-  transition-delay: 0.2s;
-}
-
-.alert__filler {
-  position: absolute;
-  bottom: 10px;
-  background: #3ac5e0;
-  width: 0%;
-  height: 10px;
-  transition: 1s ease;
-  transition-delay: 0.5s;
+  transition: all 1s ease;
 }

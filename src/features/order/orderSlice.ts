@@ -1,5 +1,4 @@
 import { createAction, createSlice } from '@reduxjs/toolkit';
-import { ICartItem } from '../cart/cartSlice';
 import { fetch, fetchAll, create, fetchItems, remove, createIntent } from './thunks';
 
 export enum OrderStatus {
@@ -52,7 +51,6 @@ export interface OrderState {
   orders: IOrder[];
   recentOrder: IOrder | null;
   recentOrderItems: IOrderItem[] | null;
-  invoice: any;
   loading: boolean;
   errors: unknown;
 }
@@ -61,7 +59,6 @@ const initialState: OrderState = {
   orders: [],
   recentOrder: null,
   recentOrderItems: null,
-  invoice: null,
   loading: false,
   errors: [],
 };

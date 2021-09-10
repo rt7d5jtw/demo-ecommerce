@@ -1,12 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
 import { RootState } from '../../app/store';
+import { removeFromState, updateState } from '../product/selectors';
 import { fetch, create, remove, update } from './thunks';
 
 export interface ICategory {
   cname: string;
   id: string;
 }
+
+export type CategoryDTO = Pick<ICategory, 'id'>;
 
 export interface ICategoryState {
   categories: ICategory[];
@@ -50,7 +53,8 @@ export const categorySlice = createSlice({
       builder.addCase(remove.pending, (state) => {
         state.loading = true;
       }),
-      builder.addCase(remove.fulfilled, (state) => {
+      builder.addCase(remove.fulfilled, (state, { payload }) => {
+        state.categories = removeFromState(payload, state.categories);
         state.loading = false;
       }),
       builder.addCase(remove.rejected, (state, action) => {
@@ -60,7 +64,8 @@ export const categorySlice = createSlice({
       builder.addCase(update.pending, (state) => {
         state.loading = true;
       }),
-      builder.addCase(update.fulfilled, (state) => {
+      builder.addCase(update.fulfilled, (state, { payload }) => {
+        state.categories = updateState(payload, state.categories);
         state.loading = false;
       }),
       builder.addCase(update.rejected, (state, action) => {

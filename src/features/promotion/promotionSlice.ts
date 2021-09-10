@@ -1,4 +1,5 @@
 import { createAction, createSlice } from '@reduxjs/toolkit';
+import { removeFromState, updateState } from '../product/selectors';
 import { fetch, create, remove, update } from './thunks';
 
 export interface ValidationErrors {
@@ -67,7 +68,8 @@ export const promotionSlice = createSlice({
       builder.addCase(remove.pending, (state) => {
         state.loading = true;
       }),
-      builder.addCase(remove.fulfilled, (state) => {
+      builder.addCase(remove.fulfilled, (state, { payload }) => {
+        state.items = removeFromState(payload, state.items);
         state.loading = false;
       }),
       builder.addCase(remove.rejected, (state, action) => {
@@ -77,7 +79,8 @@ export const promotionSlice = createSlice({
     builder.addCase(update.pending, (state) => {
       state.loading = true;
     }),
-      builder.addCase(update.fulfilled, (state) => {
+      builder.addCase(update.fulfilled, (state, { payload }) => {
+        state.items = updateState(payload, state.items);
         state.loading = false;
       }),
       builder.addCase(update.rejected, (state, action) => {
