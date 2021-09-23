@@ -2,7 +2,7 @@ import * as React from 'react';
 import './App.css';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { selectAccessToken } from '../features/user/selectors';
+import { selectAccessToken, selectRole } from '../features/user/selectors';
 
 import Homepage from '../pages/homepage/homepage.component';
 import { Register } from '../features/user/register/register.component';
@@ -14,6 +14,7 @@ import { StripeOrderWrapper } from '../pages/stripe-order-wrapper/stripe-order-w
 
 const App = (): JSX.Element => {
   const accessToken = useSelector(selectAccessToken);
+  const role = useSelector(selectRole);
   return (
     <>
       <Switch>
@@ -22,10 +23,26 @@ const App = (): JSX.Element => {
           path='/register'
           component={() => (accessToken ? <Redirect to='/' /> : <Register />)}
         />
-        <Route path='/profile' component={ProfileDashboard} />
-        <Route path='/admin-dashboard' component={AdminDashboard} />
-        <Route exact path='/payment' component={StripeOrderWrapper} />
-        <Route exact path='/checkout' component={Checkout} />
+        <Route
+          path='/profile'
+          render={() => (accessToken ? <ProfileDashboard /> : <Redirect to='/' />)}
+        />
+        <Route
+          path='/admin-dashboard'
+          render={() =>
+            accessToken && role === 'ADMIN' ? <AdminDashboard /> : <Redirect to='/' />
+          }
+        />
+        <Route
+          exact
+          path='/payment'
+          render={() => (accessToken ? <StripeOrderWrapper /> : <Redirect to='/' />)}
+        />
+        <Route
+          exact
+          path='/checkout'
+          render={() => (accessToken ? <Checkout /> : <Redirect to='/' />)}
+        />
         <Route path='/' component={Homepage} />
       </Switch>
     </>

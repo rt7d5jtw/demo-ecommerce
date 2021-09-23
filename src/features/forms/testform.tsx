@@ -106,7 +106,7 @@ export function TestForm({ fields, onSubmit, headlabel, submitlabel }: IProfileF
               <InputForm
                 orderIdentifier={com.orderIdentifier}
                 name={com.name}
-                id={com.index}
+                id={com.id}
                 step={com.step}
                 placeholder={com.placeholder}
                 defaultValue={com.defaultValue}
@@ -191,7 +191,11 @@ export function TestForm({ fields, onSubmit, headlabel, submitlabel }: IProfileF
   );
 }
 
-//type ComponentKey = 'labels' | 'inputs' | 'selects' | 'multiselects' | 'textareas' | 'warnings';
+//type ComponentKey = 'labels' | 'input' | 'select' | 'multiselect' | 'textarea' | 'warning';
+
+type FieldTypeArrayJSON = {
+  [key: string]: FormComponent[];
+};
 
 type FormComponent =
   | ILabelForm
@@ -201,22 +205,24 @@ type FormComponent =
   | FieldTextarea
   | IFormWarning;
 
-interface hasOrderIdentifier {
-  orderIdentifier: number;
-}
+type FormComponentNewMember<T> = T & { component: string; orderIdentifier: number };
 
-function sortByOI<T extends hasOrderIdentifier>(a: T, b: T): number {
+function sortByOI<T extends { orderIdentifier: number }>(a: T, b: T): number {
   if (a.orderIdentifier > b.orderIdentifier) return 1;
   if (a.orderIdentifier < b.orderIdentifier) return -1;
   return 0;
 }
 
-export function parseFormJSON<Fields extends FieldTypeArray>(fields: Fields): any[] {
-  const storage = [];
+export function parseFormJSON<Fields extends FieldTypeArrayJSON>(
+  fields: Fields
+): FormComponentNewMember<any>[] {
+  const storage: FormComponentNewMember<FormComponent>[] = [];
   for (const i in fields) {
-    storage.push(fields[i].map((v: FormComponent) => ({ ...v, component: i })));
+    fields[i].forEach(function (com: FormComponent) {
+      storage.push({ ...com, component: i } as FormComponentNewMember<FormComponent>);
+    });
   }
-  return storage.flat().sort(sortByOI);
+  return storage.sort(sortByOI);
 }
 
 function LabelForm({ label, htmlFor }: ILabelForm): JSX.Element {

@@ -1,7 +1,7 @@
 import { createAction, createSlice } from '@reduxjs/toolkit';
 import { CategoryDTO, ICategory } from '../category/categorySlice';
 import { fetch, add, remove, update, search } from './thunks';
-import { removeFromState, updateState } from './selectors';
+import { removeFromState, updateState } from '../shared/utils';
 
 export interface IProduct {
   id: number;

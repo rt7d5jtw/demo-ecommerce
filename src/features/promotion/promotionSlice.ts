@@ -1,5 +1,5 @@
 import { createAction, createSlice } from '@reduxjs/toolkit';
-import { removeFromState, updateState } from '../product/selectors';
+import { removeFromState, updateState } from '../shared/utils';
 import { fetch, create, remove, update } from './thunks';
 
 export interface ValidationErrors {

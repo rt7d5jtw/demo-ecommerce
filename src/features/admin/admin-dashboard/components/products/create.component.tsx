@@ -44,7 +44,7 @@ export function FormProductPreview({
   );
 }
 
-function formReducer(state: typeof initialState, action: FormAction) {
+function formReducer(state: FormState, action: FormAction) {
   switch (action.type) {
     case 'title': {
       return {
@@ -81,7 +81,15 @@ function formReducer(state: typeof initialState, action: FormAction) {
   }
 }
 
-const initialState = {
+type FormState = {
+  title: string;
+  price: number | null;
+  description: string;
+  categories: string[];
+  image: File | null;
+};
+
+const initialState: FormState = {
   title: '',
   price: null,
   description: '',
@@ -94,6 +102,7 @@ function Create(): JSX.Element {
   const categories = useSelector(selectCategories);
   const [formState, formDispatch] = React.useReducer(formReducer, initialState);
   const [warning, setWarning] = React.useState<string>('');
+
   function onSubmit(event: React.BaseSyntheticEvent) {
     event.preventDefault();
     const values = handleForm(event.currentTarget.elements);

@@ -87,6 +87,8 @@ export const setLoggedIn = createAction<{ loggedIn: boolean; accessToken: string
   'user/setLoggedIn'
 );
 
+export const setRole = createAction<{ role: UserRole }>('user/setRole');
+
 export const userSlice = createSlice({
   name: 'user',
   initialState: initialState,
@@ -103,6 +105,9 @@ export const userSlice = createSlice({
     setLoggedIn: (state, { payload }) => {
       state.accessToken = payload.accessToken;
       state.loggedIn = payload.loggedIn;
+    },
+    setRole: (state, { payload }) => {
+      state.role = payload.role;
     },
   },
   extraReducers: (builder) => {

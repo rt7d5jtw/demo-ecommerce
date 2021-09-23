@@ -15,17 +15,25 @@ export const ProfileDropdown = (): JSX.Element => {
   const dispatch = useDispatch();
   return (
     <div className='profile-dropdown'>
-      <nav onMouseEnter={handleChange} onMouseLeave={handleChange}>
+      <nav data-cy='profile-nav' onMouseEnter={handleChange} onMouseLeave={handleChange}>
         <i>
           <CgProfile />
         </i>
-        <ul data-cy='profile-ul' style={isChecked ? { height: '320px', width: '200px' } : {}}>
+        <ul
+          data-cy='profile-ul'
+          id='profile-ul'
+          style={isChecked ? { height: '320px', width: '200px' } : {}}
+        >
           <li>
-            <Link to='/profile'>Profile</Link>
+            <Link data-cy='profile-link' to='/profile'>
+              Profile
+            </Link>
           </li>
           {authorized === 'ADMIN' ? (
             <li>
-              <Link to='/admin-dashboard'>Admin</Link>
+              <Link data-cy='admin-link' to='/admin-dashboard'>
+                Admin
+              </Link>
             </li>
           ) : null}
           <li>

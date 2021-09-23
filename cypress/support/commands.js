@@ -1,8 +1,6 @@
 /// <reference types="cypress" />
 import { setLoggedIn } from '../../src/features/user/userSlice';
 
-const dispatch = (action) => cy.window().its('store').invoke('dispatch', action);
-
 Cypress.Commands.add('register', (email, pw) => {
   cy.request({
     method: 'POST',
@@ -24,7 +22,5 @@ Cypress.Commands.add('login', (email, pw) => {
       email: email,
       password: pw,
     },
-  }).then((res) => {
-    localStorage.setItem('user', JSON.stringify(res.body));
   });
 });

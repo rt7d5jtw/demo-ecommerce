@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
 import { RootState } from '../../app/store';
-import { removeFromState, updateState } from '../product/selectors';
+import { removeFromState, updateState } from '../shared/utils';
 import { fetch, create, remove, update } from './thunks';
 
 export interface ICategory {

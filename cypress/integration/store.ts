@@ -34,6 +34,7 @@ describe('Test overall website functionality', function () {
 
     cy.get('.close-btn-closed > path').as('menu').click();
     cy.get('[href="/products/bestsellers"]').click();
+    cy.location('pathname').should('eq', '/products/bestsellers');
     cy.scrollTo('bottom');
     cy.get(':nth-child(27) > .product-card__card-button').click();
     cy.visit('/products/shopall');
@@ -41,15 +42,15 @@ describe('Test overall website functionality', function () {
     cy.scrollTo('bottom', { duration: 500 });
     cy.get('@menu').click();
     cy.get('[href="/products/Milk Chocolate"]').click();
+    cy.location('pathname').should('eq', '/products/Milk%20Chocolate');
     cy.scrollTo('bottom', { duration: 500 });
     cy.get('@menu').click();
     cy.get('[href="/products/Dark Chocolate"]').click();
+    cy.location('pathname').should('eq', '/products/Dark%20Chocolate');
     cy.scrollTo('bottom', { duration: 500 });
     cy.get('@menu').click();
     cy.get('[href="/products/White Chocolate"]').click();
-    cy.scrollTo('bottom', { duration: 500 });
-    cy.get('@menu').click();
-    cy.get('[href="/products/Chocolate boxes"]').click();
+    cy.location('pathname').should('eq', '/products/White%20Chocolate');
     cy.scrollTo('bottom', { duration: 500 });
     cy.get('@menu').click();
 
@@ -57,11 +58,14 @@ describe('Test overall website functionality', function () {
     cy.location('pathname').should('eq', '/');
     cy.scrollTo('center', { duration: 500 });
     cy.get(':nth-child(1) > .promotion-card__p').click();
+    cy.location('pathname').should('eq', '/products/Milk%20Chocolate');
     cy.go('back');
     cy.scrollTo('center', { duration: 500 });
     cy.get(':nth-child(2) > .promotion-card__p').click();
+    cy.location('pathname').should('eq', '/products/Dark%20Chocolate');
     cy.go('back');
     cy.scrollTo('center', { duration: 500 });
     cy.get(':nth-child(3) > .promotion-card__p').click();
+    cy.location('pathname').should('eq', '/products/White%20Chocolate');
   });
 });
