@@ -65,7 +65,6 @@ export class UsersController {
   }
 
   @UseGuards(AuthGuard('jwt'))
-  @UsePipes(UserRoleValidationPipe)
   @Patch(':id/role')
   updateUserRole(
     @Param('id') id: string,

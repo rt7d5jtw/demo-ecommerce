@@ -3,7 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "description": "Server for the chocolatiste client",
-  "license": "MIT",
+  "license": "UNLICENSED",
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
