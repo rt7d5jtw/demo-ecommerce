@@ -13,6 +13,7 @@ lib-cov
 coverage
 *.lcov
 
+dist/
 node_modules/
 .npm
 *.tsbuildinfo

@@ -1,8 +1,8 @@
 {
-  "name": "chocolatiste-server",
+  "name": "chocolatestore-server",
   "private": true,
   "version": "1.0.0",
-  "description": "Server for the chocolatiste client",
+  "description": "backend for the chocolatestore client",
   "license": "UNLICENSED",
   "scripts": {
     "prebuild": "rimraf dist",
