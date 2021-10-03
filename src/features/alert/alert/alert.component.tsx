@@ -33,7 +33,7 @@ const Alert = ({ message, timeout = 3500 }: IAlert) => {
 
   return (
     <div className='alert' style={state.fade === 0 ? { opacity: '0' } : { opacity: '1' }}>
-      {message}
+      <p className='alert__message'>{message}</p>
     </div>
   );
 };

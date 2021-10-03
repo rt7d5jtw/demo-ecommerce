@@ -15,6 +15,7 @@ import { StripeOrderWrapper } from '../pages/stripe-order-wrapper/stripe-order-w
 const App = (): JSX.Element => {
   const accessToken = useSelector(selectAccessToken);
   const role = useSelector(selectRole);
+
   return (
     <>
       <Switch>
@@ -30,7 +31,11 @@ const App = (): JSX.Element => {
         <Route
           path='/admin-dashboard'
           render={() =>
-            accessToken && role === 'ADMIN' ? <AdminDashboard /> : <Redirect to='/' />
+            (accessToken && role === 'ADMIN') || (accessToken && role === 'GUEST') ? (
+              <AdminDashboard />
+            ) : (
+              <Redirect to='/' />
+            )
           }
         />
         <Route

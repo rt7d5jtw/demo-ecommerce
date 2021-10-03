@@ -32,10 +32,18 @@ export const registerRequest = createAsyncThunk(
   }
 );
 
-export const loginRequest = createAsyncThunk('user/login', async (arg: IUserCredentials) => {
-  const res = await login(arg);
-  return res;
-});
+export const loginRequest = createAsyncThunk(
+  'user/login',
+  async (arg: IUserCredentials, thunkAPI) => {
+    const res = await login(arg).catch((err) => {
+      if (!err.response) {
+        throw err;
+      }
+      return thunkAPI.rejectWithValue(err.response.data);
+    });
+    return res;
+  }
+);
 
 export const handleSignIn = createAsyncThunk(
   'user/handleSignIn',
@@ -46,6 +54,8 @@ export const handleSignIn = createAsyncThunk(
       /* hacky patch to fix for later */
       setTimeout(() => thunkAPI.dispatch(fetchCart()), 1000);
       setTimeout(() => thunkAPI.dispatch(assignRole()), 1000);
+    } else if (res.meta.requestStatus === 'rejected') {
+      return thunkAPI.rejectWithValue(res.payload);
     }
   }
 );

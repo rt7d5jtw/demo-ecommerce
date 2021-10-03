@@ -29,7 +29,7 @@ export const ProfileDropdown = (): JSX.Element => {
               Profile
             </Link>
           </li>
-          {authorized === 'ADMIN' ? (
+          {authorized === 'ADMIN' || authorized === 'GUEST' ? (
             <li>
               <Link data-cy='admin-link' to='/admin-dashboard'>
                 Admin

@@ -9,11 +9,13 @@ import {
   removeUser,
   fetch,
   logout,
+  handleSignIn,
 } from './thunks';
 
 export enum UserRole {
   ADMIN = 'ADMIN',
   USER = 'USER',
+  GUEST = 'GUEST',
 }
 
 export interface IUser {
@@ -196,6 +198,16 @@ export const userSlice = createSlice({
         state.users = payload;
       }),
       builder.addCase(fetch.rejected, (state, action) => {
+        state.loading = false;
+        state.errors = action.payload;
+      }),
+      builder.addCase(handleSignIn.pending, (state) => {
+        state.loading = true;
+      }),
+      builder.addCase(handleSignIn.fulfilled, (state) => {
+        state.loading = false;
+      }),
+      builder.addCase(handleSignIn.rejected, (state, action) => {
         state.loading = false;
         state.errors = action.payload;
       });

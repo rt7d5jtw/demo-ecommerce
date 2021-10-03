@@ -18,6 +18,8 @@ export interface AlertState {
   atype: alert_type;
 }
 
+export const readymadeAcc = createAction('alert/readymadeAcc');
+
 export const userLogged = createAction('alert/userLogged');
 
 export const registered = createAction('alert/registered');
@@ -74,6 +76,11 @@ export const alertSlice = createSlice({
     productCreated: (state) => {
       state.message = 'Product created';
       state.atype = alert_type.success;
+    },
+    readymadeAcc: (state) => {
+      (state.message =
+        'Readymade account to access admin areas: Email: testing@user.com, Password: testing123'),
+        (state.atype = alert_type.success);
     },
     hideout: (state) => {
       state.message = '';

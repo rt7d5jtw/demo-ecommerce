@@ -12,6 +12,7 @@ module.exports = (env) => {
       hot: true,
       port: process.env.port,
       open: true,
+      historyApiFallback: true,
     },
     optimization: {
       moduleIds: 'deterministic',

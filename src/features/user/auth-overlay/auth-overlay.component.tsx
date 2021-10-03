@@ -17,7 +17,7 @@ export function AuthOverlay({ img, children }: IAuthOverlay): JSX.Element {
       </div>
       {url === '/login' ? (
         <Link to='/register' className='register-link'>
-          Dont have an account yet? Click here to register
+          Don't have an account yet? Click here to register
         </Link>
       ) : null}
     </>

@@ -1,4 +1,6 @@
 import * as React from 'react';
+import { useSelector } from 'react-redux';
+import { selectUserErrors } from '../../user/selectors';
 import './profile-form.css';
 
 type FieldLabels = {
@@ -26,7 +28,7 @@ type InputArrayType = {
   inputy: FieldInputs;
 };
 
-type FieldWarnings = {
+export type FieldWarnings = {
   statusCode?: string;
   message: string;
   error?: string;
@@ -44,10 +46,10 @@ interface IProfileForm {
 }
 
 export function ProfileForm({ fields, onSubmit }: IProfileForm): JSX.Element {
-  //const errors = useSelector(selectUserErrors);
+  const errors = useSelector(selectUserErrors);
   const [warning, setWarning] = React.useState({
     statusCode: '',
-    message: '',
+    message: 'i like chocolate',
     error: '',
   });
   const [input, updateInput] = React.useState<{ [key: string]: string }>({});
@@ -60,17 +62,6 @@ export function ProfileForm({ fields, onSubmit }: IProfileForm): JSX.Element {
       setWarning({ statusCode: '', message: '', error: '' });
     }
   }
-
-  /*
-  React.useEffect(() => {
-    setWarning({
-      ...warning,
-      message: errors.message,
-      statusCode: errors.statusCode,
-      error: errors.error,
-    });
-  }, [errors]);
-     */
 
   return (
     <form className='profile-form' onSubmit={onSubmit}>
@@ -107,11 +98,15 @@ export function ProfileForm({ fields, onSubmit }: IProfileForm): JSX.Element {
         className='warning-text'
         style={warning && warning.message.length > 0 ? { display: 'inline' } : {}}
       >
-        {warning.message}
+        <FormWarning message={errors ? (errors as FieldWarnings).message : ''} />
       </p>
       <button type='submit' disabled={false}>
         {fields.labels.submit}
       </button>
     </form>
   );
+}
+
+function FormWarning({ message }: FieldWarnings): JSX.Element {
+  return <p id='form-warning'>{message}</p>;
 }
