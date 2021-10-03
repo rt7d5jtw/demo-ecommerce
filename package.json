@@ -1,29 +1,22 @@
 {
-  "name": "chocolatiste",
-  "version": "1.0.0",
+  "name": "chocolatestore",
+  "private": true,
+  "license": "UNLICENSED",
+  "version": "1.0",
   "description": "Ecommerce store made in typescript with react, redux",
-  "main": "index.js",
   "scripts": {
-    "start": "webpack serve --config webpack/webpack.config.js --env env=dev",
+    "start": "webpack server --progress --config webpack.config.js",
+    "build": "webpack --config webpack.config.js --env production --progress",
     "test": "jest",
-    "test:watch": "npm test -- --watch",
-    "build": "webpack --config webpack/webpack.config.js --env env=prod",
+    "test:watch": "npm test --watch",
     "build:js": "babel src --out-dir dist --extensions \".ts,.tsx\" --source-maps inline",
     "lint": "eslint --fix \"./src/**/*.{js,jsx,ts,tsx,json}\"",
     "format": "prettier --write \"./src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
-    "build:types": "tsc --noEmit"
+    "types": "tsc --noEmit",
+    "cypress:open": "cypress open",
+    "analyze": "webpack --json > stats.json",
+    "clean": "rm -r dist/*"
   },
-  "keywords": [
-    "React",
-    "Typescript",
-    "Redux",
-    "Axios",
-    "Ecommmerce",
-    "Testing",
-    "Jest",
-    "MSW"
-  ],
-  "author": "",
   "dependencies": {
     "@reduxjs/toolkit": "^1.5.1",
     "@stripe/react-stripe-js": "^1.4.1",
@@ -66,6 +59,7 @@
     "babel-loader": "^8.2.2",
     "css-loader": "^5.2.4",
     "cypress": "^8.3.1",
+    "dotenv": "^10.0.0",
     "eslint": "^7.25.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^3.4.0",
@@ -78,9 +72,9 @@
     "style-loader": "^2.0.0",
     "typescript": "^4.2.4",
     "uuid": "^3.4.0",
-    "webpack": "^5.41.0",
-    "webpack-cli": "^4.7.2",
-    "webpack-dev-server": "^3.11.2",
+    "webpack": "^5.54.0",
+    "webpack-cli": "^4.8.0",
+    "webpack-dev-server": "^4.3.0",
     "webpack-merge": "^5.8.0"
   },
   "msw": {
