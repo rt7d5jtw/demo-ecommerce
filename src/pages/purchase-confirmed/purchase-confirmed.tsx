@@ -31,7 +31,7 @@ export const PurchaseConfirmed = (): JSX.Element => {
           <p>
             <b>Invoice #{order && order.id}</b>
           </p>
-          <button onClick={() => (order && order.id ? getInvoice(order.id) : null)}>
+          <button onClick={() => (order && order.id ? console.group(getInvoice(order.id)) : null)}>
             View the invoice
           </button>
         </div>

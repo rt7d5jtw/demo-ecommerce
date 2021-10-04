@@ -1,6 +1,6 @@
 import axios, { AxiosError } from 'axios';
 import { ValidationErrors } from '../promotion/promotionSlice';
-import { authHeader } from '../user/api';
+import { authHeader, AuthorizationDTO } from '../user/api';
 import { IOrder, IOrderItem, OrderDTO, PaymentIntentDTO, UpdateOrderDto } from './orderSlice';
 
 export const ORDER_URL = 'http://localhost:3000/orders/';
@@ -101,7 +101,7 @@ export async function getInvoice(orderId: string): Promise<void> {
       { orderId: orderId },
       {
         headers: {
-          Authorization: `${auth}`,
+          Authorization: `${(auth as AuthorizationDTO).Authorization}`,
           'Content-Type': 'application/json',
           'Content-Disposition': 'attachment',
           Accept: 'application/pdf',

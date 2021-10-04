@@ -89,7 +89,7 @@ const OrderPayment = (): JSX.Element => {
 
   const handlePayment: React.FormEventHandler<HTMLFormElement> = async (e): Promise<void> => {
     e.preventDefault();
-    if (payment.submitCount >= 1) {
+    if (payment.submitCount >= 4) {
       setError('Too many submits, please wait for response');
       setTimeout(() => setPayment({ ...payment, submitCount: 0, submitted: false }), 2000);
     }

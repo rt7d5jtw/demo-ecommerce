@@ -30,6 +30,9 @@ const Sidebar = (): JSX.Element => {
         />
         <h1>Chocolatiste</h1>
         <div className='sidebar__links__wrapper'>
+          <Link to={'/products/shopall'} onClick={() => setOpen(!isOpen)}>
+            All Products
+          </Link>
           {categories.map(({ cname, id }) => (
             <Link to={'/products/' + cname} href={cname} key={id} onClick={() => setOpen(!isOpen)}>
               {cname}
