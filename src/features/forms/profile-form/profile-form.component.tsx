@@ -49,7 +49,7 @@ export function ProfileForm({ fields, onSubmit }: IProfileForm): JSX.Element {
   const errors = useSelector(selectUserErrors);
   const [warning, setWarning] = React.useState({
     statusCode: '',
-    message: 'i like chocolate',
+    message: '',
     error: '',
   });
   const [input, updateInput] = React.useState<{ [key: string]: string }>({});
@@ -94,12 +94,7 @@ export function ProfileForm({ fields, onSubmit }: IProfileForm): JSX.Element {
         required={fields.inputs.inputy.required}
         onChange={handleChange}
       />
-      <p
-        className='warning-text'
-        style={warning && warning.message.length > 0 ? { display: 'inline' } : {}}
-      >
-        <FormWarning message={errors ? (errors as FieldWarnings).message : ''} />
-      </p>
+      <FormWarning message={errors ? (errors as FieldWarnings).message : ''} />
       <button type='submit' disabled={false}>
         {fields.labels.submit}
       </button>

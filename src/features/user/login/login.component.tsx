@@ -1,23 +1,16 @@
 import * as React from 'react';
 import './login.css';
 import img from '../../../assets/delicious2.jpg';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { handleSignIn } from '../../user/thunks';
-import { FieldWarnings, ProfileForm } from '../../forms/profile-form/profile-form.component';
+import { ProfileForm } from '../../forms/profile-form/profile-form.component';
 import { handleForm } from '../../forms/utils/utils';
 import { AuthOverlay } from '../auth-overlay/auth-overlay.component';
 import { IUserCredentials } from '../userSlice';
-import { readymadeAcc, selectMessage } from '../../alert/alertSlice';
-import Alert from '../../alert/alert/alert.component';
-import { selectUserErrors } from '../selectors';
+import { readymadeAcc } from '../../alert/alertSlice';
 
 export const Login = (): JSX.Element => {
   const dispatch = useDispatch();
-  const alertMessage = useSelector(selectMessage);
-  const warningMessage = useSelector(selectUserErrors);
-
-  const [warning, setWarning] = React.useState({} as FieldWarnings);
-
   function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     dispatch(handleSignIn(handleForm(event.currentTarget.elements) as IUserCredentials));
@@ -25,11 +18,10 @@ export const Login = (): JSX.Element => {
 
   React.useEffect(() => {
     dispatch(readymadeAcc());
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className='login'>
-      {alertMessage.length > 0 ? <Alert timeout={1000 * 30} /> : null}
       <AuthOverlay img={img}>
         {
           <ProfileForm

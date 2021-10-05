@@ -28,8 +28,6 @@ import { GiShoppingBag } from 'react-icons/gi';
 import { BiLogIn } from 'react-icons/bi';
 import { AiOutlineShop } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
-import { selectMessage } from '../../features/alert/alertSlice';
-import Alert from '../../features/alert/alert/alert.component';
 
 function Homepage(): JSX.Element {
   const match = useRouteMatch();
@@ -41,7 +39,6 @@ function Homepage(): JSX.Element {
   const categories = useSelector(selectCategories);
   const products = useSelector(selectItems);
   const promotions = useSelector(selectPromotionItems);
-  const alertMessage = useSelector(selectMessage);
 
   categories.length === 0
     ? dispatch(fetchCategories())
@@ -56,7 +53,6 @@ function Homepage(): JSX.Element {
   }
   return (
     <div className='homepage'>
-      {alertMessage.length > 0 ? <Alert /> : null}
       <Navbar />
       <Sidebar />
       <Main>

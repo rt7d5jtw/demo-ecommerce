@@ -160,9 +160,6 @@ const Cart = (): JSX.Element => {
               <i>
                 <FaStripe />
               </i>{' '}
-              <i>
-                <FaCcPaypal />
-              </i>
             </span>
           </div>
         </div>

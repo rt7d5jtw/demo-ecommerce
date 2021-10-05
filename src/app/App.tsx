@@ -11,13 +11,17 @@ import AdminDashboard from '../features/admin/admin-dashboard/admin-dashboard.co
 import ProfileDashboard from '../features/user/profile-dashboard/profile-dashboard.component';
 import Checkout from '../pages/checkout/checkout.component';
 import { StripeOrderWrapper } from '../pages/stripe-order-wrapper/stripe-order-wrapper.component';
+import { selectMessage } from '../features/alert/alertSlice';
+import Alert from '../features/alert/alert/alert.component';
 
 const App = (): JSX.Element => {
   const accessToken = useSelector(selectAccessToken);
   const role = useSelector(selectRole);
+  const alertMessage = useSelector(selectMessage);
 
   return (
     <>
+      {alertMessage.length > 0 ? <Alert /> : null}
       <Switch>
         <Route exact path='/login' render={() => (accessToken ? <Redirect to='/' /> : <Login />)} />
         <Route

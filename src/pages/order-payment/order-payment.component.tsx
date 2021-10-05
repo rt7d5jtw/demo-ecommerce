@@ -15,6 +15,7 @@ import { OrderStatus } from '../../features/order/orderSlice';
 import { create as createOrder } from '../../features/order/thunks';
 import { paymentSuccess } from '../../features/alert/alertSlice';
 import { StripeCardElementChangeEvent } from '@stripe/stripe-js';
+import PaypalHandling from './paypal-handler';
 
 const OrderPayment = (): JSX.Element => {
   const dispatch = useDispatch();
@@ -164,8 +165,6 @@ const OrderPayment = (): JSX.Element => {
             <fieldset>
               <input type='radio' id='stripe' name='method' value='stripe' />
               <label htmlFor='stripe'>Stripe</label>
-              <input type='radio' id='paypal' name='method' value='paypal' />
-              <label htmlFor='paypal'>Paypal</label>
             </fieldset>
             <input type='submit' value='Submit' />
           </form>
@@ -193,10 +192,6 @@ const OrderPayment = (): JSX.Element => {
               </fieldset>
             </form>
           </div>
-        ) : payment.payment_method_submit && payment.payment_method === 'paypal' ? (
-          <h1>
-            Paypal Support has not been added yet, please proceed with different payment method!
-          </h1>
         ) : null}
         <div className='order-payment__error-prompt'>
           <p>{error}</p>
