@@ -9,7 +9,7 @@ import { AuthOverlay } from '../auth-overlay/auth-overlay.component';
 import { IUserCredentials } from '../userSlice';
 import { readymadeAcc } from '../../alert/alertSlice';
 
-export const Login = (): JSX.Element => {
+const Login = (): JSX.Element => {
   const dispatch = useDispatch();
   function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -66,3 +66,5 @@ export const Login = (): JSX.Element => {
     </div>
   );
 };
+
+export default Login;

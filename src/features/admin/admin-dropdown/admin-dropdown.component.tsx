@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Link, useRouteMatch } from 'react-router-dom';
 import './admin-dropdown.css';
 
-export function AdminDropdown(): JSX.Element {
+function AdminDropdown(): JSX.Element {
   const { url } = useRouteMatch();
   return (
     <nav className='admin-dropdown'>
@@ -36,3 +36,5 @@ export function AdminDropdown(): JSX.Element {
     </nav>
   );
 }
+
+export default AdminDropdown;

@@ -1,5 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const webpack = require('webpack');
 require('dotenv').config({ path: '../.env' });
 
@@ -36,6 +38,9 @@ module.exports = (env) => {
     output: {
       path: path.resolve(__dirname, './dist'),
       filename: '[name].[contenthash].bundle.js',
+      chunkFilename: (pathData) => {
+        return pathData.chunk.name === 'main' ? '[name].js' : '[name]/[name].js';
+      },
       clean: true,
       publicPath: '/',
     },
@@ -66,6 +71,10 @@ module.exports = (env) => {
           test: /\.html$/i,
           loader: 'html-loader',
         },
+        {
+          test: /.s?css$/,
+          use: [MiniCssExtractPlugin.loader, 'css-loader'],
+        },
       ],
     },
     plugins: [
@@ -75,7 +84,14 @@ module.exports = (env) => {
         favicon: path.resolve(__dirname, './src/assets/chocolate-bar.png'),
         cache: true,
       }),
+      new MiniCssExtractPlugin({
+        filename: '[name].css',
+        chunkFilename: '[id].css',
+      }),
     ],
+    optimization: {
+      //minimizer: [new CssMinimizerPlugin()],
+    },
     stats: {
       env: true,
     },

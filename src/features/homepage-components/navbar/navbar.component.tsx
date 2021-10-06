@@ -5,7 +5,7 @@ import ProfileLink from '../../user/profile-link/profile-link.component';
 import CartContainer from '../../cart/cart-container/cart-container.component';
 import { Search } from '../search/search.component';
 
-export const Navbar = (): JSX.Element => {
+const Navbar = (): JSX.Element => {
   const [scrollDir, setScrollDir] = React.useState(false);
   React.useEffect(() => {
     const threshold = 150;
@@ -52,3 +52,5 @@ export const Navbar = (): JSX.Element => {
     </nav>
   );
 };
+
+export default React.memo(Navbar);

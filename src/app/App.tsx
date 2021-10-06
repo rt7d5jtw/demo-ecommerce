@@ -4,15 +4,24 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectAccessToken, selectRole } from '../features/user/selectors';
 
-import Homepage from '../pages/homepage/homepage.component';
-import { Register } from '../features/user/register/register.component';
-import { Login } from '../features/user/login/login.component';
-import AdminDashboard from '../features/admin/admin-dashboard/admin-dashboard.component';
-import ProfileDashboard from '../features/user/profile-dashboard/profile-dashboard.component';
-import Checkout from '../pages/checkout/checkout.component';
-import { StripeOrderWrapper } from '../pages/stripe-order-wrapper/stripe-order-wrapper.component';
+const Homepage = React.lazy(() => import('../pages/homepage/homepage.component'));
+const Register = React.lazy(() => import('../features/user/register/register.component'));
+const Login = React.lazy(() => import('../features/user/login/login.component'));
+const Checkout = React.lazy(() => import('../pages/checkout/checkout.component'));
+const AdminDashboard = React.lazy(
+  () => import('../features/admin/admin-dashboard/admin-dashboard.component')
+);
+const ProfileDashboard = React.lazy(
+  () => import('../features/user/profile-dashboard/profile-dashboard.component')
+);
+const StripeOrderWrapper = React.lazy(
+  () => import('../pages/stripe-order-wrapper/stripe-order-wrapper.component')
+);
+
 import { selectMessage } from '../features/alert/alertSlice';
+import { Loading } from '../pages/loading/loading.component';
 import Alert from '../features/alert/alert/alert.component';
+import ErrorBoundary from '../app/error-boundary.component';
 
 const App = (): JSX.Element => {
   const accessToken = useSelector(selectAccessToken);
@@ -21,39 +30,47 @@ const App = (): JSX.Element => {
 
   return (
     <>
-      {alertMessage.length > 0 ? <Alert /> : null}
-      <Switch>
-        <Route exact path='/login' render={() => (accessToken ? <Redirect to='/' /> : <Login />)} />
-        <Route
-          path='/register'
-          component={() => (accessToken ? <Redirect to='/' /> : <Register />)}
-        />
-        <Route
-          path='/profile'
-          render={() => (accessToken ? <ProfileDashboard /> : <Redirect to='/' />)}
-        />
-        <Route
-          path='/admin-dashboard'
-          render={() =>
-            (accessToken && role === 'ADMIN') || (accessToken && role === 'GUEST') ? (
-              <AdminDashboard />
-            ) : (
-              <Redirect to='/' />
-            )
-          }
-        />
-        <Route
-          exact
-          path='/payment'
-          render={() => (accessToken ? <StripeOrderWrapper /> : <Redirect to='/' />)}
-        />
-        <Route
-          exact
-          path='/checkout'
-          render={() => (accessToken ? <Checkout /> : <Redirect to='/' />)}
-        />
-        <Route path='/' component={Homepage} />
-      </Switch>
+      <React.Suspense fallback={<Loading />}>
+        {alertMessage.length > 0 ? <Alert /> : null}
+        <Switch>
+          <ErrorBoundary>
+            <Route
+              exact
+              path='/login'
+              render={() => (accessToken ? <Redirect to='/' /> : <Login />)}
+            />
+            <Route
+              path='/register'
+              component={() => (accessToken ? <Redirect to='/' /> : <Register />)}
+            />
+            <Route
+              path='/profile'
+              render={() => (accessToken ? <ProfileDashboard /> : <Redirect to='/' />)}
+            />
+            <Route
+              path='/admin-dashboard'
+              render={() =>
+                (accessToken && role === 'ADMIN') || (accessToken && role === 'GUEST') ? (
+                  <AdminDashboard />
+                ) : (
+                  <Redirect to='/' />
+                )
+              }
+            />
+            <Route
+              exact
+              path='/payment'
+              render={() => (accessToken ? <StripeOrderWrapper /> : <Redirect to='/' />)}
+            />
+            <Route
+              exact
+              path='/checkout'
+              render={() => (accessToken ? <Checkout /> : <Redirect to='/' />)}
+            />
+            <Route path='/' component={Homepage} />
+          </ErrorBoundary>
+        </Switch>
+      </React.Suspense>
     </>
   );
 };

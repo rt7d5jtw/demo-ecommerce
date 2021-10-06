@@ -9,7 +9,7 @@ import { addItemDB } from '../../features/cart/thunks';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectAccessToken } from '../../features/user/selectors';
 
-export const SingleProductPage = (): JSX.Element => {
+const SingleProductPage = (): JSX.Element => {
   const token = useSelector(selectAccessToken);
   const dispatch = useDispatch();
   const products = useAppSelector(selectItems);
@@ -81,3 +81,5 @@ export const SingleProductPage = (): JSX.Element => {
     </div>
   );
 };
+
+export default SingleProductPage;

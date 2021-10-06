@@ -1,6 +1,6 @@
 import * as React from 'react';
 import './homepage.css';
-import { Navbar } from '../../features/homepage-components/navbar/navbar.component';
+import Navbar from '../../features/homepage-components/navbar/navbar.component';
 import { Footer } from '../../features/homepage-components/footer/footer.component';
 import Sidebar from '../../features/homepage-components/sidebar/sidebar.component';
 import { useDispatch, useSelector } from 'react-redux';
@@ -15,7 +15,7 @@ import { logout } from '../../features/user/thunks';
 import { selectItems } from '../../features/product/selectors';
 import { selectCategories } from '../../features/category/categorySlice';
 import CategoryPage from '../category-page/category-page.component';
-import { SingleProductPage } from '../single-product/single-product.component';
+import SingleProductPage from '../single-product/single-product.component';
 import { PurchaseConfirmed } from '../purchase-confirmed/purchase-confirmed';
 import SearchPage from '../search-result/search-result.component';
 import { NotFound } from '../404/404.component';

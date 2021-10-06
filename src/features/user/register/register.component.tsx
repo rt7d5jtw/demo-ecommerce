@@ -8,14 +8,16 @@ import { AuthOverlay } from '../auth-overlay/auth-overlay.component';
 import { ProfileForm } from '../../forms/profile-form/profile-form.component';
 import { handleForm } from '../../forms/utils/utils';
 import { selectUserErrors } from '../selectors';
+import { IUserCredentials } from '../userSlice';
 
-export const Register = (): JSX.Element => {
+const Register = (): JSX.Element => {
   const errors = useSelector(selectUserErrors);
   const { push } = useHistory();
   const dispatch = useDispatch();
   function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    dispatch(registerRequest(handleForm(event.currentTarget.elements)));
+    const creds = handleForm(event.currentTarget.elements) as IUserCredentials;
+    dispatch(registerRequest(creds));
     errors === null || errors === undefined ? setTimeout(() => push('login'), 500) : null;
   }
   return (
@@ -64,3 +66,5 @@ export const Register = (): JSX.Element => {
     </div>
   );
 };
+
+export default Register;

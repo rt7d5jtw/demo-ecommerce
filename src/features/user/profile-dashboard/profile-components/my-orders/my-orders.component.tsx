@@ -4,7 +4,7 @@ import { OrderCard } from '../../../../order/order-card/order-card.component';
 import { useSelector } from 'react-redux';
 import { selectOrders } from '../../../../order/selectors';
 
-export const MyOrders = (): JSX.Element => {
+const MyOrders = (): JSX.Element => {
   const orders = useSelector(selectOrders);
   return (
     <div className='profile-myorders'>
@@ -17,3 +17,5 @@ export const MyOrders = (): JSX.Element => {
     </div>
   );
 };
+
+export default MyOrders;

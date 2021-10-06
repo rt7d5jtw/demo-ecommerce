@@ -2,7 +2,7 @@ import * as React from 'react';
 import './creator-overview.css';
 import cofe from '../../../../../assets/cofe.jpg';
 
-export function ControlsOverview(): JSX.Element {
+function ControlsOverview(): JSX.Element {
   return (
     <div className='creator-overview'>
       <div
@@ -17,3 +17,5 @@ export function ControlsOverview(): JSX.Element {
     </div>
   );
 }
+
+export default ControlsOverview;

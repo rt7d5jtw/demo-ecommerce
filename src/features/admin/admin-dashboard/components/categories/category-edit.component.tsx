@@ -9,7 +9,7 @@ import { TestForm } from '../../../../forms/testform';
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 
-export const CategoryEdit = (): JSX.Element => {
+const CategoryEdit = (): JSX.Element => {
   const categories = useSelector(selectCategories);
   const dispatch = useDispatch();
   const [warning, setWarning] = React.useState('');
@@ -70,3 +70,5 @@ export const CategoryEdit = (): JSX.Element => {
     </div>
   );
 };
+
+export default CategoryEdit;

@@ -2,7 +2,7 @@ import * as React from 'react';
 import './profile-overview.css';
 import image from '../../../../../assets/hot-cofe.jpg';
 
-export const ProfileOverview = (): JSX.Element => {
+const ProfileOverview = (): JSX.Element => {
   return (
     <div className='profile-overview'>
       <div className='profile-overview__image' style={{ backgroundImage: `url(${image})` }}>
@@ -11,3 +11,5 @@ export const ProfileOverview = (): JSX.Element => {
     </div>
   );
 };
+
+export default ProfileOverview;

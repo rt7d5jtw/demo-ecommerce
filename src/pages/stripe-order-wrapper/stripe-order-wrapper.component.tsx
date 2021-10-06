@@ -10,7 +10,7 @@ const stripePromise = loadStripe(
   'pk_test_51HUuCuDiJxi7nioJsEusYP3Ty7hbKaquESZBYVkCuY3g9w2roo3BSMJMPK529s7EIIcBsSxhV6Ym9xFzwCHM0Q9L00KOmEYf1f'
 );
 
-export const StripeOrderWrapper = (): JSX.Element => {
+const StripeOrderWrapper = (): JSX.Element => {
   return (
     <>
       <Elements stripe={stripePromise} options={ELEMENTS_OPTIONS}>
@@ -19,3 +19,5 @@ export const StripeOrderWrapper = (): JSX.Element => {
     </>
   );
 };
+
+export default StripeOrderWrapper;

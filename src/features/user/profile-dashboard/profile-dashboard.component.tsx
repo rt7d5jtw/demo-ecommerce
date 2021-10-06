@@ -1,10 +1,17 @@
 import * as React from 'react';
 import './profile-dashboard.css';
 import { Link, Route, Switch, useRouteMatch } from 'react-router-dom';
-import { ProfileOverview } from './profile-components/profile-overview/profile-overview.component';
-import { MyOrders } from './profile-components/my-orders/my-orders.component';
-import ChangePassword from './profile-components/change-password/change-password.component';
-import ChangeEmail from './profile-components/change-email/change-email.component';
+
+const MyOrders = React.lazy(() => import('./profile-components/my-orders/my-orders.component'));
+const ChangeEmail = React.lazy(
+  () => import('./profile-components/change-email/change-email.component')
+);
+const ChangePassword = React.lazy(
+  () => import('./profile-components/change-password/change-password.component')
+);
+const ProfileOverview = React.lazy(
+  () => import('./profile-components/profile-overview/profile-overview.component')
+);
 
 function ProfileDashboard(): JSX.Element {
   const match = useRouteMatch();

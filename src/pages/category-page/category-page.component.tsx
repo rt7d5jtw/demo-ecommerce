@@ -1,16 +1,22 @@
 import * as React from 'react';
 import './category-page.css';
 import { IProduct } from '../../features/product/productSlice';
-import ProductCard from '../../features/product/product-card/product-card.component';
 import { connect, useDispatch } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { RootState } from '../../app/store';
 import { selectItems } from '../../features/product/selectors';
 import { selectCategories, ICategory } from '../../features/category/categorySlice';
 import { Route, Switch, useLocation, useParams, useRouteMatch } from 'react-router-dom';
-import { SingleProductPage } from '../single-product/single-product.component';
+
+/* requests */
 import { fetch as fetchCategories } from '../../features/category/thunks';
 import { fetch as fetchProducts } from '../../features/product/thunks';
+
+/* components */
+const SingleProductPage = React.lazy(() => import('../single-product/single-product.component'));
+const ProductCard = React.lazy(
+  () => import('../../features/product/product-card/product-card.component')
+);
 
 interface ICategoryPage {
   categories: ICategory[];
