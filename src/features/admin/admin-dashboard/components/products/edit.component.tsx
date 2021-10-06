@@ -6,10 +6,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { MultipleSelectState, TestForm } from '../../../../forms/testform';
 import { Link, useParams } from 'react-router-dom';
 import { selectItems } from '../../../../product/selectors';
-import { IProduct, UpdateProductDto } from '../../../../product/productSlice';
+import { IProduct, UpdateProductDto, updateProductsGUEST } from '../../../../product/productSlice';
 import { Loading } from '../../../../../pages/loading/loading.component';
 import { handleForm, handleFormCategories } from '../../../../forms/utils/utils';
 import { FormProductPreview } from './create.component';
+import { selectRole } from '../../../../user/selectors';
 
 type FormAction = {
   type: 'title' | 'price' | 'description' | 'categories' | 'image';
@@ -65,6 +66,7 @@ function Edit(): JSX.Element {
   const { id } = useParams<{ id?: string }>();
   const products = useSelector(selectItems);
   const categories: ICategory[] = useSelector(selectCategories);
+  const role = useSelector(selectRole);
   const [formState, formDispatch] = React.useReducer(formReducer, initialState);
   const [warning, setWarning] = React.useState<string>('');
   const dispatch = useDispatch();
@@ -104,6 +106,16 @@ function Edit(): JSX.Element {
     const categoryIds = handleFormCategories(event.currentTarget.elements['categoryIds']);
     console.group('Here => ', event.currentTarget.elements);
     if (values.title.match(/^[^-\s][a-zA-Z0-9_\s-]+$/gi) !== null) {
+      if (role === 'GUEST')
+        confirm('Are you sure you want to edit this product?') &&
+          dispatch(
+            updateProductsGUEST({
+              id: cId,
+              status: 'IN_STOCK',
+              ...values,
+              categoryIds,
+            } as UpdateProductDto)
+          );
       confirm('Are you sure you want to edit this product?') &&
         dispatch(
           updateProduct({ id: cId, status: 'IN_STOCK', ...values, categoryIds } as UpdateProductDto)

@@ -22,6 +22,7 @@ import { selectMessage } from '../features/alert/alertSlice';
 import { Loading } from '../pages/loading/loading.component';
 import Alert from '../features/alert/alert/alert.component';
 import ErrorBoundary from '../app/error-boundary.component';
+import { NotFound } from '../pages/404/404.component';
 
 const App = (): JSX.Element => {
   const accessToken = useSelector(selectAccessToken);
@@ -32,8 +33,8 @@ const App = (): JSX.Element => {
     <>
       <React.Suspense fallback={<Loading />}>
         {alertMessage.length > 0 ? <Alert /> : null}
-        <Switch>
-          <ErrorBoundary>
+        <ErrorBoundary>
+          <Switch>
             <Route
               exact
               path='/login'
@@ -63,13 +64,14 @@ const App = (): JSX.Element => {
               render={() => (accessToken ? <StripeOrderWrapper /> : <Redirect to='/' />)}
             />
             <Route
-              exact
               path='/checkout'
               render={() => (accessToken ? <Checkout /> : <Redirect to='/' />)}
             />
-            <Route path='/' component={Homepage} />
-          </ErrorBoundary>
-        </Switch>
+            <Route path='/'>
+              <Homepage />
+            </Route>
+          </Switch>
+        </ErrorBoundary>
       </React.Suspense>
     </>
   );

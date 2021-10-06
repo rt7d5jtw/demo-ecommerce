@@ -5,6 +5,8 @@ import { selectItems } from '../../../../../features/product/selectors';
 import { remove as removeProduct } from '../../../../../features/product/thunks';
 import { Link, useRouteMatch } from 'react-router-dom';
 import { Paginator } from '../../../../forms/paginator';
+import { selectRole } from '../../../../user/selectors';
+import { removeProductsGUEST } from '../../../../product/productSlice';
 
 type SelectionType = {
   id: string;
@@ -14,6 +16,7 @@ function ProductDashboard(): JSX.Element {
   const match = useRouteMatch();
   const dispatch = useDispatch();
   const products = useSelector(selectItems);
+  const role = useSelector(selectRole);
   const [currentPage, setCurrentPage] = React.useState<number>(0);
   const [view, setView] = React.useState<number>(10);
   const [input, setInput] = React.useState({ search: '' });
@@ -27,6 +30,10 @@ function ProductDashboard(): JSX.Element {
 
   function deleteHandler(e: React.MouseEvent<HTMLButtonElement>) {
     const value = (e.target as HTMLInputElement).value;
+    if (role === 'GUEST' && e.currentTarget.dataset['bind'])
+      confirm('Are you sure you want to delete this product?') &&
+        dispatch(removeProductsGUEST(JSON.parse(e.currentTarget.dataset['bind'])));
+
     if (e.currentTarget.dataset['bind']) {
       selections.length > 1
         ? confirm(`Are you sure you wanna delete ${selections.length} products?`) &&

@@ -2,35 +2,33 @@ import * as React from 'react';
 import './admin-dashboard.css';
 import { useRouteMatch, Link, Switch, Route } from 'react-router-dom';
 
-const AdminDropdown = React.lazy(() => import('../admin-dropdown/admin-dropdown.component'));
-const ControlsOverview = React.lazy(
-  () => import('./components/overview/creator-overview.component')
-);
-const Edit = React.lazy(() => import('./components/products/edit.component'));
-const Create = React.lazy(() => import('./components/products/create.component'));
-const CategoryEdit = React.lazy(() => import('./components/categories/category-edit.component'));
-const CategoryCreate = React.lazy(
-  () => import('./components/categories/category-create.component')
-);
-const PromotionsEdit = React.lazy(
-  () => import('./components/promotions/edit-promotions.component')
-);
-const PromotionsAdd = React.lazy(() => import('./components/promotions/add-promotions.component'));
+import Edit from './components/products/edit.component';
+import Create from './components/products/create.component';
+import CategoryEdit from './components/categories/category-edit.component';
+import CategoryCreate from './components/categories/category-create.component';
+import PromotionsEdit from './components/promotions/edit-promotions.component';
+import PromotionsAdd from './components/promotions/add-promotions.component';
 
-const UserDashboard = React.lazy(() => import('./components/users/users-dashboard.component'));
-const OrdersDashboard = React.lazy(() => import('./components/orders/orders-dashboard.component'));
-const ProductDashboard = React.lazy(
-  () => import('./components/products/products-dashboard.component')
-);
-const CategoriesDashboard = React.lazy(
-  () => import('./components/categories/categories-dashboard.component')
-);
-const PromotionsDashboard = React.lazy(
-  () => import('./components/promotions/promotions-dashboard.component')
-);
+import AdminDropdown from '../admin-dropdown/admin-dropdown.component';
+import ControlsOverview from './components/overview/creator-overview.component';
+
+import UserDashboard from './components/users/users-dashboard.component';
+import OrdersDashboard from './components/orders/orders-dashboard.component';
+import ProductDashboard from './components/products/products-dashboard.component';
+import CategoriesDashboard from './components/categories/categories-dashboard.component';
+import PromotionsDashboard from './components/promotions/promotions-dashboard.component';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectRole } from '../../user/selectors';
+import { adminGuestNotification } from '../../alert/alertSlice';
 
 function AdminDashboard(): JSX.Element {
   const match = useRouteMatch();
+  const role = useSelector(selectRole);
+  const dispatch = useDispatch();
+  if (role === 'GUEST' && localStorage.getItem('notif') !== 'visited') {
+    dispatch(adminGuestNotification({ timeout: 6000 }));
+    setTimeout(() => localStorage.setItem('notif', 'visited'), 1000 * 3);
+  }
   return (
     <div className='admin-controls'>
       <div className='admin-controls__header'>

@@ -11,14 +11,20 @@ export enum alert_type {
 
 export type Alert = {
   message: string;
+  timeout?: number;
 };
 
 export interface AlertState {
   message: string;
   atype: alert_type;
+  timeout?: number | 3500;
 }
 
-export const readymadeAcc = createAction('alert/readymadeAcc');
+export const adminGuestNotification = createAction<{ timeout?: number }>(
+  'alert/adminGuestNotification'
+);
+
+export const readymadeAcc = createAction<{ timeout?: number }>('alert/readymadeAcc');
 
 export const userLogged = createAction('alert/userLogged');
 
@@ -43,6 +49,7 @@ export const alertSlice = createSlice({
   initialState: {
     message: '',
     atype: alert_type.nostate,
+    timeout: 3500,
   },
   reducers: {
     userLogged: (state) => {
@@ -77,14 +84,21 @@ export const alertSlice = createSlice({
       state.message = 'Product created';
       state.atype = alert_type.success;
     },
-    readymadeAcc: (state) => {
+    readymadeAcc: (state, { payload }) => {
       (state.message =
         'Readymade account to access admin areas: Email: testing@user.com, Password: testing123'),
-        (state.atype = alert_type.success);
+        (state.atype = alert_type.success),
+        (state.timeout = payload.timeout);
+    },
+    adminGuestNotification: (state, { payload }) => {
+      state.message = 'You can try admin functions in the product dashboard';
+      state.atype = alert_type.success;
+      state.timeout = payload.timeout;
     },
     hideout: (state) => {
       state.message = '';
       state.atype = alert_type.nostate;
+      state.timeout = 3500;
     },
   },
 });
@@ -94,5 +108,7 @@ const selectAlert = (state: RootState) => state.alert;
 export const selectMessage = createSelector([selectAlert], (alert: AlertState) => alert.message);
 
 export const selectAlertType = createSelector([selectAlert], (alert: AlertState) => alert.atype);
+
+export const selectTimeout = createSelector([selectAlert], (alert: AlertState) => alert.timeout);
 
 export default alertSlice.reducer;

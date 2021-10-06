@@ -12,7 +12,7 @@ import { AccessTokenDTO } from '../api';
 type ProfileLinkProp = {
   accessToken: AccessTokenDTO | null;
   loggedIn: boolean;
-  role: UserRole;
+  role: UserRole | null;
 };
 
 const ProfileLink = ({ accessToken, loggedIn }: ProfileLinkProp) => {

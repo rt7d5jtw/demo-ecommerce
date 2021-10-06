@@ -9,7 +9,7 @@ import { clearCartDB } from '../../cart/thunks';
 import { useDispatch } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import CartItem from '../cart-item/cart-item.component';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useRef, useEffect } from 'react';
 import { selectAccessToken } from '../../user/selectors';
 
@@ -73,14 +73,10 @@ const CartContainer = ({ isOpen, cartItems, quantity }: ICart) => {
         ref={wrappedRef}
       >
         <div className='cart-content__checkout'>
-          <button className='cart-content__checkout_cart-btn' onClick={() => push('/cart')}>
-            View shopping bag
-          </button>
-          <button
-            className='cart-content__checkout_clear-cart-btn'
-            onClick={() => cartClear()}
-            title='Clears cart from all products'
-          >
+          <Link to='/cart' onClick={() => dispatch(cartToggle(isOpen))}>
+            View the shopping bag
+          </Link>
+          <button onClick={() => cartClear()} title='Clears cart from all products'>
             Clear all products
           </button>
         </div>

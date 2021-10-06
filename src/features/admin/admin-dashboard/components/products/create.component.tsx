@@ -2,11 +2,13 @@ import * as React from 'react';
 import './create.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { add as addProduct } from '../../../../../features/product/thunks';
-import { IProduct, ProductDto } from '../../../../../features/product/productSlice';
+import { addProductsGUEST, GUESTProductDto, IProduct, ProductDto } from '../../../../../features/product/productSlice';
 import { selectCategories } from '../../../../category/categorySlice';
 import { Link } from 'react-router-dom';
 import { TestForm } from '../../../../forms/testform';
 import { handleForm, handleFormCategories } from '../../../../forms/utils/utils';
+import { selectRole } from '../../../../user/selectors';
+import { selectItems } from '../../../../product/selectors';
 
 type FormActionConstants = 'title' | 'price' | 'description' | 'categories' | 'image';
 
@@ -100,14 +102,34 @@ const initialState: FormState = {
 function Create(): JSX.Element {
   const dispatch = useDispatch();
   const categories = useSelector(selectCategories);
+  const role = useSelector(selectRole);
+  const products = useSelector(selectItems);
   const [formState, formDispatch] = React.useReducer(formReducer, initialState);
   const [warning, setWarning] = React.useState<string>('');
 
   function onSubmit(event: React.BaseSyntheticEvent) {
     event.preventDefault();
+    console.log(event.currentTarget.elements['categoryIds']);
     const values = handleForm(event.currentTarget.elements);
     const categoryIds = handleFormCategories(event.currentTarget.elements['categoryIds']);
     if (values.title.match(/^[^-\s][a-zA-Z0-9_\s-]+$/gi) !== null) {
+      if (role === 'GUEST') {
+        confirm('Are you sure you want to create this product?') &&
+          dispatch(
+            addProductsGUEST({
+              id: products[products.length - 1].id + 1,
+              title: values.title,
+              image: 'testing.png',
+              price: parseInt(values.price),
+              description: values.description,
+              status: 'IN_STOCK',
+              createdAt: Date.now(),
+              updatedAt: Date.now(),
+              categories: [...categoryIds],
+            } as any)
+          );
+        return;
+      }
       confirm('Are you sure you want to create this product?') &&
         dispatch(addProduct({ ...values, categoryIds } as ProductDto));
     } else {

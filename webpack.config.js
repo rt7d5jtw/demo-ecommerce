@@ -71,10 +71,12 @@ module.exports = (env) => {
           test: /\.html$/i,
           loader: 'html-loader',
         },
+        /*
         {
           test: /.s?css$/,
           use: [MiniCssExtractPlugin.loader, 'css-loader'],
         },
+        */
       ],
     },
     plugins: [
@@ -84,10 +86,12 @@ module.exports = (env) => {
         favicon: path.resolve(__dirname, './src/assets/chocolate-bar.png'),
         cache: true,
       }),
+      /*
       new MiniCssExtractPlugin({
         filename: '[name].css',
         chunkFilename: '[id].css',
       }),
+      */
     ],
     optimization: {
       //minimizer: [new CssMinimizerPlugin()],

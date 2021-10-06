@@ -85,7 +85,7 @@
   margin: 10px;
 }
 
-.cart-content__checkout > button {
+.cart-content__checkout > button, .cart-content__checkout a {
   font-size: 1rem;
   padding: 8.5px 8px;
   border-radius: 6px;
@@ -97,6 +97,7 @@
   cursor: pointer;
   transition: 1s;
   margin-right: 1em;
+  text-decoration: none;
 }
 
 /* Portrait and Landscape */

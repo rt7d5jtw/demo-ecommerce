@@ -49,12 +49,31 @@ const initialState: IProductState = {
 
 export const clearProducts = createAction('product/clearProducts');
 
+/* GUEST functions */
+
+export interface GUESTProductDto extends ProductDto {
+  id: number;
+}
+
+export const addProductsGUEST = createAction<GUESTProductDto>('product/addProductsGUEST');
+export const removeProductsGUEST = createAction<IProduct>('product/addProductsGUEST');
+export const updateProductsGUEST = createAction<UpdateProductDto>('product/addProductsGUEST');
+
 export const productSlice = createSlice({
   name: 'product',
   initialState: initialState,
   reducers: {
     clearProducts: (state) => {
       state.items = [];
+    },
+    addProductsGUEST: (state, { payload }) => {
+      state.items = [...state.items, payload];
+    },
+    removeProductsGUEST: (state, { payload }) => {
+      state.items = removeFromState(payload, state.items);
+    },
+    updateProductsGUEST: (state, { payload }) => {
+      state.items = updateState(payload, state.items);
     },
   },
   extraReducers: (builder) => {

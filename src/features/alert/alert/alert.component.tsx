@@ -1,9 +1,9 @@
 import * as React from 'react';
 import './alert.css';
 import { createStructuredSelector } from 'reselect';
-import { connect, useDispatch } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../app/store';
-import { hideout, selectAlertType, selectMessage } from '../../alert/alertSlice';
+import { hideout, selectAlertType, selectMessage, selectTimeout } from '../../alert/alertSlice';
 import { alert_type } from '../../alert/alertSlice';
 
 interface IAlert {
@@ -12,14 +12,16 @@ interface IAlert {
   timeout?: number;
 }
 
-const Alert = ({ message, timeout = 3500 }: IAlert) => {
+const Alert = ({ message }: IAlert) => {
   const dispatch = useDispatch();
+  const timeout = useSelector(selectTimeout);
   const [state, setState] = React.useState({
     fade: 0,
     mounted: 0,
   });
 
   React.useEffect(() => {
+    /* waits for hideout function to clear the state */
     if (message.length > 0) {
       setState({ ...state, fade: 1 });
       setTimeout(hide, timeout);
@@ -28,6 +30,7 @@ const Alert = ({ message, timeout = 3500 }: IAlert) => {
 
   function hide() {
     setState({ ...state, fade: 0 });
+    /* clears the state */
     setTimeout(() => dispatch(hideout()), timeout);
   }
 
@@ -41,6 +44,7 @@ const Alert = ({ message, timeout = 3500 }: IAlert) => {
 type AlertState = {
   message: string;
   atype: alert_type;
+  timeout?: number;
 };
 
 const mapStateToProps = createStructuredSelector<RootState, AlertState>({

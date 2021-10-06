@@ -1,7 +1,6 @@
 .not-found {
   display: grid;
   place-items: center center;
-  border: 2px solid red;
   height: 50em;
 }
 

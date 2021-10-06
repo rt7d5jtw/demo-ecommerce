@@ -8,8 +8,8 @@ export function NotFound(): JSX.Element {
         <h1>404</h1>
         <p>Oops! Something is wrong.</p>
       </div>
-      <a className='not-found__button' href='#'>
-        <i className='icon-home'></i> Go back in initial page, is better.
+      <a className='not-found__button' href='/'>
+        <i className='icon-home'></i> Go back to homepage
       </a>
     </div>
   );

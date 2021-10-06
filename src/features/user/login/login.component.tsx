@@ -17,7 +17,7 @@ const Login = (): JSX.Element => {
   }
 
   React.useEffect(() => {
-    dispatch(readymadeAcc());
+    dispatch(readymadeAcc({ timeout: 5000 }));
   }, [dispatch]);
 
   return (
