@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "es6",
     "module": "es2020",
     "moduleResolution": "node",
     "lib": ["dom","dom.iterable","es2020","scripthost"],
@@ -18,7 +18,9 @@
     "skipLibCheck": true,
     "rootDir": "src",
     "outDir": "./dist",
-    "types": ["cypress"]
+    "types": ["cypress"],
+    "typeRoots": ["src/types"]
   },
-  "include": ["./src/**/*"]
+  "include": ["./src/**/*"],
+  "exclude": ["node_modules", "**/*.test.ts", "**/*.spec.ts"]
 }

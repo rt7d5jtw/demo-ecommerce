@@ -15,7 +15,6 @@ import { OrderStatus } from '../../features/order/orderSlice';
 import { create as createOrder } from '../../features/order/thunks';
 import { paymentSuccess } from '../../features/alert/alertSlice';
 import { StripeCardElementChangeEvent } from '@stripe/stripe-js';
-import PaypalHandling from './paypal-handler';
 
 const OrderPayment = (): JSX.Element => {
   const dispatch = useDispatch();
