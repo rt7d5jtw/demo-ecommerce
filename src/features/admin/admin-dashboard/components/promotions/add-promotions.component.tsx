@@ -1,16 +1,22 @@
 import * as React from 'react';
 import './add-promotions.css';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { create as createPromotion } from '../../../../promotion/thunks';
 import { TestForm } from '../../../../forms/testform';
 import { handleForm } from '../../../../forms/utils/utils';
 import { Link } from 'react-router-dom';
+import { selectRole } from '../../../../user/selectors';
 
 function PromotionsAdd(): JSX.Element {
   const dispatch = useDispatch();
+  const role = useSelector(selectRole);
   const [warning, setWarning] = React.useState('');
   function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (role === 'GUEST') {
+      alert(`You dont have sufficient rights to do a submission`);
+      return;
+    }
     const values = handleForm(event.currentTarget.elements);
     if (values.title.match(/^[^-\s][a-zA-Z0-9_\s-]+$/gi) !== null) {
       confirm('Are you sure you want to create this product?') && dispatch(createPromotion(values));

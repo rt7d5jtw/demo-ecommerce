@@ -14,6 +14,8 @@ export interface IProduct {
   status: string;
 }
 
+export type GUESTProduct = Omit<IProduct, 'quantity'>;
+
 export type ProductDto = {
   title: string;
   image: string;
@@ -51,13 +53,9 @@ export const clearProducts = createAction('product/clearProducts');
 
 /* GUEST functions */
 
-export interface GUESTProductDto extends ProductDto {
-  id: number;
-}
-
-export const addProductsGUEST = createAction<GUESTProductDto>('product/addProductsGUEST');
-export const removeProductsGUEST = createAction<IProduct>('product/addProductsGUEST');
-export const updateProductsGUEST = createAction<UpdateProductDto>('product/addProductsGUEST');
+export const addProductsGUEST = createAction<GUESTProduct>('product/addProductsGUEST');
+export const removeProductsGUEST = createAction<IProduct>('product/removeProductsGUEST');
+export const updateProductsGUEST = createAction<UpdateProductDto>('product/updateProductsGUEST');
 
 export const productSlice = createSlice({
   name: 'product',

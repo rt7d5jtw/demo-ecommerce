@@ -5,6 +5,7 @@ import { Paginator } from '../../../../forms/paginator';
 import { selectCategories } from '../../../../category/categorySlice';
 import { fetchCategories } from '../../../../category/api';
 import { remove as removeCategory } from '../../../../category/thunks';
+import { selectRole } from '../../../../user/selectors';
 
 type SelectionType = {
   id: string;
@@ -13,6 +14,7 @@ type SelectionType = {
 function CategoriesDashboard(): JSX.Element {
   const dispatch = useDispatch();
   const categories = useSelector(selectCategories);
+  const role = useSelector(selectRole);
   const [currentPage, setCurrentPage] = React.useState<number>(0);
   const [view, setView] = React.useState<number>(10);
   const [input, setInput] = React.useState({ search: '' });
@@ -28,6 +30,10 @@ function CategoriesDashboard(): JSX.Element {
   }
 
   function deleteHandler(e: React.MouseEvent<HTMLButtonElement>) {
+    if (role === 'GUEST') {
+      alert(`You dont have sufficient rights to do a submission`);
+      return;
+    }
     selections.length <= 1
       ? confirm('Are you sure you want to delete this product?') &&
         dispatch(removeCategory(JSON.parse(e.currentTarget.value)))

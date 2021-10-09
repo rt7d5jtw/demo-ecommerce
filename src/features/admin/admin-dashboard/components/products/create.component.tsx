@@ -2,13 +2,23 @@ import * as React from 'react';
 import './create.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { add as addProduct } from '../../../../../features/product/thunks';
-import { addProductsGUEST, GUESTProductDto, IProduct, ProductDto } from '../../../../../features/product/productSlice';
+import {
+  addProductsGUEST,
+  GUESTProduct,
+  IProduct,
+  ProductDto,
+} from '../../../../../features/product/productSlice';
 import { selectCategories } from '../../../../category/categorySlice';
 import { Link } from 'react-router-dom';
 import { TestForm } from '../../../../forms/testform';
-import { handleForm, handleFormCategories } from '../../../../forms/utils/utils';
+import {
+  handleForm,
+  handleFormCategories,
+  handleFormCategories_GUEST,
+} from '../../../../forms/utils/utils';
 import { selectRole } from '../../../../user/selectors';
 import { selectItems } from '../../../../product/selectors';
+import { guestProductHandler } from '../../../../shared/utils';
 
 type FormActionConstants = 'title' | 'price' | 'description' | 'categories' | 'image';
 
@@ -109,25 +119,27 @@ function Create(): JSX.Element {
 
   function onSubmit(event: React.BaseSyntheticEvent) {
     event.preventDefault();
-    console.log(event.currentTarget.elements['categoryIds']);
     const values = handleForm(event.currentTarget.elements);
     const categoryIds = handleFormCategories(event.currentTarget.elements['categoryIds']);
     if (values.title.match(/^[^-\s][a-zA-Z0-9_\s-]+$/gi) !== null) {
       if (role === 'GUEST') {
+        const categoriesGUEST = handleFormCategories_GUEST(
+          event.currentTarget.elements['categoryIds']
+        );
+        const guestProduct = {
+          id: products[products.length - 1].id + 1,
+          title: values.title,
+          image: 'testing.png',
+          price: parseInt(values.price),
+          description: values.description,
+          status: 'IN_STOCK',
+          createdAt: Date.now(),
+          updatedAt: Date.now(),
+          categories: categoriesGUEST,
+        } as GUESTProduct;
         confirm('Are you sure you want to create this product?') &&
-          dispatch(
-            addProductsGUEST({
-              id: products[products.length - 1].id + 1,
-              title: values.title,
-              image: 'testing.png',
-              price: parseInt(values.price),
-              description: values.description,
-              status: 'IN_STOCK',
-              createdAt: Date.now(),
-              updatedAt: Date.now(),
-              categories: [...categoryIds],
-            } as any)
-          );
+          dispatch(addProductsGUEST(guestProduct as GUESTProduct));
+        guestProductHandler(products, { id: products[products.length - 1].id + 1 });
         return;
       }
       confirm('Are you sure you want to create this product?') &&

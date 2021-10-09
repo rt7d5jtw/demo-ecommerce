@@ -8,9 +8,11 @@ import { TestForm } from '../../../../forms/testform';
 import { handleForm } from '../../../../forms/utils/utils';
 import { IPromotions } from '../../../../promotion/promotionSlice';
 import { Loading } from '../../../../../pages/loading/loading.component';
+import { selectRole } from '../../../../user/selectors';
 
 function PromotionsEdit(): JSX.Element {
   const promotions = useSelector(selectPromotionItems);
+  const role = useSelector(selectRole);
   const [warning, setWarning] = React.useState('');
   const { id } = useParams<{ id?: string }>();
   const promotion = promotions
@@ -22,6 +24,10 @@ function PromotionsEdit(): JSX.Element {
   const dispatch = useDispatch();
   function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (role === 'GUEST') {
+      alert(`You dont have sufficient rights to do a submission`);
+      return;
+    }
     const values = handleForm(event.currentTarget.elements);
     if (values.title.match(/^[^-\s][a-zA-Z0-9_\s-]+$/gi) !== null) {
       confirm('Are you sure you want to create this product?') &&

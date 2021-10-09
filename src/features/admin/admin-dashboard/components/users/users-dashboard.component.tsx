@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { Paginator } from '../../../../forms/paginator';
 import { selectUsers } from '../../../../user/selectors';
 import { fetch as fetchUsers, removeUser } from '../../../../user/thunks';
+import { selectRole } from '../../../../user/selectors';
 
 type SelectionType = {
   id: string;
@@ -12,6 +13,7 @@ type SelectionType = {
 function UserDashboard(): JSX.Element {
   const dispatch = useDispatch();
   const users = useSelector(selectUsers);
+  const role = useSelector(selectRole);
   const [currentPage, setCurrentPage] = React.useState<number>(0);
   const [view, setView] = React.useState<number>(10);
   const [input, setInput] = React.useState({ search: '' });
@@ -27,6 +29,10 @@ function UserDashboard(): JSX.Element {
   }
 
   function deleteHandler(e: React.MouseEvent<HTMLButtonElement>) {
+    if (role === 'GUEST') {
+      alert(`You dont have sufficient rights to do a submission`);
+      return;
+    }
     const value = (e.target as HTMLInputElement).value;
     selections.length <= 1
       ? confirm('Are you sure you want to delete this user?') && dispatch(removeUser(value))

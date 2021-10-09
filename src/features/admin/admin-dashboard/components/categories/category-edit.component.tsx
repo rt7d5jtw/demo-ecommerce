@@ -8,10 +8,12 @@ import { Loading } from '../../../../../pages/loading/loading.component';
 import { TestForm } from '../../../../forms/testform';
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
+import { selectRole } from '../../../../user/selectors';
 
 const CategoryEdit = (): JSX.Element => {
   const categories = useSelector(selectCategories);
   const dispatch = useDispatch();
+  const role = useSelector(selectRole);
   const [warning, setWarning] = React.useState('');
   const { id } = useParams<{ id?: string }>();
   const category = categories ? categories.find((cat: ICategory) => cat.id === id) : null;
@@ -20,6 +22,10 @@ const CategoryEdit = (): JSX.Element => {
   }
   function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (role === 'GUEST') {
+      alert(`You dont have sufficient rights to do a submission`);
+      return;
+    }
     const values = handleForm(event.currentTarget.elements);
     if (values.title.match(/^[^-\s][a-zA-Z0-9_\s-]+$/gi) !== null) {
       if (id) {

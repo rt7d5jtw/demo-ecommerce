@@ -5,6 +5,7 @@ import { Paginator } from '../../../../forms/paginator';
 import { remove as removePromotion } from '../../../../../features/promotion/thunks';
 import { selectPromotionItems } from '../../../../promotion/selectors';
 import { Link } from 'react-router-dom';
+import { selectRole } from '../../../../user/selectors';
 
 type SelectionType = {
   id: string;
@@ -13,6 +14,7 @@ type SelectionType = {
 function PromotionsDashboard(): JSX.Element {
   const dispatch = useDispatch();
   const promotions = useSelector(selectPromotionItems);
+  const role = useSelector(selectRole);
   const [currentPage, setCurrentPage] = React.useState<number>(0);
   const [view, setView] = React.useState<number>(10);
   const [input, setInput] = React.useState({ search: '' });
@@ -24,6 +26,10 @@ function PromotionsDashboard(): JSX.Element {
   }
 
   function deleteHandler(e: React.MouseEvent<HTMLButtonElement>) {
+    if (role === 'GUEST') {
+      alert(`You dont have sufficient rights to do a submission`);
+      return;
+    }
     const value = JSON.parse((e.target as HTMLInputElement).value);
     selections.length > 1
       ? confirm(`Are you sure you wanna delete ${selections.length} promotions?`) &&

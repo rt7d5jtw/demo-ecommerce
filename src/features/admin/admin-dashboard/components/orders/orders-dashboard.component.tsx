@@ -4,6 +4,7 @@ import { fetchAll, remove as removeOrder } from '../../../../../features/order/t
 import { Link } from 'react-router-dom';
 import { Paginator } from '../../../../forms/paginator';
 import { selectOrders } from '../../../../order/selectors';
+import { selectRole } from '../../../../user/selectors';
 
 type SelectionType = {
   id: string;
@@ -12,6 +13,7 @@ type SelectionType = {
 function OrdersDashboard(): JSX.Element {
   const dispatch = useDispatch();
   const orders = useSelector(selectOrders);
+  const role = useSelector(selectRole);
   const [currentPage, setCurrentPage] = React.useState<number>(0);
   const [view, setView] = React.useState<number>(10);
   const [input, setInput] = React.useState({ search: '' });
@@ -27,6 +29,10 @@ function OrdersDashboard(): JSX.Element {
   }
 
   function deleteHandler(e: React.MouseEvent<HTMLButtonElement>) {
+    if (role === 'GUEST') {
+      alert(`You dont have sufficient rights to do a submission`);
+      return;
+    }
     const value = (e.target as HTMLInputElement).value;
     selections.length > 1
       ? confirm(`Are you sure you wanna delete ${selections.length} products?`) &&

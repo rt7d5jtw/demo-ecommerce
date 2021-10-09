@@ -1,4 +1,4 @@
-import { CategoryDTO } from '../../category/categorySlice';
+import { CategoryDTO, ICategory } from '../../category/categorySlice';
 
 type FormObject = {
   [key: string]: string;
@@ -21,6 +21,15 @@ export function handleForm(nodelist: HTMLFormControlsCollection): FormObject {
   return Object.fromEntries(list);
 }
 
+export function handleFormCategories_GUEST(selectForm: HTMLSelectElement): ICategory[] {
+  return Array.from(selectForm.selectedOptions).map((optionEl) => ({
+    id: optionEl.value,
+    cname: optionEl.text,
+  }));
+}
+
 export function handleFormCategories(selectForm: HTMLSelectElement): CategoryDTO[] {
-  return Array.from(selectForm.selectedOptions).map((optionEl) => ({ id: optionEl.value }));
+  return Array.from(selectForm.selectedOptions).map((optionEl) => ({
+    id: optionEl.value,
+  }));
 }

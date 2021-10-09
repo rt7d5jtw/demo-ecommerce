@@ -30,9 +30,23 @@ function ProductDashboard(): JSX.Element {
 
   function deleteHandler(e: React.MouseEvent<HTMLButtonElement>) {
     const value = (e.target as HTMLInputElement).value;
-    if (role === 'GUEST' && e.currentTarget.dataset['bind'])
-      confirm('Are you sure you want to delete this product?') &&
-        dispatch(removeProductsGUEST(JSON.parse(e.currentTarget.dataset['bind'])));
+    if (role === 'GUEST' && e.currentTarget.dataset['bind']) {
+      const guest_prods = localStorage.getItem('products_added');
+      if (guest_prods) {
+        const parsed = JSON.parse(guest_prods);
+        const ids = parsed.map((el: { id: number }) => el.id);
+        console.group('ids ', ids);
+        console.group('value ', typeof value);
+        console.group('truth value: ', ids.includes(parseInt(value)));
+        if (ids.includes(parseInt(value))) {
+          confirm('Are you sure you want to delete this product?') &&
+            dispatch(removeProductsGUEST(JSON.parse(e.currentTarget.dataset['bind'])));
+          return;
+        }
+      }
+      alert(`You cannot delete products that aren't your own`);
+      return;
+    }
 
     if (e.currentTarget.dataset['bind']) {
       selections.length > 1

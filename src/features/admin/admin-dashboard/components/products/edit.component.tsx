@@ -8,9 +8,14 @@ import { Link, useParams } from 'react-router-dom';
 import { selectItems } from '../../../../product/selectors';
 import { IProduct, UpdateProductDto, updateProductsGUEST } from '../../../../product/productSlice';
 import { Loading } from '../../../../../pages/loading/loading.component';
-import { handleForm, handleFormCategories } from '../../../../forms/utils/utils';
+import {
+  handleForm,
+  handleFormCategories,
+  handleFormCategories_GUEST,
+} from '../../../../forms/utils/utils';
 import { FormProductPreview } from './create.component';
 import { selectRole } from '../../../../user/selectors';
+import { validateID_GUEST } from '../../../../shared/utils';
 
 type FormAction = {
   type: 'title' | 'price' | 'description' | 'categories' | 'image';
@@ -106,16 +111,29 @@ function Edit(): JSX.Element {
     const categoryIds = handleFormCategories(event.currentTarget.elements['categoryIds']);
     console.group('Here => ', event.currentTarget.elements);
     if (values.title.match(/^[^-\s][a-zA-Z0-9_\s-]+$/gi) !== null) {
-      if (role === 'GUEST')
-        confirm('Are you sure you want to edit this product?') &&
-          dispatch(
-            updateProductsGUEST({
-              id: cId,
-              status: 'IN_STOCK',
-              ...values,
-              categoryIds,
-            } as UpdateProductDto)
+      if (role === 'GUEST') {
+        if (validateID_GUEST(cId)) {
+          const categoriesGUEST = handleFormCategories_GUEST(
+            event.currentTarget.elements['categoryIds']
           );
+          const guestProduct = {
+            id: cId as number,
+            title: values.title,
+            image: 'testing.png',
+            price: values.price,
+            description: values.description,
+            status: 'IN_STOCK',
+            updatedAt: Date.now(),
+            categories: categoriesGUEST,
+          };
+          confirm('Are you sure you want to edit this product?') &&
+            dispatch(updateProductsGUEST(guestProduct as UpdateProductDto));
+          return;
+        }
+        alert(`You can only edit your own products`);
+        return;
+      }
+
       confirm('Are you sure you want to edit this product?') &&
         dispatch(
           updateProduct({ id: cId, status: 'IN_STOCK', ...values, categoryIds } as UpdateProductDto)
