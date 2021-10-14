@@ -58,14 +58,14 @@ describe('Test overall website functionality', function () {
     cy.location('pathname').should('eq', '/');
     cy.scrollTo('center', { duration: 500 });
     cy.get(':nth-child(1) > .promotion-card__p').click();
-    cy.location('pathname').should('eq', '/products/Milk%20Chocolate');
+    cy.location('pathname').should('eq', '/products/White%20Chocolate');
     cy.go('back');
     cy.scrollTo('center', { duration: 500 });
     cy.get(':nth-child(2) > .promotion-card__p').click();
-    cy.location('pathname').should('eq', '/products/Dark%20Chocolate');
+    cy.location('pathname').should('eq', '/products/Milk%20Chocolate');
     cy.go('back');
     cy.scrollTo('center', { duration: 500 });
     cy.get(':nth-child(3) > .promotion-card__p').click();
-    cy.location('pathname').should('eq', '/products/White%20Chocolate');
+    cy.location('pathname').should('eq', '/products/Dark%20Chocolate');
   });
 });

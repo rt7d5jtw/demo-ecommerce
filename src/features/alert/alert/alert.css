@@ -13,7 +13,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid white;
+  border: 2px solid white;
   border-radius: 12px;
   width: 370px;
   height: 90px;
@@ -22,4 +22,16 @@
 
 .alert__message {
   margin: .5rem;
+}
+
+#alert__close {
+  font-family: 'Lato';
+  position: absolute;
+  right: 10px;
+  top: 4px;
+  color: rgba(0,0,0, 0.5);
+}
+
+#alert__close:hover {
+  cursor: pointer;
 }

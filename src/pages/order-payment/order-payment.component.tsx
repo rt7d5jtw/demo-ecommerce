@@ -75,7 +75,7 @@ const OrderPayment = (): JSX.Element => {
   };
 
   const stripeElementChange = (e: StripeCardElementChangeEvent) => {
-    if (e.empty) {
+    if (payment.submitted && e.empty) {
       setError('Do not submit an empty form!');
     }
     if (e.error) {
@@ -89,6 +89,7 @@ const OrderPayment = (): JSX.Element => {
 
   const handlePayment: React.FormEventHandler<HTMLFormElement> = async (e): Promise<void> => {
     e.preventDefault();
+
     if (payment.submitCount >= 4) {
       setError('Too many submits, please wait for response');
       setTimeout(() => setPayment({ ...payment, submitCount: 0, submitted: false }), 2000);
@@ -125,6 +126,10 @@ const OrderPayment = (): JSX.Element => {
         headers: authHeader(),
       }
     );
+
+    if (payment.accepted) {
+      setError('Processing payment...');
+    }
 
     if (res.status === 500) {
       setError(res.data.message);

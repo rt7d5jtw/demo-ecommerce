@@ -36,6 +36,9 @@ const Alert = ({ message }: IAlert) => {
 
   return (
     <div className='alert' style={state.fade === 0 ? { opacity: '0' } : { opacity: '1' }}>
+      <span id='alert__close' onClick={() => dispatch(hideout())}>
+        X
+      </span>
       <p className='alert__message'>{message}</p>
     </div>
   );
