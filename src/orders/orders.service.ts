@@ -104,12 +104,12 @@ export class OrdersService {
   async update(updateOrderDto: UpdateOrderDto, id: string): Promise<Order> {
     const order = await this.ordersRepository.findOne(id);
     const { total_price, address, country, city, postalcode, status } = updateOrderDto;
-    order.total_price = total_price;
-    order.address = address;
-    order.country = country;
-    order.city = city;
-    order.postalcode = postalcode;
-    order.status = status;
+    order.total_price = total_price ?? order.total_price;
+    order.address = address ?? order.address;
+    order.country = country ?? order.country;
+    order.city = city ?? order.city;
+    order.postalcode = postalcode ?? order.postalcode;
+    order.status = status ?? order.status;
 
     try {
       await order.save();

@@ -6,10 +6,11 @@ import { SearchOrdersDto } from './dto/search-orders.dto';
 import { generateInvoiceInformation, generateInvoiceTable } from './invoice';
 import { OrderItem } from './order-item.entity';
 import * as PDFDocument from 'pdfkit';
-import { UnprocessableEntityException } from '@nestjs/common';
+import { UnprocessableEntityException, Logger } from '@nestjs/common';
 
 @EntityRepository(Order)
 export class OrdersRepository extends Repository<Order> {
+  private logger = new Logger('OrdersRepository');
   async fetch(searchOrdersDto: SearchOrdersDto, user: User): Promise<Order[]> {
     const { status, search } = searchOrdersDto;
     const query = this.createQueryBuilder('order');
