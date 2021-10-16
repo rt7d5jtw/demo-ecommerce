@@ -4,3 +4,7 @@ npm-debug.log*
 .env.*
 .env.test
 .env*.local
+dist/
+dist
+build
+build/
