@@ -178,3 +178,19 @@
     width: 100vw;
   }
 }
+
+#stripe-notice {
+  position: absolute;
+  top: 3.5rem;
+  left: 50%;
+  transform: translate(-50%, 0);
+  color: white;
+}
+
+#stripe-testnums {
+  font-size: 1.2rem;
+  font-style: italic;
+  margin-left: 0.35rem;
+  margin-right: 0.35rem;
+  color: yellow;
+}

@@ -1,7 +1,12 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import { createPromotion, fetchPromotions, removePromotion, updatePromotion } from './api';
-import { IPromotions, ValidationErrors } from './promotionSlice';
+import {
+  CreatePromotionDto,
+  IPromotions,
+  UpdatePromotionDto,
+  ValidationErrors,
+} from './promotionSlice';
 
 export const fetch = createAsyncThunk('promotions/fetch', async () => {
   return fetchPromotions();
@@ -9,7 +14,7 @@ export const fetch = createAsyncThunk('promotions/fetch', async () => {
 
 export const create = createAsyncThunk(
   'promotions/create',
-  async (data: IPromotions, { rejectWithValue }) => {
+  async (data: CreatePromotionDto, { rejectWithValue }) => {
     try {
       return createPromotion(data);
     } catch (err) {
@@ -35,14 +40,17 @@ export const remove = createAsyncThunk('promotions/remove', async (promotion: IP
   }
 });
 
-export const update = createAsyncThunk('promotions/update', async (promotion: IPromotions) => {
-  try {
-    return updatePromotion(promotion);
-  } catch (err) {
-    const error: AxiosError<ValidationErrors> = err;
-    if (!error.response) {
-      throw err;
+export const update = createAsyncThunk(
+  'promotions/update',
+  async (promotion: UpdatePromotionDto) => {
+    try {
+      return updatePromotion(promotion);
+    } catch (err) {
+      const error: AxiosError<ValidationErrors> = err;
+      if (!error.response) {
+        throw err;
+      }
+      return Promise.reject(err);
     }
-    return Promise.reject(err);
   }
-});
+);

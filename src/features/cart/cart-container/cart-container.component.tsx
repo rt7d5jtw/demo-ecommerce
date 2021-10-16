@@ -9,7 +9,7 @@ import { clearCartDB } from '../../cart/thunks';
 import { useDispatch } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import CartItem from '../cart-item/cart-item.component';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useRef, useEffect } from 'react';
 import { selectAccessToken } from '../../user/selectors';
 
@@ -24,7 +24,6 @@ const CartContainer = ({ isOpen, cartItems, quantity }: ICart) => {
   const dispatch = useDispatch();
   const wrappedRef = useRef<HTMLDivElement>(null);
   const iconRef = useRef<HTMLDivElement>(null);
-  const { push } = useHistory();
 
   const handleClickOutside = (event: Event) => {
     if (

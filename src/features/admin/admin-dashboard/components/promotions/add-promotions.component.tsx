@@ -6,6 +6,7 @@ import { TestForm } from '../../../../forms/testform';
 import { handleForm } from '../../../../forms/utils/utils';
 import { Link } from 'react-router-dom';
 import { selectRole } from '../../../../user/selectors';
+import { CreatePromotionDto } from '../../../../promotion/promotionSlice';
 
 function PromotionsAdd(): JSX.Element {
   const dispatch = useDispatch();
@@ -19,7 +20,8 @@ function PromotionsAdd(): JSX.Element {
     }
     const values = handleForm(event.currentTarget.elements);
     if (values.title.match(/^[^-\s][a-zA-Z0-9_\s-]+$/gi) !== null) {
-      confirm('Are you sure you want to create this product?') && dispatch(createPromotion(values));
+      confirm('Are you sure you want to create this product?') &&
+        dispatch(createPromotion(values as CreatePromotionDto));
     } else {
       setWarning('Validation error, give proper inputs');
     }

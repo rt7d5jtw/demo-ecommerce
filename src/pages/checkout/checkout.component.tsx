@@ -55,10 +55,7 @@ const Checkout = (): JSX.Element => {
         setSuccess(true);
       }
 
-      if (shippingInfo && shippingInfo.country == 'Finland') data['tax'] = 0;
-      if (shippingInfo && shippingInfo.country != 'Finland') data['tax'] = 2.5;
       if (shippingInfo === null) setWarning('Provide shipping information!');
-
       if (warning.length === 0 && data.address.match(/^[^-\s][a-zA-Z0-9_\s-]+$/gi) !== null) {
         dispatch(addShippingInformation(data));
         dispatch(shippingInfoAdded());

@@ -5,7 +5,6 @@ import './cart.css';
 import { HiOutlinePlusCircle } from 'react-icons/hi';
 import { BiMinusCircle } from 'react-icons/bi';
 import { FaStripe } from 'react-icons/fa';
-import { FaCcPaypal } from 'react-icons/fa';
 import { useHistory, useLocation } from 'react-router';
 import { addShippingInformation } from '../../features/user/userSlice';
 import { selectAccessToken, selectShippingInfo } from '../../features/user/selectors';

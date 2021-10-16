@@ -162,6 +162,9 @@ const OrderPayment = (): JSX.Element => {
 
   return (
     <div className='order-payment'>
+      <h3 id='stripe-notice'>
+        Use <i id='stripe-testnums'>4242 4242 4242 4242</i> for stripe to test the payment
+      </h3>
       <div className='order-payment__wrapper'>
         {!payment.payment_method_submit ? (
           <form onSubmit={handleMethod}>

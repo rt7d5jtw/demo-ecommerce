@@ -5,13 +5,14 @@ import { changeEmail } from '../../../thunks';
 import { ProfileForm } from '../../../../forms/profile-form/profile-form.component';
 import { handleForm } from '../../../../forms/utils/utils';
 import { selectUserErrors } from '../../../selectors';
+import { EmailObj } from '../../../userSlice';
 
 const ChangeEmail = (): JSX.Element => {
   const dispatch = useDispatch();
   const errors = useSelector(selectUserErrors);
   function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    dispatch(changeEmail(handleForm(event.currentTarget.elements)));
+    dispatch(changeEmail(handleForm(event.currentTarget.elements) as EmailObj));
   }
   return (
     <div className='profile-changeform'>
@@ -55,7 +56,9 @@ const ChangeEmail = (): JSX.Element => {
         }}
       />
       <p className='profile-warnings'>
-        {errors && errors?.statusCode === 401 ? 'Invalid credentials!' : null}
+        {errors && (errors as { statusCode: number }).statusCode === 401
+          ? 'Invalid credentials!'
+          : null}
       </p>
     </div>
   );

@@ -4,13 +4,14 @@ import { changePassword } from '../../../thunks';
 import { ProfileForm } from '../../../../forms/profile-form/profile-form.component';
 import { handleForm } from '../../../../forms/utils/utils';
 import { selectUserErrors } from '../../../selectors';
+import { PasswordObj } from '../../../userSlice';
 
 const ChangePassword = (): JSX.Element => {
   const dispatch = useDispatch();
   const errors = useSelector(selectUserErrors);
   function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    dispatch(changePassword(handleForm(event.currentTarget.elements)));
+    dispatch(changePassword(handleForm(event.currentTarget.elements) as PasswordObj));
   }
   return (
     <div className='profile-changeform'>
@@ -50,7 +51,9 @@ const ChangePassword = (): JSX.Element => {
         }}
       />
       <p className='profile-warnings'>
-        {errors && errors?.statusCode === 401 ? 'Invalid credentials!' : null}
+        {errors && (errors as { statusCode: number })?.statusCode === 401
+          ? 'Invalid credentials!'
+          : null}
       </p>
     </div>
   );

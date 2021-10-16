@@ -15,6 +15,7 @@ export interface IPromotions {
 }
 
 export type CreatePromotionDto = Omit<IPromotions, 'id'>;
+export type UpdatePromotionDto = Partial<IPromotions>;
 
 export interface IPromotionsCard extends IPromotions {
   length: number;

@@ -9,12 +9,14 @@ import { handleForm } from '../../../../forms/utils/utils';
 import { IPromotions } from '../../../../promotion/promotionSlice';
 import { Loading } from '../../../../../pages/loading/loading.component';
 import { selectRole } from '../../../../user/selectors';
+import { UpdateProductDto } from '../../../../product/productSlice';
 
 function PromotionsEdit(): JSX.Element {
   const promotions = useSelector(selectPromotionItems);
   const role = useSelector(selectRole);
   const [warning, setWarning] = React.useState('');
   const { id } = useParams<{ id?: string }>();
+  const cId = id && (parseInt(id) as number);
   const promotion = promotions
     ? promotions.find((prom: IPromotions) => prom.id === Number(id))
     : null;
@@ -29,9 +31,9 @@ function PromotionsEdit(): JSX.Element {
       return;
     }
     const values = handleForm(event.currentTarget.elements);
-    if (values.title.match(/^[^-\s][a-zA-Z0-9_\s-]+$/gi) !== null) {
+    if (values.title.match(/^[^-\s][a-zA-Z0-9_\s-]+$/gi) !== null && id) {
       confirm('Are you sure you want to create this product?') &&
-        dispatch(updatePromotion({ id, ...values } as IPromotions));
+        dispatch(updatePromotion({ id: cId, ...values } as UpdateProductDto));
     } else {
       setWarning('Validation error, give proper inputs');
     }

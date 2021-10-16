@@ -1,6 +1,11 @@
 import axios, { AxiosError } from 'axios';
 import { authHeader } from '../user/api';
-import { ValidationErrors, IPromotions, CreatePromotionDto } from './promotionSlice';
+import {
+  ValidationErrors,
+  IPromotions,
+  CreatePromotionDto,
+  UpdatePromotionDto,
+} from './promotionSlice';
 
 export const PROMOTION_URL = 'http://localhost:3000/promotions';
 
@@ -47,7 +52,10 @@ export async function removePromotion(id: number): Promise<void> {
     });
 }
 
-export async function updatePromotion({ id, ...updateProps }: IPromotions): Promise<IPromotions> {
+export async function updatePromotion({
+  id,
+  ...updateProps
+}: UpdatePromotionDto): Promise<IPromotions> {
   return axios
     .patch(PROMOTION_URL + `/${id}`, { ...updateProps }, { headers: authHeader() })
     .then((res) => {

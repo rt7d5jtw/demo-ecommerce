@@ -22,7 +22,6 @@ import { selectMessage } from '../features/alert/alertSlice';
 import { Loading } from '../pages/loading/loading.component';
 import Alert from '../features/alert/alert/alert.component';
 import ErrorBoundary from '../app/error-boundary.component';
-import { NotFound } from '../pages/404/404.component';
 
 const App = (): JSX.Element => {
   const accessToken = useSelector(selectAccessToken);

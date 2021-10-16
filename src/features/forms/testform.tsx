@@ -101,85 +101,97 @@ export function TestForm({ fields, onSubmit, headlabel, submitlabel }: IProfileF
       <h1 id='badumts-form__headlabel'>{headlabel}</h1>
       {parsed.map((com) => {
         switch (com.component) {
-          case 'input':
+          case 'input': {
+            const comInput = com as FieldInputs;
             return (
               <InputForm
-                orderIdentifier={com.orderIdentifier}
-                name={com.name}
-                id={com.id}
-                step={com.step}
-                placeholder={com.placeholder}
-                defaultValue={com.defaultValue}
-                value={com.value}
-                title={com.title}
-                type={com.type}
-                required={com.required}
-                onChange={com.onChange}
-                key={com.orderIdentifier}
+                orderIdentifier={comInput.orderIdentifier}
+                name={comInput.name}
+                id={comInput.id}
+                step={comInput.step}
+                placeholder={comInput.placeholder}
+                defaultValue={comInput.defaultValue}
+                value={comInput.value}
+                title={comInput.title}
+                type={comInput.type}
+                required={comInput.required}
+                onChange={comInput.onChange}
+                key={comInput.orderIdentifier}
               />
             );
-          case 'labels':
+          }
+          case 'labels': {
+            const comLabel = com as ILabelForm;
             return (
               <LabelForm
-                orderIdentifier={com.orderIdentifier}
-                htmlFor={com.htmlFor}
-                label={com.label}
-                key={com.orderIdentifier}
+                orderIdentifier={comLabel.orderIdentifier}
+                htmlFor={comLabel.htmlFor}
+                label={comLabel.label}
+                key={comLabel.orderIdentifier}
               />
             );
-          case 'select':
+          }
+          case 'select': {
+            const comSelect = com as FieldSelect;
             return (
               <SelectForm
-                orderIdentifier={com.orderIdentifier}
-                form={com.form}
-                id={com.id}
-                name={com.name}
-                multiple={com.multiple}
-                options={com.options}
-                onChange={com.onChange}
-                key={com.orderIdentifier}
+                orderIdentifier={comSelect.orderIdentifier}
+                form={comSelect.form}
+                id={comSelect.id}
+                name={comSelect.name}
+                multiple={comSelect.multiple}
+                options={comSelect.options}
+                onChange={comSelect.onChange}
+                key={comSelect.orderIdentifier}
               />
             );
-          case 'multiselect':
+          }
+          case 'multiselect': {
+            const comMultiselect = com as MultipleFieldSelect;
             return (
               <MultipleSelectForm
-                orderIdentifier={com.orderIdentifier}
-                key={com.orderIdentifier}
-                form={com.form}
-                id={com.id}
-                name={com.name}
-                options={com.options}
-                onChange={com.onChange}
-                required={com.required}
-                label={com.label}
-                onClickListener={com.onClickListener}
-                onStateListener={com.onStateListener}
-                feedState={com.feedState}
+                orderIdentifier={comMultiselect.orderIdentifier}
+                key={comMultiselect.orderIdentifier}
+                form={comMultiselect.form}
+                id={comMultiselect.id}
+                name={comMultiselect.name}
+                options={comMultiselect.options}
+                onChange={comMultiselect.onChange}
+                required={comMultiselect.required}
+                label={comMultiselect.label}
+                onClickListener={comMultiselect.onClickListener}
+                onStateListener={comMultiselect.onStateListener}
+                feedState={comMultiselect.feedState}
               />
             );
-          case 'textarea':
+          }
+          case 'textarea': {
+            const comTextarea = com as FieldTextarea;
             return (
               <TextareaForm
-                orderIdentifier={com.orderIdentifier}
-                key={com.orderIdentifier}
-                form={com.form}
-                name={com.name}
-                id={com.id}
-                placeholder={com.placeholder}
-                defaultValue={com.defaultValue}
-                rows={com.rows}
-                cols={com.cols}
-                onChange={com.onChange}
+                orderIdentifier={comTextarea.orderIdentifier}
+                key={comTextarea.orderIdentifier}
+                form={comTextarea.form}
+                name={comTextarea.name}
+                id={comTextarea.id}
+                placeholder={comTextarea.placeholder}
+                defaultValue={comTextarea.defaultValue}
+                rows={comTextarea.rows}
+                cols={comTextarea.cols}
+                onChange={comTextarea.onChange}
               />
             );
-          case 'warning':
+          }
+          case 'warning': {
+            const comWarning = com as IFormWarning;
             return (
               <FormWarning
-                warning={com.warning}
-                orderIdentifier={com.orderIdentifier}
-                key={com.orderIdentifier}
+                warning={comWarning.warning}
+                orderIdentifier={comWarning.orderIdentifier}
+                key={comWarning.orderIdentifier}
               />
             );
+          }
           default:
             return;
         }
@@ -215,7 +227,7 @@ function sortByOI<T extends { orderIdentifier: number }>(a: T, b: T): number {
 
 export function parseFormJSON<Fields extends FieldTypeArrayJSON>(
   fields: Fields
-): FormComponentNewMember<any>[] {
+): FormComponentNewMember<FormComponent>[] {
   const storage: FormComponentNewMember<FormComponent>[] = [];
   for (const i in fields) {
     fields[i].forEach(function (com: FormComponent) {
