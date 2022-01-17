@@ -4,13 +4,17 @@
 
 ## Chocolatiste, <i>Ecommerce client with React and Redux.</i>
 
-<p>Client with simple user access control, profile- and admin dashboard, and checkout. Does not use additional UI libraries besides React, pagination, "inifinite scrolling pages" through IntersectionObserver API and searching for products have been implemented. IntersectionObserver is also used for the navigation bar to get out of the client's way and also provide some neat "slides" at front page. Users also have ability to change their passwords and emails through "/profile-dashboard" page. Application uses NestJS as the backend that persists to postgresql. Authentication is done through NestJS that implements it through passport library using JWTs. Client has shopping cart implemented through redux. The client is mobile responsive except for the admin dashboard which is responsive only up to tablets.</p>
+<p>Client with simple user access control, profile- and admin dashboard, and checkout. Does not use additional UI libraries besides React. Users also have ability to change their passwords and emails through "/profile-dashboard" page. Application uses NestJS as the backend that persists state to postgresql. Authentication is done through NestJS that implements it through passport library using JWTs. Client has shopping cart implemented through redux. The client is mobile responsive.</p>
+
+<p>Testing provided through Jest, MSW and Cypress. Jest is used for testing some cart redux selectors, MSW is used for API testing and Cypress for e2e and integration testing.</p>
 
 <br />
 
-<p>Website also has notifications implemented through redux that are used for giving client a "test user", so that anyone can tests the applications features. Client users have also the ability to register to the website through the "/register" page, linked at "/login" page. Notifications also give information for the users about state changes being succesful or not. Payments implemented through Stripe API, only logged in users can use this feature, after succesful payment, user gets information page about their purchase and a downloadable invoice provided by the backend implemented through PDFKit. Application uses lazy loading for Homepage, Registration page, Login page, Admin Dashboard, Profile Dashboard, Checkout and Stripe wrapper pages. Loading page used through React.Suspense that is used with react-persist library's PersistGate that also uses the loading page for state transitions and loading pages. Application uses React's error boundary fallback ui. Admin Dashboard provides a previews for the the constructing products, categories and promotions.</p>
+<p>Website also has notifications implemented through redux that are used for giving client a "test user", so that anyone can tests the admin dashboard features. Client users have also the ability to register to the website through the "/register" page, linked at "/login" page. Notifications also give information for the users about state changes being succesful or not. Payments implemented through Stripe API, after succesful payment, user gets information page about their purchase and a downloadable invoice provided by the backend implemented through PDFKit.
 
-<p>Testing provided through Jest, MSW and Cypress. Jest is used for testing some cart redux selectors, MSW is used for API testing and Cypress for e2e and integration testing.</p>
+<p>Images are from <a href="https://unsplash.com/">unsplash</a> and <a href="https://www.pexels.com/">pexels</a>.</p>
+
+
 
 ### About the form components and handling form authentication
 
@@ -21,5 +25,3 @@
 <p>The MultipleSelectForm component in <code>/src/features/forms/testform.tsx</code>, as it uses select element's DOM attributes to construct a "multiple selection" component that let's you choose multiple options and constructs its own internal state. This differs from just having "multiple" attribute set to true in select elemnt in html as this requires the user to hold control or command to select multiple values. This component lets user select and unselect with left click and communicates this to the user by changing the color of the selected option.</p>
 
 <p>These form components are more of a fun exercise.</p>
-
-<p>Images are from <a href="https://unsplash.com/">unsplash</a> and <a href="https://www.pexels.com/">pexels</a>.</p>
