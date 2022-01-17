@@ -7,6 +7,7 @@ import { store, persistor } from './app/store';
 import App from './app/App';
 import { Loading } from './pages/loading/loading.component';
 
+/* used for testing */
 declare global {
   interface Window {
     store: typeof store;
@@ -25,6 +26,7 @@ ReactDOM.render(
   document.getElementById('root')
 );
 
+/* used for testing */
 if (window.Cypress) {
   window.store = store;
 }
