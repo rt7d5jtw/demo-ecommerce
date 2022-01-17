@@ -2,7 +2,7 @@
   <img src="https://i.imgur.com/SWs77TE.png" width="625" alt="front page" />
 </p>
 
-## Chocolate store, <small>Chocolatiste, Ecommerce client with React and Redux.</small>
+## Chocolate store, <i>Chocolatiste, Ecommerce client with React and Redux.</i>
 
 <p>Client with simple user access control, profile- and admin dashboard, and checkout. Does not use additional UI libraries besides React, pagination, "inifinite scrolling pages" through IntersectionObserver API and searching for products have been implemented. IntersectionObserver is also used for the navigation bar to get out of the client's way and also provide some neat "slides" at front page. Users also have ability to change their passwords and emails through "/profile-dashboard" page. Application uses NestJS as the backend that persists to postgresql. Authentication is done through NestJS that implements it through passport library using JWTs. Client has shopping cart implemented through redux. The client is mobile responsive except for the admin dashboard which is responsive only up to tablets.</p>
 
