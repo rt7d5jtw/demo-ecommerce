@@ -156,7 +156,7 @@ describe('Are profile and admin forms working', function () {
       .as('state:user')
       .its('role')
       .should('eq', 'ADMIN');
-    cy.visit('./admin-dashboard/products-dashboard');
+    cy.visit('/admin-dashboard/products-dashboard');
     cy.location('pathname').should('eq', '/admin-dashboard/products-dashboard');
     cy.get('#new-product').click();
 
