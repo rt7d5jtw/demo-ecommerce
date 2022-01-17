@@ -16,9 +16,6 @@ async function bootstrap() {
   const port = process.env.PORT;
   await app.listen(port);
 
-  logger.log(
-    `hers vars ${process.env.JWT_SECRET}, ${process.env.STRIPE_SECRET}, ${process.env.DB_HOST}, ${process.env.DB_USERNAME}, ${process.env.DB_PASSWORD}, ${process.env.DB_DATABASE}`
-  );
   logger.log(`Application listening on port ${port}`);
 }
 bootstrap();
