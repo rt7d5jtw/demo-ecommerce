@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./src/assets/frontpage.png" width="625" alt="front page" />
+  <img src="https://i.imgur.com/SWs77TE.png" width="625" alt="front page" />
 </p>
 
 # Chocolate store, Chocolatist, Ecommerce client with React and Redux.
@@ -28,4 +28,4 @@
 
 <pre></pre>
 
-<p>Images are from <a href="https://unsplash.com/">unsplash</a> and <a href="https://www.pexels.com/">pexels</a></p>.
+<p>Images are from <a href="https://unsplash.com/">unsplash</a> and <a href="https://www.pexels.com/">pexels</a>.</p>
