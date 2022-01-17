@@ -31,7 +31,6 @@
     "bcrypt": "^5.0.0",
     "class-transformer": "^0.4.0",
     "class-validator": "^0.13.1",
-    "nestjs": "^0.0.1",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
     "pdfkit": "^0.12.1",
