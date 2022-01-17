@@ -2,7 +2,7 @@
   <img src="https://i.imgur.com/SWs77TE.png" width="625" alt="front page" />
 </p>
 
-# Chocolate store, Chocolatist, Ecommerce client with React and Redux.
+## Chocolate store, <small>Chocolatiste, Ecommerce client with React and Redux.</small>
 
 <p>Client with simple user access control, profile- and admin dashboard, and checkout. Does not use additional UI libraries besides React, pagination, "inifinite scrolling pages" through IntersectionObserver API and searching for products have been implemented. IntersectionObserver is also used for the navigation bar to get out of the client's way and also provide some neat "slides" at front page. Users also have ability to change their passwords and emails through "/profile-dashboard" page. Application uses NestJS as the backend that persists to postgresql. Authentication is done through NestJS that implements it through passport library using JWTs. Client has shopping cart implemented through redux. The client is mobile responsive except for the admin dashboard which is responsive only up to tablets.</p>
 
@@ -12,7 +12,7 @@
 
 <p>Testing provided through Jest, MSW and Cypress. Jest is used for testing some cart redux selectors, MSW is used for API testing and Cypress for e2e and integration testing.</p>
 
-## About the form components and handling form authentication
+### About the form components and handling form authentication
 
 <p>The forms the application uses have been implemented in <code>"/src/features/forms/"</code>. The authentication and authorization pages, or "login" and "register" pages use ProfileForm components that takes submit event handler and "fields" as arguments to construct the forms for the pages. "Fields" is an object that takes in html like attributes in nested order, these are used to provide the necessary information for constructing the pages and providing some of the validation. As an example, "inputs" is used as a key for accessing the input attributes that is provided as an object of key-value pairs with html attributes. The ProfileForm component also provides labels and warnings if they're specified in the fields arguments. These pages also use AuthOverlay component for providing an overlay for the forms. The authentication for the forms is handled through <code>handleForm</code> function that takes in collection of HTML form control elements as an input and parses it through using <code>Array.from</code> and <code>filter</code> methods and then matching inputs based on node names, it also transforms the collection into list of key-value pairs using <code>Object.fromEntries</code> method for the api. ProfileForm component is also used for the Profile Dashboard pages.</p>
 
