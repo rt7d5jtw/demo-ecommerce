@@ -1,12 +1,5 @@
 import { Test } from '@nestjs/testing';
-import { Product } from './product.entity';
 import { ProductRepository } from './product.repository';
-import * as typeorm from 'typeorm';
-
-const cats = [
-  { id: 'a47ba957-a742-45de-8610-13ba3e0ba4a0', cname: 'bestsellers' },
-  { id: 'dcaa9f09-0dbe-4e81-af92-e15ee487beaa', cname: 'Milk Chocolate' },
-];
 
 describe('productRepository', () => {
   let productRepository: any;
@@ -43,7 +36,7 @@ describe('productRepository', () => {
         andWhere: jest.fn().mockReturnThis(),
         getMany: jest.fn().mockReturnValue(result),
       });
-      expect(productRepository.fetch({ search: 'Dune' })).resolves.toEqual({
+      expect(await productRepository.fetch({ search: 'Dune' })).toEqual({
         id: expect.any(Number),
         categories: expect.any(Array),
         title: expect.any(String),
@@ -54,45 +47,11 @@ describe('productRepository', () => {
         createdAt: expect.any(String),
         updatedAt: expect.any(String),
       });
-      expect(productRepository.createQueryBuilder).toHaveBeenCalled();
+      expect(await productRepository.createQueryBuilder).toHaveBeenCalled();
     });
   });
 
   afterEach(() => {
     jest.clearAllMocks();
-  });
-
-  describe('createProduct', () => {
-    let save: any;
-    beforeEach(() => {
-      save = jest.fn();
-      productRepository.create = jest.fn().mockReturnValue({ save });
-    });
-    it('calls a new instance of Product entity and saves it', async () => {
-      jest.spyOn(typeorm, 'getRepository').mockImplementation(() => {
-        const original = jest.requireActual('typeorm');
-        return {
-          ...original,
-          createQueryBuilder: jest.fn().mockImplementation(() => ({
-            where: jest.fn().mockReturnThis(),
-            getMany: jest.fn().mockResolvedValue(cats),
-          })),
-        };
-      });
-      const product = new Product();
-      product.save = jest.fn().mockReturnValue(result);
-      save.mockResolvedValue(product);
-      const dto = {
-        title: 'stuff',
-        image: 'wat',
-        price: 1.45,
-        description: 'no',
-        categoryIds: [
-          { id: 'a47ba957-a742-45de-8610-13ba3e0ba4a0', cname: 'bestsellers' },
-          { id: 'dcaa9f09-0dbe-4e81-af92-e15ee487beaa', cname: 'Milk Chocolate' },
-        ],
-      };
-      await expect(productRepository.createProduct(dto)).resolves.not.toThrow();
-    });
   });
 });

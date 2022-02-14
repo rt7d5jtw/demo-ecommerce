@@ -1,9 +1,8 @@
 import { NotFoundException } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
-import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { v4 as uuid } from 'uuid';
-import { Category } from './category.entity';
+import { CategoryRepository } from './category.repository';
 import { CategoryService } from './category.service';
 
 export type MockType<T> = {
@@ -27,12 +26,12 @@ describe('CategoryService', () => {
     const module = await Test.createTestingModule({
       providers: [
         CategoryService,
-        { provide: getRepositoryToken(Category), useFactory: mockCategoryRepository },
+        { provide: CategoryRepository, useFactory: mockCategoryRepository },
       ],
     }).compile();
 
     categoryService = module.get<CategoryService>(CategoryService);
-    categoryRepository = module.get<Category>(getRepositoryToken(Category));
+    categoryRepository = module.get<CategoryRepository>(CategoryRepository);
   });
 
   afterEach(() => {
@@ -47,13 +46,13 @@ describe('CategoryService', () => {
           cname: 'chocolate',
         },
       ]);
-      await expect(categoryService.fetch({ search: 'chocolate' })).resolves.toEqual([
+      expect(await categoryService.fetch({ search: 'chocolate' })).toEqual([
         {
           id: 'a47ba957-a742-45de-8610-13ba3e0ba4a0',
           cname: 'chocolate',
         },
       ]);
-      expect(categoryRepository.fetch).toHaveBeenCalledWith({ search: 'chocolate' });
+      expect(await categoryRepository.fetch).toHaveBeenCalledWith({ search: 'chocolate' });
     });
   });
 
@@ -63,11 +62,11 @@ describe('CategoryService', () => {
         id: uuid(),
         cname: 'test',
       });
-      expect(categoryService.create({ cname: 'test' })).resolves.toEqual({
+      expect(await categoryService.create({ cname: 'test' })).toEqual({
         id: expect.any(String),
         cname: 'test',
       });
-      expect(categoryRepository.createCategory).toHaveBeenCalledWith({ cname: 'test' });
+      expect(await categoryRepository.createCategory).toHaveBeenCalledWith({ cname: 'test' });
     });
   });
 
@@ -82,25 +81,23 @@ describe('CategoryService', () => {
         cname: 'test',
       });
 
-      await expect(
-        categoryService.update('a49ba957-a742-45de-8610-13ba3e0ba4a0', { cname: 'test' })
-      ).resolves.toEqual({
+      expect(
+        await categoryService.update('a49ba957-a742-45de-8610-13ba3e0ba4a0', { cname: 'test' })
+      ).toEqual({
         id: 'a49ba957-a742-45de-8610-13ba3e0ba4a0',
         cname: 'test',
       });
-      expect(categoryRepository.findOne).toHaveBeenCalledWith(
+      expect(await categoryRepository.findOne).toHaveBeenCalledWith(
         'a49ba957-a742-45de-8610-13ba3e0ba4a0'
       );
-      expect(categoryRepository.save).toHaveBeenCalled();
+      expect(await categoryRepository.save).toHaveBeenCalled();
     });
   });
 
   describe('remove', () => {
     it('calls categoryRepository.delete to delete a category', async () => {
       categoryRepository.delete.mockResolvedValue({ affected: 1 });
-      await expect(
-        categoryService.remove('f56c7b84-ee72-4767-9733-6f31e5ad0141')
-      ).resolves.toBeUndefined();
+      expect(await categoryService.remove('f56c7b84-ee72-4767-9733-6f31e5ad0141')).toBeUndefined();
       expect(categoryRepository.delete).toHaveBeenCalledWith(
         'f56c7b84-ee72-4767-9733-6f31e5ad0141'
       );

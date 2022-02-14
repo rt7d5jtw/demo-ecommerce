@@ -111,6 +111,7 @@ export class OrdersRepository extends Repository<Order> {
     return order;
   }
 
+  /* auxiliary function used by createOrder */
   async addOrderItems(id: string, user: User): Promise<OrderItem[]> {
     const userId = user['id'];
     const cartItems = await getManager().query(`

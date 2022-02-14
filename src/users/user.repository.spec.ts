@@ -42,14 +42,14 @@ describe('UserRepository', () => {
       userRepository.findOne.mockResolvedValue(user);
       user.validatePassword.mockResolvedValue(true);
       const result = await userRepository.validateUserPassword(mockUser);
-      expect(result).toEqual('test@testing.com');
+      expect(await result).toEqual('test@testing.com');
     });
 
     it('returns null if user is invalid', async () => {
       userRepository.findOne.mockResolvedValue(null);
       const result = await userRepository.validateUserPassword(mockUser);
       expect(user.validatePassword).not.toHaveBeenCalled();
-      expect(result).toBeNull();
+      expect(await result).toBeNull();
     });
 
     it('returns null as password is invalid', async () => {
@@ -57,7 +57,7 @@ describe('UserRepository', () => {
       user.validatePassword.mockResolvedValue(false);
       const result = await userRepository.validateUserPassword(mockUser);
       expect(user.validatePassword).toHaveBeenCalled();
-      expect(result).toBeNull();
+      expect(await result).toBeNull();
     });
   });
 

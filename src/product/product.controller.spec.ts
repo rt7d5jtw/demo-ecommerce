@@ -158,7 +158,7 @@ describe('ProductController', () => {
   describe('fetch', () => {
     it('returns a product array by calling productService', async () => {
       expect.assertions(2);
-      await expect(productController.fetch(undefined)).resolves.toEqual([
+      expect(await productController.fetch(undefined)).toEqual([
         {
           id: expect.any(Number),
           categories: expect.any(Array),
@@ -200,7 +200,7 @@ describe('ProductController', () => {
   describe('fetchById', () => {
     it('returns a product by id specfied by calling the productService', async () => {
       expect.assertions(2);
-      await expect(productController.fetchById(10)).resolves.toEqual({
+      expect(await productController.fetchById(10)).toEqual({
         id: expect.any(Number),
         categories: expect.any(Array),
         title: expect.any(String),
@@ -228,7 +228,7 @@ describe('ProductController', () => {
         ],
       };
       expect.assertions(2);
-      await expect(productController.create(dto)).resolves.toEqual({
+      expect(await productController.create(dto)).toEqual({
         id: expect.any(Number),
         categories: expect.any(Array),
         title: expect.any(String),
@@ -245,7 +245,7 @@ describe('ProductController', () => {
 
   describe('update', () => {
     it('updates existing product by calling productService', async () => {
-      await expect(productController.update(10, { price: 1.25 })).resolves.toEqual({
+      expect(await productController.update(10, { price: 1.25 })).toEqual({
         id: 10,
         categories: expect.any(Array),
         title: expect.any(String),
@@ -261,8 +261,7 @@ describe('ProductController', () => {
 
   describe('deleteProductById', () => {
     it('deletes a product by calling productService', async () => {
-      expect.assertions(2);
-      await expect(productController.remove(10)).resolves.not.toThrow();
+      expect(await productController.remove(10)).toBeUndefined();
       expect(productService.remove).toHaveBeenCalledWith(10);
     });
   });

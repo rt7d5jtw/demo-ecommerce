@@ -7,13 +7,21 @@ import { OrdersRepository } from './orders.repository';
 import { OrderStatus } from './order.entity';
 import { v4 as uuid } from 'uuid';
 import * as typeorm from 'typeorm';
+import { createStubInstance, createSandbox } from 'sinon';
+import { Repository } from 'typeorm';
 
 const mockOrdersRepository: () => MockType<OrdersRepository> = jest.fn(() => ({
   fetch: jest.fn(),
   findOne: jest.fn(),
   find: jest.fn(),
   query: jest.fn(),
-  createQueryBuilder: jest.fn(),
+  createQueryBuilder: jest.fn().mockReturnValue({
+    innerJoin: jest.fn().mockReturnThis(),
+    leftJoin: jest.fn().mockReturnThis(),
+    where: jest.fn().mockReturnThis(),
+    select: jest.fn().mockReturnThis(),
+    getRawMany: jest.fn().mockReturnThis(),
+  }),
   remove: jest.fn(),
   createOrder: jest.fn((dto, user) => {
     dto.id = uuid();
@@ -26,57 +34,6 @@ const mockOrdersRepository: () => MockType<OrdersRepository> = jest.fn(() => ({
   delete: jest.fn(),
   save: jest.fn(),
 }));
-
-export const mockPaymentIntent = {
-  id: 'pi_MeFVjK2b1u9YsTDI8nc25QNQK104K',
-  object: 'payment_intent',
-  amount: 250,
-  amount_capturable: 0,
-  amount_received: 0,
-  application: null,
-  application_fee_amount: null,
-  canceled_at: null,
-  cancellation_reason: null,
-  capture_method: 'automatic',
-  charges: {
-    object: 'list',
-    data: [],
-    has_more: false,
-    total_count: 0,
-    url: '/v1/charges?payment_intent=pi_MeFVjK2b1u9YsTDI8nc25QNQK104K',
-  },
-  client_secret: 'pi_MeFVjK2b1u9YsTDI8nc25QNQK104K_secret_wj2wXJJOOwifngyU',
-  confirmation_method: 'automatic',
-  created: 1626290844,
-  currency: 'usd',
-  customer: null,
-  description: null,
-  invoice: null,
-  last_payment_error: null,
-  livemode: false,
-  metadata: {},
-  next_action: null,
-  on_behalf_of: null,
-  payment_method: null,
-  payment_method_options: {
-    card: {
-      installments: null,
-      network: null,
-      request_three_d_secure: 'automatic',
-    },
-  },
-  payment_method_types: ['card'],
-  receipt_email: null,
-  review: null,
-  setup_future_usage: null,
-  shipping: null,
-  source: null,
-  statement_descriptor: null,
-  statement_descriptor_suffix: null,
-  status: 'requires_payment_method',
-  transfer_data: null,
-  transfer_group: null,
-};
 
 describe('OrdersService', () => {
   let ordersService: OrdersService;
@@ -91,8 +48,6 @@ describe('OrdersService', () => {
     ordersRepository = module.get<OrdersRepository>(OrdersRepository);
   });
 
-  jest.mock('typeorm');
-
   afterEach(() => {
     jest.clearAllMocks();
   });
@@ -105,7 +60,7 @@ describe('OrdersService', () => {
   describe('fetch', () => {
     it("fetches all user's orders by calling ordersRepository.fetch", async () => {
       ordersRepository.fetch.mockResolvedValue(bunchOfOrders);
-      await expect(ordersService.fetch(null, mockUser)).resolves.toEqual([
+      expect(await ordersService.fetch(null, mockUser)).toEqual([
         {
           id: expect.any(String),
           userId: expect.any(String),
@@ -140,7 +95,7 @@ describe('OrdersService', () => {
           date: expect.any(String),
         },
       ]);
-      expect(ordersRepository.fetch).toHaveBeenCalledWith(null, mockUser);
+      expect(await ordersRepository.fetch).toHaveBeenCalledWith(null, mockUser);
     });
   });
 
@@ -149,9 +104,9 @@ describe('OrdersService', () => {
       const mockOrder = bunchOfOrders[0];
       mockOrder.id = 'e6a23d5f-3a23-498f-9f61-ffb9ad34cb68';
       ordersRepository.findOne.mockResolvedValue(mockOrder);
-      await expect(
-        ordersService.fetchById('e6a23d5f-3a23-498f-9f61-ffb9ad34cb68', mockUser)
-      ).resolves.toEqual({
+      expect(
+        await ordersService.fetchById('e6a23d5f-3a23-498f-9f61-ffb9ad34cb68', mockUser)
+      ).toEqual({
         id: 'e6a23d5f-3a23-498f-9f61-ffb9ad34cb68',
         userId: expect.any(String),
         total_price: expect.any(Number),
@@ -162,7 +117,7 @@ describe('OrdersService', () => {
         status: expect.any(String),
         date: expect.any(String),
       });
-      expect(ordersRepository.findOne).toHaveBeenCalledWith({
+      expect(await ordersRepository.findOne).toHaveBeenCalledWith({
         where: { id: 'e6a23d5f-3a23-498f-9f61-ffb9ad34cb68', userId: mockUser.id },
       });
     });
@@ -171,7 +126,7 @@ describe('OrdersService', () => {
   describe('fetchAll', () => {
     it('returns all orders from the database by calling ordersRepository.query', async () => {
       ordersRepository.query.mockResolvedValue(bunchOfOrders);
-      await expect(ordersService.fetchAll()).resolves.toEqual([
+      expect(await ordersService.fetchAll()).toEqual([
         {
           id: expect.any(String),
           userId: expect.any(String),
@@ -206,11 +161,31 @@ describe('OrdersService', () => {
           date: expect.any(String),
         },
       ]);
-      expect(ordersRepository.query).toHaveBeenCalled();
+      expect(await ordersRepository.query).toHaveBeenCalled();
     });
   });
 
   describe('fetchOrderItems', () => {
+    const sandbox = createSandbox();
+    beforeEach(() => {
+      sandbox.stub(typeorm.ConnectionManager.prototype, 'get').returns({
+        getRepository: sandbox.stub().returns({
+          Repository: createStubInstance(Repository),
+          createQueryBuilder: () => ({
+            select: jest.fn().mockReturnThis(),
+            innerJoin: jest.fn().mockReturnThis(),
+            leftJoin: jest.fn().mockReturnThis(),
+            where: jest.fn().mockReturnThis(),
+            getRawMany: jest.fn().mockReturnValue(mockOrderItems),
+          }),
+        }),
+      } as unknown as typeorm.Connection);
+    });
+
+    afterEach(() => {
+      sandbox.restore();
+    });
+
     const mockOrderItems = [
       {
         orderId: '96a94bbc-c18c-41a0-94c7-77320815c577',
@@ -246,21 +221,7 @@ describe('OrdersService', () => {
       },
     ];
     it("returns order's items by calling ordersRepository.createQueryBuilder and orderItem.createQueryBuilder", async () => {
-      jest.spyOn(typeorm, 'getRepository').mockImplementation(() => {
-        const original = jest.requireActual('typeorm');
-        return {
-          ...original,
-          createQueryBuilder: jest.fn(() => ({
-            innerJoin: jest.fn().mockReturnThis(),
-            select: jest.fn().mockReturnThis(),
-            where: jest.fn().mockReturnThis(),
-            getRawMany: jest.fn().mockResolvedValue(mockOrderItems),
-          })),
-        };
-      });
-      expect(
-        ordersService.fetchOrderItems('f29ca6ae-3aac-4794-b008-4d743901a226')
-      ).resolves.toEqual([
+      expect(await ordersService.fetchOrderItems('f29ca6ae-3aac-4794-b008-4d743901a226')).toEqual([
         {
           orderId: expect.any(String),
           price: expect.any(Number),
@@ -306,7 +267,7 @@ describe('OrdersService', () => {
         city: 'Yes',
         postalcode: '01000',
       };
-      await expect(ordersService.create(dto, mockUser)).resolves.toEqual({
+      expect(await ordersService.create(dto, mockUser)).toEqual({
         id: expect.any(String),
         userId: mockUser.id,
         total_price: '10',
@@ -317,7 +278,7 @@ describe('OrdersService', () => {
         status: expect.any(String),
         date: expect.any(String),
       });
-      expect(ordersRepository.createOrder).toHaveBeenCalledWith(dto, mockUser);
+      expect(await ordersRepository.createOrder).toHaveBeenCalledWith(dto, mockUser);
     });
   });
 
@@ -345,7 +306,7 @@ describe('OrdersService', () => {
         status: OrderStatus.PAID,
       };
       const id = '725b3c5a-4f40-468e-aa9e-9057600d55af';
-      expect(ordersService.update(dto, id)).resolves.toEqual({
+      expect(await ordersService.update(dto, id)).toEqual({
         id: expect.any(String),
         userId: 'e6a23d5f-3a23-498f-9f61-ffb9ad34cb68',
         status: 'PAID',
@@ -355,24 +316,25 @@ describe('OrdersService', () => {
   });
 
   describe('removeOrder', () => {
+    const sandbox = createSandbox();
+    beforeEach(() => {
+      sandbox.stub(typeorm.ConnectionManager.prototype, 'get').returns({
+        getRepository: sandbox.stub().returns(createStubInstance(Repository)),
+      } as unknown as typeorm.Connection);
+    });
+
+    afterEach(() => {
+      sandbox.restore();
+    });
+
     it('calls ordersRepository.find and uses orderItemRepository.delete to delete items associated with the order along with the order', async () => {
       ordersRepository.delete.mockResolvedValue({
         raw: [],
-        affected: 1,
+        affected: 3,
       });
       ordersRepository.findOne.mockResolvedValue(bunchOfOrders[0]);
-      jest.spyOn(typeorm, 'getRepository').mockImplementation(() => {
-        const original = jest.requireActual('typeorm');
-        return {
-          ...original,
-          delete: jest.fn().mockReturnValue({
-            raw: [],
-            affected: 3,
-          }),
-        };
-      });
       ordersRepository.find.mockResolvedValue(bunchOfOrders[0]);
-      expect(ordersService.removeOrder('f29ca6ae-3aac-4794-b008-4d743901a226'));
+      expect(await ordersService.removeOrder('f29ca6ae-3aac-4794-b008-4d743901a226'));
       expect(ordersRepository.findOne).toHaveBeenCalledWith({
         where: { id: 'f29ca6ae-3aac-4794-b008-4d743901a226' },
       });

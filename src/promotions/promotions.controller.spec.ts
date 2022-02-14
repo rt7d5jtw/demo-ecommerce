@@ -61,7 +61,7 @@ describe('PromotionsController', () => {
 
   describe('fetchAll', () => {
     it('returns all promotions', async () => {
-      expect(promotionsController.fetchAll()).resolves.toEqual([
+      expect(await promotionsController.fetchAll()).toEqual([
         {
           id: expect.any(Number),
           title: expect.any(String),
@@ -87,7 +87,7 @@ describe('PromotionsController', () => {
   describe('create', () => {
     it('creates a new promotion and returns it', async () => {
       const dto = { title: 'test', url: '/testing', image: 'chocolate.png' };
-      expect(promotionsController.create(dto)).resolves.toEqual({
+      expect(await promotionsController.create(dto)).toEqual({
         id: expect.any(Number),
         title: 'test',
         url: '/testing',
@@ -108,7 +108,7 @@ describe('PromotionsController', () => {
       const req = mockRequest();
       req.res = mockResponse();
       const query = { filename: 'example.png' };
-      expect(promotionsController.sendStream(req.res, query)).resolves.not.toThrow();
+      expect(await promotionsController.sendStream(req.res, query)).toBeUndefined();
       expect(fs.createReadStream).toHaveBeenCalledWith(join(process.cwd(), `./images/example.png`));
     });
   });
@@ -120,7 +120,7 @@ describe('PromotionsController', () => {
         url: '/chocolate',
         image: 'chocolate.png',
       };
-      expect(promotionsController.update(17, dto)).resolves.toEqual({
+      expect(await promotionsController.update(17, dto)).toEqual({
         id: expect.any(Number),
         title: expect.any(String),
         url: expect.any(String),
@@ -132,7 +132,7 @@ describe('PromotionsController', () => {
   describe('remove', () => {
     it('removes the promotion by calling promotionsService', async () => {
       expect.assertions(2);
-      expect(promotionsController.remove(17)).resolves.toBeUndefined();
+      expect(await promotionsController.remove(17)).toBeUndefined();
       expect(promotionsService.remove).toHaveBeenCalledWith(17);
     });
   });

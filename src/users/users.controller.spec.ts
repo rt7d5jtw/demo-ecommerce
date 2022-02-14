@@ -71,7 +71,7 @@ describe('UsersController', () => {
   describe('createUser', () => {
     it('creates a user', async () => {
       const dto = { email: 'miumau@gmail.com', password: 'yeetmageet123' };
-      expect(usersController.createUser(dto)).resolves.toEqual({
+      expect(await usersController.createUser(dto)).toEqual({
         salt: expect.any(String),
         password: expect.any(String),
         email: 'miumau@gmail.com',
@@ -84,28 +84,28 @@ describe('UsersController', () => {
     describe('changePassword', () => {
       it("updates user's password and returns updated password", async () => {
         const dto = { currentPassword: 'yeetmageet123', newPassword: 'potato123' };
-        expect(usersController.changePassword(newUser, dto)).resolves.toEqual('potato123');
+        expect(await usersController.changePassword(newUser, dto)).toEqual('potato123');
       });
     });
 
     describe('changeEmail', () => {
       it("updates user's email and returns the new email", async () => {
         const dto = { currentEmail: 'miumau@gmail.com', newEmail: 'pannukakku@gmail.com' };
-        expect(usersController.changeEmail(newUser, dto)).resolves.toEqual('pannukakku@gmail.com');
+        expect(await usersController.changeEmail(newUser, dto)).toEqual('pannukakku@gmail.com');
       });
     });
 
     describe('remove', () => {
       it('deletes a user by calling usersService', async () => {
         expect.assertions(1);
-        expect(usersController.remove('872f17ee-45a2-409b-b74a-eea6753f38fb'));
+        expect(await usersController.remove('872f17ee-45a2-409b-b74a-eea6753f38fb'));
         expect(usersService.remove).toHaveBeenCalledWith('872f17ee-45a2-409b-b74a-eea6753f38fb');
       });
     });
 
     describe('fetch', () => {
       it('gets array of all users', async () => {
-        expect(usersController.fetch(null)).resolves.toEqual([
+        expect(await usersController.fetch(null)).toEqual([
           {
             id: expect.any(String),
             email: expect.any(String),
@@ -124,7 +124,7 @@ describe('UsersController', () => {
 
     describe('fetchById', () => {
       it('gets a user by id and returns the user', async () => {
-        expect(usersController.fetchById('872f17ee-45a2-409b-b74a-eea6753f38fb')).resolves.toEqual({
+        expect(await usersController.fetchById('872f17ee-45a2-409b-b74a-eea6753f38fb')).toEqual({
           id: expect.any(String),
           email: expect.any(String),
         });
@@ -139,9 +139,12 @@ describe('UsersController', () => {
 
     describe('updateUserRole', () => {
       it("updates user's role to the value specified", async () => {
-        await expect(
-          usersController.updateUserRole('872f17ee-45a2-409b-b74a-eea6753f38fb', UserRole.ADMIN)
-        ).resolves.toEqual('ADMIN');
+        expect(
+          await usersController.updateUserRole(
+            '872f17ee-45a2-409b-b74a-eea6753f38fb',
+            UserRole.ADMIN
+          )
+        ).toEqual('ADMIN');
       });
     });
   });

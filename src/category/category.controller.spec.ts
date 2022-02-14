@@ -48,7 +48,7 @@ describe('CategoryController', () => {
 
   describe('fetch', () => {
     it('fetches categories by calling categoryService and returns them', async () => {
-      expect(categoryController.fetch(null)).resolves.toEqual([
+      expect(await categoryController.fetch(null)).toEqual([
         {
           id: expect.any(String),
           cname: expect.any(String),
@@ -68,7 +68,7 @@ describe('CategoryController', () => {
 
   describe('create', () => {
     it('creates a category by calling categoryService and returns it', async () => {
-      expect(categoryController.create({ cname: 'test' })).resolves.toEqual({
+      expect(await categoryController.create({ cname: 'test' })).toEqual({
         id: expect.any(String),
         cname: expect.any(String),
       });
@@ -79,8 +79,8 @@ describe('CategoryController', () => {
   describe('update', () => {
     it('updates category by calling categoryService and returns it', async () => {
       expect(
-        categoryController.update('12b948c1-e8ed-4db4-a25f-a4937ef58acb', { cname: 'yeet' })
-      ).resolves.toEqual({
+        await categoryController.update('12b948c1-e8ed-4db4-a25f-a4937ef58acb', { cname: 'yeet' })
+      ).toEqual({
         id: '12b948c1-e8ed-4db4-a25f-a4937ef58acb',
         cname: 'chocolate',
       });
@@ -90,9 +90,9 @@ describe('CategoryController', () => {
 
   describe('remove', () => {
     it('removes category by calling categoryService and returns void', async () => {
-      await expect(
-        categoryController.remove('12b948c1-e8ed-4db4-a25f-a4937ef58acb')
-      ).resolves.toBeUndefined();
+      expect(
+        await categoryController.remove('12b948c1-e8ed-4db4-a25f-a4937ef58acb')
+      ).toBeUndefined();
       expect(categoryService.remove).toHaveBeenCalledWith('12b948c1-e8ed-4db4-a25f-a4937ef58acb');
     });
   });

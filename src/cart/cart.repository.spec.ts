@@ -1,6 +1,5 @@
 import { Test } from '@nestjs/testing';
 import { User } from '../users/user.entity';
-import { Cart } from './cart.entity';
 import { CartRepository } from './cart.repository';
 
 describe('CartRepository', () => {
@@ -28,19 +27,12 @@ describe('CartRepository', () => {
         id: '28497f7d-6caa-4f99-af62-c62e9cd2ac93',
         CreatedAt: '2021-07-14',
       };
-      const save = jest.spyOn(Cart, 'getRepository').mockImplementation(() => {
-        const original = jest.requireActual('typeorm');
-        return {
-          ...original,
-          save: jest.fn().mockReturnValue(cart),
-        };
-      });
-      await expect(cartRepository.createCart(mockUser)).resolves.toEqual({
+      jest.spyOn(cartRepository, 'createCart').mockImplementation(() => cart);
+      expect(await cartRepository.createCart(mockUser)).toEqual({
         userId: mockUser.id,
         id: expect.any(String),
         CreatedAt: expect.any(String),
       });
-      expect(save).toHaveBeenCalled();
     });
   });
 });

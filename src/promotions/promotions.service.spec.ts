@@ -50,7 +50,7 @@ describe('PromotionsService', () => {
   describe('fetchAll', () => {
     it('calls find() method from userRepository and returns promotion(s)', async () => {
       expect.assertions(2);
-      await expect(promotionService.fetchAll()).resolves.toEqual([
+      expect(await promotionService.fetchAll()).toEqual([
         {
           id: expect.any(Number),
           title: expect.any(String),
@@ -70,19 +70,19 @@ describe('PromotionsService', () => {
           image: expect.any(String),
         },
       ]);
-      expect(promotionRepository.find).toHaveBeenCalled();
+      expect(await promotionRepository.find).toHaveBeenCalled();
     });
   });
   const dto = { title: 'test', url: '/testing', image: './images/hazelnut' };
   describe('create', () => {
     it('creates a new promotion by calling createPromotion method in the user repo', async () => {
-      await expect(promotionService.create(dto)).resolves.toEqual({
+      expect(await promotionService.create(dto)).toEqual({
         id: expect.any(Number),
         title: expect.any(String),
         url: expect.any(String),
         image: expect.any(String),
       });
-      expect(promotionRepository.createPromotion).toHaveBeenCalledWith(dto);
+      expect(await promotionRepository.createPromotion).toHaveBeenCalledWith(dto);
     });
   });
 
@@ -90,19 +90,19 @@ describe('PromotionsService', () => {
     let save: any;
     beforeEach(() => {
       save = jest.fn();
-      promotionService.update = jest.fn().mockReturnValue(Promise.resolve({ save }));
+      promotionService.update = jest.fn().mockReturnValue(Promise.resolve(undefined));
     });
     it('calls repo with findOne and assigns new properties and calls save', async () => {
       expect.assertions(1);
       save.mockResolvedValue(undefined);
-      await expect(promotionService.update(17, dto)).resolves.not.toThrow();
+      expect(await promotionService.update(17, dto)).toBeUndefined();
     });
   });
 
   describe('remove', () => {
     it('calls findOne and delete to remove the user', async () => {
       promotionRepository.delete.mockResolvedValue({ affected: 1 });
-      await expect(promotionService.remove(17)).resolves.not.toThrow();
+      expect(await promotionService.remove(17)).toBeUndefined();
     });
   });
 });

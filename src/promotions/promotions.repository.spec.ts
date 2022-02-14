@@ -2,7 +2,7 @@ import { Test } from '@nestjs/testing';
 import { PromotionRepository } from './promotions.repository';
 
 describe('PromotionRepository', () => {
-  let promotionRepository;
+  let promotionRepository: any;
 
   beforeEach(async () => {
     const module = await Test.createTestingModule({
@@ -18,7 +18,7 @@ describe('PromotionRepository', () => {
       image: 'https://i.imgur.com/1G1D5Aa.jpeg',
     };
 
-    let save;
+    let save: any;
     beforeEach(() => {
       save = jest.fn();
       promotionRepository.createPromotion = jest.fn().mockReturnValue(Promise.resolve({ save }));

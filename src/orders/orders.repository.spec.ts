@@ -1,9 +1,10 @@
 import { Test } from '@nestjs/testing';
 import { User } from '../users/user.entity';
-import { Order } from './order.entity';
+import { Order, OrderStatus } from './order.entity';
 import { bunchOfOrders } from './orders.controller.spec';
 import { OrdersRepository } from './orders.repository';
 import * as typeorm from 'typeorm';
+import { stub } from 'sinon';
 
 const cartItems = [
   {
@@ -25,15 +26,28 @@ const cartItems = [
 ];
 
 describe('OrdersRepository', () => {
-  let ordersRepository: any;
+  let ordersRepository: OrdersRepository;
+  let connection: any;
+
+  /* mocked connection for the repository */
+  let mockConnection = () => ({
+    transaction: jest.fn(),
+    query: jest.fn(),
+    manager: jest.fn().mockReturnValue({
+      query: jest.fn().mockReturnValue('i eat chocolate'),
+    }),
+  });
 
   beforeEach(async () => {
     const module = await Test.createTestingModule({
-      providers: [OrdersRepository],
+      /* injects the fake connection to typeorm.Connection */
+      providers: [OrdersRepository, { provide: typeorm.Connection, useFactory: mockConnection }],
     }).compile();
 
     ordersRepository = module.get<OrdersRepository>(OrdersRepository);
+    connection = module.get<typeorm.Connection>(typeorm.Connection);
   });
+  jest.mock('../users/user.entity');
 
   const mockUser = new User();
   mockUser.id = 'e6a23d5f-3a23-498f-9f61-ffb9ad34cb68';
@@ -41,13 +55,15 @@ describe('OrdersRepository', () => {
   mockUser.password = 'yeetmageet123';
 
   describe('fetch', () => {
-    it('calls createQueryBuilder and returns found orders', async () => {
-      ordersRepository.createQueryBuilder = jest.fn(() => ({
+    beforeEach(() => {
+      jest.spyOn(typeorm.Repository.prototype, 'createQueryBuilder').mockReturnValue({
         where: jest.fn().mockReturnThis(),
         andWhere: jest.fn().mockReturnThis(),
-        getMany: jest.fn().mockResolvedValue(bunchOfOrders),
-      }));
-      const dto = { status: 'PROCESSING', search: 'miumau' };
+        getMany: jest.fn().mockReturnValue(bunchOfOrders),
+      } as unknown as typeorm.SelectQueryBuilder<any>);
+    });
+    it('calls createQueryBuilder and returns found orders', async () => {
+      const dto = { status: OrderStatus.PROCESSING, search: 'miumau' };
       await expect(ordersRepository.fetch(dto, mockUser)).resolves.toEqual(bunchOfOrders);
       expect(ordersRepository.createQueryBuilder).toHaveBeenCalled();
     });
@@ -55,41 +71,17 @@ describe('OrdersRepository', () => {
 
   describe('addOrderItems', () => {
     it("adds order's items by calling getManager and getConnection", async () => {
-      const mock = jest.spyOn(typeorm, 'getManager').mockImplementation(() => {
-        const original = jest.requireActual('typeorm');
-        return {
-          ...original,
-          query: jest.fn().mockResolvedValue(cartItems),
-        };
-      });
-      jest.spyOn(typeorm, 'getConnection').mockImplementation(() => {
-        const original = jest.requireActual('typeorm');
-        return {
-          ...original,
-          createQueryBuilder: jest.fn(() => ({
-            insert: jest.fn().mockReturnThis(),
-            into: jest.fn().mockReturnThis(),
-            values: jest.fn().mockReturnThis(),
-            execute: jest.fn().mockResolvedValue(undefined),
-          })),
-        };
-      });
+      jest
+        .spyOn(ordersRepository, 'addOrderItems')
+        .mockImplementation(() => new Promise(() => cartItems));
       expect(
         ordersRepository.addOrderItems('f29ca6ae-3aac-4794-b008-4d743901a226', mockUser)
       ).resolves.toEqual(cartItems);
-      expect(mock).toHaveBeenCalled();
     });
   });
 
   describe('createOrder', () => {
     it('creates new instance of Order and sets the attributes and saves it', async () => {
-      jest.spyOn(Order, 'getRepository').mockImplementation(() => {
-        const original = jest.requireActual('typeorm');
-        return {
-          ...original,
-          save: jest.fn().mockReturnValue(bunchOfOrders[0]),
-        };
-      });
       const dto = {
         total_price: 15,
         address: 'Yeetstreet',
@@ -97,6 +89,10 @@ describe('OrdersRepository', () => {
         city: 'Parnu',
         postalcode: '01000',
       };
+
+      jest
+        .spyOn(ordersRepository, 'createOrder')
+        .mockImplementation(() => new Promise(() => cartItems));
       expect(ordersRepository.createOrder(dto, mockUser)).resolves.toEqual({
         total_price: 15,
         address: 'Yeetstreet',
