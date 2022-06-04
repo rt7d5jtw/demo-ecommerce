@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# This script is for running a deployment, where client side build lives 
+# in the ./client directory of local working directory from the api
+
 command -v docker >/dev/null 2>&1 || { echo >&2 "Docker is required for this script to run, but it's not installed. Aborting."; exit 1; }
 command -v jq >/dev/null 2>&1 || { echo >&2 "jq is required for this script to run, but it's not installed. Aborting."; exit 1; }
 command -v curl >/dev/null 2>&1 || { echo >&2 "curl is required for this script to run, but it's not installed. Aborting."; exit 1; }
@@ -71,6 +74,3 @@ if curl -I http://localhost:3000/; then
     fi
   fi
 fi
-
-
-
