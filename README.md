@@ -2,7 +2,7 @@
   <img src="https://i.imgur.com/SWs77TE.png" width="625" alt="front page" />
 </p>
 
-## Chocolatiste, <i>Ecommerce client with React and Redux.</i>
+## Chocolatiste, <i>Demo confectionery client with React and Redux.</i>
 
 <p>Client with simple user access control, profile- and admin dashboard, and checkout. Does not use additional UI libraries besides React. Users also have ability to change their passwords and emails through "/profile-dashboard" page. Application uses NestJS as the backend that persists state to postgresql. Authentication is done through NestJS that implements it through passport library using JWTs. Client has shopping cart implemented through redux. The client is mobile responsive.</p>
 
