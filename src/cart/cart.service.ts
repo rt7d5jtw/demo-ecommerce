@@ -55,7 +55,7 @@ export class CartService {
   }
 
   async fetchProductPrice(id: number): Promise<any> {
-    const price = await getRepository(Product).findOne(id);
+    const price = await getRepository(Product).findOne({ where: { id: id } });
     if (!price) {
       throw new NotFoundException(`Price with ID "${id}" not found`);
     }

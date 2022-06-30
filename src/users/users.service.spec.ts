@@ -83,7 +83,7 @@ describe('UsersService', () => {
         email: expect.any(String),
         password: expect.any(String),
       });
-      expect(userRepository.findOne).toHaveBeenCalledWith(mockUser.id);
+      expect(userRepository.findOne).toHaveBeenCalledWith({ where: { id: mockUser.id } });
     });
 
     it('throws an error as user is not found', () => {

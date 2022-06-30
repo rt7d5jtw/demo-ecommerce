@@ -10,29 +10,22 @@ services:
       - ./res/init.sql/:/docker-entrypoint-initdb.d/init.sql
     ports:
       - "5432:5432"
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=bookstore
-      - POSTGRES_PORT=5432
+    env_file:
+      - .env
     healthcheck:
       test: ["CMD", "pg_isready -U postgres"]
       interval: 30s
       timeout: 10s
       retries: 5
+
   # The application, includes the API and Client
   application:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    #user: '1000'
-    #image: chocoapp:1
+    image: chocoapp:1.0
+    #build:
+    #  context: .
+    #  dockerfile: Dockerfile
     env_file: .env
     command: npm run start:prod
     ports:
       - "3000:3000"
-    #depends_on:
-    #  postgres:
-    #    condition: service_healthy
-    #links:
-    #  - postgres
+      - "8080:8080"

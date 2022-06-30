@@ -22,7 +22,7 @@ export class PromotionsService {
 
   async update(id: number, promotionDto: PromotionDto): Promise<Promotion> {
     const { title, url, image } = promotionDto;
-    const promotion = await this.promotionRepository.findOne(id);
+    const promotion = await this.promotionRepository.findOne({ where: { id: id } });
     if (!promotion) {
       throw new NotFoundException(`Promotion with ID "${id}" not found`);
     }

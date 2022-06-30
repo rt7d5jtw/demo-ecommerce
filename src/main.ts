@@ -23,6 +23,8 @@ async function bootstrap() {
   await app.listen(port);
 
   logger.log(`Application listening on port ${port}`);
-  logger.log(`Application envs: DBPORT: ${process.env.DB_PORT}, DBHOST: ${process.env.DB_HOST}, DB USERNAME: ${process.env.DB_USERNAME} DB PASS: ${process.env.DB_PASSWORD}, DBSYNC: ${process.env.DB_SYNC}`);
+  logger.log(
+    `Application envs: DBPORT: ${process.env.DB_PORT}, DBHOST: ${process.env.DB_HOST}, DB USERNAME: ${process.env.DB_USERNAME} DB PASS: ${process.env.DB_PASSWORD}, DBSYNC: ${process.env.DB_SYNC}`
+  );
 }
 bootstrap();

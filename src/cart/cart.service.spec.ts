@@ -30,7 +30,7 @@ describe('CartService', () => {
   let cartRepository: any;
   let connection: any;
 
-  let mockConnection = () => ({
+  const mockConnection = () => ({
     transaction: jest.fn(),
     getRepository: jest.fn().mockReturnValue({
       findOne: jest.fn().mockResolvedValue(result),

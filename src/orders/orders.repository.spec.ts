@@ -30,7 +30,7 @@ describe('OrdersRepository', () => {
   let connection: any;
 
   /* mocked connection for the repository */
-  let mockConnection = () => ({
+  const mockConnection = () => ({
     transaction: jest.fn(),
     query: jest.fn(),
     manager: jest.fn().mockReturnValue({

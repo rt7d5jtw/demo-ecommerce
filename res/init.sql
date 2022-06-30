@@ -1,3 +1,5 @@
+-- Contains schema and mock data for Confectionary application
+
 --
 -- PostgreSQL database dump
 --

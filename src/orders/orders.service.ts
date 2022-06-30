@@ -102,7 +102,7 @@ export class OrdersService {
   }
 
   async update(updateOrderDto: UpdateOrderDto, id: string): Promise<Order> {
-    const order = await this.ordersRepository.findOne(id);
+    const order = await this.ordersRepository.findOne({ where: { id: id } });
     const { total_price, address, country, city, postalcode, status } = updateOrderDto;
     order.total_price = total_price ?? order.total_price;
     order.address = address ?? order.address;

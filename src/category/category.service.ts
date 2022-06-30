@@ -21,7 +21,7 @@ export class CategoryService {
 
   async update(id: string, createCategoryDto: CreateCategoryDto): Promise<Category> {
     const { cname } = createCategoryDto;
-    const category = await this.categoryRepository.findOne(id);
+    const category = await this.categoryRepository.findOne({ where: { id: id } });
     if (!category) {
       throw new NotFoundException(`No category found with "${id}"`);
     }

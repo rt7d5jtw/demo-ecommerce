@@ -87,9 +87,9 @@ describe('CategoryService', () => {
         id: 'a49ba957-a742-45de-8610-13ba3e0ba4a0',
         cname: 'test',
       });
-      expect(await categoryRepository.findOne).toHaveBeenCalledWith(
-        'a49ba957-a742-45de-8610-13ba3e0ba4a0'
-      );
+      expect(await categoryRepository.findOne).toHaveBeenCalledWith({
+        where: { id: 'a49ba957-a742-45de-8610-13ba3e0ba4a0' },
+      });
       expect(await categoryRepository.save).toHaveBeenCalled();
     });
   });

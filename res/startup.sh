@@ -22,6 +22,8 @@ fi
 # setup containers
 docker-compose up -d && echo "Starting up the environment..."
 
+sleep 5 # Wait a bit for the state to converge 
+
 # depends on postgres image being named postgres:14.1
 postgres_cid=$(docker ps -a | awk '$2=="postgres:14.1" { print $1 }')
 postgres_health=$(docker exec -t $postgres_cid pg_isready -U postgres)
