@@ -1,4 +1,3 @@
-import { EntityRepository, Repository } from 'typeorm';
 import { User, UserRole } from './user.entity';
 import { CreateUserDto, ChangePasswordDto, ChangeEmailDto } from './dto/user.dto';
 import { SearchUserDto } from './dto/search-user.dto';
@@ -9,9 +8,19 @@ import {
 } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { LoginDto } from '../auth/dto/auth.dto';
+import { AppDataSource } from '../config/typeorm.config';
 
-@EntityRepository(User)
-export class UserRepository extends Repository<User> {
+interface UserRepositoryExtended {
+  fetch: (arg0: SearchUserDto) => Promise<User[]>;
+  createUser: (arg0: CreateUserDto) => Promise<User>;
+  updateEmail: (arg0: User, email: string) => Promise<string>;
+  changePassword: (arg0: User, arg1: ChangePasswordDto) => Promise<string>;
+  hashPassword: (password: string, salt: string) => Promise<string>;
+  validateUserPassword: (arg0: LoginDto) => Promise<string>;
+  changeEmail: (arg0: User, arg1: ChangeEmailDto) => Promise<string>;
+}
+
+const UserRepository = AppDataSource.getRepository(User).extend({
   async fetch(searchUserDto: SearchUserDto): Promise<User[]> {
     const { role, search } = searchUserDto;
     const query = this.createQueryBuilder('user');
@@ -26,7 +35,7 @@ export class UserRepository extends Repository<User> {
 
     const users = await query.getMany();
     return users;
-  }
+  },
 
   async createUser(createUserDto: CreateUserDto): Promise<User> {
     const { password, email } = createUserDto;
@@ -48,14 +57,14 @@ export class UserRepository extends Repository<User> {
     }
 
     return user;
-  }
+  },
 
   async updateEmail(user: User, email: string): Promise<string> {
     user.email = email['email'];
     await user.save();
 
     return user.email;
-  }
+  },
 
   async changePassword(user: User, changePasswordDto: ChangePasswordDto): Promise<string> {
     const { currentPassword, newPassword } = changePasswordDto;
@@ -70,7 +79,7 @@ export class UserRepository extends Repository<User> {
       throw new UnauthorizedException(`Invalid credentials`);
     }
     return user.password;
-  }
+  },
 
   async changeEmail(user: User, changeEmailDto: ChangeEmailDto): Promise<string> {
     const { currentEmail, newEmail } = changeEmailDto;
@@ -82,7 +91,7 @@ export class UserRepository extends Repository<User> {
       throw new ConflictException('Wrong email provided');
     }
     return user.email;
-  }
+  },
 
   async validateUserPassword(loginDto: LoginDto): Promise<string> {
     const { email, password } = loginDto;
@@ -93,9 +102,11 @@ export class UserRepository extends Repository<User> {
     } else {
       return null;
     }
-  }
+  },
 
-  private async hashPassword(password: string, salt: string): Promise<string> {
+  async hashPassword(password: string, salt: string): Promise<string> {
     return bcrypt.hash(password, salt);
-  }
-}
+  },
+});
+
+export { UserRepository, UserRepositoryExtended };

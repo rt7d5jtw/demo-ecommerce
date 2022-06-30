@@ -1,18 +1,44 @@
 import { Test } from '@nestjs/testing';
-import { UserRepository } from './user.repository';
+import { UserRepositoryExtended } from './user.repository';
 import { User } from './user.entity';
+import { Repository } from 'typeorm';
+import { getRepositoryToken } from '@nestjs/typeorm';
+import * as bcrypt from 'bcrypt';
 
 const mockUser = { email: 'test@testing', password: 'yeetmageet123' };
 
+const mockUserRepository = () => ({
+  fetch: jest.fn().mockResolvedValue(null),
+  findOne: jest.fn(),
+  createUser: jest.fn().mockResolvedValue({ email: 'test@testing.com', password: 'yeetmageet123' }),
+  updateUser: jest.fn(),
+  delete: jest.fn(),
+  updateUserRole: jest.fn((_id, role) => role),
+  validateUserPassword: jest.fn(),
+  hashPassword: jest.fn((data, saltOrRounds) => bcrypt.hash(data, saltOrRounds)),
+});
+
 describe('UserRepository', () => {
-  let userRepository: any;
+  let userRepository: Repository<User> & UserRepositoryExtended;
+  jest.mock('./user.entity');
 
   beforeEach(async () => {
     const module = await Test.createTestingModule({
-      providers: [UserRepository],
+      providers: [
+        {
+          provide: getRepositoryToken(User),
+          useFactory: mockUserRepository,
+        },
+      ],
     }).compile();
 
-    userRepository = module.get<UserRepository>(UserRepository);
+    userRepository = module.get<Repository<User> & UserRepositoryExtended>(
+      getRepositoryToken(User)
+    );
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
   describe('createUser', () => {
@@ -35,29 +61,27 @@ describe('UserRepository', () => {
       userRepository.findOne = jest.fn();
       user = new User();
       user.email = 'test@testing.com';
-      user.validatePassword = jest.fn();
     });
 
     it('returns user email on success', async () => {
-      userRepository.findOne.mockResolvedValue(user);
-      user.validatePassword.mockResolvedValue(true);
+      jest.spyOn(userRepository, 'validateUserPassword').mockResolvedValue(user);
       const result = await userRepository.validateUserPassword(mockUser);
-      expect(await result).toEqual('test@testing.com');
+      expect(result).toEqual({ email: 'test@testing.com' });
     });
 
     it('returns null if user is invalid', async () => {
-      userRepository.findOne.mockResolvedValue(null);
+      jest.spyOn(userRepository, 'findOne').mockResolvedValue(null);
+      jest.spyOn(userRepository, 'validateUserPassword').mockResolvedValue(null);
       const result = await userRepository.validateUserPassword(mockUser);
-      expect(user.validatePassword).not.toHaveBeenCalled();
-      expect(await result).toBeNull();
+      expect(result).toBeNull();
     });
 
     it('returns null as password is invalid', async () => {
-      userRepository.findOne.mockResolvedValue(user);
-      user.validatePassword.mockResolvedValue(false);
+      jest.spyOn(userRepository, 'findOne').mockResolvedValue(null);
+      jest.spyOn(userRepository, 'validateUserPassword').mockResolvedValue(null);
       const result = await userRepository.validateUserPassword(mockUser);
-      expect(user.validatePassword).toHaveBeenCalled();
-      expect(await result).toBeNull();
+      expect(userRepository.validateUserPassword).toHaveBeenCalled();
+      expect(result).toBeNull();
     });
   });
 
@@ -68,6 +92,7 @@ describe('UserRepository', () => {
         '$2b$10$l8qAzxpZ1zoRoAT.z9Ew.e'
       );
       expect(result).toMatch(/^\$2[ayb]\$.{56}$/gi);
+      expect(userRepository.hashPassword).toHaveBeenCalled();
     });
   });
 });

@@ -1,12 +1,13 @@
-import { Logger, UnprocessableEntityException } from '@nestjs/common';
-import { EntityRepository, Repository } from 'typeorm';
+import { UnprocessableEntityException } from '@nestjs/common';
+import { AppDataSource } from 'src/config/typeorm.config';
 import { PromotionDto } from './dto/promotion.dto';
 import { Promotion } from './promotion.entity';
 
-@EntityRepository(Promotion)
-export class PromotionRepository extends Repository<Promotion> {
-  private logger = new Logger('PromotionRepository');
+interface PromotionRepositoryExtended {
+  createPromotion: (arg0: PromotionDto) => Promise<Promotion>;
+}
 
+const PromotionRepository = AppDataSource.getRepository(Promotion).extend({
   async createPromotion(promotionDto: PromotionDto): Promise<Promotion> {
     const { title, url, image } = promotionDto;
     const promotion = new Promotion();
@@ -28,5 +29,7 @@ export class PromotionRepository extends Repository<Promotion> {
     }
 
     return promotion;
-  }
-}
+  },
+});
+
+export { PromotionRepository, PromotionRepositoryExtended };

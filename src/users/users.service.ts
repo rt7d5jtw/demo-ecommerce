@@ -2,15 +2,16 @@ import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { User, UserRole } from './user.entity';
 import { ChangePasswordDto, ChangeEmailDto, CreateUserDto } from './dto/user.dto';
 import { SearchUserDto } from './dto/search-user.dto';
-import { InjectRepository } from '@nestjs/typeorm';
-import { UserRepository } from './user.repository';
+import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
+import { UserRepository, UserRepositoryExtended } from './user.repository';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class UsersService {
   private logger = new Logger('UsersService');
   constructor(
-    @InjectRepository(UserRepository)
-    private userRepository: UserRepository
+    @InjectRepository(User)
+    private userRepository: Repository<User> & UserRepositoryExtended
   ) {}
 
   fetch(searchUserDto: SearchUserDto): Promise<User[]> {

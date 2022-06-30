@@ -1,8 +1,10 @@
 import { Test } from '@nestjs/testing';
 import { UsersService } from './users.service';
-import { UserRepository } from './user.repository';
+import { UserRepositoryExtended } from './user.repository';
 import { User } from './user.entity';
 import { NotFoundException } from '@nestjs/common';
+import { Repository } from 'typeorm';
+import { getRepositoryToken } from '@nestjs/typeorm';
 
 const bunchOfUsers = [
   {
@@ -20,9 +22,9 @@ const bunchOfUsers = [
 ];
 
 const mockUserRepository = () => ({
-  fetch: jest.fn(),
+  fetch: jest.fn().mockResolvedValue(bunchOfUsers),
   findOne: jest.fn(),
-  createUser: jest.fn(),
+  createUser: jest.fn().mockResolvedValue({ email: 'test@testing.com', password: 'yeetmageet123' }),
   updateUser: jest.fn(),
   delete: jest.fn(),
   updateUserRole: jest.fn((_id, role) => role),
@@ -31,17 +33,25 @@ const mockUserRepository = () => ({
 
 describe('UsersService', () => {
   let usersService: UsersService;
-  let userRepository: any;
+  let userRepository: Repository<User> & UserRepositoryExtended;
 
   jest.mock('./user.entity');
 
   beforeEach(async () => {
     const module = await Test.createTestingModule({
-      providers: [UsersService, { provide: UserRepository, useFactory: mockUserRepository }],
+      providers: [
+        UsersService,
+        {
+          provide: getRepositoryToken(User),
+          useFactory: mockUserRepository,
+        },
+      ],
     }).compile();
 
     usersService = module.get<UsersService>(UsersService);
-    userRepository = module.get<UserRepository>(UserRepository);
+    userRepository = module.get<Repository<User> & UserRepositoryExtended>(
+      getRepositoryToken(User)
+    );
   });
 
   afterEach(() => {
@@ -55,7 +65,7 @@ describe('UsersService', () => {
 
   describe('fetch', () => {
     it('calls fetch in userRepository', async () => {
-      userRepository.fetch.mockResolvedValue(bunchOfUsers);
+      //userRepository.fetch.mockResolvedValue(bunchOfUsers);
       const result = await usersService.fetch(null);
       expect(result).toEqual([
         {
@@ -76,7 +86,8 @@ describe('UsersService', () => {
 
   describe('fetchById', () => {
     it('calls userRepository.findOne() and returns a user', async () => {
-      userRepository.findOne.mockResolvedValue(mockUser);
+      jest.spyOn(userRepository, 'findOne').mockResolvedValue(mockUser);
+      //userRepository.findOne.mockResolvedValue(mockUser);
       const result = await usersService.fetchById('872f17ee-45a2-409b-b74a-eea6753f38fb');
       expect(result).toEqual({
         id: expect.any(String),
@@ -87,7 +98,8 @@ describe('UsersService', () => {
     });
 
     it('throws an error as user is not found', () => {
-      userRepository.findOne.mockResolvedValue(null);
+      jest.spyOn(userRepository, 'findOne').mockResolvedValue(null);
+      //userRepository.findOne.mockResolvedValue(null);
       expect(usersService.fetchById(mockUser.id)).rejects.toThrow(NotFoundException);
     });
   });
@@ -102,14 +114,16 @@ describe('UsersService', () => {
 
   describe('remove', () => {
     it('calls userRepository.delete() to delete a user and returns void', async () => {
-      userRepository.delete.mockResolvedValue({ affected: 1 });
+      jest.spyOn(userRepository, 'delete').mockResolvedValue({ affected: 1, raw: '' });
+      //userRepository.delete.mockResolvedValue({ affected: 1 });
       expect(userRepository.delete).not.toHaveBeenCalled();
       await usersService.remove(mockUser.id);
       expect(userRepository.delete).toHaveBeenCalledWith(mockUser.id);
     });
 
     it('throws an error as user with that id could not be found', () => {
-      userRepository.delete.mockResolvedValue({ affected: 0 });
+      jest.spyOn(userRepository, 'delete').mockResolvedValue({ affected: 0, raw: '' });
+      //userRepository.delete.mockResolvedValue({ affected: 0 });
       expect(usersService.remove(mockUser.id)).rejects.toThrow(NotFoundException);
     });
   });
