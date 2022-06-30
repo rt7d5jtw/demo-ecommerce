@@ -4,7 +4,7 @@ jobs:
   build:
     # docker dependency
     docker:
-      - image: node:16-alpine
+      - image: node:16.15.1-alpine3.15
     # the actual build
     npm-deploy:
       steps:
