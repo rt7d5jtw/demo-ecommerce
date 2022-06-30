@@ -16,7 +16,8 @@
     "types": "tsc --noEmit",
     "cypress:open": "cypress open",
     "analyze": "webpack --json > stats.json",
-    "clean": "rm -r dist/*"
+    "clean": "rm -r dist/*",
+    "cleanall": "rm -rf dist node_modules"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.5.1",
@@ -50,7 +51,6 @@
     "@types/jsdom": "^16.2.12",
     "@types/react": "^17.0.5",
     "@types/react-dom": "^17.0.3",
-    "@types/react-icons": "^3.0.0",
     "@types/react-redux": "^7.1.16",
     "@types/react-router-dom": "^5.1.7",
     "@types/redux-logger": "^3.0.8",

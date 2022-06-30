@@ -2,7 +2,7 @@
   <img src="https://i.imgur.com/SWs77TE.png" width="625" alt="front page" />
 </p>
 
-## Chocolatiste -- ecommerce client with React and Redux
+## Confectionary app -- ecommerce client with React and Redux
 
 To build the client for production:
 ```console
