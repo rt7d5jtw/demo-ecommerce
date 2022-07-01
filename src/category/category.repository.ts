@@ -1,6 +1,6 @@
 import { Category } from './category.entity';
 import { CreateCategoryDto, SearchCategoryDto } from './dto/category.dto';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { NotFoundException } from '@nestjs/common';
 import { AppDataSource } from '../config/typeorm.config';
 import { Repository } from 'typeorm';
 

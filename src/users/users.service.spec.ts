@@ -65,7 +65,6 @@ describe('UsersService', () => {
 
   describe('fetch', () => {
     it('calls fetch in userRepository', async () => {
-      //userRepository.fetch.mockResolvedValue(bunchOfUsers);
       const result = await usersService.fetch(null);
       expect(result).toEqual([
         {
@@ -87,7 +86,6 @@ describe('UsersService', () => {
   describe('fetchById', () => {
     it('calls userRepository.findOne() and returns a user', async () => {
       jest.spyOn(userRepository, 'findOne').mockResolvedValue(mockUser);
-      //userRepository.findOne.mockResolvedValue(mockUser);
       const result = await usersService.fetchById('872f17ee-45a2-409b-b74a-eea6753f38fb');
       expect(result).toEqual({
         id: expect.any(String),
@@ -99,7 +97,6 @@ describe('UsersService', () => {
 
     it('throws an error as user is not found', () => {
       jest.spyOn(userRepository, 'findOne').mockResolvedValue(null);
-      //userRepository.findOne.mockResolvedValue(null);
       expect(usersService.fetchById(mockUser.id)).rejects.toThrow(NotFoundException);
     });
   });
@@ -115,7 +112,6 @@ describe('UsersService', () => {
   describe('remove', () => {
     it('calls userRepository.delete() to delete a user and returns void', async () => {
       jest.spyOn(userRepository, 'delete').mockResolvedValue({ affected: 1, raw: '' });
-      //userRepository.delete.mockResolvedValue({ affected: 1 });
       expect(userRepository.delete).not.toHaveBeenCalled();
       await usersService.remove(mockUser.id);
       expect(userRepository.delete).toHaveBeenCalledWith(mockUser.id);
@@ -123,7 +119,6 @@ describe('UsersService', () => {
 
     it('throws an error as user with that id could not be found', () => {
       jest.spyOn(userRepository, 'delete').mockResolvedValue({ affected: 0, raw: '' });
-      //userRepository.delete.mockResolvedValue({ affected: 0 });
       expect(usersService.remove(mockUser.id)).rejects.toThrow(NotFoundException);
     });
   });

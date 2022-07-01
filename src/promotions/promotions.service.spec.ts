@@ -1,7 +1,10 @@
 import { Test } from '@nestjs/testing';
-import { PromotionRepository } from './promotions.repository';
+import { PromotionRepositoryExtended } from './promotions.repository';
 import { PromotionsService } from './promotions.service';
 import { bunchOfPromotions } from './promotions.controller.spec';
+import { Repository } from 'typeorm';
+import { Promotion } from './promotion.entity';
+import { getRepositoryToken } from '@nestjs/typeorm';
 
 const mockPromotionsRepository = () => ({
   find: jest.fn(() => Promise.resolve(bunchOfPromotions)),
@@ -27,18 +30,20 @@ const mockPromotionsRepository = () => ({
 
 describe('PromotionsService', () => {
   let promotionService: PromotionsService;
-  let promotionRepository: any;
+  let promotionRepository: Repository<Promotion> & PromotionRepositoryExtended;
 
   beforeEach(async () => {
     const module = await Test.createTestingModule({
       providers: [
         PromotionsService,
-        { provide: PromotionRepository, useFactory: mockPromotionsRepository },
+        { provide: getRepositoryToken(Promotion), useFactory: mockPromotionsRepository },
       ],
     }).compile();
 
     promotionService = module.get<PromotionsService>(PromotionsService);
-    promotionRepository = module.get<PromotionRepository>(PromotionRepository);
+    promotionRepository = module.get<Repository<Promotion> & PromotionRepositoryExtended>(
+      getRepositoryToken(Promotion)
+    );
   });
 
   jest.mock('fs');
@@ -70,7 +75,7 @@ describe('PromotionsService', () => {
           image: expect.any(String),
         },
       ]);
-      expect(await promotionRepository.find).toHaveBeenCalled();
+      expect(promotionRepository.find).toHaveBeenCalled();
     });
   });
   const dto = { title: 'test', url: '/testing', image: './images/hazelnut' };
@@ -82,7 +87,7 @@ describe('PromotionsService', () => {
         url: expect.any(String),
         image: expect.any(String),
       });
-      expect(await promotionRepository.createPromotion).toHaveBeenCalledWith(dto);
+      expect(promotionRepository.createPromotion).toHaveBeenCalledWith(dto);
     });
   });
 
@@ -101,7 +106,7 @@ describe('PromotionsService', () => {
 
   describe('remove', () => {
     it('calls findOne and delete to remove the user', async () => {
-      promotionRepository.delete.mockResolvedValue({ affected: 1 });
+      jest.spyOn(promotionRepository, 'delete').mockResolvedValue({ affected: 1, raw: '' });
       expect(await promotionService.remove(17)).toBeUndefined();
     });
   });

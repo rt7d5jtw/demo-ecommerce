@@ -5,20 +5,20 @@ import { CreateProductDto, UpdateProductDto } from './dto/product.dto';
 import { SearchProductDto } from './dto/search-product.dto';
 import { ProductRepository } from './product.repository';
 import { Logger } from '@nestjs/common';
-import { getRepository } from 'typeorm';
+import { getRepository, Repository } from 'typeorm';
 import { Category } from '../category/category.entity';
 
 @Injectable()
 export class ProductService {
   private logger = new Logger('ProductController');
   constructor(
-    @InjectRepository(ProductRepository)
-    private productRepository: ProductRepository
+    @InjectRepository(Product)
+    private productRepository: Repository<Product>
   ) {}
 
   async fetch(searchProductDto: SearchProductDto): Promise<Product[]> {
     this.logger.verbose(`Retrieving all products`);
-    return this.productRepository.fetch(searchProductDto);
+    return ProductRepository.fetch(searchProductDto);
   }
 
   async fetchById(id: number): Promise<Product> {
@@ -34,46 +34,11 @@ export class ProductService {
 
   create(createProductDto: CreateProductDto): Promise<Product> {
     this.logger.verbose(`Creating a new product`);
-    return this.productRepository.createProduct(createProductDto);
+    return ProductRepository.createProduct(createProductDto);
   }
 
   async update(id: number, updateProductDto: UpdateProductDto): Promise<Product> {
-    const { title, image, price, description, status, categoryIds } = updateProductDto;
-    const product = await this.fetchById(id);
-
-    if (
-      updateProductDto &&
-      Object.keys(updateProductDto).length === 0 &&
-      updateProductDto.constructor === Object
-    ) {
-      throw new BadRequestException('Make sure correct inputs are provided');
-    }
-
-    let categories: any;
-    let ids = null;
-    if (categoryIds && categoryIds.length !== 0 && Array.isArray(categoryIds)) {
-      ids = categoryIds.map(({ id }) => id);
-      categories = await getRepository(Category)
-        .createQueryBuilder('category')
-        .where('category.id IN (:...ids)', {
-          ids: ids,
-        })
-        .getMany();
-    }
-
-    product.title = title;
-    product.image = image;
-    product.price = price;
-    product.description = description;
-    product.status = status;
-    product.categories = categories;
-
-    try {
-      await this.productRepository.save(product);
-    } catch (err) {
-      throw new Error('Failed to update the product');
-    }
-    return product;
+    return ProductRepository.updateProduct(id, updateProductDto);
   }
 
   async remove(id: number): Promise<void> {

@@ -1,14 +1,31 @@
 import { Test } from '@nestjs/testing';
-import { PromotionRepository } from './promotions.repository';
+import { getRepositoryToken } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Promotion } from './promotion.entity';
+import { PromotionRepositoryExtended } from './promotions.repository';
+
+const mockPromotionRepository = () => ({
+  findOne: jest.fn(),
+  delete: jest.fn(),
+  createPromotion: jest.fn(),
+});
 
 describe('PromotionRepository', () => {
-  let promotionRepository: any;
+  let promotionRepository: Repository<Promotion> & PromotionRepositoryExtended;
 
   beforeEach(async () => {
     const module = await Test.createTestingModule({
-      providers: [PromotionRepository],
+      providers: [
+        {
+          provide: getRepositoryToken(Promotion),
+          useFactory: mockPromotionRepository,
+        },
+      ],
     }).compile();
-    promotionRepository = module.get<PromotionRepository>(PromotionRepository);
+
+    promotionRepository = module.get<Repository<Promotion> & PromotionRepositoryExtended>(
+      getRepositoryToken(Promotion)
+    );
   });
 
   describe('createPromotion', () => {

@@ -17,12 +17,10 @@ import { CartItem } from './cart-item.entity';
 import { Cart } from './cart.entity';
 import { GetUser } from '../users/get_user.decorator';
 import { User } from '../users/user.entity';
-import { Logger } from '@nestjs/common';
 
 @Controller('cart')
 @UseGuards(AuthGuard('jwt'))
 export class CartController {
-  private logger = new Logger('CartController');
   constructor(private cartService: CartService) {}
 
   /* get cart of the user*/

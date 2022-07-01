@@ -1,4 +1,4 @@
-export function generateInvoiceInformation(doc, invoice) {
+function generateInvoiceInformation(doc, invoice) {
   /* Header */
 
   doc.image('./images/logo.png', 200, 45, { width: 200 });
@@ -35,7 +35,7 @@ export function generateInvoiceInformation(doc, invoice) {
   generateHr(doc, 252);
 }
 
-export function generateInvoiceTable(doc, invoice) {
+function generateInvoiceTable(doc, invoice) {
   let i;
   const invoiceTableHeight = 330;
 
@@ -126,3 +126,5 @@ function formatDate(date) {
 
   return year + '/' + month + '/' + day;
 }
+
+export { generateInvoiceTable, generateInvoiceInformation };

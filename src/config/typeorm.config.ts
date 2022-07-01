@@ -1,12 +1,12 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
-import { CartItem } from 'src/cart/cart-item.entity';
-import { Cart } from 'src/cart/cart.entity';
-import { Category } from 'src/category/category.entity';
-import { OrderItem } from 'src/orders/order-item.entity';
-import { Order } from 'src/orders/order.entity';
-import { Product } from 'src/product/product.entity';
-import { Promotion } from 'src/promotions/promotion.entity';
-import { User } from 'src/users/user.entity';
+import { CartItem } from '../cart/cart-item.entity';
+import { Cart } from '../cart/cart.entity';
+import { Category } from '../category/category.entity';
+import { OrderItem } from '../orders/order-item.entity';
+import { Order } from '../orders/order.entity';
+import { Product } from '../product/product.entity';
+import { Promotion } from '../promotions/promotion.entity';
+import { User } from '../users/user.entity';
 import { DataSource } from 'typeorm';
 
 function parseBool(str: string): boolean {

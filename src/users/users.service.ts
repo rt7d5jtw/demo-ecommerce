@@ -2,7 +2,7 @@ import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { User, UserRole } from './user.entity';
 import { ChangePasswordDto, ChangeEmailDto, CreateUserDto } from './dto/user.dto';
 import { SearchUserDto } from './dto/search-user.dto';
-import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 import { UserRepository, UserRepositoryExtended } from './user.repository';
 import { Repository } from 'typeorm';
 
@@ -15,7 +15,7 @@ export class UsersService {
   ) {}
 
   fetch(searchUserDto: SearchUserDto): Promise<User[]> {
-    return this.userRepository.fetch(searchUserDto);
+    return UserRepository.fetch(searchUserDto);
   }
 
   async fetchById(id: string): Promise<User> {
@@ -31,15 +31,15 @@ export class UsersService {
   }
 
   createUser(createUserDto: CreateUserDto): Promise<User> {
-    return this.userRepository.createUser(createUserDto);
+    return UserRepository.createUser(createUserDto);
   }
 
   async changePassword(user: User, changePasswordDto: ChangePasswordDto): Promise<string> {
-    return this.userRepository.changePassword(user, changePasswordDto);
+    return UserRepository.changePassword(user, changePasswordDto);
   }
 
   async changeEmail(user: User, changeEmailDto: ChangeEmailDto): Promise<string> {
-    return this.userRepository.changeEmail(user, changeEmailDto);
+    return UserRepository.changeEmail(user, changeEmailDto);
   }
 
   async updateUserRole(id: string, role: UserRole): Promise<UserRole> {

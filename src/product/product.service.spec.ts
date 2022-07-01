@@ -1,9 +1,10 @@
 import { NotFoundException } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { productArr } from './product.controller.spec';
-import { ProductRepository } from './product.repository';
 import { ProductService } from './product.service';
 import { Product } from './product.entity';
+import { Repository } from 'typeorm';
+import { getRepositoryToken } from '@nestjs/typeorm';
 
 const mockProductRepository = () => ({
   fetch: jest.fn().mockResolvedValue(productArr),
@@ -84,12 +85,15 @@ describe('ProductService', () => {
     const module = await Test.createTestingModule({
       providers: [
         ProductService,
-        { provide: ProductRepository, useFactory: mockProductRepository },
+        {
+          provide: getRepositoryToken(Product),
+          useFactory: mockProductRepository,
+        },
       ],
     }).compile();
 
     productService = module.get<ProductService>(ProductService);
-    productRepository = module.get<ProductRepository>(ProductRepository);
+    productRepository = module.get<Repository<Product>>(getRepositoryToken(Product));
   });
 
   afterEach(() => {

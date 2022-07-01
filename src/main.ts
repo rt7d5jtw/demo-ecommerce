@@ -13,7 +13,7 @@ async function bootstrap() {
   const config = new DocumentBuilder()
     .setTitle('Confectionary API')
     .setDescription('Discover the API for Confectionary client')
-    .setVersion('1.1')
+    .setVersion('1.2')
     .addTag('chocolates')
     .build();
   const document = SwaggerModule.createDocument(app, config);

@@ -6,21 +6,20 @@ import { Order } from './order.entity';
 import { User } from '../users/user.entity';
 import { OrdersRepository } from './orders.repository';
 import { OrderItem } from './order-item.entity';
-import { getRepository } from 'typeorm';
-import { PaymentDto } from './dto/payment.dto';
+import { Repository } from 'typeorm';
 import { Readable } from 'stream';
+import { PaymentDto } from './dto/payment.dto';
 import Stripe from 'stripe';
-import { Product } from '../product/product.entity';
 
 @Injectable()
 export class OrdersService {
   constructor(
-    @InjectRepository(OrdersRepository)
-    private ordersRepository: OrdersRepository
+    @InjectRepository(Order)
+    private ordersRepository: Repository<Order>
   ) {}
 
   async fetch(searchOrdersDto: SearchOrdersDto, user: User): Promise<Order[]> {
-    return this.ordersRepository.fetch(searchOrdersDto, user);
+    return OrdersRepository.fetch(searchOrdersDto, user);
   }
 
   async fetchById(id: string, user: User): Promise<Order> {
@@ -35,61 +34,12 @@ export class OrdersService {
     return this.ordersRepository.query('SELECT * FROM public.orders');
   }
 
-  async fetchOrderItems(id: string): Promise<OrderItem[]> {
-    const orderItems = await getRepository(OrderItem)
-      .createQueryBuilder('orderItem')
-      .innerJoin(Product, 'product', 'product.id = orderItem.productId')
-      .select([
-        'product.id',
-        'orderItem.orderId',
-        'orderItem.quantity',
-        'orderItem.price',
-        'product.title',
-        'product.image',
-      ])
-      .where('orderItem.orderId = :orderId', { orderId: id })
-      .getRawMany();
-
-    /* formats the array key names */
-    for (let i = 0; i < orderItems.length; i++) {
-      for (const key in orderItems[i]) {
-        RegExp('(orderItem_)').test(key)
-          ? delete Object.assign(orderItems[i], {
-              [`${key.replace(/orderItem_/, '')}`]: orderItems[i][key],
-            })[key]
-          : key === 'product_id'
-          ? ((orderItems[i]['productId'] = orderItems[i][key]), delete orderItems[i][key])
-          : RegExp('(product_)(?!id)').test(key)
-          ? delete Object.assign(orderItems[i], {
-              [`${key.replace(/product_/, '')}`]: orderItems[i][key],
-            })[key]
-          : null;
-      }
-    }
-    return orderItems;
-  }
-
-  async addPaymentIntent(paymentDto: PaymentDto): Promise<Stripe.PaymentIntent> {
-    const stripe = new Stripe(process.env.STRIPE_SECRET, { apiVersion: '2020-08-27' });
-    const { amount, currency, payment_method_types, metadata } = paymentDto;
-    const params: Stripe.PaymentIntentCreateParams = {
-      // Stripe's API assumes amount in smallest currency unit
-      // 100 is 1$
-      amount: amount * 100,
-      currency,
-      payment_method_types: [payment_method_types],
-      metadata,
-    };
-    const paymentIntent: Stripe.PaymentIntent = await stripe.paymentIntents.create(params);
-    return paymentIntent;
-  }
-
   async createInvoice(user: User, order: Order): Promise<Buffer> {
-    return this.ordersRepository.createInvoice(user, order);
+    return OrdersRepository.createInvoice(user, order);
   }
 
   async create(createOrderDto: CreateOrderDto, user: User): Promise<Order> {
-    return this.ordersRepository.createOrder(createOrderDto, user);
+    return OrdersRepository.createOrder(createOrderDto, user);
   }
 
   async getReadableStream(buffer: Buffer): Promise<Readable> {
@@ -119,19 +69,19 @@ export class OrdersService {
     return order;
   }
 
-  async removeOrder(id: string): Promise<void> {
-    const order = await this.ordersRepository.findOne({
-      where: { id: id },
-    });
-    getRepository(OrderItem).delete({ orderId: order.id });
+  async addPaymentIntent(paymentDto: PaymentDto): Promise<Stripe.PaymentIntent> {
+    return OrdersRepository.addPaymentIntent(paymentDto);
+  }
 
-    const result = await this.ordersRepository.delete(id);
-    if (result.affected === 0) {
-      throw new NotFoundException(`Order with ID "${id}" not found`);
-    }
+  async removeOrder(id: string): Promise<void> {
+    return OrdersRepository.removeOrder(id);
+  }
+
+  async fetchOrderItems(id: string): Promise<OrderItem[]> {
+    return OrdersRepository.fetchOrderItems(id);
   }
 
   async addOrderItems(id: string, user: User): Promise<OrderItem[]> {
-    return this.ordersRepository.addOrderItems(id, user);
+    return OrdersRepository.addOrderItems(id, user);
   }
 }

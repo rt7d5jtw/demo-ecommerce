@@ -1,6 +1,6 @@
 import { JwtStrategy } from './jwt-strategy';
 import { Test } from '@nestjs/testing';
-import { UserRepository, UserRepositoryExtended } from '../users/user.repository';
+import { UserRepositoryExtended } from '../users/user.repository';
 import { User } from '../users/user.entity';
 import { UnauthorizedException } from '@nestjs/common';
 import { Repository } from 'typeorm';

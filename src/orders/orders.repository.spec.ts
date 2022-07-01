@@ -2,9 +2,10 @@ import { Test } from '@nestjs/testing';
 import { User } from '../users/user.entity';
 import { Order, OrderStatus } from './order.entity';
 import { bunchOfOrders } from './orders.controller.spec';
-import { OrdersRepository } from './orders.repository';
+import { OrdersRepositoryExtended } from './orders.repository';
 import * as typeorm from 'typeorm';
-import { stub } from 'sinon';
+import { Repository } from 'typeorm';
+import { getRepositoryToken } from '@nestjs/typeorm';
 
 const cartItems = [
   {
@@ -26,8 +27,7 @@ const cartItems = [
 ];
 
 describe('OrdersRepository', () => {
-  let ordersRepository: OrdersRepository;
-  let connection: any;
+  let ordersRepository: Repository<Order> & OrdersRepositoryExtended;
 
   /* mocked connection for the repository */
   const mockConnection = () => ({
@@ -41,12 +41,19 @@ describe('OrdersRepository', () => {
   beforeEach(async () => {
     const module = await Test.createTestingModule({
       /* injects the fake connection to typeorm.Connection */
-      providers: [OrdersRepository, { provide: typeorm.Connection, useFactory: mockConnection }],
+      providers: [
+        {
+          provide: getRepositoryToken(Order),
+          useFactory: mockConnection,
+        },
+      ],
     }).compile();
 
-    ordersRepository = module.get<OrdersRepository>(OrdersRepository);
-    connection = module.get<typeorm.Connection>(typeorm.Connection);
+    ordersRepository = module.get<Repository<Order> & OrdersRepositoryExtended>(
+      getRepositoryToken(Order)
+    );
   });
+
   jest.mock('../users/user.entity');
 
   const mockUser = new User();

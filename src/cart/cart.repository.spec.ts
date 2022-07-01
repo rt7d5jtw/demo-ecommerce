@@ -1,18 +1,32 @@
 import { Test } from '@nestjs/testing';
+import { getRepositoryToken } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { User } from '../users/user.entity';
-import { CartRepository } from './cart.repository';
+import { Cart } from './cart.entity';
+import { CartRepositoryExtended } from './cart.repository';
+
+const mockCartRepository = () => ({
+  createCart: jest.fn(),
+});
 
 describe('CartRepository', () => {
-  let cartRepository: any;
+  let cartRepository: Repository<Cart> & CartRepositoryExtended;
 
   jest.mock('../users/user.entity');
 
   beforeEach(async () => {
     const module = await Test.createTestingModule({
-      providers: [CartRepository],
+      providers: [
+        {
+          provide: getRepositoryToken(Cart),
+          useFactory: mockCartRepository,
+        },
+      ],
     }).compile();
 
-    cartRepository = module.get<CartRepository>(CartRepository);
+    cartRepository = module.get<Repository<Cart> & CartRepositoryExtended>(
+      getRepositoryToken(Cart)
+    );
   });
 
   const mockUser = new User();
@@ -27,7 +41,7 @@ describe('CartRepository', () => {
         id: '28497f7d-6caa-4f99-af62-c62e9cd2ac93',
         CreatedAt: '2021-07-14',
       };
-      jest.spyOn(cartRepository, 'createCart').mockImplementation(() => cart);
+      jest.spyOn(cartRepository, 'createCart').mockResolvedValue(cart as unknown as Cart);
       expect(await cartRepository.createCart(mockUser)).toEqual({
         userId: mockUser.id,
         id: expect.any(String),

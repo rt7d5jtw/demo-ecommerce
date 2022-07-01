@@ -15,8 +15,8 @@ export const bunchOfOrders = [
     country: 'Norway',
     city: 'Testing',
     postalcode: '02210',
-    status: 'PROCESSING',
-    date: '2021-07-07',
+    status: OrderStatus.PROCESSING,
+    date: new Date('2021-07-07'),
   },
   {
     id: 'e9989eb9-c0ec-46e5-8b81-13ecffca7c0b',
@@ -26,7 +26,7 @@ export const bunchOfOrders = [
     country: 'Finland',
     city: 'Testing',
     postalcode: '02210',
-    status: 'PROCESSING',
+    status: OrderStatus.PROCESSING,
     date: '2021-07-08',
   },
   {
@@ -37,7 +37,7 @@ export const bunchOfOrders = [
     country: 'Bulgaria',
     city: 'Testing',
     postalcode: '02210',
-    status: 'PROCESSING',
+    status: OrderStatus.PROCESSING,
     date: '2021-07-08',
   },
 ];
@@ -89,7 +89,12 @@ describe('OrdersController', () => {
   beforeEach(async () => {
     const module = await Test.createTestingModule({
       controllers: [OrdersController],
-      providers: [{ provide: OrdersService, useFactory: mockOrdersService }],
+      providers: [
+        {
+          provide: OrdersService,
+          useFactory: mockOrdersService,
+        },
+      ],
     }).compile();
 
     ordersController = module.get<OrdersController>(OrdersController);

@@ -3,14 +3,15 @@ import { MockType } from '../category/category.service.spec';
 import { OrdersService } from './orders.service';
 import { User } from '../users/user.entity';
 import { bunchOfOrders } from './orders.controller.spec';
-import { OrdersRepository } from './orders.repository';
-import { OrderStatus } from './order.entity';
+import { OrdersRepositoryExtended } from './orders.repository';
+import { Order, OrderStatus } from './order.entity';
 import { v4 as uuid } from 'uuid';
 import * as typeorm from 'typeorm';
 import { createStubInstance, createSandbox } from 'sinon';
 import { Repository } from 'typeorm';
+import { getRepositoryToken } from '@nestjs/typeorm';
 
-const mockOrdersRepository: () => MockType<OrdersRepository> = jest.fn(() => ({
+const mockOrdersRepository: () => MockType<Repository<Order>> = jest.fn(() => ({
   fetch: jest.fn(),
   findOne: jest.fn(),
   find: jest.fn(),
@@ -37,15 +38,23 @@ const mockOrdersRepository: () => MockType<OrdersRepository> = jest.fn(() => ({
 
 describe('OrdersService', () => {
   let ordersService: OrdersService;
-  let ordersRepository: any;
+  let ordersRepository: Repository<Order> & OrdersRepositoryExtended;
 
   beforeEach(async () => {
     const module = await Test.createTestingModule({
-      providers: [OrdersService, { provide: OrdersRepository, useFactory: mockOrdersRepository }],
+      providers: [
+        OrdersService,
+        {
+          provide: getRepositoryToken(Order),
+          useFactory: mockOrdersRepository,
+        },
+      ],
     }).compile();
 
     ordersService = module.get<OrdersService>(OrdersService);
-    ordersRepository = module.get<OrdersRepository>(OrdersRepository);
+    ordersRepository = module.get<Repository<Order> & OrdersRepositoryExtended>(
+      getRepositoryToken(Order)
+    );
   });
 
   afterEach(() => {
@@ -59,7 +68,7 @@ describe('OrdersService', () => {
 
   describe('fetch', () => {
     it("fetches all user's orders by calling ordersRepository.fetch", async () => {
-      ordersRepository.fetch.mockResolvedValue(bunchOfOrders);
+      jest.spyOn(ordersRepository, 'fetch').mockResolvedValue(bunchOfOrders as Order[]);
       expect(await ordersService.fetch(null, mockUser)).toEqual([
         {
           id: expect.any(String),
@@ -95,7 +104,7 @@ describe('OrdersService', () => {
           date: expect.any(String),
         },
       ]);
-      expect(await ordersRepository.fetch).toHaveBeenCalledWith(null, mockUser);
+      expect(ordersRepository.fetch).toHaveBeenCalledWith(null, mockUser);
     });
   });
 
@@ -103,7 +112,7 @@ describe('OrdersService', () => {
     it('returns the user by calling ordersRepository.findOne', async () => {
       const mockOrder = bunchOfOrders[0];
       mockOrder.id = 'e6a23d5f-3a23-498f-9f61-ffb9ad34cb68';
-      ordersRepository.findOne.mockResolvedValue(mockOrder);
+      jest.spyOn(ordersRepository, 'findOne').mockResolvedValue(mockOrder as Order);
       expect(
         await ordersService.fetchById('e6a23d5f-3a23-498f-9f61-ffb9ad34cb68', mockUser)
       ).toEqual({
@@ -117,7 +126,7 @@ describe('OrdersService', () => {
         status: expect.any(String),
         date: expect.any(String),
       });
-      expect(await ordersRepository.findOne).toHaveBeenCalledWith({
+      expect(ordersRepository.findOne).toHaveBeenCalledWith({
         where: { id: 'e6a23d5f-3a23-498f-9f61-ffb9ad34cb68', userId: mockUser.id },
       });
     });
@@ -125,7 +134,7 @@ describe('OrdersService', () => {
 
   describe('fetchAll', () => {
     it('returns all orders from the database by calling ordersRepository.query', async () => {
-      ordersRepository.query.mockResolvedValue(bunchOfOrders);
+      jest.spyOn(ordersRepository, 'query').mockResolvedValue(bunchOfOrders as Order[]);
       expect(await ordersService.fetchAll()).toEqual([
         {
           id: expect.any(String),
@@ -161,7 +170,7 @@ describe('OrdersService', () => {
           date: expect.any(String),
         },
       ]);
-      expect(await ordersRepository.query).toHaveBeenCalled();
+      expect(ordersRepository.query).toHaveBeenCalled();
     });
   });
 
@@ -278,7 +287,7 @@ describe('OrdersService', () => {
         status: expect.any(String),
         date: expect.any(String),
       });
-      expect(await ordersRepository.createOrder).toHaveBeenCalledWith(dto, mockUser);
+      expect(ordersRepository.createOrder).toHaveBeenCalledWith(dto, mockUser);
     });
   });
 
@@ -290,7 +299,7 @@ describe('OrdersService', () => {
       date: '2021-07-23',
     };
     it('calls ordersRepository.findOne and modifies user properties and saves the instance', async () => {
-      ordersRepository.findOne.mockReturnValue({
+      jest.spyOn(ordersRepository, 'findOne').mockResolvedValue({
         id: '725b3c5a-4f40-468e-aa9e-9057600d55af',
         userId: 'e6a23d5f-3a23-498f-9f61-ffb9ad34cb68',
         total_price: 3,
@@ -298,9 +307,10 @@ describe('OrdersService', () => {
         country: 'Bruma',
         city: 'Yes',
         postalcode: '01000',
-        status: 'PAID',
-        date: '2021-07-23',
-      });
+        status: OrderStatus.PAID,
+        date: new Date('2021-07-23'),
+      } as Order);
+
       ordersService.update = jest.fn().mockImplementation(() => Promise.resolve(mockOrder));
       const dto = {
         status: OrderStatus.PAID,
@@ -328,12 +338,9 @@ describe('OrdersService', () => {
     });
 
     it('calls ordersRepository.find and uses orderItemRepository.delete to delete items associated with the order along with the order', async () => {
-      ordersRepository.delete.mockResolvedValue({
-        raw: [],
-        affected: 3,
-      });
-      ordersRepository.findOne.mockResolvedValue(bunchOfOrders[0]);
-      ordersRepository.find.mockResolvedValue(bunchOfOrders[0]);
+      jest.spyOn(ordersRepository, 'delete').mockResolvedValue({ raw: [], affected: 3 });
+      jest.spyOn(ordersRepository, 'findOne').mockResolvedValue(bunchOfOrders[0] as Order);
+      jest.spyOn(ordersRepository, 'find').mockResolvedValue([bunchOfOrders[0]] as Order[]);
       expect(await ordersService.removeOrder('f29ca6ae-3aac-4794-b008-4d743901a226'));
       expect(ordersRepository.findOne).toHaveBeenCalledWith({
         where: { id: 'f29ca6ae-3aac-4794-b008-4d743901a226' },

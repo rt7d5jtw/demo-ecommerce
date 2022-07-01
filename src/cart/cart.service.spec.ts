@@ -3,12 +3,10 @@ import { MockType } from '../category/category.service.spec';
 import { User } from '../users/user.entity';
 import { Repository } from 'typeorm';
 import { CartService } from './cart.service';
-import { CartRepository } from './cart.repository';
+import { CartRepository, CartRepositoryExtended } from './cart.repository';
 import * as typeorm from 'typeorm';
-import { CartItem } from './cart-item.entity';
-import { Product } from '../product/product.entity';
-import { CartItemInfo } from './dto/cart.dto';
-import { ModuleMocker } from 'jest-mock';
+import { Cart } from './cart.entity';
+import { getRepositoryToken } from '@nestjs/typeorm';
 
 const mockCartRepository: () => MockType<Repository<any>> = jest.fn(() => ({
   findOne: jest.fn().mockResolvedValue({
@@ -27,7 +25,7 @@ const mockCartRepository: () => MockType<Repository<any>> = jest.fn(() => ({
 
 describe('CartService', () => {
   let cartService: CartService;
-  let cartRepository: any;
+  let cartRepository: Repository<Cart> & CartRepositoryExtended;
   let connection: any;
 
   const mockConnection = () => ({
@@ -50,14 +48,17 @@ describe('CartService', () => {
     const module = await Test.createTestingModule({
       providers: [
         CartService,
-        { provide: CartRepository, useFactory: mockCartRepository },
-        { provide: typeorm.Connection, useFactory: mockConnection },
+        {
+          provide: getRepositoryToken(Cart),
+          useFactory: mockCartRepository,
+        },
       ],
     }).compile();
 
     cartService = module.get<CartService>(CartService);
-    cartRepository = module.get<CartRepository>(CartRepository);
-    connection = module.get<typeorm.Connection>(typeorm.Connection);
+    cartRepository = module.get<Repository<Cart> & CartRepositoryExtended>(
+      getRepositoryToken(Cart)
+    );
   });
 
   afterEach(() => {

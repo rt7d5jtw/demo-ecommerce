@@ -1,18 +1,34 @@
 import { Test } from '@nestjs/testing';
-import { ProductRepository } from './product.repository';
+import { getRepositoryToken } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { SearchProductDto } from './dto/search-product.dto';
+import { Product } from './product.entity';
+import { ProductRepositoryExtended } from './product.repository';
+
+const mockProductRepository = () => ({
+  fetch: jest.fn(),
+});
 
 describe('productRepository', () => {
-  let productRepository: any;
+  let productRepository: Repository<Product> & ProductRepositoryExtended;
 
   jest.mock('./product.entity');
 
   beforeEach(async () => {
     const module = await Test.createTestingModule({
-      providers: [ProductRepository],
+      providers: [
+        {
+          provide: getRepositoryToken(Product),
+          useFactory: mockProductRepository,
+        },
+      ],
     }).compile();
 
-    productRepository = module.get<ProductRepository>(ProductRepository);
+    productRepository = module.get<Repository<Product> & ProductRepositoryExtended>(
+      getRepositoryToken(Product)
+    );
   });
+
   const result = {
     id: 8,
     categories: [
@@ -36,7 +52,7 @@ describe('productRepository', () => {
         andWhere: jest.fn().mockReturnThis(),
         getMany: jest.fn().mockReturnValue(result),
       });
-      expect(await productRepository.fetch({ search: 'Dune' })).toEqual({
+      expect(await productRepository.fetch({ search: 'Dune' } as SearchProductDto)).toEqual({
         id: expect.any(Number),
         categories: expect.any(Array),
         title: expect.any(String),
@@ -47,7 +63,7 @@ describe('productRepository', () => {
         createdAt: expect.any(String),
         updatedAt: expect.any(String),
       });
-      expect(await productRepository.createQueryBuilder).toHaveBeenCalled();
+      expect(productRepository.createQueryBuilder).toHaveBeenCalled();
     });
   });
 
