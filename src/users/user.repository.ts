@@ -22,14 +22,15 @@ interface UserRepositoryExtended {
 
 const UserRepository = AppDataSource.getRepository(User).extend({
   async fetch(searchUserDto: SearchUserDto): Promise<User[]> {
-    const { role, search } = searchUserDto;
     const query = this.createQueryBuilder('user');
 
-    if (role) {
+    if (searchUserDto.role) {
+      const role = searchUserDto.role;
       query.andWhere('user.role = :role', { role });
     }
 
-    if (search) {
+    if (searchUserDto.search) {
+      const search = searchUserDto.search;
       query.andWhere('(user.email LIKE :search)', { search: `%${search}%` });
     }
 

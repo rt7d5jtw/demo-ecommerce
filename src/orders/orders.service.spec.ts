@@ -324,27 +324,4 @@ describe('OrdersService', () => {
       });
     });
   });
-
-  describe('removeOrder', () => {
-    const sandbox = createSandbox();
-    beforeEach(() => {
-      sandbox.stub(typeorm.ConnectionManager.prototype, 'get').returns({
-        getRepository: sandbox.stub().returns(createStubInstance(Repository)),
-      } as unknown as typeorm.Connection);
-    });
-
-    afterEach(() => {
-      sandbox.restore();
-    });
-
-    it('calls ordersRepository.find and uses orderItemRepository.delete to delete items associated with the order along with the order', async () => {
-      jest.spyOn(ordersRepository, 'delete').mockResolvedValue({ raw: [], affected: 3 });
-      jest.spyOn(ordersRepository, 'findOne').mockResolvedValue(bunchOfOrders[0] as Order);
-      jest.spyOn(ordersRepository, 'find').mockResolvedValue([bunchOfOrders[0]] as Order[]);
-      expect(await ordersService.removeOrder('f29ca6ae-3aac-4794-b008-4d743901a226'));
-      expect(ordersRepository.findOne).toHaveBeenCalledWith({
-        where: { id: 'f29ca6ae-3aac-4794-b008-4d743901a226' },
-      });
-    });
-  });
 });

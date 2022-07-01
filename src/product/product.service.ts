@@ -1,12 +1,11 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from './product.entity';
 import { CreateProductDto, UpdateProductDto } from './dto/product.dto';
 import { SearchProductDto } from './dto/search-product.dto';
 import { ProductRepository } from './product.repository';
 import { Logger } from '@nestjs/common';
-import { getRepository, Repository } from 'typeorm';
-import { Category } from '../category/category.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class ProductService {

@@ -13,11 +13,14 @@ interface CartRepositoryExtended {
   addToCart: (id: number, user: User, qty: { quantity: number }) => Promise<any>;
   fetchProductPrice: (id: number) => Promise<any>;
   fetchItems: (user: User) => Promise<CartItem[]>;
+  fetchCartItems: (user: User) => Promise<CartItemInfo>;
 }
 
 const CartRepository = AppDataSource.getRepository(Cart).extend({
   async fetchItems(user: User): Promise<CartItem[]> {
-    const cart = await this.fetchCart(user);
+    const cart = await this.findOne({
+      where: { userId: user['id'] },
+    });
     const cartItem = await AppDataSource.getRepository(CartItem)
       .createQueryBuilder('cartItem')
       .select('cartItem')

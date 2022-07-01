@@ -15,16 +15,15 @@ interface ProductRepositoryExtended {
 const ProductRepository: Repository<Product> & ProductRepositoryExtended =
   AppDataSource.getRepository(Product).extend({
     async fetch(searchProductDto: SearchProductDto): Promise<Product[]> {
-      const { search } = searchProductDto;
       const query = this.createQueryBuilder('product');
       query.select('product');
       query.leftJoinAndSelect('product.categories', 'category');
 
-      if (search) {
+      if (searchProductDto.search) {
         query.andWhere(
           'LOWER(product.title) LIKE LOWER(:search) OR LOWER(product.description) LIKE LOWER(:search)',
           {
-            search: `%${search}%`,
+            search: `%${searchProductDto.search}%`,
           }
         );
       }

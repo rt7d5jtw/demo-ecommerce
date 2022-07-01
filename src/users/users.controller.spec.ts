@@ -47,8 +47,6 @@ describe('UsersController', () => {
   let usersController: UsersController;
   let usersService: UsersService;
 
-  jest.mock('./user.entity');
-
   beforeEach(async () => {
     const module = await Test.createTestingModule({
       controllers: [UsersController],

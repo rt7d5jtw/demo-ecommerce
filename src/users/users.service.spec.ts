@@ -35,8 +35,6 @@ describe('UsersService', () => {
   let usersService: UsersService;
   let userRepository: Repository<User> & UserRepositoryExtended;
 
-  jest.mock('./user.entity');
-
   beforeEach(async () => {
     const module = await Test.createTestingModule({
       providers: [

@@ -1,11 +1,11 @@
 import { NotFoundException } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { Order } from '../orders/order.entity';
-import { OrdersRepositoryExtended } from '../orders/orders.repository';
 import { Repository } from 'typeorm';
 import { v4 as uuid } from 'uuid';
 import { CategoryService } from './category.service';
+import { Category } from './category.entity';
+import { CategoryRepositoryExtended } from './category.repository';
 
 export type MockType<T> = {
   [P in keyof T]?: jest.Mock<unknown>;
@@ -22,22 +22,22 @@ const mockCategoryRepository: () => MockType<Repository<any>> = jest.fn(() => ({
 
 describe('CategoryService', () => {
   let categoryService: CategoryService;
-  let categoryRepository: Repository<Order> & OrdersRepositoryExtended;
+  let categoryRepository: Repository<Category> & CategoryRepositoryExtended;
 
   beforeEach(async () => {
     const module = await Test.createTestingModule({
       providers: [
         CategoryService,
         {
-          provide: getRepositoryToken(Order),
+          provide: getRepositoryToken(Category),
           useFactory: mockCategoryRepository,
         },
       ],
     }).compile();
 
     categoryService = module.get<CategoryService>(CategoryService);
-    categoryRepository = module.get<Repository<Order> & OrdersRepositoryExtended>(
-      getRepositoryToken(Order)
+    categoryRepository = module.get<Repository<Category> & CategoryRepositoryExtended>(
+      getRepositoryToken(Category)
     );
   });
 
@@ -46,19 +46,26 @@ describe('CategoryService', () => {
   });
 
   describe('fetch', () => {
-    it('fetches categories by calling categoryRepository and returning categories', async () => {
+    it("fetches categories by calling categoryRepository.fetch with 'chocolate' query string added as a search parameter. Returns found categories", async () => {
+      // Mocks a http request with 'chocolate' query string
+      // http://localhost:8080/category&chocolate
+      // 1. Calls createQueryBuilder
+      // 2. If there is a query string, calls createQueryBuilder.where('category.cname LIKE :search')
+      // 3. query.getMany() is called and returned;
       jest.spyOn(categoryRepository, 'fetch').mockResolvedValue([
         {
           id: 'a47ba957-a742-45de-8610-13ba3e0ba4a0',
           cname: 'chocolate',
         },
-      ] as unknown as Order[]);
-      expect(await categoryService.fetch({ search: 'chocolate' })).toEqual([
+      ] as Category[]);
+
+      expect(categoryService.fetch({ search: 'chocolate' })).toEqual([
         {
           id: 'a47ba957-a742-45de-8610-13ba3e0ba4a0',
           cname: 'chocolate',
         },
       ]);
+
       expect(categoryRepository.fetch).toHaveBeenCalledWith({ search: 'chocolate' });
     });
   });
@@ -68,11 +75,12 @@ describe('CategoryService', () => {
       jest.spyOn(categoryRepository, 'findOne').mockResolvedValue({
         id: 'a49ba957-a742-45de-8610-13ba3e0ba4a0',
         cname: 'classics',
-      } as unknown as Order);
+      } as Category);
+
       jest.spyOn(categoryRepository, 'save').mockResolvedValue({
         id: 'a49ba957-a742-45de-8610-13ba3e0ba4a0',
         cname: 'test',
-      } as unknown as Order);
+      } as Category);
 
       expect(
         await categoryService.update('a49ba957-a742-45de-8610-13ba3e0ba4a0', { cname: 'test' })

@@ -12,14 +12,14 @@ interface CategoryRepositoryExtended {
 const CategoryRepository: Repository<Category> & CategoryRepositoryExtended =
   AppDataSource.getRepository(Category).extend({
     async fetch(searchCategoryDto: SearchCategoryDto): Promise<Category[]> {
-      const { search } = searchCategoryDto;
       const query = this.createQueryBuilder('category');
 
-      if (search) {
-        query.where('category.cname LIKE :search', { search: `%${search}%` });
+      if (searchCategoryDto.search) {
+        query.where('category.cname LIKE :search', { search: `%${searchCategoryDto.search}%` });
       }
 
       const categories = await query.getMany();
+
       return categories;
     },
 

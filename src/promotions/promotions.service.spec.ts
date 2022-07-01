@@ -79,17 +79,6 @@ describe('PromotionsService', () => {
     });
   });
   const dto = { title: 'test', url: '/testing', image: './images/hazelnut' };
-  describe('create', () => {
-    it('creates a new promotion by calling createPromotion method in the user repo', async () => {
-      expect(await promotionService.create(dto)).toEqual({
-        id: expect.any(Number),
-        title: expect.any(String),
-        url: expect.any(String),
-        image: expect.any(String),
-      });
-      expect(promotionRepository.createPromotion).toHaveBeenCalledWith(dto);
-    });
-  });
 
   describe('update', () => {
     let save: any;

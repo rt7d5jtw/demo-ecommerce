@@ -29,13 +29,11 @@ const cartItems = [
 describe('OrdersRepository', () => {
   let ordersRepository: Repository<Order> & OrdersRepositoryExtended;
 
-  /* mocked connection for the repository */
-  const mockConnection = () => ({
-    transaction: jest.fn(),
-    query: jest.fn(),
-    manager: jest.fn().mockReturnValue({
-      query: jest.fn().mockReturnValue('i eat chocolate'),
-    }),
+  const mockOrderRepository = () => ({
+    createOrder: jest.fn(),
+    addOrderItems: jest.fn(),
+    fetch: jest.fn(),
+    removeOrder: jest.fn(),
   });
 
   beforeEach(async () => {
@@ -44,7 +42,7 @@ describe('OrdersRepository', () => {
       providers: [
         {
           provide: getRepositoryToken(Order),
-          useFactory: mockConnection,
+          useFactory: mockOrderRepository,
         },
       ],
     }).compile();
@@ -53,8 +51,6 @@ describe('OrdersRepository', () => {
       getRepositoryToken(Order)
     );
   });
-
-  jest.mock('../users/user.entity');
 
   const mockUser = new User();
   mockUser.id = 'e6a23d5f-3a23-498f-9f61-ffb9ad34cb68';
@@ -109,6 +105,32 @@ describe('OrdersRepository', () => {
         status: 'PROCESSING',
         userId: mockUser.id,
       });
+    });
+  });
+
+  describe('removeOrder', () => {
+    it('calls ordersRepository.find and uses orderItemRepository.delete to delete items associated with the order along with the order', async () => {
+      //jest.spyOn(ordersRepository, 'removeOrder').mockImplementation(() => new Promise(null));
+
+      /* Real implementation calls findOne -> delete -> delete */
+      // 1. ordersRepository.findOne -> finds the Order.
+      // 2. orderItemRepository.delete -> delete deletes all orders from OrderItem repository with that orderId.
+      // 3. ordersRepository.delete -> deletes the order itself from Order repository.
+      jest.spyOn(ordersRepository, 'findOne').mockResolvedValue(bunchOfOrders[0] as Order);
+
+      jest.spyOn(ordersRepository, 'delete').mockResolvedValue({ raw: [], affected: 3 });
+
+      jest.spyOn(ordersRepository, 'find').mockResolvedValue([bunchOfOrders[0]] as Order[]);
+
+      // Test starts here !
+      expect(ordersRepository.removeOrder('f29ca6ae-3aac-4794-b008-4d743901a226'));
+
+      // Check that findOne has been called
+      expect(ordersRepository.findOne).toHaveBeenCalledWith({
+        where: { id: 'f29ca6ae-3aac-4794-b008-4d743901a226' },
+      });
+
+      // TODO: Check that deletes have been called!
     });
   });
 });

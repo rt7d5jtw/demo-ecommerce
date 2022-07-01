@@ -1,5 +1,7 @@
 import { UnprocessableEntityException } from '@nestjs/common';
-import { AppDataSource } from 'src/config/typeorm.config';
+import { SearchOrdersDto } from 'src/orders/dto/search-orders.dto';
+import { Order } from 'src/orders/order.entity';
+import { AppDataSource } from '../config/typeorm.config';
 import { PromotionDto } from './dto/promotion.dto';
 import { Promotion } from './promotion.entity';
 

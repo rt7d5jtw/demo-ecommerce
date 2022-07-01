@@ -31,7 +31,7 @@ export class OrdersService {
   }
 
   async fetchAll(): Promise<Order[]> {
-    return this.ordersRepository.query('SELECT * FROM public.orders');
+    return OrdersRepository.fetchAll();
   }
 
   async createInvoice(user: User, order: Order): Promise<Buffer> {

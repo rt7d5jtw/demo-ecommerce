@@ -7,8 +7,8 @@ import { generateInvoiceInformation, generateInvoiceTable } from './invoice';
 import { OrderItem } from './order-item.entity';
 import * as PDFDocument from 'pdfkit';
 import { NotFoundException, UnprocessableEntityException } from '@nestjs/common';
-import { AppDataSource } from 'src/config/typeorm.config';
-import { Product } from 'src/product/product.entity';
+import { AppDataSource } from '../config/typeorm.config';
+import { Product } from '../product/product.entity';
 import { PaymentDto } from './dto/payment.dto';
 import Stripe from 'stripe';
 
@@ -20,11 +20,16 @@ interface OrdersRepositoryExtended {
   addOrderItems: (id: string, user: User) => Promise<OrderItem[]>;
   addPaymentIntent: (paymentDto: PaymentDto) => Promise<Stripe.PaymentIntent>;
   removeOrder: (id: string) => Promise<void>;
+  fetchAll: () => Promise<Order[]>;
 }
 
 const OrdersRepository: Repository<Order> & OrdersRepositoryExtended = AppDataSource.getRepository(
   Order
 ).extend({
+  async fetchAll(): Promise<Order[]> {
+    return AppDataSource.query('SELECT * FROM public.orders');
+  },
+
   async removeOrder(id: string): Promise<void> {
     const order = await this.ordersRepository.findOne({
       where: { id: id },

@@ -27,7 +27,7 @@ export const bunchOfOrders = [
     city: 'Testing',
     postalcode: '02210',
     status: OrderStatus.PROCESSING,
-    date: '2021-07-08',
+    date: new Date('2021-07-08'),
   },
   {
     id: 'bf8ffda1-c91f-4c75-9caf-8c8c5badd80d',
@@ -38,7 +38,7 @@ export const bunchOfOrders = [
     city: 'Testing',
     postalcode: '02210',
     status: OrderStatus.PROCESSING,
-    date: '2021-07-08',
+    date: new Date('2021-07-08'),
   },
 ];
 
@@ -122,7 +122,7 @@ describe('OrdersController', () => {
           city: expect.any(String),
           postalcode: expect.any(String),
           status: expect.any(String),
-          date: expect.any(String),
+          date: expect.any(Date),
         },
         {
           id: expect.any(String),
@@ -133,7 +133,7 @@ describe('OrdersController', () => {
           city: expect.any(String),
           postalcode: expect.any(String),
           status: expect.any(String),
-          date: expect.any(String),
+          date: expect.any(Date),
         },
         {
           id: expect.any(String),
@@ -144,7 +144,7 @@ describe('OrdersController', () => {
           city: expect.any(String),
           postalcode: expect.any(String),
           status: expect.any(String),
-          date: expect.any(String),
+          date: expect.any(Date),
         },
       ]);
       expect(ordersService.fetch).toHaveBeenCalled();
@@ -171,7 +171,7 @@ describe('OrdersController', () => {
         city: expect.any(String),
         postalcode: expect.any(String),
         status: expect.any(String),
-        date: expect.any(String),
+        date: expect.any(Date),
       });
       expect(ordersService.fetchById).toHaveBeenCalledWith(
         'f29ca6ae-3aac-4794-b008-4d743901a226',
@@ -193,7 +193,7 @@ describe('OrdersController', () => {
         city: expect.any(String),
         postalcode: expect.any(String),
         status: expect.any(String),
-        date: expect.any(String),
+        date: expect.any(Date),
       });
       expect(ordersService.fetchOrderItems).toHaveBeenCalledWith(
         'f29ca6ae-3aac-4794-b008-4d743901a226'
@@ -240,7 +240,7 @@ describe('OrdersController', () => {
         status: 'PROCESSING',
         userId: '5712e711-9c52-436f-854e-0d63691547c8',
         id: expect.any(String),
-        date: expect.any(String),
+        date: expect.any(Date),
       });
       expect(ordersService.create).toHaveBeenCalledWith(dto, mockUser);
     });
