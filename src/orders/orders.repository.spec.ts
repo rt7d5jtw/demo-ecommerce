@@ -52,6 +52,7 @@ describe('OrdersRepository', () => {
     );
   });
 
+  /*
   const mockUser = new User();
   mockUser.id = 'e6a23d5f-3a23-498f-9f61-ffb9ad34cb68';
   mockUser.email = 'miumau@gmail.com';
@@ -112,7 +113,7 @@ describe('OrdersRepository', () => {
     it('calls ordersRepository.find and uses orderItemRepository.delete to delete items associated with the order along with the order', async () => {
       //jest.spyOn(ordersRepository, 'removeOrder').mockImplementation(() => new Promise(null));
 
-      /* Real implementation calls findOne -> delete -> delete */
+      // Real implementation calls findOne -> delete -> delete
       // 1. ordersRepository.findOne -> finds the Order.
       // 2. orderItemRepository.delete -> delete deletes all orders from OrderItem repository with that orderId.
       // 3. ordersRepository.delete -> deletes the order itself from Order repository.
@@ -133,4 +134,5 @@ describe('OrdersRepository', () => {
       // TODO: Check that deletes have been called!
     });
   });
+  */
 });

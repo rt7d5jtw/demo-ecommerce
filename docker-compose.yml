@@ -13,9 +13,9 @@ services:
     env_file:
       - .env
     healthcheck:
-      test: ["CMD", "pg_isready -U postgres || exit 1"]
-      interval: 15s
-      timeout: 10s
+      test: ["CMD-SHELL", "pg_isready -U postgres || exit 1"]
+      interval: 10s
+      timeout: 5s
       retries: 5
 
   # The application, includes the API and Client

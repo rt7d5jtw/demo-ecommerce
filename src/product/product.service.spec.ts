@@ -2,9 +2,11 @@ import { NotFoundException } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { productArr } from './product.controller.spec';
 import { ProductService } from './product.service';
-import { Product } from './product.entity';
+import { Product, ProductStatus } from './product.entity';
 import { Repository } from 'typeorm';
 import { getRepositoryToken } from '@nestjs/typeorm';
+import { ProductRepositoryExtended } from './product.repository';
+//product/product.service.spec.ts:109:45
 
 const mockProductRepository = () => ({
   fetch: jest.fn().mockResolvedValue(productArr),
@@ -79,7 +81,7 @@ const stuff = {
 
 describe('ProductService', () => {
   let productService: ProductService;
-  let productRepository: any;
+  let productRepository: Repository<Product> & ProductRepositoryExtended;
 
   beforeEach(async () => {
     const module = await Test.createTestingModule({
@@ -93,7 +95,9 @@ describe('ProductService', () => {
     }).compile();
 
     productService = module.get<ProductService>(ProductService);
-    productRepository = module.get<Repository<Product>>(getRepositoryToken(Product));
+    productRepository = module.get<Repository<Product> & ProductRepositoryExtended>(
+      getRepositoryToken(Product)
+    );
   });
 
   afterEach(() => {
@@ -102,8 +106,7 @@ describe('ProductService', () => {
 
   describe('fetch', () => {
     it('calls fetch in userRepository and returns product array', async () => {
-      expect.assertions(2);
-      const products = await productService.fetch(undefined);
+      const products = await productService.fetch({ status: ProductStatus.IN_STOCK });
       expect(products).toEqual(productArr);
       expect(productRepository.fetch).toHaveBeenCalled();
     });
@@ -176,14 +179,14 @@ describe('ProductService', () => {
   describe('remove', () => {
     it('calls delete in productRepository to delete the product', async () => {
       expect.assertions(2);
-      productRepository.delete.mockResolvedValue({ affected: 1 });
+      jest.spyOn(productRepository, 'delete').mockResolvedValue({ affected: 1, raw: '' });
       await expect(productService.remove(10)).resolves.not.toThrow();
       expect(productRepository.delete).toHaveBeenCalledWith(10);
     });
 
     it('throws an error for getting missing id', async () => {
       expect.assertions(2);
-      productRepository.delete.mockResolvedValue({ affected: 0 });
+      jest.spyOn(productRepository, 'delete').mockResolvedValue({ affected: 0, raw: '' });
       await expect(() => productService.remove(10)).rejects.toThrow(NotFoundException);
       expect(productRepository.delete).toHaveBeenCalledWith(10);
     });
@@ -202,7 +205,7 @@ describe('ProductService', () => {
 
     it('throws an error for giving missing id', async () => {
       const dto = { title: 'chocolate' };
-      productRepository.find.mockResolvedValue(undefined);
+      jest.spyOn(productRepository, 'find').mockResolvedValue(undefined);
       await expect(productService.update(11, dto)).rejects.toThrow();
       expect(productRepository.save).not.toHaveBeenCalled();
     });

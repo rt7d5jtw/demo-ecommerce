@@ -7,18 +7,14 @@ import { CategoryService } from './category.service';
 import { Category } from './category.entity';
 import { CategoryRepositoryExtended } from './category.repository';
 
-export type MockType<T> = {
-  [P in keyof T]?: jest.Mock<unknown>;
-};
-
-const mockCategoryRepository: () => MockType<Repository<any>> = jest.fn(() => ({
+const mockCategoryRepository = () => ({
   fetch: jest.fn(),
   findOne: jest.fn(),
   createCategory: jest.fn(),
   update: jest.fn(),
   save: jest.fn(),
   delete: jest.fn(),
-}));
+});
 
 describe('CategoryService', () => {
   let categoryService: CategoryService;

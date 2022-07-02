@@ -11,55 +11,9 @@ interface CartRepositoryExtended {
   clearCart: (user: User) => Promise<any>;
   removeCartItem: (productId: number, user: User) => Promise<any>;
   addToCart: (id: number, user: User, qty: { quantity: number }) => Promise<any>;
-  fetchProductPrice: (id: number) => Promise<any>;
-  fetchItems: (user: User) => Promise<CartItem[]>;
-  fetchCartItems: (user: User) => Promise<CartItemInfo>;
 }
 
 const CartRepository = AppDataSource.getRepository(Cart).extend({
-  async fetchItems(user: User): Promise<CartItem[]> {
-    const cart = await this.findOne({
-      where: { userId: user['id'] },
-    });
-    const cartItem = await AppDataSource.getRepository(CartItem)
-      .createQueryBuilder('cartItem')
-      .select('cartItem')
-      .where('cartItem.cartId = :cartId', { cartId: cart.id })
-      .getMany();
-
-    return cartItem;
-  },
-
-  async fetchCartItems(user: User): Promise<CartItemInfo> {
-    /* get cart id */
-    const userId = user['id'];
-    const cart = await this.cartRepository.findOne({
-      where: { userId: userId },
-    });
-    if (!cart) {
-      throw new NotFoundException('User has no cart');
-    }
-
-    /* gets cart items with matching productId */
-
-    const cartItems = await AppDataSource.manager.query(`
-      SELECT ct."productId", prods."title", 
-      prods."image", prods."price", ct."quantity" FROM "cart-item" as ct
-      JOIN "products" as prods
-        ON prods."id" = ct."productId"
-      WHERE ct."cartId" = '${cart.id}';
-      `);
-    return cartItems;
-  },
-
-  async fetchProductPrice(id: number): Promise<any> {
-    const price = await AppDataSource.getRepository(Product).findOne({ where: { id: id } });
-    if (!price) {
-      throw new NotFoundException(`Price with ID "${id}" not found`);
-    }
-    return price.price;
-  },
-
   async createCart(user: User): Promise<Cart> {
     const cart = new Cart();
     cart.userId = user.id;
@@ -70,7 +24,7 @@ const CartRepository = AppDataSource.getRepository(Cart).extend({
     /* get cart id */
     const userId = user['id'];
 
-    const { id } = await this.cartRepository.findOne({
+    const { id } = await this.findOne({
       where: { userId: userId },
     });
 
@@ -82,6 +36,7 @@ const CartRepository = AppDataSource.getRepository(Cart).extend({
     /* uses cart id to delete all the items from user */
     //return AppDataSource.getRepository(Cart).delete({ cartId: id });
     console.log('[cart.repository.ts] :: clearCart :: value returned ->', id);
+    return this.delete({ cartId: id });
   },
 
   async removeCartItem(productId: number, user: User) {

@@ -46,12 +46,7 @@ describe('productRepository', () => {
 
   describe('fetch', () => {
     it('calls querybuilder to execute a query to search for products and returns product(s) as a product array', async () => {
-      productRepository.createQueryBuilder = jest.fn().mockReturnValue({
-        select: jest.fn().mockReturnThis(),
-        leftJoinAndSelect: jest.fn().mockReturnThis(),
-        andWhere: jest.fn().mockReturnThis(),
-        getMany: jest.fn().mockReturnValue(result),
-      });
+      jest.spyOn(productRepository, 'fetch').mockResolvedValue(result as unknown as Product[]);
       expect(await productRepository.fetch({ search: 'Dune' } as SearchProductDto)).toEqual({
         id: expect.any(Number),
         categories: expect.any(Array),
@@ -63,7 +58,7 @@ describe('productRepository', () => {
         createdAt: expect.any(String),
         updatedAt: expect.any(String),
       });
-      expect(productRepository.createQueryBuilder).toHaveBeenCalled();
+      expect(productRepository.fetch).toHaveBeenCalled();
     });
   });
 

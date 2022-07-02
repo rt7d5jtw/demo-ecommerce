@@ -46,7 +46,12 @@ describe('PromotionsController', () => {
   beforeEach(async () => {
     const module = await Test.createTestingModule({
       controllers: [PromotionsController],
-      providers: [{ provide: PromotionsService, useFactory: mockPromotionsService }],
+      providers: [
+        {
+          provide: PromotionsService,
+          useFactory: mockPromotionsService,
+        },
+      ],
     }).compile();
 
     promotionsController = module.get<PromotionsController>(PromotionsController);
@@ -58,7 +63,6 @@ describe('PromotionsController', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
-
   describe('fetchAll', () => {
     it('returns all promotions', async () => {
       expect(await promotionsController.fetchAll()).toEqual([

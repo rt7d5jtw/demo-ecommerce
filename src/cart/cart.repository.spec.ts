@@ -1,5 +1,6 @@
 import { Test } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
+import { Product } from '../product/product.entity';
 import { Repository } from 'typeorm';
 import { User } from '../users/user.entity';
 import { Cart } from './cart.entity';
@@ -12,12 +13,26 @@ const mockCartRepository = () => ({
   addToCart: jest.fn(),
   fetchProductPrice: jest.fn(),
   removeCartItem: jest.fn(),
+  findOne: jest.fn(),
+  delete: jest.fn(),
 });
 
 describe('CartRepository', () => {
   let cartRepository: Repository<Cart> & CartRepositoryExtended;
 
   jest.mock('../users/user.entity');
+
+  const result = {
+    id: 28,
+    categoryId: 'dcaa9f09-0dbe-4e81-af92-e15ee487beaa',
+    title: 'chocolate',
+    image: 'https://i.imgur.com/Hiw0N.jpg',
+    price: 9.5,
+    description: 'i like chocolate',
+    status: 'IN_STOCK',
+    createdAt: '2021-07-02',
+    updatedAt: '2021-07-02',
+  };
 
   beforeEach(async () => {
     const module = await Test.createTestingModule({
@@ -57,23 +72,14 @@ describe('CartRepository', () => {
 
   describe('clearCart', () => {
     it("clears user's cart of all item's by calling cartRepository.findOne and getRepository(CartItem).delete", async () => {
+      jest.spyOn(cartRepository, 'clearCart').mockResolvedValue({ raw: [], affected: 2 });
       expect(await cartRepository.clearCart(mockUser)).toEqual({ raw: [], affected: 2 });
+      expect(cartRepository.findOne).toHaveBeenCalled();
+      expect(cartRepository.delete).toHaveBeenCalled();
     });
   });
 
   describe('fetchCartItems', () => {
-    const result = {
-      id: 28,
-      categoryId: 'dcaa9f09-0dbe-4e81-af92-e15ee487beaa',
-      title: 'chocolate',
-      image: 'https://i.imgur.com/Hiw0N.jpg',
-      price: 9.5,
-      description: 'i like chocolate',
-      status: 'IN_STOCK',
-      createdAt: '2021-07-02',
-      updatedAt: '2021-07-02',
-    };
-
     it("returns cart items from user's cart by calling fetchCart and CartItem.createQueryBuilder", async () => {
       jest
         .spyOn(cartRepository, 'fetchCartItems')
@@ -125,6 +131,7 @@ describe('CartRepository', () => {
 
   describe('fetchProductPrice', () => {
     it('returns price of the product by calling getRepository().findOne', async () => {
+      jest.spyOn(cartRepository, 'fetchProductPrice').mockResolvedValue(result.price);
       expect(await cartRepository.fetchProductPrice(28)).toEqual(9.5);
     });
   });

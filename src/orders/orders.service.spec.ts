@@ -1,5 +1,4 @@
 import { Test } from '@nestjs/testing';
-import { MockType } from '../category/category.service.spec';
 import { OrdersService } from './orders.service';
 import { User } from '../users/user.entity';
 import { bunchOfOrders } from './orders.controller.spec';
@@ -11,7 +10,7 @@ import { createStubInstance, createSandbox } from 'sinon';
 import { Repository } from 'typeorm';
 import { getRepositoryToken } from '@nestjs/typeorm';
 
-const mockOrdersRepository: () => MockType<Repository<Order>> = jest.fn(() => ({
+const mockOrdersRepository = () => ({
   fetch: jest.fn(),
   findOne: jest.fn(),
   find: jest.fn(),
@@ -34,7 +33,7 @@ const mockOrdersRepository: () => MockType<Repository<Order>> = jest.fn(() => ({
   }),
   delete: jest.fn(),
   save: jest.fn(),
-}));
+});
 
 describe('OrdersService', () => {
   let ordersService: OrdersService;

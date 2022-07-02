@@ -240,7 +240,7 @@ describe('OrdersController', () => {
         status: 'PROCESSING',
         userId: '5712e711-9c52-436f-854e-0d63691547c8',
         id: expect.any(String),
-        date: expect.any(Date),
+        date: expect.any(String),
       });
       expect(ordersService.create).toHaveBeenCalledWith(dto, mockUser);
     });

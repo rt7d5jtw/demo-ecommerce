@@ -48,7 +48,7 @@ describe('UserRepository', () => {
       userRepository.create = jest.fn().mockReturnValue({ save });
     });
 
-    it('Creates a user', () => {
+    it('calls userRepository.createUser -> Creates a user', () => {
       save.mockResolvedValue(undefined);
       expect(userRepository.createUser(mockUser)).resolves.not.toThrow();
     });

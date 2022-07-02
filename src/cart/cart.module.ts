@@ -7,10 +7,12 @@ import { MulterModule } from '@nestjs/platform-express';
 import { PassportModule } from '@nestjs/passport';
 import { Product } from '../product/product.entity';
 import { Cart } from './cart.entity';
+import { CartItem } from './cart-item.entity';
+import { DataSource } from 'typeorm';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Cart, Product]),
+    TypeOrmModule.forFeature([Cart, CartItem, Product, DataSource]),
     MulterModule.register({
       dest: './images',
     }),
