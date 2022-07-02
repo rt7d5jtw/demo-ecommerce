@@ -14,17 +14,18 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      secretOrKey: 'topsecret',
+      secretOrKey: `${process.env.SECRET}`,
     });
   }
+
+  /**
+   * Validates the user by searching for the user by the email in the payload. If user is found, user is returned.
+   * @param {JwtPayload} payload - Email of the {@link User}
+   * @returns {Promise<User>} returns the validated User.
+   */
   async validate(payload: JwtPayload): Promise<User> {
-    const { email } = payload;
-    const user = await this.userRepository.findOne({ where: { email: email } });
-
-    if (!user) {
-      throw new UnauthorizedException();
-    }
-
+    const user = await this.userRepository.findOne({ where: { email: payload['email'] } });
+    if (!user) throw new UnauthorizedException(`User could not be found`);
     return user;
   }
 }
