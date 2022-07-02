@@ -72,7 +72,7 @@ export class CartController {
 
   /* clears user's cart items */
   @Delete()
-  clearCart(@GetUser() user: User): Promise<void> {
+  clearCart(@GetUser() user: User): Promise<any> {
     return this.cartService.clearCart(user);
   }
 }
