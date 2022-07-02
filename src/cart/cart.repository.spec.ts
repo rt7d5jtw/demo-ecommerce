@@ -1,6 +1,5 @@
 import { Test } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { Product } from '../product/product.entity';
 import { Repository } from 'typeorm';
 import { User } from '../users/user.entity';
 import { Cart } from './cart.entity';

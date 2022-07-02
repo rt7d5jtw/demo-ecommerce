@@ -1,5 +1,4 @@
 import { Test } from '@nestjs/testing';
-import { UserRepositoryExtended } from './user.repository';
 import { User } from './user.entity';
 import { Repository } from 'typeorm';
 import { getRepositoryToken } from '@nestjs/typeorm';
@@ -19,7 +18,7 @@ const mockUserRepository = () => ({
 });
 
 describe('UserRepository', () => {
-  let userRepository: Repository<User> & UserRepositoryExtended;
+  let userRepository: Repository<User>;
   jest.mock('./user.entity');
 
   beforeEach(async () => {
@@ -32,9 +31,7 @@ describe('UserRepository', () => {
       ],
     }).compile();
 
-    userRepository = module.get<Repository<User> & UserRepositoryExtended>(
-      getRepositoryToken(User)
-    );
+    userRepository = module.get<Repository<User>>(getRepositoryToken(User));
   });
 
   afterEach(() => {

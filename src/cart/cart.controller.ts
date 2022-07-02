@@ -18,6 +18,7 @@ import { Cart } from './cart.entity';
 import { GetUser } from '../users/get_user.decorator';
 import { User } from '../users/user.entity';
 
+// NOTE: The methods utilize 'Authorization Bearer <JWT>' to fetch the User from the jwt.
 @Controller('cart')
 @UseGuards(AuthGuard('jwt'))
 export class CartController {
