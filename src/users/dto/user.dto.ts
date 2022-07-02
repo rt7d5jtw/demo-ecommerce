@@ -1,4 +1,10 @@
-import { Matches, IsEmail, IsString, MinLength, MaxLength } from 'class-validator';
+import {
+  Matches,
+  IsEmail,
+  IsString,
+  MinLength,
+  MaxLength
+} from 'class-validator';
 
 export class CreateUserDto {
   @IsEmail()
@@ -8,7 +14,7 @@ export class CreateUserDto {
   @MaxLength(50)
   @IsString()
   @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[a-z])(?=.{8,}).*$/, {
-    message: 'Password is too weak or proper password isnt being provided',
+    message: 'Password is too weak or proper password isnt being provided'
   })
   password: string;
 }
@@ -18,7 +24,7 @@ export class ChangePasswordDto {
   @MaxLength(50)
   @MinLength(8)
   @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[a-z])(?=.{8,}).*$/, {
-    message: 'Password is too weak or proper password isnt being provided',
+    message: 'Password is too weak or proper password isnt being provided'
   })
   currentPassword: string;
 
@@ -26,7 +32,7 @@ export class ChangePasswordDto {
   @MaxLength(50)
   @MinLength(8)
   @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[a-z])(?=.{8,}).*$/, {
-    message: 'Password is too weak or proper password isnt being provided',
+    message: 'Password is too weak or proper password isnt being provided'
   })
   newPassword: string;
 }

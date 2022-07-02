@@ -1,6 +1,15 @@
-import { ConflictException, Injectable, Logger, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  Logger,
+  NotFoundException
+} from '@nestjs/common';
 import { User, UserRole } from './user.entity';
-import { ChangePasswordDto, ChangeEmailDto, CreateUserDto } from './dto/user.dto';
+import {
+  ChangePasswordDto,
+  ChangeEmailDto,
+  CreateUserDto
+} from './dto/user.dto';
 import { SearchUserDto } from './dto/search-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, TypeORMError } from 'typeorm';
@@ -21,11 +30,15 @@ export class UsersService {
    */
   async fetch(searchUserDto: SearchUserDto): Promise<User[]> {
     const query = this.userRepository.createQueryBuilder('user');
-    if (searchUserDto.role)
-      query.andWhere('user.role = :role', { role: `%${searchUserDto['role']}%` });
+    if (searchUserDto && searchUserDto.role)
+      query.andWhere('user.role = :role', {
+        role: `%${searchUserDto['role']}%`
+      });
 
-    if (searchUserDto.search)
-      query.andWhere('(user.email LIKE :search)', { search: `%${searchUserDto['search']}%` });
+    if (searchUserDto && searchUserDto.search)
+      query.andWhere('(user.email LIKE :search)', {
+        search: `%${searchUserDto['search']}%`
+      });
 
     return await query.getMany();
   }
@@ -66,7 +79,9 @@ export class UsersService {
         throw new ConflictException('Email already exists'); // Duplicate email.
       } else if (error) {
         this.logger.error(error);
-        throw new TypeORMError(`Something went wrong while trying to persist the User`);
+        throw new TypeORMError(
+          `Something went wrong while trying to persist the User`
+        );
       }
     }
 
@@ -90,7 +105,10 @@ export class UsersService {
    * @param {ChangePasswordDto} changePasswordDto
    * @returns {Promise<string>} current user password after the operations.
    */
-  async changePassword(user: User, changePasswordDto: ChangePasswordDto): Promise<string> {
+  async changePassword(
+    user: User,
+    changePasswordDto: ChangePasswordDto
+  ): Promise<string> {
     const { currentPassword, newPassword } = changePasswordDto;
 
     if (user && (await user.validatePassword(currentPassword))) {
@@ -113,7 +131,10 @@ export class UsersService {
    * @param {ChangeEmailDto} changeEmailDto
    * @returns {Promise<string>}
    */
-  async changeEmail(user: User, changeEmailDto: ChangeEmailDto): Promise<string> {
+  async changeEmail(
+    user: User,
+    changeEmailDto: ChangeEmailDto
+  ): Promise<string> {
     if (user.email === changeEmailDto.newEmail)
       throw new ConflictException(`Email is already in use`);
 
@@ -159,9 +180,12 @@ s  * @param {User} user
    * @returns {Promise<string>} user.email - User's email
    */
   async validateUserPassword(loginDto: LoginDto): Promise<string> {
-    const user = await this.userRepository.findOne({ where: { email: loginDto['email'] } });
+    const user = await this.userRepository.findOne({
+      where: { email: loginDto['email'] }
+    });
 
-    if (user && (await user.validatePassword(loginDto['password']))) return user.email;
+    if (user && (await user.validatePassword(loginDto['password'])))
+      return user.email;
   }
 
   /**
@@ -172,6 +196,7 @@ s  * @param {User} user
   async remove(id: string): Promise<void> {
     const result = await this.userRepository.delete(id);
     if (result) this.logger.verbose(`User with id "${id}" deleted`);
-    if (result.affected === 0) throw new NotFoundException(`User with ID "${id}" not found`);
+    if (result.affected === 0)
+      throw new NotFoundException(`User with ID "${id}" not found`);
   }
 }

@@ -19,14 +19,14 @@ const cartItem = {
   price: 9.5,
   productId: 28,
   id: '3c7df1c9-35dd-47f7-a511-cf88dc8f14a6',
-  CreatedAt: '2021-07-14',
+  CreatedAt: '2021-07-14'
 };
 
 const product = {
   id: 8,
   categories: [
     { id: 'a47ba957-a742-45de-8610-13ba3e0ba4a0', cname: 'bestsellers' },
-    { id: 'dcaa9f09-0dbe-4e81-af92-e15ee487beaa', cname: 'Milk Chocolate' },
+    { id: 'dcaa9f09-0dbe-4e81-af92-e15ee487beaa', cname: 'Milk Chocolate' }
   ],
   title: 'Dune',
   image: 'https://i.imgur.com/Hiw0N.jpg',
@@ -34,7 +34,7 @@ const product = {
   description: 'nice boek',
   status: 'IN_STOCK',
   createdAt: '2021-07-02',
-  updatedAt: '2021-07-02',
+  updatedAt: '2021-07-02'
 } as unknown as Product;
 
 const mockDataSource = () => ({
@@ -43,39 +43,39 @@ const mockDataSource = () => ({
     startTransaction: jest.fn().mockReturnThis(),
     commitTransaction: jest.fn().mockReturnThis(),
     manager: jest.fn().mockReturnValue({
-      query: jest.fn().mockReturnThis(),
+      query: jest.fn().mockReturnThis()
     }),
     release: jest.fn().mockReturnThis(),
-    rollbackTransaction: jest.fn().mockReturnThis(),
-  }),
+    rollbackTransaction: jest.fn().mockReturnThis()
+  })
 });
 
 const mockProductRepository = () => ({
-  findOne: jest.fn(),
+  findOne: jest.fn()
 });
 
 const mockCartItemRepository = () => ({
   createQueryBuilder: jest.fn().mockReturnValue({
     select: jest.fn().mockReturnThis(),
     where: jest.fn().mockReturnThis(),
-    getMany: jest.fn().mockReturnValue(cartItem),
-  }),
+    getMany: jest.fn().mockReturnValue(cartItem)
+  })
 });
 
 const mockCartRepository = () => ({
   findOne: jest.fn().mockResolvedValue({
     id: '2828bfce-29a0-4953-b539-f6d61a400321',
     userId: 'e6a23d5f-3a23-498f-9f61-ffb9ad34cb68',
-    CreatedAt: '2021-07-13',
+    CreatedAt: '2021-07-13'
   }),
   createQueryBuilder: jest.fn(),
   createCart: jest.fn().mockResolvedValue({
     userId: 'e6a23d5f-3a23-498f-9f61-ffb9ad34cb68',
     id: '2828bfce-29a0-4953-b539-f6d61a400321',
-    CreatedAt: '2021-07-14',
+    CreatedAt: '2021-07-14'
   }),
   save: jest.fn().mockResolvedValue('yeet'),
-  fetchCartItems: jest.fn(),
+  fetchCartItems: jest.fn()
 });
 
 describe('CartService', () => {
@@ -91,27 +91,31 @@ describe('CartService', () => {
         CartService,
         {
           provide: getRepositoryToken(Cart),
-          useFactory: mockCartRepository,
+          useFactory: mockCartRepository
         },
         {
           provide: getRepositoryToken(CartItem),
-          useFactory: mockCartItemRepository,
+          useFactory: mockCartItemRepository
         },
         {
           provide: getRepositoryToken(Product),
-          useFactory: mockProductRepository,
+          useFactory: mockProductRepository
         },
         {
           provide: DataSource,
-          useFactory: mockDataSource,
-        },
-      ],
+          useFactory: mockDataSource
+        }
+      ]
     }).compile();
 
     cartService = module.get<CartService>(CartService);
     cartRepository = module.get<Repository<Cart>>(getRepositoryToken(Cart));
-    cartItemRepository = module.get<Repository<CartItem>>(getRepositoryToken(CartItem));
-    productRepository = module.get<Repository<Product>>(getRepositoryToken(Product));
+    cartItemRepository = module.get<Repository<CartItem>>(
+      getRepositoryToken(CartItem)
+    );
+    productRepository = module.get<Repository<Product>>(
+      getRepositoryToken(Product)
+    );
     dataSource = module.get<DataSource>(DataSource);
   });
 
@@ -127,7 +131,7 @@ describe('CartService', () => {
   const userCart = {
     id: '2828bfce-29a0-4953-b539-f6d61a400321',
     userId: 'e6a23d5f-3a23-498f-9f61-ffb9ad34cb68',
-    CreatedAt: '2021-07-13',
+    CreatedAt: '2021-07-13'
   } as unknown as Cart;
 
   afterEach(() => {
@@ -149,19 +153,24 @@ describe('CartService', () => {
         price: expect.any(Number),
         productId: expect.any(Number),
         quantity: expect.any(Number),
-        CreatedAt: expect.any(String),
+        CreatedAt: expect.any(String)
       });
       // Tests each called function in the method scope
       expect(cartRepository.findOne).toHaveBeenCalled();
-      expect(cartItemRepository.createQueryBuilder).toHaveBeenCalledWith('cartItem');
-      expect(cartItemRepository.createQueryBuilder().select).toHaveBeenCalledWith('cartItem');
-      expect(cartItemRepository.createQueryBuilder().where).toHaveBeenCalledWith(
-        'cartItem.cartId = :cartId',
-        {
-          cartId: userCart.id,
-        }
+      expect(cartItemRepository.createQueryBuilder).toHaveBeenCalledWith(
+        'cartItem'
       );
-      expect(cartItemRepository.createQueryBuilder().getMany).toHaveBeenCalled();
+      expect(
+        cartItemRepository.createQueryBuilder().select
+      ).toHaveBeenCalledWith('cartItem');
+      expect(
+        cartItemRepository.createQueryBuilder().where
+      ).toHaveBeenCalledWith('cartItem.cartId = :cartId', {
+        cartId: userCart.id
+      });
+      expect(
+        cartItemRepository.createQueryBuilder().getMany
+      ).toHaveBeenCalled();
     });
   });
 
@@ -171,9 +180,11 @@ describe('CartService', () => {
       expect(await cartService.fetchCart(mockUser)).toEqual({
         id: expect.any(String),
         userId: mockUser.id,
-        CreatedAt: expect.any(String),
+        CreatedAt: expect.any(String)
       });
-      expect(cartRepository.findOne).toHaveBeenCalledWith({ where: { userId: mockUser.id } });
+      expect(cartRepository.findOne).toHaveBeenCalledWith({
+        where: { userId: mockUser.id }
+      });
     });
   });
 
@@ -183,7 +194,9 @@ describe('CartService', () => {
        * returns the product price from the product object. */
       jest.spyOn(productRepository, 'findOne').mockResolvedValue(product);
       expect(await cartService.fetchProductPrice(8));
-      expect(productRepository.findOne).toHaveBeenCalledWith({ where: { id: 8 } });
+      expect(productRepository.findOne).toHaveBeenCalledWith({
+        where: { id: 8 }
+      });
     });
   });
 

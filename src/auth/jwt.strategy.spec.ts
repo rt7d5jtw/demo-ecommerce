@@ -10,7 +10,7 @@ describe('JwtStrategy', () => {
   let userRepository: Repository<User>;
 
   const mockUserRepository = () => ({
-    findOne: jest.fn(),
+    findOne: jest.fn()
   });
 
   beforeEach(async () => {
@@ -19,9 +19,9 @@ describe('JwtStrategy', () => {
         JwtStrategy,
         {
           provide: getRepositoryToken(User),
-          useFactory: mockUserRepository,
-        },
-      ],
+          useFactory: mockUserRepository
+        }
+      ]
     }).compile();
 
     jwtStrategy = module.get<JwtStrategy>(JwtStrategy);
@@ -40,14 +40,16 @@ describe('JwtStrategy', () => {
       jest.spyOn(userRepository, 'findOne').mockResolvedValue(user);
       const testEmail = 'test@testing.com';
       expect(await jwtStrategy.validate({ email: testEmail })).toEqual(user);
-      expect(userRepository.findOne).toHaveBeenCalledWith({ where: { email: testEmail } });
+      expect(userRepository.findOne).toHaveBeenCalledWith({
+        where: { email: testEmail }
+      });
     });
 
     it('throws an unauthorized exception as user cannot be found', async () => {
       jest.spyOn(userRepository, 'findOne').mockResolvedValue(null);
-      expect(jwtStrategy.validate({ email: 'test@testing.com' })).rejects.toThrow(
-        UnauthorizedException
-      );
+      expect(
+        jwtStrategy.validate({ email: 'test@testing.com' })
+      ).rejects.toThrow(UnauthorizedException);
     });
   });
 });

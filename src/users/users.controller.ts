@@ -9,11 +9,15 @@ import {
   Query,
   UsePipes,
   ValidationPipe,
-  UseGuards,
+  UseGuards
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { User, UserRole } from './user.entity';
-import { ChangePasswordDto, ChangeEmailDto, CreateUserDto } from './dto/user.dto';
+import {
+  ChangePasswordDto,
+  ChangeEmailDto,
+  CreateUserDto
+} from './dto/user.dto';
 import { SearchUserDto } from './dto/search-user.dto';
 import { UserRoleValidationPipe } from './pipes/user-role-validation.pipe';
 import { GetUser } from './get_user.decorator';
@@ -60,7 +64,10 @@ export class UsersController {
   @UseGuards(AuthGuard('jwt'))
   @Patch('email')
   @UsePipes(ValidationPipe)
-  changeEmail(@GetUser() user: User, @Body() changeEmailDto: ChangeEmailDto): Promise<string> {
+  changeEmail(
+    @GetUser() user: User,
+    @Body() changeEmailDto: ChangeEmailDto
+  ): Promise<string> {
     return this.usersService.changeEmail(user, changeEmailDto);
   }
 

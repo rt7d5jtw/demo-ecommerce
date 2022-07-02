@@ -3,7 +3,6 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../users/user.entity';
 import { Cart } from './cart.entity';
-import { CartRepositoryExtended } from './cart.repository';
 
 const mockCartRepository = () => ({
   createCart: jest.fn(),
@@ -13,7 +12,7 @@ const mockCartRepository = () => ({
   fetchProductPrice: jest.fn(),
   removeCartItem: jest.fn(),
   findOne: jest.fn(),
-  delete: jest.fn(),
+  delete: jest.fn()
 });
 
 describe('CartRepository', () => {
@@ -30,7 +29,7 @@ describe('CartRepository', () => {
     description: 'i like chocolate',
     status: 'IN_STOCK',
     createdAt: '2021-07-02',
-    updatedAt: '2021-07-02',
+    updatedAt: '2021-07-02'
   };
 
   beforeEach(async () => {
@@ -38,9 +37,9 @@ describe('CartRepository', () => {
       providers: [
         {
           provide: getRepositoryToken(Cart),
-          useFactory: mockCartRepository,
-        },
-      ],
+          useFactory: mockCartRepository
+        }
+      ]
     }).compile();
 
     cartRepository = module.get<Repository<Cart> & CartRepositoryExtended>(
@@ -58,21 +57,28 @@ describe('CartRepository', () => {
       const cart = {
         userId: 'e6a23d5f-3a23-498f-9f61-ffb9ad34cb68',
         id: '28497f7d-6caa-4f99-af62-c62e9cd2ac93',
-        CreatedAt: '2021-07-14',
+        CreatedAt: '2021-07-14'
       };
-      jest.spyOn(cartRepository, 'createCart').mockResolvedValue(cart as unknown as Cart);
+      jest
+        .spyOn(cartRepository, 'createCart')
+        .mockResolvedValue(cart as unknown as Cart);
       expect(await cartRepository.createCart(mockUser)).toEqual({
         userId: mockUser.id,
         id: expect.any(String),
-        CreatedAt: expect.any(String),
+        CreatedAt: expect.any(String)
       });
     });
   });
 
   describe('clearCart', () => {
     it("clears user's cart of all item's by calling cartRepository.findOne and getRepository(CartItem).delete", async () => {
-      jest.spyOn(cartRepository, 'clearCart').mockResolvedValue({ raw: [], affected: 2 });
-      expect(await cartRepository.clearCart(mockUser)).toEqual({ raw: [], affected: 2 });
+      jest
+        .spyOn(cartRepository, 'clearCart')
+        .mockResolvedValue({ raw: [], affected: 2 });
+      expect(await cartRepository.clearCart(mockUser)).toEqual({
+        raw: [],
+        affected: 2
+      });
       expect(cartRepository.findOne).toHaveBeenCalled();
       expect(cartRepository.delete).toHaveBeenCalled();
     });
@@ -90,7 +96,7 @@ describe('CartRepository', () => {
           productId: expect.any(Number),
           quantity: expect.any(Number),
           price: expect.any(Number),
-          CreatedAt: expect.any(String),
+          CreatedAt: expect.any(String)
         },
         {
           id: expect.any(String),
@@ -98,8 +104,8 @@ describe('CartRepository', () => {
           productId: expect.any(Number),
           quantity: expect.any(Number),
           price: expect.any(Number),
-          CreatedAt: expect.any(String),
-        },
+          CreatedAt: expect.any(String)
+        }
       ]);
     });
   });
@@ -112,7 +118,7 @@ describe('CartRepository', () => {
         price: 9.5,
         productId: 28,
         id: '3c7df1c9-35dd-47f7-a511-cf88dc8f14a6',
-        CreatedAt: '2021-07-14',
+        CreatedAt: '2021-07-14'
       };
       jest
         .spyOn(cartRepository, 'addToCart')
@@ -123,14 +129,16 @@ describe('CartRepository', () => {
         price: expect.any(Number),
         productId: 28,
         id: expect.any(String),
-        CreatedAt: expect.any(String),
+        CreatedAt: expect.any(String)
       });
     });
   });
 
   describe('fetchProductPrice', () => {
     it('returns price of the product by calling getRepository().findOne', async () => {
-      jest.spyOn(cartRepository, 'fetchProductPrice').mockResolvedValue(result.price);
+      jest
+        .spyOn(cartRepository, 'fetchProductPrice')
+        .mockResolvedValue(result.price);
       expect(await cartRepository.fetchProductPrice(28)).toEqual(9.5);
     });
   });
