@@ -9,6 +9,6 @@ import { Promotion } from './promotion.entity';
 @Module({
   imports: [TypeOrmModule.forFeature([Promotion]), PassportModule, AuthModule],
   controllers: [PromotionsController],
-  providers: [PromotionsService],
+  providers: [PromotionsService]
 })
 export class PromotionsModule {}

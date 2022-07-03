@@ -11,7 +11,7 @@ import {
   Res,
   UseGuards,
   UsePipes,
-  ValidationPipe,
+  ValidationPipe
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { PromotionDto } from './dto/promotion.dto';
@@ -39,8 +39,13 @@ export class PromotionsController {
   }
 
   @Get('stream')
-  async sendStream(@Res() res: Response, @Query() filename: { filename: string }) {
-    const file = createReadStream(join(process.cwd(), `./images/${filename['filename']}`));
+  async sendStream(
+    @Res() res: Response,
+    @Query() filename: { filename: string }
+  ) {
+    const file = createReadStream(
+      join(process.cwd(), `./images/${filename['filename']}`)
+    );
     file.pipe(res);
   }
 
