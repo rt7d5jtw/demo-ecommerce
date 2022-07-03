@@ -150,18 +150,6 @@ export class UsersService {
   }
 
   /**
-   * Persists the new user email and returns it.
-s  * @param {User} user
-   * @param {string} email - The email which will be assigned to User.email
-   * @returns {Promise<string>} user.email
-   */
-  async updateEmail(user: User, email: string): Promise<string> {
-    user.email = email['email'];
-    await this.userRepository.save(user);
-    return user.email;
-  }
-
-  /**
    * Persists the input user role and returns it.
    * @param {string} id - ID of the User that's role will be updated.
    * @param {UserRole} role - The role to update for the user.

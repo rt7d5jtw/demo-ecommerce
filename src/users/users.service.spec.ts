@@ -7,12 +7,9 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
 import { v4 as uuid } from 'uuid';
 import * as Testdata from '../../test/testdata.json';
-//jest.mock('./user.entity'); // Mocking User for validateUserPassword test
 
-beforeEach(() => {
-  // Clear all instances and calls to constructor and all methods:
-  jest.clearAllMocks();
-});
+// Mocking User for validateUserPassword test
+jest.mock('./user.entity');
 
 describe('UsersService', () => {
   let usersService: UsersService;
@@ -45,6 +42,10 @@ describe('UsersService', () => {
     userRepository = module.get<Repository<User>>(getRepositoryToken(User));
   });
 
+  beforeEach(() => {
+    // Clear all instances and calls to constructor and all methods:
+    jest.clearAllMocks();
+  });
   afterEach(() => {
     jest.clearAllMocks();
   });
@@ -81,7 +82,7 @@ describe('UsersService', () => {
         const result = await usersService.fetchById(
           '872f17ee-45a2-409b-b74a-eea6753f38fb'
         );
-        expect(result).toEqual({
+        expect(result).toMatchObject({
           id: expect.any(String),
           email: expect.any(String),
           password: expect.any(String)
@@ -99,8 +100,25 @@ describe('UsersService', () => {
       });
     });
 
+    describe('hashPassword', () => {
+      it('calls bcrypt.hash to generate a hash', async () => {
+        jest.spyOn(bcrypt, 'hash');
+        jest.spyOn(usersService, 'hashPassword');
+        const result = await usersService.hashPassword(
+          'yeetmageet123',
+          '$2b$10$l8qAzxpZ1zoRoAT.z9Ew.e'
+        );
+        expect(result).toMatch(/^\$2[ayb]\$.{56}$/gi);
+        expect(usersService.hashPassword).toHaveBeenCalled();
+        expect(bcrypt.hash).toHaveBeenCalled();
+      });
+    });
+
     describe('createUser', () => {
       it('calls the userRepository.create, bcrypt.genSalt, usersService.hashPassword and userRepository.save, finally returns a user', async () => {
+        // Unmock User class so the inherited methods from BaseEntity
+        // arent propagated to the User. This makes testing the data properties a pain.
+
         jest.spyOn(bcrypt, 'genSalt');
         jest.spyOn(usersService, 'hashPassword');
         const createUserDto = {
@@ -114,7 +132,7 @@ describe('UsersService', () => {
           return user;
         });
 
-        expect(await usersService.createUser(createUserDto)).toEqual({
+        expect(await usersService.createUser(createUserDto)).toMatchObject({
           salt: expect.any(String),
           password: expect.any(String),
           email: expect.any(String),
@@ -126,6 +144,63 @@ describe('UsersService', () => {
         expect(bcrypt.genSalt).toHaveBeenCalled();
         expect(usersService.hashPassword).toHaveBeenCalled();
         expect(userRepository.save).toHaveBeenCalled();
+      });
+    });
+
+    describe('changePassword', () => {
+      // Using another instance to not mess with other tests
+      const mockUser2 = new User();
+      mockUser2.id = '872f17ee-45a2-409b-b74a-eea6753f38fb';
+      mockUser2.email = 'miumau@gmail.com';
+      mockUser2.password = 'yeetmageet123';
+
+      // Generates salt for the user.
+      // usersService.changePassword uses user.salt property,
+      // during the execution of this method.
+      beforeAll(async () => (mockUser2.salt = await bcrypt.genSalt()));
+
+      it('Assigns new password from the parameters to user, performs validation through comparisons and user.validatePassword, generates new salt and hash with bcrypt.genSalt and usersService.hashPassword and calls userRepository.save and finally returns current user password', async () => {
+        jest.spyOn(bcrypt, 'hash');
+        jest.spyOn(bcrypt, 'genSalt');
+        jest
+          .spyOn(usersService, 'hashPassword')
+          .mockImplementation((password, salt) => bcrypt.hash(password, salt));
+        jest.spyOn(User.prototype, 'validatePassword').mockResolvedValue(true);
+
+        expect(
+          await usersService.changePassword(mockUser2, {
+            currentPassword: mockUser2.password,
+            newPassword: 'miumau123'
+          })
+        ).toMatch(/^\$2[ayb]\$.{56}$/);
+
+        expect(User.prototype.validatePassword).toHaveBeenCalled();
+        //expect(bcrypt.genSalt).toHaveBeenCalled();
+        expect(usersService.hashPassword).toHaveBeenCalled();
+        //expect(userRepository.save).toHaveBeenCalledWith(mockUser);
+      });
+    });
+
+    describe('changeEmail', () => {
+      it('Assigns new email address from the parameters to user and calls userRepository.save to persist it to the user, finally returns user.email', async () => {
+        expect(
+          await usersService.changeEmail(mockUser, {
+            currentEmail: 'miumau@gmail.com',
+            newEmail: 'yeet@test.com'
+          })
+        ).toEqual('yeet@test.com');
+        expect(userRepository.save).toHaveBeenCalledWith(mockUser);
+      });
+    });
+
+    describe('updateUserRole', () => {
+      it('Calls usersService.fetchById and userRepository.save and returns user.role', async () => {
+        jest.spyOn(usersService, 'fetchById').mockResolvedValue(mockUser);
+        expect(
+          await usersService.updateUserRole(mockUser.id, mockUser.role)
+        ).toEqual(mockUser.role);
+        expect(usersService.fetchById).toHaveBeenCalledWith(mockUser.id);
+        expect(userRepository.save).toHaveBeenCalledWith(mockUser);
       });
     });
 
