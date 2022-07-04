@@ -1,4 +1,22 @@
-function generateInvoiceInformation(doc, invoice) {
+import { OrderItem } from './order-item.entity';
+
+type ShippingInformation = {
+  email: string;
+  address: string;
+  city: string;
+  country: string;
+  postal_code: string;
+};
+
+interface Invoice {
+  shipping: ShippingInformation;
+  items: OrderItem[];
+  subtotal: number;
+  delivery: number;
+  invoice_nr: string;
+}
+
+function generateInvoiceInformation(doc: PDFKit.PDFDocument, invoice: Invoice) {
   /* Header */
 
   doc.image('./images/logo.png', 200, 45, { width: 200 });
@@ -22,7 +40,11 @@ function generateInvoiceInformation(doc, invoice) {
     .text('Order Date:', 100, customerInfoHeight + 15)
     .text(formatDate(new Date()), 150, customerInfoHeight + 15)
     .text('Total:', 100, customerInfoHeight + 30)
-    .text(formatCurrency(invoice.subtotal + invoice.delivery), 125, customerInfoHeight + 30)
+    .text(
+      formatCurrency(invoice.subtotal + invoice.delivery),
+      125,
+      customerInfoHeight + 30
+    )
 
     .font('Helvetica')
     .text('Email:', 350, customerInfoHeight)
@@ -30,17 +52,29 @@ function generateInvoiceInformation(doc, invoice) {
     .text('Shipping Address:', 350, customerInfoHeight + 15)
     .text(invoice.shipping.address, 430, customerInfoHeight + 15)
     .text('Country:', 350, customerInfoHeight + 30)
-    .text(invoice.shipping.city + ', ' + invoice.shipping.country, 390, customerInfoHeight + 30);
+    .text(
+      invoice.shipping.city + ', ' + invoice.shipping.country,
+      390,
+      customerInfoHeight + 30
+    );
 
   generateHr(doc, 252);
 }
 
-function generateInvoiceTable(doc, invoice) {
-  let i;
+function generateInvoiceTable(doc: PDFKit.PDFDocument, invoice: any) {
+  let i: number;
   const invoiceTableHeight = 330;
 
   doc.font('Helvetica-Bold');
-  generateTable(doc, invoiceTableHeight, 'Quantity', 'Product ID', 'Price', 'Item', 'Amount');
+  generateTable(
+    doc,
+    invoiceTableHeight,
+    'Quantity',
+    'Product ID',
+    'Price',
+    'Item',
+    'Amount'
+  );
   generateHr(doc, invoiceTableHeight + 20);
   doc.font('Helvetica');
 
@@ -68,10 +102,26 @@ function generateInvoiceTable(doc, invoice) {
    * it aligns with the item property */
 
   const subtotalPosition = invoiceTableHeight + (i + 1) * 35;
-  generateTable(doc, subtotalPosition, 'Subtotal', '', '', '', formatCurrency(invoice.subtotal));
+  generateTable(
+    doc,
+    subtotalPosition,
+    'Subtotal',
+    '',
+    '',
+    '',
+    formatCurrency(invoice.subtotal)
+  );
 
   const deliveryPosition = subtotalPosition + 20;
-  generateTable(doc, deliveryPosition, 'Delivery', '', '', '', formatCurrency(invoice.delivery));
+  generateTable(
+    doc,
+    deliveryPosition,
+    'Delivery',
+    '',
+    '',
+    '',
+    formatCurrency(invoice.delivery)
+  );
 
   const totalPosition = deliveryPosition + 25;
   doc.font('Helvetica-Bold');
@@ -88,13 +138,16 @@ function generateInvoiceTable(doc, invoice) {
 
   /* Thank you message */
 
-  doc.fontSize(14).text(`Thank you for your purchase`, 50, 280, { align: 'center', width: 500 });
+  doc.fontSize(14).text(`Thank you for your purchase`, 50, 280, {
+    align: 'center',
+    width: 500
+  });
 }
 
 /* Product table */
 
 function generateTable(
-  doc,
+  doc: PDFKit.PDFDocument,
   y: number,
   item: string,
   productId: string,
@@ -111,7 +164,8 @@ function generateTable(
     .text(amount, 400, y, { width: 90, align: 'center' });
 }
 
-function generateHr(doc, y: number) {
+/* Horizontal line */
+function generateHr(doc: PDFKit.PDFDocument, y: number) {
   doc.strokeColor('#a76f4d').lineWidth(1).moveTo(50, y).lineTo(550, y).stroke();
 }
 
@@ -119,7 +173,7 @@ function formatCurrency(cents: number) {
   return '$' + cents.toFixed(2);
 }
 
-function formatDate(date) {
+function formatDate(date: Date) {
   const day = date.getDate();
   const month = date.getMonth() + 1;
   const year = date.getFullYear();

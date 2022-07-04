@@ -5,14 +5,14 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   ManyToOne,
-  OneToMany,
+  OneToMany
 } from 'typeorm';
 import { User } from '../users/user.entity';
 import { OrderItem } from './order-item.entity';
 
 export enum OrderStatus {
   PROCESSING = 'PROCESSING',
-  PAID = 'PAID',
+  PAID = 'PAID'
 }
 
 @Entity('orders')
@@ -45,7 +45,7 @@ export class Order extends BaseEntity {
   date: Date;
 
   @ManyToOne(() => User, (user) => user.orders, {
-    eager: false,
+    eager: false
   })
   user: User;
 

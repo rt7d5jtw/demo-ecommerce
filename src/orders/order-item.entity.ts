@@ -1,4 +1,10 @@
-import { Entity, BaseEntity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  BaseEntity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne
+} from 'typeorm';
 import { Order } from './order.entity';
 import { Product } from '../product/product.entity';
 
