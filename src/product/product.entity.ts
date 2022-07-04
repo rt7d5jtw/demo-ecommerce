@@ -7,7 +7,7 @@ import {
   UpdateDateColumn,
   OneToMany,
   ManyToMany,
-  JoinTable,
+  JoinTable
 } from 'typeorm';
 import { CartItem } from '../cart/cart-item.entity';
 import { OrderItem } from '../orders/order-item.entity';
@@ -15,7 +15,7 @@ import { Category } from '../category/category.entity';
 
 export enum ProductStatus {
   IN_STOCK = 'IN_STOCK',
-  OUT_OF_STOCK = 'OUT_OF_STOCK',
+  OUT_OF_STOCK = 'OUT_OF_STOCK'
 }
 
 @Entity('products')
@@ -51,18 +51,18 @@ export class Product extends BaseEntity {
   orderItem: OrderItem[];
 
   @ManyToMany(() => Category, {
-    cascade: true,
+    cascade: true
   })
   @JoinTable({
     name: 'product_categories',
     joinColumn: {
       name: 'productId',
-      referencedColumnName: 'id',
+      referencedColumnName: 'id'
     },
     inverseJoinColumn: {
       name: 'categoryId',
-      referencedColumnName: 'id',
-    },
+      referencedColumnName: 'id'
+    }
   })
   categories: Category[];
 }

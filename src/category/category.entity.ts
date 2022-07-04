@@ -1,5 +1,11 @@
 import { Product } from '../product/product.entity';
-import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, ManyToMany } from 'typeorm';
+import {
+  Entity,
+  BaseEntity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToMany
+} from 'typeorm';
 
 @Entity('category')
 export class Category extends BaseEntity {

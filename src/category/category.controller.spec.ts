@@ -6,26 +6,26 @@ const mockCategoryService = () => ({
   fetch: jest.fn().mockResolvedValue([
     {
       id: 'dcaa9f09-0dbe-4e81-af92-e15ee487beaa',
-      cname: 'test',
+      cname: 'test'
     },
     {
       id: 'a47ba957-a742-45de-8610-13ba3e0ba4a0',
-      cname: 'chocolate',
+      cname: 'chocolate'
     },
     {
       id: 'f56c7b84-ee72-4767-9733-6f31e5ad0141',
-      cname: 'icecream',
-    },
+      cname: 'icecream'
+    }
   ]),
   create: jest.fn().mockResolvedValue({
     cname: 'milk',
-    id: '12b948c1-e8ed-4db4-a25f-a4937ef58acb',
+    id: '12b948c1-e8ed-4db4-a25f-a4937ef58acb'
   }),
   update: jest.fn().mockResolvedValue({
     id: '12b948c1-e8ed-4db4-a25f-a4937ef58acb',
-    cname: 'chocolate',
+    cname: 'chocolate'
   }),
-  remove: jest.fn().mockResolvedValue(undefined),
+  remove: jest.fn().mockResolvedValue(undefined)
 });
 
 describe('CategoryController', () => {
@@ -35,7 +35,7 @@ describe('CategoryController', () => {
   beforeEach(async () => {
     const module = await Test.createTestingModule({
       controllers: [CategoryController],
-      providers: [{ provide: CategoryService, useFactory: mockCategoryService }],
+      providers: [{ provide: CategoryService, useFactory: mockCategoryService }]
     }).compile();
 
     categoryController = module.get<CategoryController>(CategoryController);
@@ -51,16 +51,16 @@ describe('CategoryController', () => {
       expect(await categoryController.fetch(null)).toEqual([
         {
           id: expect.any(String),
-          cname: expect.any(String),
+          cname: expect.any(String)
         },
         {
           id: expect.any(String),
-          cname: expect.any(String),
+          cname: expect.any(String)
         },
         {
           id: expect.any(String),
-          cname: expect.any(String),
-        },
+          cname: expect.any(String)
+        }
       ]);
       expect(categoryService.fetch).toHaveBeenCalled();
     });
@@ -70,7 +70,7 @@ describe('CategoryController', () => {
     it('creates a category by calling categoryService and returns it', async () => {
       expect(await categoryController.create({ cname: 'test' })).toEqual({
         id: expect.any(String),
-        cname: expect.any(String),
+        cname: expect.any(String)
       });
       expect(categoryService.create).toHaveBeenCalled();
     });
@@ -79,10 +79,13 @@ describe('CategoryController', () => {
   describe('update', () => {
     it('updates category by calling categoryService and returns it', async () => {
       expect(
-        await categoryController.update('12b948c1-e8ed-4db4-a25f-a4937ef58acb', { cname: 'yeet' })
+        await categoryController.update(
+          '12b948c1-e8ed-4db4-a25f-a4937ef58acb',
+          { cname: 'yeet' }
+        )
       ).toEqual({
         id: '12b948c1-e8ed-4db4-a25f-a4937ef58acb',
-        cname: 'chocolate',
+        cname: 'chocolate'
       });
       expect(categoryService.update).toHaveBeenCalled();
     });
@@ -93,7 +96,9 @@ describe('CategoryController', () => {
       expect(
         await categoryController.remove('12b948c1-e8ed-4db4-a25f-a4937ef58acb')
       ).toBeUndefined();
-      expect(categoryService.remove).toHaveBeenCalledWith('12b948c1-e8ed-4db4-a25f-a4937ef58acb');
+      expect(categoryService.remove).toHaveBeenCalledWith(
+        '12b948c1-e8ed-4db4-a25f-a4937ef58acb'
+      );
     });
   });
 });

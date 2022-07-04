@@ -2,27 +2,49 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Category } from './category.entity';
-import { CategoryRepository, CategoryRepositoryExtended } from './category.repository';
 import { SearchCategoryDto, CreateCategoryDto } from './dto/category.dto';
 
 @Injectable()
 export class CategoryService {
   constructor(
     @InjectRepository(Category)
-    private categoryRepository: Repository<Category> & CategoryRepositoryExtended
+    private categoryRepository: Repository<Category>
   ) {}
 
   async fetch(searchCategoryDto: SearchCategoryDto): Promise<Category[]> {
-    return CategoryRepository.fetch(searchCategoryDto);
+    const query = this.categoryRepository.createQueryBuilder('category');
+
+    if (searchCategoryDto.search) {
+      query.where('category.cname LIKE :search', {
+        search: `%${searchCategoryDto.search}%`
+      });
+    }
+
+    const categories = await query.getMany();
+
+    return categories;
   }
 
   async create(createCategoryDto: CreateCategoryDto): Promise<Category> {
-    return CategoryRepository.createCategory(createCategoryDto);
+    const { cname } = createCategoryDto;
+    const category = new Category();
+    category.cname = cname;
+    if (cname.length === 0) {
+      throw new NotFoundException('Missing argument or invalid argument');
+    }
+    await category.save();
+
+    return category;
   }
 
-  async update(id: string, createCategoryDto: CreateCategoryDto): Promise<Category> {
+  async update(
+    id: string,
+    createCategoryDto: CreateCategoryDto
+  ): Promise<Category> {
     const { cname } = createCategoryDto;
-    const category = await this.categoryRepository.findOne({ where: { id: id } });
+    const category = await this.categoryRepository.findOne({
+      where: { id: id }
+    });
     if (!category) {
       throw new NotFoundException(`No category found with "${id}"`);
     }

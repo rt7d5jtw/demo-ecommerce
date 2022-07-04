@@ -14,12 +14,12 @@ import { DataSource } from 'typeorm';
   imports: [
     TypeOrmModule.forFeature([Cart, CartItem, Product, DataSource]),
     MulterModule.register({
-      dest: './images',
+      dest: './images'
     }),
     PassportModule,
-    AuthModule,
+    AuthModule
   ],
   controllers: [CartController],
-  providers: [CartService],
+  providers: [CartService]
 })
 export class CartModule {}

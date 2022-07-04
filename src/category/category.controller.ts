@@ -9,7 +9,7 @@ import {
   ParseUUIDPipe,
   Param,
   Delete,
-  UseGuards,
+  UseGuards
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { CategoryService } from './category.service';
@@ -21,7 +21,9 @@ export class CategoryController {
   constructor(private categoryService: CategoryService) {}
 
   @Get()
-  fetch(@Query(ValidationPipe) searchCategoryDto: SearchCategoryDto): Promise<Category[]> {
+  fetch(
+    @Query(ValidationPipe) searchCategoryDto: SearchCategoryDto
+  ): Promise<Category[]> {
     return this.categoryService.fetch(searchCategoryDto);
   }
 

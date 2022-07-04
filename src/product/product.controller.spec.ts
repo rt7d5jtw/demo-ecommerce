@@ -1,83 +1,21 @@
 import { Test } from '@nestjs/testing';
 import { ProductController } from './product.controller';
 import { ProductService } from './product.service';
-
-export const productArr = [
-  {
-    id: 8,
-    categories: [
-      {
-        id: '4b625d6c-2a13-4616-870e-9fbb235af59d',
-        cname: 'Dark Chocolate',
-      },
-      {
-        id: '273b6d03-46fa-49a7-bb47-ff141e814b0e',
-        cname: 'Chocolate truffles',
-      },
-    ],
-    title: 'Dune',
-    image: 'https://i.imgur.com/Hiw0N.jpg',
-    price: 12,
-    description: 'nice boek',
-    status: 'IN_STOCK',
-    createdAt: '2021-07-02',
-    updatedAt: '2021-07-02',
-  },
-  {
-    id: 18,
-    categories: [
-      {
-        id: '4b625d6c-2a13-4616-870e-9fbb235af59d',
-        cname: 'Dark Chocolate',
-      },
-      {
-        id: '273b6d03-46fa-49a7-bb47-ff141e814b0e',
-        cname: 'Chocolate truffles',
-      },
-    ],
-    title: 'Stranger',
-    image: 'https://i.imgur.com/Hiw0N.jpg',
-    price: 9.5,
-    description: 'i like ice cream',
-    status: 'IN_STOCK',
-    createdAt: '2021-07-02',
-    updatedAt: '2021-07-02',
-  },
-  {
-    id: 10,
-    categories: [
-      {
-        id: '4b625d6c-2a13-4616-870e-9fbb235af59d',
-        cname: 'Dark Chocolate',
-      },
-      {
-        id: '273b6d03-46fa-49a7-bb47-ff141e814b0e',
-        cname: 'Chocolate truffles',
-      },
-    ],
-    title: 'Bear nap',
-    image: 'https://i.imgur.com/CHFUX10.png',
-    price: 420,
-    description: 'Fluffy bear',
-    status: 'IN_STOCK',
-    createdAt: '2021-07-02',
-    updatedAt: '2021-07-02',
-  },
-];
+import { arrayOfProducts } from '../../test/testdata.json';
 
 const mockProductService = () => ({
-  fetch: jest.fn().mockResolvedValue(productArr),
+  fetch: jest.fn().mockResolvedValue(arrayOfProducts),
   fetchById: jest.fn().mockResolvedValue({
     id: 10,
     categories: [
       {
         id: '4b625d6c-2a13-4616-870e-9fbb235af59d',
-        cname: 'Dark Chocolate',
+        cname: 'Dark Chocolate'
       },
       {
         id: '273b6d03-46fa-49a7-bb47-ff141e814b0e',
-        cname: 'Chocolate truffles',
-      },
+        cname: 'Chocolate truffles'
+      }
     ],
     title: 'Bear nap',
     image: 'https://i.imgur.com/CHFUX10.png',
@@ -85,7 +23,7 @@ const mockProductService = () => ({
     description: 'Fluffy bear',
     status: 'IN_STOCK',
     createdAt: '2021-07-02',
-    updatedAt: '2021-07-02',
+    updatedAt: '2021-07-02'
   }),
   create: jest.fn().mockResolvedValue({
     title: 'ice cream',
@@ -96,16 +34,16 @@ const mockProductService = () => ({
     categories: [
       {
         id: '4b625d6c-2a13-4616-870e-9fbb235af59d',
-        cname: 'Dark Chocolate',
+        cname: 'Dark Chocolate'
       },
       {
         id: '273b6d03-46fa-49a7-bb47-ff141e814b0e',
-        cname: 'Chocolate truffles',
-      },
+        cname: 'Chocolate truffles'
+      }
     ],
     id: 33,
     createdAt: '2021-07-10',
-    updatedAt: '2021-07-10',
+    updatedAt: '2021-07-10'
   }),
   update: jest.fn((id, dto) => {
     const obj = {
@@ -113,12 +51,12 @@ const mockProductService = () => ({
       categories: [
         {
           id: '4b625d6c-2a13-4616-870e-9fbb235af59d',
-          cname: 'Dark Chocolate',
+          cname: 'Dark Chocolate'
         },
         {
           id: '273b6d03-46fa-49a7-bb47-ff141e814b0e',
-          cname: 'Chocolate truffles',
-        },
+          cname: 'Chocolate truffles'
+        }
       ],
       title: 'Bear nap',
       image: 'https://i.imgur.com/CHFUX10.png',
@@ -126,15 +64,15 @@ const mockProductService = () => ({
       description: 'Fluffy bear',
       status: 'IN_STOCK',
       createdAt: '2021-07-02',
-      updatedAt: '2021-07-02',
+      updatedAt: '2021-07-02'
     };
     const result = {
       ...obj,
-      ...dto,
+      ...dto
     };
     return Promise.resolve(result);
   }),
-  remove: jest.fn(() => Promise.resolve(undefined)),
+  remove: jest.fn(() => Promise.resolve(undefined))
 });
 
 describe('ProductController', () => {
@@ -144,7 +82,7 @@ describe('ProductController', () => {
   beforeEach(async () => {
     const module = await Test.createTestingModule({
       controllers: [ProductController],
-      providers: [{ provide: ProductService, useFactory: mockProductService }],
+      providers: [{ provide: ProductService, useFactory: mockProductService }]
     }).compile();
 
     productController = module.get<ProductController>(ProductController);
@@ -168,7 +106,7 @@ describe('ProductController', () => {
           description: expect.any(String),
           status: expect.any(String),
           createdAt: expect.any(String),
-          updatedAt: expect.any(String),
+          updatedAt: expect.any(String)
         },
         {
           id: expect.any(Number),
@@ -179,7 +117,7 @@ describe('ProductController', () => {
           description: expect.any(String),
           status: expect.any(String),
           createdAt: expect.any(String),
-          updatedAt: expect.any(String),
+          updatedAt: expect.any(String)
         },
         {
           id: expect.any(Number),
@@ -190,8 +128,8 @@ describe('ProductController', () => {
           description: expect.any(String),
           status: expect.any(String),
           createdAt: expect.any(String),
-          updatedAt: expect.any(String),
-        },
+          updatedAt: expect.any(String)
+        }
       ]);
       expect(productService.fetch).toHaveBeenCalled();
     });
@@ -209,7 +147,7 @@ describe('ProductController', () => {
         description: expect.any(String),
         status: expect.any(String),
         createdAt: expect.any(String),
-        updatedAt: expect.any(String),
+        updatedAt: expect.any(String)
       });
       expect(productService.fetchById).toHaveBeenCalledWith(10);
     });
@@ -224,8 +162,11 @@ describe('ProductController', () => {
         description: 'i like ice cream',
         categoryIds: [
           { id: 'a47ba957-a742-45de-8610-13ba3e0ba4a0', cname: 'bestsellers' },
-          { id: 'dcaa9f09-0dbe-4e81-af92-e15ee487beaa', cname: 'Milk Chocolate' },
-        ],
+          {
+            id: 'dcaa9f09-0dbe-4e81-af92-e15ee487beaa',
+            cname: 'Milk Chocolate'
+          }
+        ]
       };
       expect.assertions(2);
       expect(await productController.create(dto)).toEqual({
@@ -237,7 +178,7 @@ describe('ProductController', () => {
         description: expect.any(String),
         status: expect.any(String),
         createdAt: expect.any(String),
-        updatedAt: expect.any(String),
+        updatedAt: expect.any(String)
       });
       expect(productService.create).toHaveBeenCalledWith(dto);
     });
@@ -254,7 +195,7 @@ describe('ProductController', () => {
         description: expect.any(String),
         status: expect.any(String),
         createdAt: expect.any(String),
-        updatedAt: expect.any(String),
+        updatedAt: expect.any(String)
       });
     });
   });

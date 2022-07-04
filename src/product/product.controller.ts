@@ -10,7 +10,7 @@ import {
   UsePipes,
   ValidationPipe,
   ParseIntPipe,
-  UseGuards,
+  UseGuards
 } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { Product } from './product.entity';
@@ -23,7 +23,9 @@ export class ProductController {
   constructor(private productService: ProductService) {}
 
   @Get()
-  fetch(@Query(ValidationPipe) searchProductDto: SearchProductDto): Promise<Product[]> {
+  fetch(
+    @Query(ValidationPipe) searchProductDto: SearchProductDto
+  ): Promise<Product[]> {
     return this.productService.fetch(searchProductDto);
   }
 

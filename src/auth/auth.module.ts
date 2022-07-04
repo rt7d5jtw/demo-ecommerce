@@ -15,12 +15,12 @@ import { UsersService } from 'src/users/users.service';
     JwtModule.register({
       secret: process.env.JWT_SECRET,
       signOptions: {
-        expiresIn: 6000, // 10 minutes in seconds
-      },
-    }),
+        expiresIn: 6000 // 10 minutes in seconds
+      }
+    })
   ],
   controllers: [AuthController],
   providers: [AuthService, JwtStrategy, UsersService],
-  exports: [JwtStrategy, PassportModule],
+  exports: [JwtStrategy, PassportModule]
 })
 export class AuthModule {}
