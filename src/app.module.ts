@@ -16,10 +16,10 @@ import { join } from 'path';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: '.env',
+      envFilePath: '.env'
     }),
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'client/dist'),
+      rootPath: join(__dirname, '..', 'client/dist')
     }),
     TypeOrmModule.forRoot(typeOrmConfig),
     UsersModule,
@@ -28,9 +28,9 @@ import { join } from 'path';
     OrdersModule,
     AuthModule,
     CategoryModule,
-    PromotionsModule,
+    PromotionsModule
   ],
   controllers: [],
-  providers: [],
+  providers: []
 })
 export class AppModule {}

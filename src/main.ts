@@ -3,6 +3,8 @@ import { AppModule } from './app.module';
 import { Logger } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppDataSource } from './config/typeorm.config';
+import { giveTimestamp } from './config/utils';
+import * as v8 from 'v8';
 
 async function bootstrap() {
   const logger = new Logger('boostrap');
@@ -26,8 +28,15 @@ async function bootstrap() {
   await app.listen(port);
 
   logger.log(`Application listening on port ${port}`);
-  logger.log(
-    `Application envs: DBPORT: ${process.env.DB_PORT},\nDB HOST: ${process.env.DB_HOST},\nDB USERNAME: ${process.env.DB_USER},\nDB PASS: ${process.env.DB_PASS},\nDBSYNC: ${process.env.DB_SYNC}`
-  );
+  logger.log(`JWT_SECRET: ${process.env.JWT_SECRET}`);
+  logger.log(`DBPORT: ${process.env.DB_PORT}`);
+  logger.log(`DB HOST: ${process.env.DB_HOST}`);
+  logger.log(`DB USERNAME: ${process.env.DB_USER}`);
+  logger.log(`DB PASS: ${process.env.DB_PASS}`);
+  logger.log(`DBSYNC: ${process.env.DB_SYNC}`);
+
+  // Record the heap dump
+  if (`${process.env.MODE}` === 'development')
+    v8.writeHeapSnapshot(`res/snapshots/${giveTimestamp()}` + `.heapsnapshot`);
 }
 bootstrap();

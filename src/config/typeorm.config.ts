@@ -20,8 +20,17 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
   username: process.env.DB_USER ? process.env.DB_USER : 'postgres',
   password: process.env.DB_PASS ? process.env.DB_PASS : 'postgres',
   database: process.env.DATABASE ? process.env.DATABASE : 'bookstore',
-  entities: [User, CartItem, Cart, Category, Order, OrderItem, Product, Promotion],
-  synchronize: process.env.DB_SYNC ? parseBool(process.env.DB_SYNC) : false,
+  entities: [
+    User,
+    CartItem,
+    Cart,
+    Category,
+    Order,
+    OrderItem,
+    Product,
+    Promotion
+  ],
+  synchronize: process.env.DB_SYNC ? parseBool(process.env.DB_SYNC) : false
 };
 
 // new typeorm configuration
@@ -32,9 +41,18 @@ export const AppDataSource = new DataSource({
   username: process.env.DB_USER ? process.env.DB_USER : 'postgres',
   password: process.env.DB_PASS ? process.env.DB_PASS : 'postgres',
   database: process.env.DATABASE ? process.env.DATABASE : 'bookstore',
-  entities: [User, CartItem, Cart, Category, Order, OrderItem, Product, Promotion],
+  entities: [
+    User,
+    CartItem,
+    Cart,
+    Category,
+    Order,
+    OrderItem,
+    Product,
+    Promotion
+  ],
   synchronize: process.env.DB_SYNC ? parseBool(process.env.DB_SYNC) : false,
   logging: true,
   subscribers: [],
-  migrations: [],
+  migrations: []
 });
