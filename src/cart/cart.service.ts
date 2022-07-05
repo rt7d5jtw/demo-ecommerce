@@ -16,9 +16,7 @@ export class CartService {
     @InjectRepository(CartItem)
     private cartItemRepository: Repository<CartItem>,
     @InjectRepository(Product)
-    private productRepository: Repository<Product>,
-    @InjectDataSource()
-    private dataSource: DataSource
+    private productRepository: Repository<Product>
   ) {}
 
   async fetchCart(user: User): Promise<Cart> {

@@ -13,10 +13,10 @@ import { OrderItem } from './order-item.entity';
 import { Repository, TypeORMError } from 'typeorm';
 import { Readable } from 'stream';
 import { PaymentDto } from './dto/payment.dto';
-import Stripe from 'stripe';
-import * as PDFDocument from 'pdfkit';
 import { generateInvoiceInformation, generateInvoiceTable } from './invoice';
 import { Product } from '../product/product.entity';
+import Stripe from 'stripe';
+import * as PDFDocument from 'pdfkit';
 
 @Injectable()
 export class OrdersService {

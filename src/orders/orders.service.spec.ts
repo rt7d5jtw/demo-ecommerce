@@ -2,12 +2,14 @@ import { Test } from '@nestjs/testing';
 import { OrdersService } from './orders.service';
 import { User } from '../users/user.entity';
 import { Order, OrderStatus } from './order.entity';
-import { createSandbox } from 'sinon';
 import { DeleteResult, Repository } from 'typeorm';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { OrderItem } from './order-item.entity';
-import * as PDFDocument from 'pdfkit';
 import * as Testdata from '../../test/testdata.json';
+import * as PDFDocument from 'pdfkit';
+import * as sinon from 'sinon';
+import { generateInvoiceTable, generateInvoiceInformation } from './invoice';
+
 jest.mock('pdfkit');
 
 const mockOrderItemRepository = () => ({
@@ -201,6 +203,45 @@ describe('OrdersService', () => {
     });
   });
 
+  /* UNFINISHED ! */
+  /*
+  describe('createInvoice', () => {
+    });
+    it(`Creates an invoice by calling ordersRepository.query 
+        to get the relevant OrderItems, calls the PDFDocument constructor 
+        and calls generateInvoiceInformation and generateInvoiceTable to set inputs 
+        for the PDF, calls doc.end to end the stream. Finally emits 'data' events 
+        once the listener to the PDFDocument is added and 'end' event to add the buffer.`, async () => {
+
+      // NOTE: The ordersRepository.query adds properties like 
+      //       amount which is equivalent to products.price.
+
+      const commonOrderItems = Testdata.arrayOfOrderItems;
+      commonOrderItems.forEach((orderItem) => {
+        orderItem['amount'] = (Math.random() * (25.5 - 5.5) + 5.5).toFixed(2);
+      });
+
+      jest.spyOn(ordersRepository, 'query').mockResolvedValue(commonOrderItems);
+
+      const cr = Testdata.arrayOfOrders[0]; // Common referant
+      const order = new Order();
+      order.id = cr.id;
+      order.user = mockUser;
+      order.total_price = cr.total_price;
+      order.address = cr.address;
+      order.country = cr.country;
+      order.postalcode = cr.postalcode;
+      order.date = new Date();
+      order.status = OrderStatus.PROCESSING;
+
+      expect(ordersService.createInvoice(mockUser, order));
+
+      expect(ordersRepository.query).toHaveBeenCalled();
+      expect(PDFDocument).toHaveBeenCalledTimes(1);
+    });
+  });
+  */
+
   describe('fetchOrderItems', () => {
     it("returns order's items by calling ordersRepository.createQueryBuilder and orderItem.createQueryBuilder", async () => {
       expect(
@@ -259,20 +300,8 @@ describe('OrdersService', () => {
   });
 
   describe('create', () => {
-    const sandbox = createSandbox();
-    //const manager = new EntityManager(new DataSource());
-
-    beforeAll(() => {
-      //sandbox.mock(manager);
-    });
-
-    afterAll(() => {
-      sandbox.restore();
-    });
-
     it('Creates an order', async () => {
       jest.spyOn(ordersRepository, 'create').mockReturnValue(new Order());
-      //jest.spyOn(manager, 'query').mockResolvedValue('meow');
 
       const dto = {
         total_price: 10,
@@ -297,38 +326,6 @@ describe('OrdersService', () => {
       // Call to ordersService.addOrderItems
       expect(ordersRepository.query).toHaveBeenCalled();
       expect(orderItemRepository.createQueryBuilder).toHaveBeenCalled();
-    });
-  });
-
-  describe('createInvoice', () => {
-    it(`Creates an invoice by calling ordersRepository.query 
-        to get the relevant OrderItems, calls the PDFDocument constructor 
-        and calls generateInvoiceInformation and generateInvoiceTable to set inputs 
-        for the PDF, calls doc.end to end the stream. Finally emits 'data' events 
-        once the listener to the PDFDocument is added and 'end' event to add the buffer.`, async () => {
-      /* NOTE: The ordersRepository.query adds properties like amount which is equivalent to products.price */
-      const commonOrderItems = Testdata.arrayOfOrderItems;
-      commonOrderItems.forEach((orderItem) => {
-        orderItem['amount'] = (Math.random() * (25.5 - 5.5) + 5.5).toFixed(2);
-      });
-
-      jest.spyOn(ordersRepository, 'query').mockResolvedValue(commonOrderItems);
-
-      const cr = Testdata.arrayOfOrders[0]; // Common referant
-      const order = new Order();
-      order.id = cr.id;
-      order.user = mockUser;
-      order.total_price = cr.total_price;
-      order.address = cr.address;
-      order.country = cr.country;
-      order.postalcode = cr.postalcode;
-      order.date = new Date();
-      order.status = OrderStatus.PROCESSING;
-
-      expect(ordersService.createInvoice(mockUser, order));
-
-      expect(ordersRepository.query).toHaveBeenCalled();
-      expect(PDFDocument).toHaveBeenCalledTimes(1);
     });
   });
 
