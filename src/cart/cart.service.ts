@@ -23,7 +23,7 @@ export class CartService {
 
   async fetchCart(user: User): Promise<Cart> {
     return this.cartRepository.findOne({
-      where: { userId: user['id'] },
+      where: { userId: user['id'] }
     });
   }
 
@@ -38,7 +38,7 @@ export class CartService {
   /* helper function */
   async fetchItems(user: User): Promise<CartItem[]> {
     const cart = await this.cartRepository.findOne({
-      where: { userId: user['id'] },
+      where: { userId: user['id'] }
     });
     const cartItems = await this.cartItemRepository
       .createQueryBuilder('cartItem')
@@ -52,7 +52,7 @@ export class CartService {
   async fetchCartItems(user: User): Promise<CartItemInfo> {
     /* get cart id */
     const cart = await this.cartRepository.findOne({
-      where: { userId: user['id'] },
+      where: { userId: user['id'] }
     });
 
     if (!cart) throw new NotFoundException('User has no cart');
@@ -89,7 +89,11 @@ export class CartService {
   }
 
   /* adds a cartItemId to Cart entity and adds product to cart-item entity */
-  async addToCart(id: number, user: User, qty: { quantity: number }): Promise<any> {
+  async addToCart(
+    id: number,
+    user: User,
+    qty: { quantity: number }
+  ): Promise<any> {
     // Validates the inputs
     if (!qty.quantity) {
       throw new NotFoundException('Quantity is missing');
@@ -140,7 +144,7 @@ export class CartService {
   async removeCartItem(productId: number, user: User): Promise<void> {
     /* get cart id */
     const { id } = await this.cartRepository.findOne({
-      where: { userId: user['id'] },
+      where: { userId: user['id'] }
     });
 
     const cartItem = await this.cartItemRepository
@@ -154,7 +158,9 @@ export class CartService {
     if (id === cartItem.cartId) {
       const result = await this.cartItemRepository.delete(await cartItem.id);
       if (result.affected === 0)
-        throw new NotFoundException("Item is not in user's cart or item does not exist");
+        throw new NotFoundException(
+          "Item is not in user's cart or item does not exist"
+        );
     }
   }
 
@@ -162,7 +168,7 @@ export class CartService {
   async clearCart(user: User): Promise<any> {
     // Returns user's cart id
     const { id } = await this.cartRepository.findOne({
-      where: { userId: user['id'] },
+      where: { userId: user['id'] }
     });
 
     if (!id) throw new NotFoundException('No cart found');
@@ -172,7 +178,7 @@ export class CartService {
     //return AppDataSource.getRepository(Cart).delete({ cartId: id });
     console.log('[cart.repository.ts] :: clearCart :: value returned ->', id);
     return this.cartItemRepository.find({
-      where: { cartId: id },
+      where: { cartId: id }
     });
   }
 }

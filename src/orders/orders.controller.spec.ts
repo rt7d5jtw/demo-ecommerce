@@ -5,60 +5,14 @@ import { OrderStatus } from './order.entity';
 import { OrdersController } from './orders.controller';
 import { OrdersService } from './orders.service';
 import { Readable } from 'stream';
-
-export const bunchOfOrders = [
-  {
-    id: 'f29ca6ae-3aac-4794-b008-4d743901a226',
-    userId: 'e6a23d5f-3a23-498f-9f61-ffb9ad34cb68',
-    total_price: 1.5,
-    address: 'Teststreet 10b',
-    country: 'Norway',
-    city: 'Testing',
-    postalcode: '02210',
-    status: OrderStatus.PROCESSING,
-    date: new Date('2021-07-07'),
-  },
-  {
-    id: 'e9989eb9-c0ec-46e5-8b81-13ecffca7c0b',
-    userId: 'e6a23d5f-3a23-498f-9f61-ffb9ad34cb68',
-    total_price: 28,
-    address: 'Teststreet 10b',
-    country: 'Finland',
-    city: 'Testing',
-    postalcode: '02210',
-    status: OrderStatus.PROCESSING,
-    date: new Date('2021-07-08'),
-  },
-  {
-    id: 'bf8ffda1-c91f-4c75-9caf-8c8c5badd80d',
-    userId: 'e6a23d5f-3a23-498f-9f61-ffb9ad34cb68',
-    total_price: 38.5,
-    address: 'Teststreet 10b',
-    country: 'Bulgaria',
-    city: 'Testing',
-    postalcode: '02210',
-    status: OrderStatus.PROCESSING,
-    date: new Date('2021-07-08'),
-  },
-];
-
-const cartItems = [
-  {
-    id: '82208734-1ac7-4b7e-b436-363996d5661d',
-    cartId: '7e83883a-8e90-41d0-8426-5da7096e730b',
-    productId: 28,
-    quantity: 1,
-    price: 9.5,
-    CreatedAt: '2021-07-11T21:00:00.000Z',
-  },
-];
+import * as Testdata from '../../test/testdata.json';
 
 const mockOrdersService = () => ({
-  fetch: jest.fn().mockResolvedValue(bunchOfOrders),
-  fetchAll: jest.fn().mockResolvedValue(bunchOfOrders),
-  fetchById: jest.fn().mockResolvedValue(bunchOfOrders[0]),
-  fetchOrderItems: jest.fn().mockResolvedValue(bunchOfOrders[0]),
-  addOrderItems: jest.fn().mockResolvedValue(cartItems),
+  fetch: jest.fn().mockResolvedValue(Testdata.arrayOfOrders),
+  fetchAll: jest.fn().mockResolvedValue(Testdata.arrayOfOrders),
+  fetchById: jest.fn().mockResolvedValue(Testdata.arrayOfOrders[0]),
+  fetchOrderItems: jest.fn().mockResolvedValue(Testdata.arrayOfOrders[0]),
+  addOrderItems: jest.fn().mockResolvedValue(Testdata.arrayOfCartItems),
   removeOrder: jest.fn().mockResolvedValue(undefined),
   update: jest.fn(),
   create: jest.fn((dto, user) => {
@@ -76,7 +30,7 @@ const mockOrdersService = () => ({
     stream.push(buffer);
     stream.push(null);
     return stream;
-  }),
+  })
 });
 
 describe('OrdersController', () => {
@@ -92,9 +46,9 @@ describe('OrdersController', () => {
       providers: [
         {
           provide: OrdersService,
-          useFactory: mockOrdersService,
-        },
-      ],
+          useFactory: mockOrdersService
+        }
+      ]
     }).compile();
 
     ordersController = module.get<OrdersController>(OrdersController);
@@ -107,7 +61,8 @@ describe('OrdersController', () => {
 
   const mockUser = new User();
   mockUser.email = 'miumau@gmail.com';
-  mockUser.password = '$2b$10$ZUYZVMqZgk5zDj2wQVdpQ.OQuncE7TauJSFlK7vLdQOfjnrqZNXrm';
+  mockUser.password =
+    '$2b$10$ZUYZVMqZgk5zDj2wQVdpQ.OQuncE7TauJSFlK7vLdQOfjnrqZNXrm';
   mockUser.id = '5712e711-9c52-436f-854e-0d63691547c8';
 
   describe('fetch', () => {
@@ -122,7 +77,7 @@ describe('OrdersController', () => {
           city: expect.any(String),
           postalcode: expect.any(String),
           status: expect.any(String),
-          date: expect.any(Date),
+          date: expect.any(Date)
         },
         {
           id: expect.any(String),
@@ -133,7 +88,7 @@ describe('OrdersController', () => {
           city: expect.any(String),
           postalcode: expect.any(String),
           status: expect.any(String),
-          date: expect.any(Date),
+          date: expect.any(Date)
         },
         {
           id: expect.any(String),
@@ -144,8 +99,8 @@ describe('OrdersController', () => {
           city: expect.any(String),
           postalcode: expect.any(String),
           status: expect.any(String),
-          date: expect.any(Date),
-        },
+          date: expect.any(Date)
+        }
       ]);
       expect(ordersService.fetch).toHaveBeenCalled();
     });
@@ -153,7 +108,9 @@ describe('OrdersController', () => {
 
   describe('fetchAll', () => {
     it('fetches all orders in the database by calling ordersService', async () => {
-      await expect(ordersController.fetchAll()).resolves.toEqual(bunchOfOrders);
+      await expect(ordersController.fetchAll()).resolves.toEqual(
+        Testdata.arrayOfOrders
+      );
       expect(ordersService.fetchAll).toHaveBeenCalled();
     });
   });
@@ -161,7 +118,10 @@ describe('OrdersController', () => {
   describe('fetchById', () => {
     it("fetches order's items by calling ordersService", async () => {
       await expect(
-        ordersController.fetchById('f29ca6ae-3aac-4794-b008-4d743901a226', mockUser)
+        ordersController.fetchById(
+          'f29ca6ae-3aac-4794-b008-4d743901a226',
+          mockUser
+        )
       ).resolves.toEqual({
         id: 'f29ca6ae-3aac-4794-b008-4d743901a226',
         userId: expect.any(String),
@@ -171,7 +131,7 @@ describe('OrdersController', () => {
         city: expect.any(String),
         postalcode: expect.any(String),
         status: expect.any(String),
-        date: expect.any(Date),
+        date: expect.any(Date)
       });
       expect(ordersService.fetchById).toHaveBeenCalledWith(
         'f29ca6ae-3aac-4794-b008-4d743901a226',
@@ -193,7 +153,7 @@ describe('OrdersController', () => {
         city: expect.any(String),
         postalcode: expect.any(String),
         status: expect.any(String),
-        date: expect.any(Date),
+        date: expect.any(Date)
       });
       expect(ordersService.fetchOrderItems).toHaveBeenCalledWith(
         'f29ca6ae-3aac-4794-b008-4d743901a226'
@@ -204,7 +164,10 @@ describe('OrdersController', () => {
   describe('addOrderItems', () => {
     it("adds items in user's cart to order with specified id", async () => {
       await expect(
-        ordersController.addOrderItems('f29ca6ae-3aac-4794-b008-4d743901a226', mockUser)
+        ordersController.addOrderItems(
+          'f29ca6ae-3aac-4794-b008-4d743901a226',
+          mockUser
+        )
       ).resolves.toEqual([
         {
           id: expect.any(String),
@@ -212,8 +175,8 @@ describe('OrdersController', () => {
           productId: expect.any(Number),
           quantity: expect.any(Number),
           price: expect.any(Number),
-          CreatedAt: expect.any(String),
-        },
+          CreatedAt: expect.any(String)
+        }
       ]);
       expect(ordersService.addOrderItems).toHaveBeenCalledWith(
         'f29ca6ae-3aac-4794-b008-4d743901a226',
@@ -229,7 +192,7 @@ describe('OrdersController', () => {
         address: 'Yeetstreet',
         country: 'Bruma',
         city: 'Yes',
-        postalcode: '01000',
+        postalcode: '01000'
       };
       await expect(ordersController.create(dto, mockUser)).resolves.toEqual({
         total_price: '10',
@@ -240,7 +203,7 @@ describe('OrdersController', () => {
         status: 'PROCESSING',
         userId: '5712e711-9c52-436f-854e-0d63691547c8',
         id: expect.any(String),
-        date: expect.any(String),
+        date: expect.any(String)
       });
       expect(ordersService.create).toHaveBeenCalledWith(dto, mockUser);
     });
@@ -257,7 +220,7 @@ describe('OrdersController', () => {
         city: 'Yes',
         postalcode: '01000',
         status: 'PAID',
-        date: '2021-07-23',
+        date: '2021-07-23'
       });
       const dto = {
         total_price: 10,
@@ -265,7 +228,7 @@ describe('OrdersController', () => {
         country: 'Bruma',
         city: 'Yes',
         postalcode: '01000',
-        status: OrderStatus.PAID,
+        status: OrderStatus.PAID
       };
       const id = '725b3c5a-4f40-468e-aa9e-9057600d55af';
       expect(ordersController.update(id, dto)).resolves.toEqual({
@@ -277,7 +240,7 @@ describe('OrdersController', () => {
         city: 'Yes',
         postalcode: '01000',
         status: 'PAID',
-        date: '2021-07-23',
+        date: '2021-07-23'
       });
     });
   });

@@ -3,7 +3,6 @@ import { AppModule } from './app.module';
 import { Logger } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppDataSource } from './config/typeorm.config';
-import { giveTimestamp } from './config/utils';
 import * as v8 from 'v8';
 
 async function bootstrap() {
@@ -37,6 +36,6 @@ async function bootstrap() {
 
   // Record the heap dump
   if (`${process.env.MODE}` === 'development')
-    v8.writeHeapSnapshot(`res/snapshots/${giveTimestamp()}` + `.heapsnapshot`);
+    v8.writeHeapSnapshot(`res/snapshots/${new Date()}` + `.heapsnapshot`);
 }
 bootstrap();

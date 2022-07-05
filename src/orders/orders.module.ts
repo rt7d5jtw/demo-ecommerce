@@ -5,18 +5,19 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from '../auth/auth.module';
 import { PassportModule } from '@nestjs/passport';
 import { Order } from './order.entity';
+import { OrderItem } from './order-item.entity';
 //import { StripeModule } from '@golevelup/nestjs-stripe';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Order]),
+    TypeOrmModule.forFeature([Order, OrderItem]),
     /*StripeModule.forRoot(StripeModule, {
       apiKey: process.env.STRIPE_SECRET,
     }),*/
     PassportModule,
-    AuthModule,
+    AuthModule
   ],
   controllers: [OrdersController],
-  providers: [OrdersService],
+  providers: [OrdersService]
 })
 export class OrdersModule {}

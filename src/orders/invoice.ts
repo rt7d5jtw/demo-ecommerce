@@ -170,7 +170,7 @@ function generateHr(doc: PDFKit.PDFDocument, y: number) {
 }
 
 function formatCurrency(cents: number) {
-  return '$' + cents.toFixed(2);
+  return '$' + Number(cents).toFixed(2);
 }
 
 function formatDate(date: Date) {

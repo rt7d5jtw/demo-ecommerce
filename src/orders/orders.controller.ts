@@ -11,7 +11,7 @@ import {
   Query,
   UseGuards,
   Patch,
-  ParseUUIDPipe,
+  ParseUUIDPipe
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { CreateOrderDto, UpdateOrderDto } from './dto/order.do';
@@ -24,6 +24,7 @@ import { GetUser } from '../users/get_user.decorator';
 import { PaymentDto } from './dto/payment.dto';
 import { Response } from 'express';
 import Stripe from 'stripe';
+import { Product } from 'src/product/product.entity';
 
 @UseGuards(AuthGuard('jwt'))
 @Controller('orders')
@@ -44,7 +45,9 @@ export class OrdersController {
   }
 
   @Post('create-payment-intent')
-  async addPaymentIntent(@Body() paymentDto: PaymentDto): Promise<Stripe.PaymentIntent> {
+  async addPaymentIntent(
+    @Body() paymentDto: PaymentDto
+  ): Promise<Stripe.PaymentIntent> {
     return this.ordersService.addPaymentIntent(paymentDto);
   }
 
@@ -63,14 +66,17 @@ export class OrdersController {
       'Content-Type': 'application/pdf',
       'Content-Disposition': 'attachment',
       'Content-Length': buffer.length,
-      filename: 'invoice.pdf',
+      filename: 'invoice.pdf'
     });
 
     stream.pipe(res);
   }
 
   @Post('items/:id')
-  async addOrderItems(@Param('id') id: string, @GetUser() user: User): Promise<OrderItem[]> {
+  async addOrderItems(
+    @Param('id') id: string,
+    @GetUser() user: User
+  ): Promise<OrderItem[]> {
     return this.ordersService.addOrderItems(id, user);
   }
 
@@ -80,13 +86,18 @@ export class OrdersController {
   }
 
   @Get('/items/:id')
-  fetchOrderItems(@Param('id') id: string): Promise<OrderItem[]> {
+  fetchOrderItems(
+    @Param('id') id: string
+  ): Promise<(OrderItem & Pick<Product, 'title' | 'image'>)[]> {
     return this.ordersService.fetchOrderItems(id);
   }
 
   @Post()
   @UsePipes(ValidationPipe)
-  create(@Body() createOrderDto: CreateOrderDto, @GetUser() user: User): Promise<Order> {
+  create(
+    @Body() createOrderDto: CreateOrderDto,
+    @GetUser() user: User
+  ): Promise<Order> {
     return this.ordersService.create(createOrderDto, user);
   }
 

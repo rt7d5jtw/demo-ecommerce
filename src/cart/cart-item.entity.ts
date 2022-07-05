@@ -5,7 +5,7 @@ import {
   Column,
   JoinColumn,
   CreateDateColumn,
-  ManyToOne,
+  ManyToOne
 } from 'typeorm';
 import { Cart } from './cart.entity';
 import { Product } from '../product/product.entity';
@@ -31,7 +31,7 @@ export class CartItem extends BaseEntity {
   CreatedAt: Date;
 
   @ManyToOne(() => Cart, (cart) => cart.cartItems, {
-    onDelete: 'CASCADE',
+    onDelete: 'CASCADE'
   })
   @JoinColumn([{ name: 'cartId', referencedColumnName: 'id' }])
   cart: Cart;
