@@ -1,10 +1,15 @@
-import { Injectable, Logger, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  Logger,
+  NotFoundException
+} from '@nestjs/common';
 import { Cart } from './cart.entity';
 import { CartItem } from './cart-item.entity';
-import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 import { CartItemInfo } from './dto/cart.dto';
 import { User } from '../users/user.entity';
-import { DataSource, Repository, TypeORMError } from 'typeorm';
+import { DeleteResult, Repository, TypeORMError } from 'typeorm';
 import { Product } from '../product/product.entity';
 
 @Injectable()
@@ -19,21 +24,22 @@ export class CartService {
     private productRepository: Repository<Product>
   ) {}
 
+  /**
+   * Returns the Cart of the User.
+   * @param {User} user
+   * @returns {Promise<Cart>}
+   */
   async fetchCart(user: User): Promise<Cart> {
     return this.cartRepository.findOne({
       where: { userId: user['id'] }
     });
   }
 
-  async fetchProductPrice(id: number): Promise<number> {
-    const price = await this.productRepository.findOne({ where: { id: id } });
-    if (!price) {
-      throw new NotFoundException(`Price with ID "${id}" not found`);
-    }
-    return price.price;
-  }
-
-  /* helper function */
+  /**
+   * Returns the CartItem's in the current Cart of the User.
+   * @param {User} user - User context whose CartItem's are being returned.
+   * @returns {Promise<CartItem[]>}
+   */
   async fetchItems(user: User): Promise<CartItem[]> {
     const cart = await this.cartRepository.findOne({
       where: { userId: user['id'] }
@@ -47,65 +53,84 @@ export class CartService {
     return cartItems;
   }
 
+  /**
+   * Returns the Price of the Product.
+   * @param {number} id - ID of the Product.
+   * @returns {Promise<number>}
+   */
+  async fetchProductPrice(id: number): Promise<number> {
+    const price = await this.productRepository.findOne({ where: { id: id } });
+    if (!price) {
+      throw new NotFoundException(`Price with ID "${id}" not found`);
+    }
+    return price.price;
+  }
+
+  /**
+   * Queries for the CartItem's of the User's Cart and
+   * returns them with additional information of title
+   * and image taken from the Product properties.
+   * @param {User} user
+   * @returns {Promise<CartItemInfo>}
+   */
   async fetchCartItems(user: User): Promise<CartItemInfo> {
-    /* get cart id */
+    // Get Cart of the User to query for the CartItem's.
     const cart = await this.cartRepository.findOne({
       where: { userId: user['id'] }
     });
 
     if (!cart) throw new NotFoundException('User has no cart');
 
-    /* gets cart items with matching productId */
-    const queryRunner = this.dataSource.createQueryRunner();
-    await queryRunner.connect();
-    await queryRunner.startTransaction();
     try {
-      const cartItems = await queryRunner.manager.query(`
+      // Gets cart items with matching productId.
+      const cartItems = await this.cartItemRepository.query(`
       SELECT ct."productId", prods."title", 
       prods."image", prods."price", ct."quantity" FROM "cart-item" as ct
       JOIN "products" as prods
         ON prods."id" = ct."productId"
       WHERE ct."cartId" = '${cart['id']}';
       `);
-      await queryRunner.commitTransaction();
-      await queryRunner.release();
       return cartItems;
     } catch (err) {
       this.logger.error(
         `Something went wrong while trying to connect or run transaction at cartService.fetchCartItems --`,
         err
       );
-      await queryRunner.rollbackTransaction();
       throw new TypeORMError(`Error while connecting to make a transaction!`);
     }
   }
 
+  /**
+   * Creates a Cart for the User and returns it.
+   * @param {User} user
+   * @returns {Promise<Cart>}
+   */
   async createCart(user: User): Promise<Cart> {
     const cart = new Cart();
     cart.userId = user.id;
     return this.cartRepository.save(cart); // Easier to test if we use this instead the BaseEntity.
   }
 
-  /* adds a cartItemId to Cart entity and adds product to cart-item entity */
+  /**
+   * Adds a cartItemId to Cart entity and adds product to cart-item entity.
+   * @param {number} id
+   * @param {User} user
+   * @param {{ quantity: number }} qty
+   * @returns {Promise<any>}
+   */
   async addToCart(
     id: number,
     user: User,
     qty: { quantity: number }
   ): Promise<any> {
     // Validates the inputs
-    if (!qty.quantity) {
-      throw new NotFoundException('Quantity is missing');
-    }
+    if (!qty.quantity) throw new NotFoundException('Quantity is missing');
 
     const cart = await this.fetchCart(user);
-    if (!cart) {
-      throw new NotFoundException('User has no cart');
-    }
+    if (!cart) throw new NotFoundException('User has no cart');
 
     const price = await this.fetchProductPrice(id);
-    if (!price) {
-      throw new NotFoundException('Price could not be found');
-    }
+    if (!price) throw new NotFoundException('Price could not be found');
 
     // Sets the new CartItem to align with the inputs
     const cartItem = new CartItem();
@@ -115,8 +140,10 @@ export class CartService {
     cartItem.price = price * qty.quantity;
     cartItem.productId = id;
 
-    /* checks if Cart Items with same productId and cartId exists in the Cart Item table
-     * if so it sums quantity and price of the two objects and removes the redundant copy 'cart_copy' */
+    /* Checks if Cart Items with same productId and cartId exists
+     * in the Cart Item table, if so it sums quantity and price of the
+     * two objects and removes the redundant copy 'cart_copy'.
+     */
     const cartItems = await this.fetchItems(user);
     for (let i = 0; i < cartItems.length; i++) {
       if (
@@ -126,11 +153,12 @@ export class CartService {
         const productId = cartItems[i].productId;
         cartItem.quantity = cartItems[i].quantity + cartItem.quantity;
         cartItem.price = cartItems[i].price + cartItem.price;
+
         this.removeCartItem(productId, user);
       }
     }
 
-    return cartItem.save();
+    return this.cartItemRepository.save(cartItem);
   }
 
   /**
@@ -138,9 +166,12 @@ export class CartService {
    * 1. Calls cartRepository.findOne with the input User.id,
    * 2. Calls cartItemRepository.createQueryBuilder to get the User CartItem
    * 3. If User CartItem was found, it is deleted.
+   * @param {number} productId
+   * @param {User} user
+   * @returns {Promise<DeleteResult>}
    * */
-  async removeCartItem(productId: number, user: User): Promise<void> {
-    /* get cart id */
+  async removeCartItem(productId: number, user: User): Promise<DeleteResult> {
+    // Get User's Cart ID.
     const { id } = await this.cartRepository.findOne({
       where: { userId: user['id'] }
     });
@@ -159,24 +190,37 @@ export class CartService {
         throw new NotFoundException(
           "Item is not in user's cart or item does not exist"
         );
+
+      return result;
     }
+
+    throw new ConflictException(
+      `User's Cart ID and CartItem's ID do not align. CartItem is not User's.`
+    );
   }
 
-  /** Deletes the User's Cart which cascades to delete all the CartItem's from the User's Cart */
-  async clearCart(user: User): Promise<any> {
-    // Returns user's cart id
+  /**
+   * Deletes the User's CartItem(s) and returns the {@link DeleteResult}.
+   * @param {User} user
+   * @returns {Promise<DeleteResult>}
+   */
+  async clearCart(user: User): Promise<DeleteResult> {
+    // Returns user's cart id.
     const { id } = await this.cartRepository.findOne({
       where: { userId: user['id'] }
     });
 
-    if (!id) throw new NotFoundException('No cart found');
+    if (!id) throw new NotFoundException('No cart was found');
 
-    // TODO: FIX THIS!
-    /* uses cart id to delete all the items from user */
-    //return AppDataSource.getRepository(Cart).delete({ cartId: id });
-    console.log('[cart.repository.ts] :: clearCart :: value returned ->', id);
-    return this.cartItemRepository.find({
-      where: { cartId: id }
-    });
+    this.logger.debug(
+      '[cart.repository.ts] :: clearCart :: value returned -> ' + id
+    );
+    // Deletes all the CartItem's by the provided cartId.
+    return this.cartItemRepository
+      .createQueryBuilder()
+      .delete()
+      .from(CartItem, 'cartItem')
+      .where('cart.id = :cartId', { cartId: id })
+      .execute();
   }
 }

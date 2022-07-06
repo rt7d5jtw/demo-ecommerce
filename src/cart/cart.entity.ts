@@ -7,7 +7,7 @@ import {
   CreateDateColumn,
   OneToMany,
   OneToOne,
-  JoinColumn,
+  JoinColumn
 } from 'typeorm';
 import { User } from '../users/user.entity';
 
@@ -23,13 +23,13 @@ export class Cart extends BaseEntity {
   CreatedAt: Date;
 
   @OneToMany(() => CartItem, (cartItem) => cartItem.cart, {
-    onDelete: 'CASCADE',
+    onDelete: 'CASCADE'
   })
   cartItems: CartItem[];
 
   @OneToOne(() => User, (user) => user.cart, {
     onDelete: 'CASCADE',
-    cascade: true,
+    cascade: true
   })
   @JoinColumn([{ name: 'userId', referencedColumnName: 'id' }])
   user: User;

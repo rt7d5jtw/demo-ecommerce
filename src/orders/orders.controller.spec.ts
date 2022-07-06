@@ -77,7 +77,7 @@ describe('OrdersController', () => {
           city: expect.any(String),
           postalcode: expect.any(String),
           status: expect.any(String),
-          date: expect.any(Date)
+          date: expect.any(String)
         },
         {
           id: expect.any(String),
@@ -88,7 +88,7 @@ describe('OrdersController', () => {
           city: expect.any(String),
           postalcode: expect.any(String),
           status: expect.any(String),
-          date: expect.any(Date)
+          date: expect.any(String)
         },
         {
           id: expect.any(String),
@@ -99,7 +99,7 @@ describe('OrdersController', () => {
           city: expect.any(String),
           postalcode: expect.any(String),
           status: expect.any(String),
-          date: expect.any(Date)
+          date: expect.any(String)
         }
       ]);
       expect(ordersService.fetch).toHaveBeenCalled();
@@ -131,7 +131,7 @@ describe('OrdersController', () => {
         city: expect.any(String),
         postalcode: expect.any(String),
         status: expect.any(String),
-        date: expect.any(Date)
+        date: expect.any(String)
       });
       expect(ordersService.fetchById).toHaveBeenCalledWith(
         'f29ca6ae-3aac-4794-b008-4d743901a226',
@@ -153,7 +153,7 @@ describe('OrdersController', () => {
         city: expect.any(String),
         postalcode: expect.any(String),
         status: expect.any(String),
-        date: expect.any(Date)
+        date: expect.any(String)
       });
       expect(ordersService.fetchOrderItems).toHaveBeenCalledWith(
         'f29ca6ae-3aac-4794-b008-4d743901a226'
@@ -163,12 +163,20 @@ describe('OrdersController', () => {
 
   describe('addOrderItems', () => {
     it("adds items in user's cart to order with specified id", async () => {
-      await expect(
-        ordersController.addOrderItems(
+      expect(
+        await ordersController.addOrderItems(
           'f29ca6ae-3aac-4794-b008-4d743901a226',
           mockUser
         )
-      ).resolves.toEqual([
+      ).toEqual([
+        {
+          id: expect.any(String),
+          cartId: expect.any(String),
+          productId: expect.any(Number),
+          quantity: expect.any(Number),
+          price: expect.any(Number),
+          CreatedAt: expect.any(String)
+        },
         {
           id: expect.any(String),
           cartId: expect.any(String),

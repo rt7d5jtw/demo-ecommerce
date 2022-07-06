@@ -35,7 +35,21 @@ async function bootstrap() {
   logger.log(`DBSYNC: ${process.env.DB_SYNC}`);
 
   // Record the heap dump
-  if (`${process.env.MODE}` === 'development')
-    v8.writeHeapSnapshot(`res/snapshots/${new Date()}` + `.heapsnapshot`);
+  if (parseInt(`${process.env.HEAP}`) === 1) {
+    const timestamp = new Date()
+      .toLocaleTimeString('en-CA', {
+        year: 'numeric',
+        month: 'numeric',
+        day: 'numeric',
+        hour12: false,
+        timeZone: 'Europe/Helsinki'
+      })
+      .toString()
+      .split(', ')
+      .join('_');
+    const filePath = `res/snapshots/${timestamp}` + `.heapsnapshot`;
+    v8.writeHeapSnapshot(filePath);
+    logger.debug(`Heap snapshot recorded to ${filePath}`);
+  }
 }
 bootstrap();

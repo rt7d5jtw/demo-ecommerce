@@ -8,7 +8,7 @@ import {
   ValidationPipe,
   UsePipes,
   ParseIntPipe,
-  UseGuards,
+  UseGuards
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { CartService } from './cart.service';
@@ -17,6 +17,7 @@ import { CartItem } from './cart-item.entity';
 import { Cart } from './cart.entity';
 import { GetUser } from '../users/get_user.decorator';
 import { User } from '../users/user.entity';
+import { DeleteResult } from 'typeorm';
 
 // NOTE: The methods utilize 'Authorization Bearer <JWT>' to fetch the User from the jwt.
 @Controller('cart')
@@ -66,7 +67,7 @@ export class CartController {
   removeCartItem(
     @Param('productId', ParseIntPipe) productId: number,
     @GetUser() user: User
-  ): Promise<void | string> {
+  ): Promise<DeleteResult> {
     return this.cartService.removeCartItem(productId, user);
   }
 
