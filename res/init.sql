@@ -4,8 +4,6 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 13.4
--- Dumped by pg_dump version 13.4
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -495,8 +493,15 @@ COPY public.products (id, title, image, price, description, status, "createdAt",
 --
 
 COPY public."cart-item" (id, "cartId", "productId", quantity, price, "CreatedAt") FROM stdin;
+b0a5bd87-f37b-4f46-8e44-e18ecd41f53d	32cc7d62-73d9-4033-b858-fde130c21afd	40	1	6.5	2022-07-06
+67ca5c80-6eb8-419b-ba03-977da757f319	32cc7d62-73d9-4033-b858-fde130c21afd	222	11	19	2022-07-06
+f8ef489b-f3fc-44b8-a198-03295f1300e1	32cc7d62-73d9-4033-b858-fde130c21afd	62	1	4.5	2022-07-06
+022e84d9-5247-4630-922e-35dc69241b12	32cc7d62-73d9-4033-b858-fde130c21afd	57	1	4.5	2022-07-06
+444a0883-a9b9-4255-95ec-80daca6f484f	8c019fbb-ff8a-4fb5-8d1d-6d31adb6c422	57	1	4.5	2022-07-06
+f03713fb-f9c5-4642-8d4e-ed160628cce8	8c019fbb-ff8a-4fb5-8d1d-6d31adb6c422	222	11	19	2022-07-06
+f389f353-9b2c-4fad-85d5-4ee9d2107cd4	8c019fbb-ff8a-4fb5-8d1d-6d31adb6c422	62	1	4.5	2022-07-06
+62bfbe2d-62f1-4818-bcfe-4599f738c07f	8c019fbb-ff8a-4fb5-8d1d-6d31adb6c422	40	11	13	2022-07-06
 \.
-
 
 --
 -- Data for Name: category; Type: TABLE DATA; Schema: public; Owner: postgres
@@ -518,12 +523,15 @@ dcaa9f09-0dbe-4e81-af92-e15ee487beaa	Milk Chocolate
 COPY public.images (name, img) FROM stdin;
 \.
 
-
 --
 -- Data for Name: orders; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.orders (id, "userId", address, status, date, country, city, total_price, postalcode) FROM stdin;
+30a524ef-3007-41bf-911d-1486c1579b54	e6a23d5f-3a23-498f-9f61-ffb9ad34cb68	Yeetstreet	PROCESSING	2022-07-06	Finland	Helsinki	15	01000
+94b4400f-0024-4eeb-b1c8-02fc2d84bc37	27502c8c-3fa9-48f5-a19c-776d6fb47dea	Yeetstreet	PROCESSING	2022-07-06	Finland	Helsinki	15	01000
+9b3990af-ee07-42ab-8d63-a2e6a3d2de47	27502c8c-3fa9-48f5-a19c-776d6fb47dea	Some street	PROCESSING	2022-07-06	Finland	Tampere	25	33250
+5e73b390-ac90-4d25-a40c-df78e06dfdf9	27502c8c-3fa9-48f5-a19c-776d6fb47dea	Another street	PROCESSING	2022-07-06	Finland	Oulu	265	90240
 \.
 
 
@@ -532,8 +540,23 @@ COPY public.orders (id, "userId", address, status, date, country, city, total_pr
 --
 
 COPY public."order-item" (id, "orderId", quantity, "productId", price) FROM stdin;
+197d207e-1ee0-4866-9d9a-5ba1a8effd0e	30a524ef-3007-41bf-911d-1486c1579b54	1	40	6.5
+e54be8b8-870c-4752-91e8-bf5c1c470d40	30a524ef-3007-41bf-911d-1486c1579b54	11	222	19
+abdded4e-7ee3-4c47-b71f-ed3768ff1656	30a524ef-3007-41bf-911d-1486c1579b54	1	62	4.5
+c4d083a7-9d18-42ae-bdca-1ec6572c8793	30a524ef-3007-41bf-911d-1486c1579b54	1	57	4.5
+c62a291a-b5e1-4fb7-89cd-b36cc5b511ea	94b4400f-0024-4eeb-b1c8-02fc2d84bc37	1	57	4.5
+49f3fea7-3918-49a5-b8fa-68a7aa299e14	94b4400f-0024-4eeb-b1c8-02fc2d84bc37	11	222	19
+c4e6ce0c-e0ad-4044-b0d4-b44f5458c529	94b4400f-0024-4eeb-b1c8-02fc2d84bc37	1	40	6.5
+f2997c64-d097-4f55-a25a-10ca578f9141	94b4400f-0024-4eeb-b1c8-02fc2d84bc37	1	62	4.5
+8c28d649-752e-4785-9788-1bc174b4ef84	9b3990af-ee07-42ab-8d63-a2e6a3d2de47	1	57	4.5
+5df1d993-fe5d-4c60-b486-39133293d5f1	9b3990af-ee07-42ab-8d63-a2e6a3d2de47	11	222	19
+5e974189-1c5c-4d9f-b6a4-082909a269df	9b3990af-ee07-42ab-8d63-a2e6a3d2de47	1	62	4.5
+1efa0f0c-b8df-4b16-84ad-09ac0a1036f4	9b3990af-ee07-42ab-8d63-a2e6a3d2de47	11	40	13
+3d9abf4f-73ee-4e6d-8689-cf398364df53	5e73b390-ac90-4d25-a40c-df78e06dfdf9	1	57	4.5
+58cdc963-fd49-48f1-9eee-7884573141d0	5e73b390-ac90-4d25-a40c-df78e06dfdf9	11	222	19
+ee7c037b-cb47-4c86-ba62-baee7a46ba28	5e73b390-ac90-4d25-a40c-df78e06dfdf9	1	62	4.5
+c2493359-0241-4569-80d2-08881ef9eabb	5e73b390-ac90-4d25-a40c-df78e06dfdf9	11	40	13
 \.
-
 
 --
 -- Data for Name: product_categories; Type: TABLE DATA; Schema: public; Owner: postgres
