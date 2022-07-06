@@ -399,6 +399,72 @@ describe('AppController (e2e)', () => {
         .set('Authorization', `Bearer ${jwt['accessToken']}`);
 
       expect(result.statusCode).toEqual(200);
+      cleanup.get('promotions').pop();
+    });
+  });
+
+  describe('categories', () => {
+    it(`/category (GET) -- Calls to CategoryController.fetch to return all categories.`, async () => {
+      const result = await request(app.getHttpServer())
+        .get('/category')
+        .set('Accept', 'application/json')
+        .set('Accept-Encoding', 'gzip, deflate, br')
+        .set('Connection', 'keep-alive');
+
+      expect(result.statusCode).toEqual(200);
+      expect(result.body[0]).toEqual({
+        id: expect.any(String),
+        cname: expect.any(String)
+      });
+    });
+
+    it(`/category (POST) -- Calls to CategoryController.create to create a new Category and return it.`, async () => {
+      const result = await request(app.getHttpServer())
+        .post('/category')
+        .send({ cname: 'chocolate truffles' })
+        .set('Accept', 'application/json')
+        .set('Accept-Encoding', 'gzip, deflate, br')
+        .set('Connection', 'keep-alive')
+        .set('Authorization', `Bearer ${jwt['accessToken']}`);
+
+      expect(result.statusCode).toEqual(201);
+      expect(result.body).toEqual({
+        id: expect.any(String),
+        cname: 'chocolate truffles'
+      });
+      expect(result.body.id).toMatch(/^[A-Za-z0-9-_.+/=]*$/);
+
+      cleanup.set('categories', [result.body['id']]);
+    });
+
+    it(`/category/:id (PATCH) -- Calls to CategoryController.update to assign new values to existing Category and return it.`, async () => {
+      const CategoryID = cleanup.get('categories')[0];
+      const result = await request(app.getHttpServer())
+        .patch('/category/' + CategoryID)
+        .send({ cname: 'gifts' })
+        .set('Accept', 'application/json')
+        .set('Accept-Encoding', 'gzip, deflate, br')
+        .set('Connection', 'keep-alive')
+        .set('Authorization', `Bearer ${jwt['accessToken']}`);
+
+      expect(result.statusCode).toEqual(200);
+      expect(result.body).toEqual({
+        id: expect.any(String),
+        cname: 'gifts'
+      });
+      expect(result.body.id).toMatch(/^[A-Za-z0-9-_.+/=]*$/);
+    });
+
+    it(`/category/:id (DELETE) -- Calls to CategoryController.remove to remove existing Category.`, async () => {
+      const CategoryID = cleanup.get('categories')[0];
+      const result = await request(app.getHttpServer())
+        .delete('/category/' + CategoryID)
+        .set('Accept', 'application/json')
+        .set('Accept-Encoding', 'gzip, deflate, br')
+        .set('Connection', 'keep-alive')
+        .set('Authorization', `Bearer ${jwt['accessToken']}`);
+
+      expect(result.statusCode).toEqual(200);
     });
   });
 
