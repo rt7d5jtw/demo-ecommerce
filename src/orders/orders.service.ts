@@ -202,15 +202,15 @@ export class OrdersService {
    */
   async update(updateOrderDto: UpdateOrderDto, id: string): Promise<Order> {
     const order = await this.ordersRepository.findOne({ where: { id: id } });
-    const { total_price, address, country, city, postalcode, status } =
-      updateOrderDto;
+    if (order === null || order === undefined)
+      throw new NotFoundException(`Order with ID "${id}" could not be found.`);
 
-    order.total_price = total_price ?? order.total_price;
-    order.address = address ?? order.address;
-    order.country = country ?? order.country;
-    order.city = city ?? order.city;
-    order.postalcode = postalcode ?? order.postalcode;
-    order.status = status ?? order.status;
+    order.total_price = updateOrderDto.total_price ?? order.total_price;
+    order.address = updateOrderDto.address ?? order.address;
+    order.country = updateOrderDto.country ?? order.country;
+    order.city = updateOrderDto.city ?? order.city;
+    order.postalcode = updateOrderDto.postalcode ?? order.postalcode;
+    order.status = updateOrderDto.status ?? order.status;
 
     try {
       await this.ordersRepository.save(order);
