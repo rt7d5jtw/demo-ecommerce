@@ -468,6 +468,140 @@ describe('AppController (e2e)', () => {
     });
   });
 
+  describe('orders', () => {
+    // NOTE: PostgreSQL v14.0 is already seeded with few orders for the testing@user.com User.
+    it(`/orders (GET) -- Calls OrdersController.fetch to return all the orders of the User from the JWT claims`, async () => {
+      const result = await request(app.getHttpServer())
+        .get('/orders')
+        .set('Accept', 'application/json')
+        .set('Accept-Encoding', 'gzip, deflate, br')
+        .set('Connection', 'keep-alive')
+        .set('Authorization', `Bearer ${jwt['accessToken']}`);
+
+      expect(result.statusCode).toEqual(200);
+      expect(result.body).not.toHaveLength(0);
+      expect(result.body[0]).toMatchObject({
+        total_price: expect.any(Number),
+        address: expect.any(String),
+        country: expect.any(String),
+        city: expect.any(String),
+        postalcode: expect.any(String),
+        status: expect.any(String),
+        userId: expect.any(String),
+        id: expect.any(String),
+        date: expect.any(String)
+      });
+    });
+
+    it(`/orders (GET) -- Calls OrdersController.fetchAll to return all the orders.`, async () => {
+      const result = await request(app.getHttpServer())
+        .get('/orders/all')
+        .set('Accept', 'application/json')
+        .set('Accept-Encoding', 'gzip, deflate, br')
+        .set('Connection', 'keep-alive')
+        .set('Authorization', `Bearer ${jwt['accessToken']}`);
+
+      expect(result.statusCode).toEqual(200);
+      expect(result.body).not.toHaveLength(0);
+      expect(result.body[0]).toMatchObject({
+        total_price: expect.any(Number),
+        address: expect.any(String),
+        country: expect.any(String),
+        city: expect.any(String),
+        postalcode: expect.any(String),
+        status: expect.any(String),
+        userId: expect.any(String),
+        id: expect.any(String),
+        date: expect.any(String)
+      });
+    });
+
+    it(`/orders (POST) -- Calls OrdersController.create to create a new Order and return it.`, async () => {
+      const result = await request(app.getHttpServer())
+        .post('/orders')
+        .send({
+          total_price: 15,
+          address: 'somestreet',
+          country: 'Finland',
+          city: 'Helsinki',
+          postalcode: '0100'
+        })
+        .set('Accept', 'application/json')
+        .set('Accept-Encoding', 'gzip, deflate, br')
+        .set('Connection', 'keep-alive')
+        .set('Authorization', `Bearer ${jwt['accessToken']}`);
+
+      expect(result.statusCode).toEqual(201);
+      expect(result.body).toEqual({
+        total_price: 15,
+        address: 'somestreet',
+        country: 'Finland',
+        city: 'Helsinki',
+        postalcode: '0100',
+        status: expect.any(String),
+        userId: expect.any(String),
+        id: expect.any(String),
+        date: expect.any(String)
+      });
+
+      cleanup.set('orders', [result.body['id']]);
+    });
+
+    it(`/orders/:id (GET) -- Calls OrdersController.fetchById to return the order specified by the ID.`, async () => {
+      const OrderID = cleanup.get('orders')[0];
+      const result = await request(app.getHttpServer())
+        .get('/orders/' + OrderID)
+        .set('Accept', 'application/json')
+        .set('Accept-Encoding', 'gzip, deflate, br')
+        .set('Connection', 'keep-alive')
+        .set('Authorization', `Bearer ${jwt['accessToken']}`);
+
+      expect(result.statusCode).toEqual(200);
+      expect(result.body).toEqual({
+        total_price: expect.any(Number),
+        address: expect.any(String),
+        country: expect.any(String),
+        city: expect.any(String),
+        postalcode: expect.any(String),
+        status: expect.any(String),
+        userId: expect.any(String),
+        id: expect.any(String),
+        date: expect.any(String)
+      });
+    });
+
+    it(`/orders (PATCH) -- Calls OrdersController.update to assign new values to Order and return it.`, async () => {
+      const OrderID = cleanup.get('orders')[0];
+      const result = await request(app.getHttpServer())
+        .patch('/orders/' + OrderID)
+        .send({
+          total_price: 25,
+          address: 'new street',
+          country: 'Finland',
+          city: 'Tampere',
+          postalcode: '33250',
+          status: 'PAID'
+        })
+        .set('Accept', 'application/json')
+        .set('Accept-Encoding', 'gzip, deflate, br')
+        .set('Connection', 'keep-alive')
+        .set('Authorization', `Bearer ${jwt['accessToken']}`);
+
+      expect(result.statusCode).toEqual(200);
+      expect(result.body).toEqual({
+        total_price: 25,
+        address: 'new street',
+        country: 'Finland',
+        city: 'Tampere',
+        postalcode: '33250',
+        status: 'PAID',
+        userId: expect.any(String),
+        id: expect.any(String),
+        date: expect.any(String)
+      });
+    });
+  });
+
   afterAll(async () => {
     await app.close();
   });
