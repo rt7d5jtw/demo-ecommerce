@@ -71,6 +71,10 @@ export class UsersController {
     return this.usersService.changeEmail(user, changeEmailDto);
   }
 
+  // NOTE: Response type is text!
+  // Role is returned as text so inspect for (Depending whether using Fetch API or XHR)
+  // [responseText](https://xhr.spec.whatwg.org/#the-responsetext-attribute)
+  // [text](https://fetch.spec.whatwg.org/#ref-for-dom-body-text%E2%91%A0)
   @UseGuards(AuthGuard('jwt'))
   @Patch(':id/role')
   updateUserRole(

@@ -14,7 +14,7 @@ import { SearchUserDto } from './dto/search-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, TypeORMError } from 'typeorm';
 import * as bcrypt from 'bcrypt';
-import { LoginDto } from 'src/auth/dto/auth.dto';
+import { LoginDto } from '../auth/dto/auth.dto';
 
 @Injectable()
 export class UsersService {

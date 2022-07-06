@@ -15,11 +15,11 @@ export class AuthService {
   /**
    * @see {@link https://datatracker.ietf.org/doc/html/rfc7519|JWTrfc}
    *
-   * Signs the user in by calling {@linkcode UsersService.validateUserPassword}
-   * and {@linkcode JwtService.sign}, returns the JWT token.
+   * Signs the user in by calling {@linkcode UsersService validateUserPassword}
+   * and {@linkcode JwtService sign}, returns the JWT token.
    *
-   * @param {LoginDto} loginDto - The email and password of the {@link User}
-   * @returns {Promise<{ accessToken: string }>} Access token for the JWT
+   * @param {LoginDto} loginDto - The email and password of the User.
+   * @returns {Promise<{ accessToken: string }>} Access token for the JWT.
    */
   async signIn(loginDto: LoginDto): Promise<{ accessToken: string }> {
     const email = await this.usersService.validateUserPassword(loginDto);

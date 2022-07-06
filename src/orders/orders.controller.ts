@@ -24,7 +24,7 @@ import { GetUser } from '../users/get_user.decorator';
 import { PaymentDto } from './dto/payment.dto';
 import { Response } from 'express';
 import Stripe from 'stripe';
-import { Product } from 'src/product/product.entity';
+import { Product } from '../product/product.entity';
 
 @UseGuards(AuthGuard('jwt'))
 @Controller('orders')

@@ -5,7 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { PassportModule } from '@nestjs/passport';
 import { AuthModule } from '../auth/auth.module';
 import { Product } from './product.entity';
-import { Category } from 'src/category/category.entity';
+import { Category } from '../category/category.entity';
 
 @Module({
   imports: [
