@@ -4,6 +4,11 @@ import { AppModule } from '../src/app.module';
 import { INestApplication } from '@nestjs/common';
 import { User } from '../src/users/user.entity';
 
+// NOTE: Some of the tests specifically state-reliant, 
+// the initialization script for PostgreSQL +v14.0 is in res/ directory.
+// PostgreSQL +v14.0 database is initialized with certain data for these tests, 
+// this data is the res/init.sql file, containing all the needed state for the tests and application.
+
 describe('AppController (e2e)', () => {
   let app: INestApplication;
   let jwt: { accessToken: string };
@@ -599,6 +604,172 @@ describe('AppController (e2e)', () => {
         id: expect.any(String),
         date: expect.any(String)
       });
+    });
+  });
+
+  describe('cart', () => {
+    it(`/cart (GET) -- CartController.fetch to return the Cart of the User.`, async () => {
+      const result = await request(app.getHttpServer())
+        .get('/cart')
+        .set('Accept', 'application/json')
+        .set('Accept-Encoding', 'gzip, deflate, br')
+        .set('Connection', 'keep-alive')
+        .set('Authorization', `Bearer ${jwt['accessToken']}`);
+
+      expect(result.statusCode).toEqual(200);
+      expect(result.body).toBeDefined();
+      expect(result.body).toMatchObject({
+        id: expect.any(String),
+        userId: expect.any(String),
+        CreatedAt: expect.any(String)
+      });
+    });
+
+    it(`/cart/items (GET) -- CartController.fetchCartItems to return the CartItem's of the User.`, async () => {
+      const result = await request(app.getHttpServer())
+        .get('/cart/items')
+        .set('Accept', 'application/json')
+        .set('Accept-Encoding', 'gzip, deflate, br')
+        .set('Connection', 'keep-alive')
+        .set('Authorization', `Bearer ${jwt['accessToken']}`);
+
+      expect(result.statusCode).toEqual(200);
+      expect(result.body).toBeDefined();
+      expect(result.body[0]).toMatchObject({
+        productId: expect.any(Number),
+        title: expect.any(String),
+        image: expect.any(String),
+        price: expect.any(Number),
+        quantity: expect.any(Number)
+      });
+    });
+
+    it(`/cart (POST) -- CartController.createCart to create a Cart for the User and return it.`, async () => {
+      // Sign in with new User without a cart to be able to create the cart.
+      const auth = await request(app.getHttpServer())
+        .post('/auth/signin')
+        .send({
+          email: 'nocart@gmail.com',
+          password:
+            'ADkwi52epm5zzAkfbEgxjfE7mkdujxv5jEw5qfADdDy4uAtkvr7cfukuwg323w2wfbaviDpiDjjq2E499AqC9eEyDdFx9z2gktEokFh7dgnf9h'
+        })
+        .set('Accept', 'application/json');
+
+      jwt = auth.body;
+
+      const result = await request(app.getHttpServer())
+        .post('/cart')
+        .set('Accept', 'application/json')
+        .set('Accept-Encoding', 'gzip, deflate, br')
+        .set('Connection', 'keep-alive')
+        .set('Authorization', `Bearer ${jwt['accessToken']}`);
+
+      expect(result.statusCode).toEqual(201);
+      expect(result.body).toBeDefined();
+      expect(result.body).toMatchObject({
+        userId: expect.any(String),
+        id: expect.any(String),
+        CreatedAt: expect.any(String)
+      });
+    });
+
+    it(`/cart (POST) [TO FAIL] -- CartController.createCart to create a Cart even though User already has a Cart. [SHOULD FAIL]`, async () => {
+      const result = await request(app.getHttpServer())
+        .post('/cart')
+        .set('Accept', 'application/json')
+        .set('Accept-Encoding', 'gzip, deflate, br')
+        .set('Connection', 'keep-alive')
+        .set('Authorization', `Bearer ${jwt['accessToken']}`);
+
+      expect(result.statusCode).toEqual(412);
+    });
+
+    it(`/cart/:id (POST) -- CartController.addToCart to add an Product for the User's Cart (INSERT into cart-item table).`, async () => {
+      // Sign in with User without a cart to be able to create the cart.
+      //const auth = await request(app.getHttpServer())
+      //  .post('/auth/signin')
+      //  .send({
+      //    email: 'nocart@gmail.com',
+      //    password:
+      //      'ADkwi52epm5zzAkfbEgxjfE7mkdujxv5jEw5qfADdDy4uAtkvr7cfukuwg323w2wfbaviDpiDjjq2E499AqC9eEyDdFx9z2gktEokFh7dgnf9h'
+      //  })
+      //  .set('Accept', 'application/json');
+
+      //jwt = auth.body;
+
+      const ProductIDs = [40, 222, 57, 58, 44];
+
+      // Exhaust all the Product IDs in the array.
+      for (let idx = 0; idx < ProductIDs.length; idx++) {
+        const result = await request(app.getHttpServer())
+          .post('/cart/' + ProductIDs[idx])
+          .send({ quantity: 1 })
+          .set('Accept', 'application/json')
+          .set('Accept-Encoding', 'gzip, deflate, br')
+          .set('Connection', 'keep-alive')
+          .set('Authorization', `Bearer ${jwt['accessToken']}`);
+
+        expect(result.statusCode).toEqual(201);
+        expect(result.body).toBeDefined();
+        expect(result.body).toMatchObject({
+          cartId: expect.any(String),
+          quantity: expect.any(Number),
+          price: expect.any(Number),
+          productId: expect.any(Number),
+          id: expect.any(String),
+          CreatedAt: expect.any(String)
+        });
+      }
+    });
+
+    it(`/cart/:id (DELETE) -- CartController.removeCartItem to remove the specified CartItem by ID from the User's Cart and return DeleteResult.`, async () => {
+      const CartItemID = 40;
+      const result = await request(app.getHttpServer())
+        .delete('/cart/' + CartItemID)
+        .set('Accept', 'application/json')
+        .set('Accept-Encoding', 'gzip, deflate, br')
+        .set('Connection', 'keep-alive')
+        .set('Authorization', `Bearer ${jwt['accessToken']}`);
+
+      expect(result.statusCode).toEqual(200);
+      expect(result.body).toEqual({
+        raw: [],
+        affected: 1
+      });
+    });
+
+    it(`/cart (DELETE) -- CartController.clearCart to remove all the CartItem's from the User's Cart and return DeleteResult.`, async () => {
+      const result = await request(app.getHttpServer())
+        .delete('/cart')
+        .set('Accept', 'application/json')
+        .set('Accept-Encoding', 'gzip, deflate, br')
+        .set('Connection', 'keep-alive')
+        .set('Authorization', `Bearer ${jwt['accessToken']}`);
+
+      expect(result.statusCode).toEqual(200);
+      expect(result.body).toEqual({
+        raw: [],
+        affected: expect.any(Number)
+      });
+
+      cleanup.delete('cart-items');
+    });
+
+    it(`/cart/remove (DELETE) -- CartController.removeCart to remove the User's Cart and return DeleteResult.`, async () => {
+      const result = await request(app.getHttpServer())
+        .delete('/cart/remove')
+        .set('Accept', 'application/json')
+        .set('Accept-Encoding', 'gzip, deflate, br')
+        .set('Connection', 'keep-alive')
+        .set('Authorization', `Bearer ${jwt['accessToken']}`);
+
+      expect(result.statusCode).toEqual(200);
+      expect(result.body).toEqual({
+        raw: [],
+        affected: expect.any(Number)
+      });
+
+      cleanup.delete('cart-items');
     });
   });
 
