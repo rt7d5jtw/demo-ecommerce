@@ -2,11 +2,10 @@ import * as request from 'supertest';
 import { Test } from '@nestjs/testing';
 import { AppModule } from '../src/app.module';
 import { INestApplication } from '@nestjs/common';
-import { User } from '../src/users/user.entity';
 
-// NOTE: Some of the tests specifically state-reliant, 
+// NOTE: Some of the tests specifically state-reliant,
 // the initialization script for PostgreSQL +v14.0 is in res/ directory.
-// PostgreSQL +v14.0 database is initialized with certain data for these tests, 
+// PostgreSQL +v14.0 database is initialized with certain data for these tests,
 // this data is the res/init.sql file, containing all the needed state for the tests and application.
 
 describe('AppController (e2e)', () => {
