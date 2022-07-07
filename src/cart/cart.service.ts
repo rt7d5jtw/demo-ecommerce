@@ -2,7 +2,8 @@ import {
   ConflictException,
   Injectable,
   Logger,
-  NotFoundException
+  NotFoundException,
+  PreconditionFailedException
 } from '@nestjs/common';
 import { Cart } from './cart.entity';
 import { CartItem } from './cart-item.entity';
@@ -106,6 +107,12 @@ export class CartService {
    * @returns {Promise<Cart>}
    */
   async createCart(user: User): Promise<Cart> {
+    const userCart = await this.cartRepository.findOne({
+      where: { userId: user['id'] }
+    });
+    if (userCart != null)
+      throw new PreconditionFailedException(`User already has a Cart!`);
+
     const cart = new Cart();
     cart.userId = user.id;
     return this.cartRepository.save(cart); // Easier to test if we use this instead the BaseEntity.
@@ -221,6 +228,28 @@ export class CartService {
       .delete()
       .from(CartItem, 'cartItem')
       .where('cart.id = :cartId', { cartId: id })
+      .execute();
+  }
+
+  /**
+   * Deletes the User's Cart from the cart table and returns the {@link DeleteResult}.
+   * @param {User} user
+   * @returns {Promise<DeleteResult>}
+   */
+  async removeCart(user: User): Promise<DeleteResult> {
+    // Returns user's cart id.
+    const cart = await this.cartRepository.findOne({
+      where: { userId: user['id'] }
+    });
+
+    if (!cart) throw new NotFoundException('No cart was found');
+
+    // DELETE query in the cart table for the row that aligns with UserId.
+    return this.cartRepository
+      .createQueryBuilder()
+      .delete()
+      .from(Cart, 'cart')
+      .where('user.id = :userId', { userId: user['id'] })
       .execute();
   }
 }

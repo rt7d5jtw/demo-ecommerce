@@ -25,26 +25,26 @@ import { DeleteResult } from 'typeorm';
 export class CartController {
   constructor(private cartService: CartService) {}
 
-  /* get cart of the user*/
+  // Get Cart of the User.
   @Get()
   fetchCart(@GetUser() user: User): Promise<Cart> {
     return this.cartService.fetchCart(user);
   }
 
-  /* fetches cart items with corresponding product title,
-   * image and productId and without cartId, Id, and date */
+  // Fetches cart items with corresponding product title,
+  // image and productId and without cartId, Id, and date.
   @Get('/items')
   fetchCartItems(@GetUser() user: User): Promise<CartItemInfo> {
     return this.cartService.fetchCartItems(user);
   }
 
-  /* get product's price */
+  //  Get Product's price.
   @Get('/product/:id')
   fetchProductPrice(@Param('id', ParseIntPipe) id: number): Promise<number> {
     return this.cartService.fetchProductPrice(id);
   }
 
-  /* creates the cart for the user */
+  // Creates the cart for the User.
   @Post()
   @UsePipes(ValidationPipe)
   createCart(@GetUser() user: User): Promise<Cart> {
@@ -62,7 +62,14 @@ export class CartController {
     return this.cartService.addToCart(id, user, qty);
   }
 
-  /* deletes item from user's cart */
+  // Removes User's Cart and cascades to all the CartItem's.
+  // (This Removes the entire Cart row from the Cart table).
+  @Delete('remove')
+  removeCart(@GetUser() user: User): Promise<DeleteResult> {
+    return this.cartService.removeCart(user);
+  }
+
+  // Deletes item from User's Cart.
   @Delete(':productId')
   removeCartItem(
     @Param('productId', ParseIntPipe) productId: number,
@@ -71,9 +78,9 @@ export class CartController {
     return this.cartService.removeCartItem(productId, user);
   }
 
-  /* clears user's cart items */
+  // Clears user's CartItem's.
   @Delete()
-  clearCart(@GetUser() user: User): Promise<any> {
+  clearCart(@GetUser() user: User): Promise<DeleteResult> {
     return this.cartService.clearCart(user);
   }
 }
