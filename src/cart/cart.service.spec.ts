@@ -44,6 +44,7 @@ const mockProductRepository = () => ({
 });
 
 const mockCartItemRepository = () => ({
+  insert: jest.fn(),
   delete: jest.fn(),
   query: jest.fn().mockResolvedValue(Testdata.arrayOfCartItems),
   createQueryBuilder: jest.fn().mockReturnValue({
@@ -247,10 +248,48 @@ describe('CartService', () => {
 
   describe('createCart', () => {
     it('creates a Cart for the User by calling the constructor of the Cart class and setting the userId to the id of the user, calls and returns cartRepository.save', async () => {
+      jest.spyOn(cartRepository, 'findOne').mockResolvedValue(null); // User has to have no cart.
       jest.spyOn(cartRepository, 'save').mockResolvedValue(userCart);
       expect(await cartService.createCart(mockUser)).toEqual(userCart);
       expect(Cart).toHaveBeenCalledTimes(1); // Call to the constructor
       expect(cartRepository.save).toHaveBeenCalled();
+    });
+  });
+
+  describe('batchAddProducts', () => {
+    it(`Adds array of cart items into User's Cart and returns the InsertResult.`, async () => {
+      jest
+        .spyOn(cartItemRepository, 'insert')
+        .mockResolvedValue(Testdata.cartItemRepository_insertation_result);
+      jest.spyOn(cartRepository, 'findOne').mockResolvedValue(userCart);
+      jest.spyOn(productRepository, 'findOne').mockResolvedValue(product);
+      jest.spyOn(cartService, 'fetchItems').mockResolvedValue([]); // Give back empty cart.
+
+      const result = await cartService.batchAddProducts(
+        [46, 46, 40, 53, 222, 222, 222],
+        mockUser
+      );
+      expect(result).toBeDefined();
+      expect(result['identifiers'][0]).toMatchObject({
+        id: expect.any(String)
+      });
+      expect(result['generatedMaps'][0]).toMatchObject({
+        id: expect.any(String),
+        CreatedAt: expect.any(String)
+      });
+      expect(result['raw'][0]).toMatchObject({
+        id: expect.any(String),
+        CreatedAt: expect.any(String)
+      });
+
+      expect(cartRepository.findOne).toHaveBeenCalledWith({
+        where: { userId: mockUser.id }
+      });
+      expect(cartRepository.findOne).toHaveBeenCalledWith({
+        where: { userId: mockUser.id }
+      });
+      expect(productRepository.findOne).toHaveBeenCalled();
+      expect(cartItemRepository.insert).toHaveBeenCalled();
     });
   });
 

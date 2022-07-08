@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   ConflictException,
   Injectable,
   Logger,
@@ -10,7 +11,7 @@ import { CartItem } from './cart-item.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CartItemInfo } from './dto/cart.dto';
 import { User } from '../users/user.entity';
-import { DeleteResult, Repository, TypeORMError } from 'typeorm';
+import { DeleteResult, InsertResult, Repository, TypeORMError } from 'typeorm';
 import { Product } from '../product/product.entity';
 
 @Injectable()
@@ -110,6 +111,7 @@ export class CartService {
     const userCart = await this.cartRepository.findOne({
       where: { userId: user['id'] }
     });
+
     if (userCart != null)
       throw new PreconditionFailedException(`User already has a Cart!`);
 
@@ -161,7 +163,7 @@ export class CartService {
         cartItem.quantity = cartItems[i].quantity + cartItem.quantity;
         cartItem.price = cartItems[i].price + cartItem.price;
 
-        this.removeCartItem(productId, user);
+        await this.removeCartItem(productId, user);
       }
     }
 
@@ -169,9 +171,71 @@ export class CartService {
   }
 
   /**
+   * Adds a batch of Products as CartItem's to the User's Cart by adding them to CartItem table returns the added CartItem's.
+   * @param {Array<string>} productIDArray - List of Product ID strings, same IDs are interpreted as added quantities.
+   * @param {User} user
+   * @returns {Promise<InsertResult>}
+   */
+  async batchAddProducts(
+    productIDArray: Array<number>,
+    user: User
+  ): Promise<InsertResult> {
+    if (productIDArray.length < 1)
+      throw new BadRequestException(
+        `Array does not contain any IDs, bad request!`
+      );
+
+    const cart = await this.fetchCart(user);
+    if (!cart) throw new NotFoundException('User has no cart');
+
+    const productMap: Map<number, number> = productIDArray.reduce(
+      (state: Map<number, number>, action: number) => {
+        if (typeof action != 'number')
+          throw new BadRequestException(`Product IDs need to be integers!`);
+
+        if (state.has(action)) {
+          state.set(action, state.get(action) + 1);
+          return state;
+        }
+
+        state.set(action, 1);
+        return state;
+      },
+      new Map<number, number>()
+    );
+
+    // Map each product with properties.
+    const cartItemBatch: CartItem[] = [];
+    for (const [id, qty] of productMap) {
+      // Sets the new CartItem to align with the inputs
+      const cartItem = new CartItem();
+
+      const price = await this.fetchProductPrice(id);
+      if (!price) throw new NotFoundException('Price could not be found');
+
+      cartItem.cartId = cart.id;
+      cartItem.quantity = qty;
+      cartItem.price = price * qty;
+      cartItem.productId = id;
+
+      cartItemBatch.push(cartItem); // Add the cartItem to the list.
+    }
+
+    // The cart-item table is not assumed to have any current CartItems,
+    // because the state of the "cart", is always cleared after each order.
+    const cartItems = await this.fetchItems(user);
+    if (cartItems.length != 0)
+      throw new PreconditionFailedException(
+        `User's current cart already has items!`
+      );
+
+    return await this.cartItemRepository.insert(cartItemBatch);
+  }
+
+  /**
    * Removes a CartItem from User.
    * 1. Calls cartRepository.findOne with the input User.id,
-   * 2. Calls cartItemRepository.createQueryBuilder to get the User CartItem
+   * 2. Calls cartItemRepository.createQueryBuilder to get the User CartItem.
    * 3. If User CartItem was found, it is deleted.
    * @param {number} productId
    * @param {User} user
@@ -179,19 +243,19 @@ export class CartService {
    * */
   async removeCartItem(productId: number, user: User): Promise<DeleteResult> {
     // Get User's Cart ID.
-    const { id } = await this.cartRepository.findOne({
+    const cart = await this.cartRepository.findOne({
       where: { userId: user['id'] }
     });
 
     const cartItem = await this.cartItemRepository
       .createQueryBuilder('cartItem')
-      .where('cartItem.cartId = :cartId', { cartId: id })
+      .where('cartItem.cartId = :cartId', { cartId: cart['id'] })
       .andWhere('cartItem.productId = :productId', { productId: productId })
       .getOne();
 
     if (!cartItem) throw new NotFoundException(`Cart Item was not found`);
 
-    if (id === cartItem.cartId) {
+    if (cart['id'] === cartItem.cartId) {
       const result = await this.cartItemRepository.delete(await cartItem.id);
       if (result.affected === 0)
         throw new NotFoundException(

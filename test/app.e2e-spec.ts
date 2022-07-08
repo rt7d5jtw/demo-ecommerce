@@ -644,7 +644,7 @@ describe('AppController (e2e)', () => {
     });
 
     it(`/cart (POST) -- CartController.createCart to create a Cart for the User and return it.`, async () => {
-      // Sign in with new User without a cart to be able to create the cart.
+      // Sign in with User without a cart to be able to create the cart.
       const auth = await request(app.getHttpServer())
         .post('/auth/signin')
         .send({
@@ -684,20 +684,7 @@ describe('AppController (e2e)', () => {
     });
 
     it(`/cart/:id (POST) -- CartController.addToCart to add an Product for the User's Cart (INSERT into cart-item table).`, async () => {
-      // Sign in with User without a cart to be able to create the cart.
-      //const auth = await request(app.getHttpServer())
-      //  .post('/auth/signin')
-      //  .send({
-      //    email: 'nocart@gmail.com',
-      //    password:
-      //      'ADkwi52epm5zzAkfbEgxjfE7mkdujxv5jEw5qfADdDy4uAtkvr7cfukuwg323w2wfbaviDpiDjjq2E499AqC9eEyDdFx9z2gktEokFh7dgnf9h'
-      //  })
-      //  .set('Accept', 'application/json');
-
-      //jwt = auth.body;
-
       const ProductIDs = [40, 222, 57, 58, 44];
-
       // Exhaust all the Product IDs in the array.
       for (let idx = 0; idx < ProductIDs.length; idx++) {
         const result = await request(app.getHttpServer())
@@ -752,6 +739,42 @@ describe('AppController (e2e)', () => {
       });
 
       cleanup.delete('cart-items');
+    });
+
+    it(`/cart/batch (POST) -- CartController.batchAddProdcuts adds an array of CartItems to the User's Cart and return it.`, async () => {
+      // Sign in with new User without a cart to be able to create the cart.
+      const auth = await request(app.getHttpServer())
+        .post('/auth/signin')
+        .send({
+          email: 'nocart@gmail.com',
+          password:
+            'ADkwi52epm5zzAkfbEgxjfE7mkdujxv5jEw5qfADdDy4uAtkvr7cfukuwg323w2wfbaviDpiDjjq2E499AqC9eEyDdFx9z2gktEokFh7dgnf9h'
+        })
+        .set('Accept', 'application/json');
+
+      jwt = auth.body;
+
+      const result = await request(app.getHttpServer())
+        .post('/cart/batch')
+        .send([46, 46, 40, 53, 222, 222, 222])
+        .set('Accept', 'application/json')
+        .set('Accept-Encoding', 'gzip, deflate, br')
+        .set('Connection', 'keep-alive')
+        .set('Authorization', `Bearer ${jwt['accessToken']}`);
+
+      expect(result.statusCode).toEqual(201);
+      expect(result.body).toBeDefined();
+      expect(result.body['identifiers'][0]).toMatchObject({
+        id: expect.any(String)
+      });
+      expect(result.body['generatedMaps'][0]).toMatchObject({
+        id: expect.any(String),
+        CreatedAt: expect.any(String)
+      });
+      expect(result.body['raw'][0]).toMatchObject({
+        id: expect.any(String),
+        CreatedAt: expect.any(String)
+      });
     });
 
     it(`/cart/remove (DELETE) -- CartController.removeCart to remove the User's Cart and return DeleteResult.`, async () => {

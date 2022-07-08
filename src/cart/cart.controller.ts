@@ -17,7 +17,7 @@ import { CartItem } from './cart-item.entity';
 import { Cart } from './cart.entity';
 import { GetUser } from '../users/get_user.decorator';
 import { User } from '../users/user.entity';
-import { DeleteResult } from 'typeorm';
+import { DeleteResult, InsertResult } from 'typeorm';
 
 // NOTE: The methods utilize 'Authorization Bearer <JWT>' to fetch the User from the jwt.
 @Controller('cart')
@@ -51,7 +51,17 @@ export class CartController {
     return this.cartService.createCart(user);
   }
 
-  /* puts a product in the cart */
+  // Handles multiple Products being added to the CartItem table for the User.
+  @Post('batch')
+  batchAddProducts(
+    @GetUser() user: User,
+    @Body() productIDArray: Array<number>
+  ): Promise<InsertResult> {
+    return this.cartService.batchAddProducts(productIDArray, user);
+  }
+
+  // Handles a single Product by ID specified in the
+  // URI as a parameter and adds it to the CartItem table.
   @Post(':id')
   @UsePipes(ValidationPipe)
   addToCart(

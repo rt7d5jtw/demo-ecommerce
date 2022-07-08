@@ -204,5 +204,57 @@
       "title": "Wheat Cream Biscuits",
       "image": "cremebiscuits.jpg"
     }
-  ]
+  ],
+  "cartItemRepository_insertation_result": {
+    "identifiers": [
+      {
+        "id": "63091e5d-9051-4072-bc06-888c1127cad4"
+      },
+      {
+        "id": "dc468606-e4d6-4a25-93f0-a3ca4d0c0ec9"
+      },
+      {
+        "id": "4aa391ff-a69f-48a1-b464-082c9e7ba34f"
+      },
+      {
+        "id": "1a9be770-84fa-4cb9-9433-81f343e7de2c"
+      }
+    ],
+    "generatedMaps": [
+      {
+        "id": "63091e5d-9051-4072-bc06-888c1127cad4",
+        "CreatedAt": "2022-07-07T21:00:00.000Z"
+      },
+      {
+        "id": "dc468606-e4d6-4a25-93f0-a3ca4d0c0ec9",
+        "CreatedAt": "2022-07-07T21:00:00.000Z"
+      },
+      {
+        "id": "4aa391ff-a69f-48a1-b464-082c9e7ba34f",
+        "CreatedAt": "2022-07-07T21:00:00.000Z"
+      },
+      {
+        "id": "1a9be770-84fa-4cb9-9433-81f343e7de2c",
+        "CreatedAt": "2022-07-07T21:00:00.000Z"
+      }
+    ],
+    "raw": [
+      {
+        "id": "63091e5d-9051-4072-bc06-888c1127cad4",
+        "CreatedAt": "2022-07-07T21:00:00.000Z"
+      },
+      {
+        "id": "dc468606-e4d6-4a25-93f0-a3ca4d0c0ec9",
+        "CreatedAt": "2022-07-07T21:00:00.000Z"
+      },
+      {
+        "id": "4aa391ff-a69f-48a1-b464-082c9e7ba34f",
+        "CreatedAt": "2022-07-07T21:00:00.000Z"
+      },
+      {
+        "id": "1a9be770-84fa-4cb9-9433-81f343e7de2c",
+        "CreatedAt": "2022-07-07T21:00:00.000Z"
+      }
+    ]
+  }
 }
