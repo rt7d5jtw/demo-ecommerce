@@ -14,18 +14,23 @@ To run the client on development mode:
 $ npm run dev
 ```
 
+### Integration tests
+
 To run MSW API and jest tests:
 ```console
 $ npm run test
 ```
 
+### End-to-end tests
+
+*Make sure client is on and connected to the database!*
+
 To run end to end tests:
 ```console
-$ npm run dev & disown
 $ npm run cypress:open
 ```
 
-The cypress test has to be run with `$ npm run dev` because cypress wont find paths otherwise with visit() function.
+*The cypress test has to be run with `$ npm run dev` because cypress wont find paths otherwise with visit() function.*
 
 #### About the client
 
