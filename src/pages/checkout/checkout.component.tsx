@@ -57,9 +57,11 @@ const Checkout = (): JSX.Element => {
 
       if (shippingInfo === null) setWarning('Provide shipping information!');
       if (warning.length === 0 && data.address.match(/^[^-\s][a-zA-Z0-9_\s-]+$/gi) !== null) {
-        dispatch(addShippingInformation(data));
-        dispatch(shippingInfoAdded());
+        dispatch(addShippingInformation(data)); // Adds form data to the state
+        dispatch(shippingInfoAdded()); // Alert
+        // Validates that therre are cart items.
         shippingInfo !== null && cartItems.length !== 0 ? setSuccess(true) : null;
+        // Clears the cache of the last order from the state.
         dispatch(clearRecentOrder());
         push('/payment');
       } else {

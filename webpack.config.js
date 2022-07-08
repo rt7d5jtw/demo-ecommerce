@@ -3,7 +3,9 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const webpack = require('webpack');
-require('dotenv').config({ path: '../.env' });
+const dotenv = require('dotenv-webpack');
+
+require('dotenv').config({ path: './.env' });
 
 module.exports = (env) => {
   const developmentConfig = {
@@ -80,6 +82,7 @@ module.exports = (env) => {
       ],
     },
     plugins: [
+      new dotenv(),
       new HtmlWebpackPlugin({
         template: path.resolve(__dirname, './public/index.html'),
         filename: 'index.html',
