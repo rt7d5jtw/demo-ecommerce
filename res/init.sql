@@ -271,14 +271,6 @@ COPY public.cart (id, "userId", "CreatedAt") FROM stdin;
 --
 
 COPY public."cart-item" (id, "cartId", "productId", quantity, price, "CreatedAt") FROM stdin;
-b0a5bd87-f37b-4f46-8e44-e18ecd41f53d	32cc7d62-73d9-4033-b858-fde130c21afd	40	1	6.5	2022-07-06
-67ca5c80-6eb8-419b-ba03-977da757f319	32cc7d62-73d9-4033-b858-fde130c21afd	222	11	19	2022-07-06
-f8ef489b-f3fc-44b8-a198-03295f1300e1	32cc7d62-73d9-4033-b858-fde130c21afd	62	1	4.5	2022-07-06
-022e84d9-5247-4630-922e-35dc69241b12	32cc7d62-73d9-4033-b858-fde130c21afd	57	1	4.5	2022-07-06
-444a0883-a9b9-4255-95ec-80daca6f484f	8c019fbb-ff8a-4fb5-8d1d-6d31adb6c422	57	1	4.5	2022-07-06
-f03713fb-f9c5-4642-8d4e-ed160628cce8	8c019fbb-ff8a-4fb5-8d1d-6d31adb6c422	222	11	19	2022-07-06
-f389f353-9b2c-4fad-85d5-4ee9d2107cd4	8c019fbb-ff8a-4fb5-8d1d-6d31adb6c422	62	1	4.5	2022-07-06
-62bfbe2d-62f1-4818-bcfe-4599f738c07f	8c019fbb-ff8a-4fb5-8d1d-6d31adb6c422	40	11	13	2022-07-06
 \.
 
 

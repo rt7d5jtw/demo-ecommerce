@@ -624,25 +624,6 @@ describe('AppController (e2e)', () => {
       });
     });
 
-    it(`/cart/items (GET) -- CartController.fetchCartItems to return the CartItem's of the User.`, async () => {
-      const result = await request(app.getHttpServer())
-        .get('/cart/items')
-        .set('Accept', 'application/json')
-        .set('Accept-Encoding', 'gzip, deflate, br')
-        .set('Connection', 'keep-alive')
-        .set('Authorization', `Bearer ${jwt['accessToken']}`);
-
-      expect(result.statusCode).toEqual(200);
-      expect(result.body).toBeDefined();
-      expect(result.body[0]).toMatchObject({
-        productId: expect.any(Number),
-        title: expect.any(String),
-        image: expect.any(String),
-        price: expect.any(Number),
-        quantity: expect.any(Number)
-      });
-    });
-
     it(`/cart (POST) -- CartController.createCart to create a Cart for the User and return it.`, async () => {
       // Sign in with User without a cart to be able to create the cart.
       const auth = await request(app.getHttpServer())
@@ -721,6 +702,25 @@ describe('AppController (e2e)', () => {
       expect(result.body).toEqual({
         raw: [],
         affected: 1
+      });
+    });
+
+    it(`/cart/items (GET) -- CartController.fetchCartItems to return the CartItem's of the User.`, async () => {
+      const result = await request(app.getHttpServer())
+        .get('/cart/items')
+        .set('Accept', 'application/json')
+        .set('Accept-Encoding', 'gzip, deflate, br')
+        .set('Connection', 'keep-alive')
+        .set('Authorization', `Bearer ${jwt['accessToken']}`);
+
+      expect(result.statusCode).toEqual(200);
+      expect(result.body).toBeDefined();
+      expect(result.body[0]).toMatchObject({
+        productId: expect.any(Number),
+        title: expect.any(String),
+        image: expect.any(String),
+        price: expect.any(Number),
+        quantity: expect.any(Number)
       });
     });
 
