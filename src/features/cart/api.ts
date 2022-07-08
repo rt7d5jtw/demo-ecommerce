@@ -1,7 +1,7 @@
 import axios, { AxiosError } from 'axios';
 import { ValidationErrors } from '../promotion/promotionSlice';
 import { authHeader } from '../user/api';
-import { ICart, ICartItem, AddItemSuccess } from './cartSlice';
+import { ICart, ICartItem, AddItemSuccess, InsertationResult } from './cartSlice';
 
 export const CART_URL = 'http://localhost:3000/cart/';
 
@@ -42,6 +42,23 @@ export async function fetchCartItems(): Promise<ICartItem[]> {
   return axios
     .get(CART_URL + 'items', { headers: authHeader() })
     .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      const error: AxiosError<ValidationErrors> = err;
+      if (!error.response) {
+        throw err;
+      }
+      return Promise.reject(err);
+    });
+}
+
+/* doesnt mutate client state, only affects db */
+export async function addItemsToCartDB(list_of_ids: Array<number>): Promise<InsertationResult> {
+  return axios
+    .post(CART_URL + 'batch', list_of_ids, { headers: authHeader() })
+    .then((res) => {
+      console.log('DATA RETURNED FROM addItemsToCartDB', res.data);
       return res.data;
     })
     .catch((err) => {

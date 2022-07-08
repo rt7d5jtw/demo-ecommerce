@@ -12,6 +12,8 @@ const CartItem = (cartItem: ICartItem): JSX.Element => {
 
   function removeHandler() {
     dispatch(removeItem(cartItem));
+
+    // If user is logged in, send request to database instead.
     if (token) {
       if (cartItem.productId != undefined) {
         dispatch(removeItemDB(cartItem.productId));

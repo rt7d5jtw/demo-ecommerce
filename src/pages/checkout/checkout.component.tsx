@@ -11,6 +11,8 @@ import { useHistory } from 'react-router';
 import { clearRecentOrder } from '../../features/order/orderSlice';
 import { TestForm } from '../../features/forms/testform';
 import { handleForm } from '../../features/forms/utils/utils';
+import { ICartItem } from '../../features/cart/cartSlice';
+import { addItemsToCartDB } from '../../features/cart/api';
 
 const Checkout = (): JSX.Element => {
   const shippingInfo = useSelector(selectShippingInfo);
@@ -63,6 +65,26 @@ const Checkout = (): JSX.Element => {
         shippingInfo !== null && cartItems.length !== 0 ? setSuccess(true) : null;
         // Clears the cache of the last order from the state.
         dispatch(clearRecentOrder());
+
+        // Collects all the cart items into array of numbers and quantities
+        // over 1 are dealth with by having the number in multiple instances
+        // (This is read as having many of that product.).
+        const productIds: Array<number> = cartItems.reduce(
+          (state: Array<number>, action: ICartItem) => {
+            if (action.quantity > 1) {
+              for (let i = 0; i < action.quantity; i++) state.push(action.productId);
+
+              return state;
+            }
+
+            state.push(action.productId);
+            return state;
+          },
+          []
+        );
+        // Send the batch request to add all the cart items to the database.
+        addItemsToCartDB(productIds);
+
         push('/payment');
       } else {
         setWarning('Validation error, give proper inputs');

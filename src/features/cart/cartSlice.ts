@@ -33,6 +33,13 @@ export interface ICartItem {
   productId: number;
 }
 
+// Response from /cart/batch in a case of succesful request.
+export interface InsertationResult {
+  identifiers: Array<{ id: string }>;
+  generatedMaps: Array<{ id: string; CreatedAt: string }>;
+  raws: Array<{ id: string; CreatedAt: string }>;
+}
+
 export type AddItemSuccess = Omit<ICartItem, 'title' | 'image'>;
 
 export interface CartInfoDto extends ICartItem {

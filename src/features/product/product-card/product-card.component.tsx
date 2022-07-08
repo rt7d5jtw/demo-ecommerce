@@ -19,9 +19,11 @@ const ProductCard = (product: IProductCard): JSX.Element => {
   const buttonHandler = () => {
     /* copying an object into new CartItem from the ProductCard */
     dispatch(addItem(productToCartItem(product)));
-    if (token) {
-      dispatch(addItemDB(product.id));
-    }
+
+    // If user is logged in, send request to database instead.
+    // if (token) {
+    //   dispatch(addItemDB(product.id));
+    // }
   };
 
   return (

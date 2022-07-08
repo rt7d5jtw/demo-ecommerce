@@ -28,9 +28,11 @@ const SingleProductPage = (): JSX.Element => {
     }
     for (let i = 0; i < qty; i++) {
       dispatch(addItem(productToCartItem(product)));
-      if (token) {
-        dispatch(addItemDB(product.id));
-      }
+
+      // Adds to database if user is logged in.
+      //if (token) {
+      //  dispatch(addItemDB(product.id));
+      //}
     }
   }
 

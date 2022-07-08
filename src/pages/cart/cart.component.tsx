@@ -48,22 +48,26 @@ const Cart = (): JSX.Element => {
     event.target.value === 'CHOCOLATE' ? dispatch(addShippingInformation({ promo: 5 })) : null;
   };
 
+  // Adds the cart item to the cart.
   function addHandler(cartItem: ICartItem) {
     dispatch(addItem(cartItem));
-    if (token) {
-      if (cartItem.productId != undefined) {
-        dispatch(addItemDB(cartItem.productId));
-      }
-    }
+
+    //if (token) {
+    //  if (cartItem.productId != undefined) {
+    //    dispatch(addItemDB(cartItem.productId));
+    //  }
+    //}
   }
 
+  // Removes the cart item from the cart.
   function removeHandler(cartItem: ICartItem) {
     dispatch(removeItem(cartItem));
-    if (token) {
-      if (cartItem.productId != undefined) {
-        dispatch(removeItemDB(cartItem.productId));
-      }
-    }
+
+    //if (token) {
+    //  if (cartItem.productId != undefined) {
+    //    dispatch(removeItemDB(cartItem.productId));
+    //  }
+    //}
   }
 
   function checkoutHandler() {
