@@ -2,7 +2,7 @@
   <img src="https://i.imgur.com/SWs77TE.png" width="625" alt="front page" />
 </p>
 
-## Confectionary app -- ecommerce client with React and Redux
+## Ecommerce demo client with React 17.0.2 and Redux 4.1.0
 
 To build the client for production:
 ```console
