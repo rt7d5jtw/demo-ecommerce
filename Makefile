@@ -6,6 +6,14 @@ APP_ID := $(shell docker ps -f "ancestor=chocoapp:1.0" -q)
 
 all: net vol local
 
+cleandb:
+	sudo -u postgres psql -d bookstore -c 'drop schema cascade; create schema public;'
+
+dump:
+	sudo -u postgres psql bookstore < res/init.sql
+
+dump:
+
 # Only deploys PostgreSQL 14.1
 database:
 	docker-compose -f docker-compose.yml up -d postgres
