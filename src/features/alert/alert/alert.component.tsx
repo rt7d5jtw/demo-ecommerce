@@ -3,7 +3,12 @@ import './alert.css';
 import { createStructuredSelector } from 'reselect';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../app/store';
-import { hideout, selectAlertType, selectMessage, selectTimeout } from '../../alert/alertSlice';
+import {
+  hideout,
+  selectAlertType,
+  selectMessage,
+  selectTimeout,
+} from '../../alert/alertSlice';
 import { alert_type } from '../../alert/alertSlice';
 
 interface IAlert {
@@ -35,7 +40,10 @@ const Alert = ({ message }: IAlert) => {
   }
 
   return (
-    <div className='alert' style={state.fade === 0 ? { opacity: '0' } : { opacity: '1' }}>
+    <div
+      className='alert'
+      style={state.fade === 0 ? { opacity: '0' } : { opacity: '1' }}
+    >
       <span id='alert__close' onClick={() => dispatch(hideout())}>
         X
       </span>

@@ -4,7 +4,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectCartItems } from '../../features/cart/selectors';
 import { addShippingInformation } from '../../features/user/userSlice';
 import { useState } from 'react';
-import { selectAccessToken, selectShippingInfo } from '../../features/user/selectors';
+import {
+  selectAccessToken,
+  selectShippingInfo,
+} from '../../features/user/selectors';
 import { shippingInfoAdded } from '../../features/alert/alertSlice';
 import { CheckoutItem } from '../checkout-item/checkout-item.component';
 import { useHistory } from 'react-router';
@@ -31,7 +34,9 @@ const Checkout = (): JSX.Element => {
       setDisable(true);
     }
     if (token !== null && cartItems.length === 0) {
-      setWarning('You have no items in your cart, so you cannot proceed with payment');
+      setWarning(
+        'You have no items in your cart, so you cannot proceed with payment'
+      );
       setDisable(true);
     }
   }, [token]);
@@ -58,11 +63,16 @@ const Checkout = (): JSX.Element => {
       }
 
       if (shippingInfo === null) setWarning('Provide shipping information!');
-      if (warning.length === 0 && data.address.match(/^[^-\s][a-zA-Z0-9_\s-]+$/gi) !== null) {
+      if (
+        warning.length === 0 &&
+        data.address.match(/^[^-\s][a-zA-Z0-9_\s-]+$/gi) !== null
+      ) {
         dispatch(addShippingInformation(data)); // Adds form data to the state
         dispatch(shippingInfoAdded()); // Alert
         // Validates that therre are cart items.
-        shippingInfo !== null && cartItems.length !== 0 ? setSuccess(true) : null;
+        shippingInfo !== null && cartItems.length !== 0
+          ? setSuccess(true)
+          : null;
         // Clears the cache of the last order from the state.
         dispatch(clearRecentOrder());
 
@@ -72,7 +82,8 @@ const Checkout = (): JSX.Element => {
         const productIds: Array<number> = cartItems.reduce(
           (state: Array<number>, action: ICartItem) => {
             if (action.quantity > 1) {
-              for (let i = 0; i < action.quantity; i++) state.push(action.productId);
+              for (let i = 0; i < action.quantity; i++)
+                state.push(action.productId);
 
               return state;
             }
@@ -182,7 +193,10 @@ const Checkout = (): JSX.Element => {
         />
       </div>
       {cartItems.length ? (
-        <div className='order-summary' style={success ? { transform: 'translateY(-150%)' } : {}}>
+        <div
+          className='order-summary'
+          style={success ? { transform: 'translateY(-150%)' } : {}}
+        >
           <h1>Products</h1>
           {cartItems.length
             ? cartItems.map(({ title, price, quantity, image, productId }) => (

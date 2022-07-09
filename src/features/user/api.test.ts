@@ -38,9 +38,9 @@ describe('User API Unit tests', () => {
           );
         })
       );
-      expect(register({ email: 'notproperemail', password: 'yeetmageet123' })).rejects.toThrow(
-        '400'
-      );
+      expect(
+        register({ email: 'notproperemail', password: 'yeetmageet123' })
+      ).rejects.toThrow('400');
     });
   });
 
@@ -65,7 +65,9 @@ describe('User API Unit tests', () => {
           );
         })
       );
-      expect(login({ email: 'notproperemail', password: 'yeetmageet123' })).rejects.toThrow('400');
+      expect(
+        login({ email: 'notproperemail', password: 'yeetmageet123' })
+      ).rejects.toThrow('400');
     });
   });
 
@@ -131,7 +133,10 @@ describe('User API Unit tests', () => {
   });
 
   describe('updateEmail', () => {
-    const arg = { currentEmail: 'test@testing.com', newEmail: 'yeet@mageet.com' };
+    const arg = {
+      currentEmail: 'test@testing.com',
+      newEmail: 'yeet@mageet.com',
+    };
     it('change user email', async () => {
       const result = await updateEmail(arg);
       expect(result).toEqual('yeet@mageet.com');
@@ -159,7 +164,8 @@ describe('User API Unit tests', () => {
       {
         id: '255c8982-4257-407d-b002-1e76dac3a075',
         email: 'meemau@gmail.com',
-        password: '$2b$10$9YsWW.gyD8Mz7zV8uUhrae7DfO9dWcvVYQaDWtvxBq5b29AVzKWHW',
+        password:
+          '$2b$10$9YsWW.gyD8Mz7zV8uUhrae7DfO9dWcvVYQaDWtvxBq5b29AVzKWHW',
         role: 'ADMIN',
         salt: '$2b$10$9YsWW.gyD8Mz7zV8uUhrae',
         createdAt: '2021-04-24',
@@ -167,7 +173,8 @@ describe('User API Unit tests', () => {
       {
         id: '4ec9270a-0c72-4675-93be-ba850f2ea5fb',
         email: 'test@testing.com',
-        password: '$2b$10$E29I6Vgu2vIwV8PVcWEfie/HnmB.pByNfpmonMAL99qb730VaxtO.',
+        password:
+          '$2b$10$E29I6Vgu2vIwV8PVcWEfie/HnmB.pByNfpmonMAL99qb730VaxtO.',
         role: 'USER',
         salt: '$2b$10$E29I6Vgu2vIwV8PVcWEfie',
         createdAt: '2021-06-29',
@@ -175,7 +182,8 @@ describe('User API Unit tests', () => {
       {
         id: '872f17ee-45a2-409b-b74a-eea6753f38fb',
         email: 'miumau@gmail.com',
-        password: '$2b$10$SyzY0wCknTEmvlvKqjP7x.uplLjt42YEXIYhpo0AClLfU0VqGgWh.',
+        password:
+          '$2b$10$SyzY0wCknTEmvlvKqjP7x.uplLjt42YEXIYhpo0AClLfU0VqGgWh.',
         role: 'USER',
         salt: '$2b$10$SyzY0wCknTEmvlvKqjP7x.',
         createdAt: '2021-06-17',

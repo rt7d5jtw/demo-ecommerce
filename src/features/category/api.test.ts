@@ -64,28 +64,39 @@ describe('Category API unit tests', () => {
 
   describe('removeCategory', () => {
     it('deletes a category and returns void', async () => {
-      await expect(removeCategory('4a9ad1cc-17b9-4193-8341-7d14194909ad')).resolves.toBe('');
+      await expect(
+        removeCategory('4a9ad1cc-17b9-4193-8341-7d14194909ad')
+      ).resolves.toBe('');
     });
 
     it('throws an error for not providing existing id', async () => {
       server.use(
-        rest.delete(CATEGORY_URL + '4a9ad1cc-17b9-4193-8341-7d14194909ad', (_req, res, ctx) => {
-          return res(
-            ctx.status(404),
-            ctx.json({
-              statusCode: 404,
-              message: 'Category with ID "4a9ad1cc-17b9-4193-8341-7d14194909ad" not found',
-              error: 'Not Found',
-            })
-          );
-        })
+        rest.delete(
+          CATEGORY_URL + '4a9ad1cc-17b9-4193-8341-7d14194909ad',
+          (_req, res, ctx) => {
+            return res(
+              ctx.status(404),
+              ctx.json({
+                statusCode: 404,
+                message:
+                  'Category with ID "4a9ad1cc-17b9-4193-8341-7d14194909ad" not found',
+                error: 'Not Found',
+              })
+            );
+          }
+        )
       );
-      expect(removeCategory('4a9ad1cc-17b9-4193-8341-7d14194909ad')).rejects.toThrow('404');
+      expect(
+        removeCategory('4a9ad1cc-17b9-4193-8341-7d14194909ad')
+      ).rejects.toThrow('404');
     });
   });
 
   describe('updateCategory', () => {
-    const arg = { id: '419b12e1-b406-4cb5-8a2e-082bbab85802', cname: 'newTest' };
+    const arg = {
+      id: '419b12e1-b406-4cb5-8a2e-082bbab85802',
+      cname: 'newTest',
+    };
     it('updates a category and returns it', async () => {
       const result = await updateCategory(arg);
       expect(result).toEqual({
@@ -97,19 +108,26 @@ describe('Category API unit tests', () => {
 
     it('throws an error for not providing existing id', async () => {
       server.use(
-        rest.patch(CATEGORY_URL + 'e322da15-d146-46f3-98ce-146749ea2e19', (_req, res, ctx) => {
-          return res(
-            ctx.status(404),
-            ctx.json({
-              statusCode: 404,
-              message: 'No category found with "e322da15-d146-46f3-98ce-146749ea2e19"',
-              error: 'Not Found',
-            })
-          );
-        })
+        rest.patch(
+          CATEGORY_URL + 'e322da15-d146-46f3-98ce-146749ea2e19',
+          (_req, res, ctx) => {
+            return res(
+              ctx.status(404),
+              ctx.json({
+                statusCode: 404,
+                message:
+                  'No category found with "e322da15-d146-46f3-98ce-146749ea2e19"',
+                error: 'Not Found',
+              })
+            );
+          }
+        )
       );
       expect(
-        updateCategory({ id: 'e322da15-d146-46f3-98ce-146749ea2e19', cname: 'chocolate' })
+        updateCategory({
+          id: 'e322da15-d146-46f3-98ce-146749ea2e19',
+          cname: 'chocolate',
+        })
       ).rejects.toThrow('404');
     });
   });

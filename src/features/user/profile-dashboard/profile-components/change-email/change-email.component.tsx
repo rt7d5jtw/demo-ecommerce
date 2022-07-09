@@ -23,7 +23,9 @@ const ChangeEmail = (): JSX.Element => {
             inputx: {
               type: 'email',
               name: 'currentEmail',
-              pattern: new RegExp(/^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/)
+              pattern: new RegExp(
+                /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/
+              )
                 .toString()
                 .slice(1, -1),
               required: true,
@@ -38,7 +40,9 @@ const ChangeEmail = (): JSX.Element => {
               name: 'newEmail',
               id: 'newEmail',
               placeholder: 'New Email',
-              pattern: new RegExp(/^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/)
+              pattern: new RegExp(
+                /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/
+              )
                 .toString()
                 .slice(1, -1),
               required: true,

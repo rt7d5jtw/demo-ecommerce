@@ -18,7 +18,9 @@ const Register = (): JSX.Element => {
     event.preventDefault();
     const creds = handleForm(event.currentTarget.elements) as IUserCredentials;
     dispatch(registerRequest(creds));
-    errors === null || errors === undefined ? setTimeout(() => push('login'), 500) : null;
+    errors === null || errors === undefined
+      ? setTimeout(() => push('login'), 500)
+      : null;
   }
   return (
     <div className='register'>
@@ -31,7 +33,9 @@ const Register = (): JSX.Element => {
                 inputx: {
                   type: 'email',
                   name: 'email',
-                  pattern: new RegExp(/^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/)
+                  pattern: new RegExp(
+                    /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/
+                  )
                     .toString()
                     .slice(1, -1),
                   required: true,
@@ -46,7 +50,9 @@ const Register = (): JSX.Element => {
                   name: 'password',
                   id: 'password',
                   placeholder: 'Password',
-                  pattern: new RegExp(/(?=.*[A-Za-z])[A-Za-z\d!]{6,}/).toString().slice(1, -1),
+                  pattern: new RegExp(/(?=.*[A-Za-z])[A-Za-z\d!]{6,}/)
+                    .toString()
+                    .slice(1, -1),
                   required: true,
                   title: 'Provide a password with at least 6 characters',
                   minLength: 6,

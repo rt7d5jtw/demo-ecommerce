@@ -26,10 +26,17 @@ class ErrorBoundary extends React.Component<Props, State> {
     if (this.state.hasErrored) {
       return (
         <div
-          style={{ display: 'grid', background: '#38242c', height: '100vh', placeItems: 'center' }}
+          style={{
+            display: 'grid',
+            background: '#38242c',
+            height: '100vh',
+            placeItems: 'center',
+          }}
         >
           <img src={toast} />
-          <p style={{ fontSize: '2rem', color: 'beige' }}>Something went wrong!</p>
+          <p style={{ fontSize: '2rem', color: 'beige' }}>
+            Something went wrong!
+          </p>
         </div>
       );
     }

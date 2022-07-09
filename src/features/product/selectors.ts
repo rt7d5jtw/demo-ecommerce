@@ -4,7 +4,10 @@ import { IProductState } from './productSlice';
 
 export const selectRoot = (state: RootState): IProductState => state.product;
 
-export const selectItems = createSelector([selectRoot], (product: IProductState) => product.items);
+export const selectItems = createSelector(
+  [selectRoot],
+  (product: IProductState) => product.items
+);
 
 export const selectSearch = createSelector(
   [selectRoot],

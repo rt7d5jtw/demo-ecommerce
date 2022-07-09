@@ -1,7 +1,13 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import { ValidationErrors } from '../promotion/promotionSlice';
-import { fetchProducts, createProduct, removeProduct, updateProduct, searchProducts } from './api';
+import {
+  fetchProducts,
+  createProduct,
+  removeProduct,
+  updateProduct,
+  searchProducts,
+} from './api';
 import { IProduct, ProductDto, UpdateProductDto } from './productSlice';
 
 export const fetch = createAsyncThunk('product/fetchProducts', async () => {

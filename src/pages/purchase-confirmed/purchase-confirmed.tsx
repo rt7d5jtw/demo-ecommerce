@@ -1,7 +1,10 @@
 import * as React from 'react';
 import './purchase-confirmed.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectRecentOrder, selectRecentOrderItems } from '../../features/order/selectors';
+import {
+  selectRecentOrder,
+  selectRecentOrderItems,
+} from '../../features/order/selectors';
 import { getInvoice, updateOrder } from '../../features/order/api';
 import { selectShippingInfo } from '../../features/user/selectors';
 import { OrderStatus } from '../../features/order/orderSlice';
@@ -14,12 +17,16 @@ export const PurchaseConfirmed = (): JSX.Element => {
   const orderItems = useSelector(selectRecentOrderItems);
   const shippingInfo = useSelector(selectShippingInfo);
 
-  order && order.id && orderItems === null ? dispatch(fetchOrderItems(order.id)) : null;
+  order && order.id && orderItems === null
+    ? dispatch(fetchOrderItems(order.id))
+    : null;
   if (orderItems === null) {
     return <Loading />;
   }
 
-  order && order.id ? updateOrder(order.id, { status: OrderStatus.PAID }) : null;
+  order && order.id
+    ? updateOrder(order.id, { status: OrderStatus.PAID })
+    : null;
 
   return (
     <div className='purchase-confirmed'>
@@ -31,7 +38,11 @@ export const PurchaseConfirmed = (): JSX.Element => {
           <p>
             <b>Invoice #{order && order.id}</b>
           </p>
-          <button onClick={() => (order && order.id ? console.group(getInvoice(order.id)) : null)}>
+          <button
+            onClick={() =>
+              order && order.id ? console.group(getInvoice(order.id)) : null
+            }
+          >
             View the invoice
           </button>
         </div>

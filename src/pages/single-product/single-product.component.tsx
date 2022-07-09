@@ -16,7 +16,10 @@ const SingleProductPage = (): JSX.Element => {
   const [qty, setQty] = React.useState<number>(1);
   const { productId } = useParams<{ productId: string }>();
   const cId = Number(productId); // convert to Number
-  const product = products && products ? products.find((book: IProduct) => book.id === cId) : null;
+  const product =
+    products && products
+      ? products.find((book: IProduct) => book.id === cId)
+      : null;
 
   function handleQty(e: React.ChangeEvent<HTMLSelectElement>) {
     setQty(Number(e.target.value));
@@ -56,7 +59,9 @@ const SingleProductPage = (): JSX.Element => {
           <div className='single-product__col-2__header__left'>
             <h1 id='p-title'>{product?.title}</h1>
             <h1>${product?.price}</h1>
-            <p className='single-product__col-2__header__pstatus'>{product?.status}</p>
+            <p className='single-product__col-2__header__pstatus'>
+              {product?.status}
+            </p>
           </div>
           <div className='single-product__col-2__header__right'>
             <h2>ID: {product?.id}</h2>
@@ -75,7 +80,10 @@ const SingleProductPage = (): JSX.Element => {
             <option value={4}>4</option>
             <option value={5}>5</option>
           </select>
-          <button className='' onClick={() => product && addProductHandler(product)}>
+          <button
+            className=''
+            onClick={() => product && addProductHandler(product)}
+          >
             Add to Cart
           </button>
         </div>

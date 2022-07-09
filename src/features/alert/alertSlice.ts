@@ -24,7 +24,9 @@ export const adminGuestNotification = createAction<{ timeout?: number }>(
   'alert/adminGuestNotification'
 );
 
-export const readymadeAcc = createAction<{ timeout?: number }>('alert/readymadeAcc');
+export const readymadeAcc = createAction<{ timeout?: number }>(
+  'alert/readymadeAcc'
+);
 
 export const userLogged = createAction('alert/userLogged');
 
@@ -105,10 +107,19 @@ export const alertSlice = createSlice({
 
 const selectAlert = (state: RootState) => state.alert;
 
-export const selectMessage = createSelector([selectAlert], (alert: AlertState) => alert.message);
+export const selectMessage = createSelector(
+  [selectAlert],
+  (alert: AlertState) => alert.message
+);
 
-export const selectAlertType = createSelector([selectAlert], (alert: AlertState) => alert.atype);
+export const selectAlertType = createSelector(
+  [selectAlert],
+  (alert: AlertState) => alert.atype
+);
 
-export const selectTimeout = createSelector([selectAlert], (alert: AlertState) => alert.timeout);
+export const selectTimeout = createSelector(
+  [selectAlert],
+  (alert: AlertState) => alert.timeout
+);
 
 export default alertSlice.reducer;

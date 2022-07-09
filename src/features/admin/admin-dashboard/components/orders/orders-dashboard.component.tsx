@@ -1,6 +1,9 @@
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchAll, remove as removeOrder } from '../../../../../features/order/thunks';
+import {
+  fetchAll,
+  remove as removeOrder,
+} from '../../../../../features/order/thunks';
 import { Link } from 'react-router-dom';
 import { Paginator } from '../../../../forms/paginator';
 import { selectOrders } from '../../../../order/selectors';
@@ -35,10 +38,12 @@ function OrdersDashboard(): JSX.Element {
     }
     const value = (e.target as HTMLInputElement).value;
     selections.length > 1
-      ? confirm(`Are you sure you wanna delete ${selections.length} products?`) &&
-        console.info(`No implementation. ${value}`)
+      ? confirm(
+          `Are you sure you wanna delete ${selections.length} products?`
+        ) && console.info(`No implementation. ${value}`)
       : selections.length <= 1
-      ? confirm('Are you sure you want to delete this product?') && dispatch(removeOrder(value))
+      ? confirm('Are you sure you want to delete this product?') &&
+        dispatch(removeOrder(value))
       : null;
   }
 
@@ -135,7 +140,16 @@ function OrdersDashboard(): JSX.Element {
         <tbody>
           {input.search.length > 0
             ? rankedIndex.map(
-                ({ total_price, address, country, city, postalcode, status, userId, id }) => (
+                ({
+                  total_price,
+                  address,
+                  country,
+                  city,
+                  postalcode,
+                  status,
+                  userId,
+                  id,
+                }) => (
                   <tr key={id}>
                     <td>{id}</td>
                     <td>{userId}</td>
@@ -148,7 +162,10 @@ function OrdersDashboard(): JSX.Element {
                     <td>
                       <input
                         onChange={onCheckbox}
-                        checked={selections.find((e) => e.id === id.toString()) !== undefined}
+                        checked={
+                          selections.find((e) => e.id === id.toString()) !==
+                          undefined
+                        }
                         type='checkbox'
                         value={id}
                         name='selection'
@@ -156,12 +173,19 @@ function OrdersDashboard(): JSX.Element {
                       />
                     </td>
                     <td>
-                      <Link to={`/admin-controls/products-edit/${id}`} id='edit-link'>
+                      <Link
+                        to={`/admin-controls/products-edit/${id}`}
+                        id='edit-link'
+                      >
                         Edit
                       </Link>
                     </td>
                     <td>
-                      <button onClick={deleteHandler} id='delete-row' value={id}>
+                      <button
+                        onClick={deleteHandler}
+                        id='delete-row'
+                        value={id}
+                      >
                         Delete
                       </button>
                     </td>
@@ -169,7 +193,16 @@ function OrdersDashboard(): JSX.Element {
                 )
               )
             : miumau.map(
-                ({ total_price, address, country, city, postalcode, status, userId, id }) => (
+                ({
+                  total_price,
+                  address,
+                  country,
+                  city,
+                  postalcode,
+                  status,
+                  userId,
+                  id,
+                }) => (
                   <tr key={id}>
                     <td>{id}</td>
                     <td>{userId}</td>
@@ -182,7 +215,10 @@ function OrdersDashboard(): JSX.Element {
                     <td>
                       <input
                         onChange={onCheckbox}
-                        checked={selections.find((e) => e.id === id.toString()) !== undefined}
+                        checked={
+                          selections.find((e) => e.id === id.toString()) !==
+                          undefined
+                        }
                         type='checkbox'
                         value={id}
                         name='selection'
@@ -190,12 +226,19 @@ function OrdersDashboard(): JSX.Element {
                       />
                     </td>
                     <td>
-                      <Link to={`/admin-controls/products-edit/${id}`} id='edit-link'>
+                      <Link
+                        to={`/admin-controls/products-edit/${id}`}
+                        id='edit-link'
+                      >
                         Edit
                       </Link>
                     </td>
                     <td>
-                      <button onClick={deleteHandler} id='delete-row' value={id}>
+                      <button
+                        onClick={deleteHandler}
+                        id='delete-row'
+                        value={id}
+                      >
                         Delete
                       </button>
                     </td>

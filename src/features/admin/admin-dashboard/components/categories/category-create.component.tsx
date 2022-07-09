@@ -10,7 +10,9 @@ import { selectRole } from '../../../../user/selectors';
 function CategoryCreate(): JSX.Element {
   const dispatch = useDispatch();
   const role = useSelector(selectRole);
-  const [preview, setPreview] = React.useState<{ title: string }>({ title: '' });
+  const [preview, setPreview] = React.useState<{ title: string }>({
+    title: '',
+  });
   const [warning, setWarning] = React.useState<string>('');
   function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -29,7 +31,10 @@ function CategoryCreate(): JSX.Element {
   return (
     <div className='admin-create__categories'>
       <div className='admin-create__header'>
-        <Link to={`/admin-dashboard/categories-dashboard`} id='back-to-categories'>
+        <Link
+          to={`/admin-dashboard/categories-dashboard`}
+          id='back-to-categories'
+        >
           &larr; Back to Categories View
         </Link>
       </div>
@@ -54,7 +59,10 @@ function CategoryCreate(): JSX.Element {
               minLength: 3,
               required: true,
               onChange: (e) =>
-                setPreview({ ...preview, title: (e.target as HTMLInputElement).value }),
+                setPreview({
+                  ...preview,
+                  title: (e.target as HTMLInputElement).value,
+                }),
             },
           ],
           warning: [{ orderIdentifier: 11, warning: warning }],

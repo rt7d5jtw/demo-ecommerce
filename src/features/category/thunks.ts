@@ -1,7 +1,12 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import { ValidationErrors } from '../promotion/promotionSlice';
-import { createCategory, fetchCategories, removeCategory, updateCategory } from './api';
+import {
+  createCategory,
+  fetchCategories,
+  removeCategory,
+  updateCategory,
+} from './api';
 import { ICategory } from './categorySlice';
 
 export const fetch = createAsyncThunk(

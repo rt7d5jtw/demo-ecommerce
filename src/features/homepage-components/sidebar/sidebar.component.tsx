@@ -34,13 +34,21 @@ const Sidebar = (): JSX.Element => {
             All Products
           </Link>
           {categories.map(({ cname, id }) => (
-            <Link to={'/products/' + cname} href={cname} key={id} onClick={() => setOpen(!isOpen)}>
+            <Link
+              to={'/products/' + cname}
+              href={cname}
+              key={id}
+              onClick={() => setOpen(!isOpen)}
+            >
               {cname}
             </Link>
           ))}
         </div>
       </div>
-      <div className={isOpen ? 'flat' : 'flat-closed'} onClick={() => setOpen(false)} />
+      <div
+        className={isOpen ? 'flat' : 'flat-closed'}
+        onClick={() => setOpen(false)}
+      />
     </div>
   );
 };

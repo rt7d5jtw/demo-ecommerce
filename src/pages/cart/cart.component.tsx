@@ -1,13 +1,19 @@
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectCartItems, selectCartTotal } from '../../features/cart/selectors';
+import {
+  selectCartItems,
+  selectCartTotal,
+} from '../../features/cart/selectors';
 import './cart.css';
 import { HiOutlinePlusCircle } from 'react-icons/hi';
 import { BiMinusCircle } from 'react-icons/bi';
 import { FaStripe } from 'react-icons/fa';
 import { useHistory, useLocation } from 'react-router';
 import { addShippingInformation } from '../../features/user/userSlice';
-import { selectAccessToken, selectShippingInfo } from '../../features/user/selectors';
+import {
+  selectAccessToken,
+  selectShippingInfo,
+} from '../../features/user/selectors';
 import { promoAdded } from '../../features/alert/alertSlice';
 import { addItem, ICartItem, removeItem } from '../../features/cart/cartSlice';
 import { addItemDB, removeItemDB } from '../../features/cart/thunks';
@@ -28,12 +34,17 @@ const Cart = (): JSX.Element => {
   }, [pathname]);
 
   React.useEffect(() => {
-    if (shippingInfo === null || (shippingInfo.cost == null && parsedTotal == 0)) {
+    if (
+      shippingInfo === null ||
+      (shippingInfo.cost == null && parsedTotal == 0)
+    ) {
       dispatch(addShippingInformation({ cost: 5 }));
     }
   }, [shippingInfo]);
 
-  const deliveryHandler = (event: React.ChangeEvent<HTMLSelectElement>): void => {
+  const deliveryHandler = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ): void => {
     event.target.value === 'Express Delivery'
       ? dispatch(addShippingInformation({ cost: 10 }))
       : dispatch(addShippingInformation({ cost: 5 }));
@@ -45,7 +56,9 @@ const Cart = (): JSX.Element => {
       setDisabled(true);
       dispatch(promoAdded());
     }
-    event.target.value === 'CHOCOLATE' ? dispatch(addShippingInformation({ promo: 5 })) : null;
+    event.target.value === 'CHOCOLATE'
+      ? dispatch(addShippingInformation({ promo: 5 }))
+      : null;
   };
 
   // Adds the cart item to the cart.
@@ -99,16 +112,23 @@ const Cart = (): JSX.Element => {
                     <td className='ctw-title'>{cartItem.title}</td>
                     <td className='ctw-qty'>
                       <i>
-                        <HiOutlinePlusCircle onClick={() => addHandler(cartItem)} />
+                        <HiOutlinePlusCircle
+                          onClick={() => addHandler(cartItem)}
+                        />
                       </i>
                       {cartItem.quantity}
                       <i>
-                        <BiMinusCircle onClick={() => removeHandler(cartItem)} />
+                        <BiMinusCircle
+                          onClick={() => removeHandler(cartItem)}
+                        />
                       </i>
                     </td>
                     <td className='ctw-price'>${cartItem.price}</td>
                     <td>
-                      <span className='ctw-remove' onClick={() => removeHandler(cartItem)}>
+                      <span
+                        className='ctw-remove'
+                        onClick={() => removeHandler(cartItem)}
+                      >
                         Remove
                       </span>
                     </td>
@@ -132,7 +152,9 @@ const Cart = (): JSX.Element => {
                   <td>Shipping</td>
                   <td>
                     <select onChange={deliveryHandler}>
-                      <option value='Standard Pick Up Point'>Standard Pick Up Point</option>
+                      <option value='Standard Pick Up Point'>
+                        Standard Pick Up Point
+                      </option>
                       <option value='Express Delivery'>Express Delivery</option>
                     </select>
                   </td>

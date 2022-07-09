@@ -40,7 +40,9 @@ function ProductDashboard(): JSX.Element {
         console.group('truth value: ', ids.includes(parseInt(value)));
         if (ids.includes(parseInt(value))) {
           confirm('Are you sure you want to delete this product?') &&
-            dispatch(removeProductsGUEST(JSON.parse(e.currentTarget.dataset['bind'])));
+            dispatch(
+              removeProductsGUEST(JSON.parse(e.currentTarget.dataset['bind']))
+            );
           return;
         }
       }
@@ -50,8 +52,9 @@ function ProductDashboard(): JSX.Element {
 
     if (e.currentTarget.dataset['bind']) {
       selections.length > 1
-        ? confirm(`Are you sure you wanna delete ${selections.length} products?`) &&
-          console.info(`No implementation yet, ${value}`)
+        ? confirm(
+            `Are you sure you wanna delete ${selections.length} products?`
+          ) && console.info(`No implementation yet, ${value}`)
         : selections.length <= 1
         ? confirm('Are you sure you want to delete this product?') &&
           dispatch(removeProduct(JSON.parse(e.currentTarget.dataset['bind'])))
@@ -158,7 +161,9 @@ function ProductDashboard(): JSX.Element {
             ? rankedIndex.map((product) => (
                 <tr key={product.id}>
                   <th scope='row' className='img-row'>
-                    <img src={require(`../../../../../assets/${product.image}`)} />
+                    <img
+                      src={require(`../../../../../assets/${product.image}`)}
+                    />
                   </th>
                   <td>{product.id}</td>
                   <td>{product.title}</td>
@@ -168,7 +173,11 @@ function ProductDashboard(): JSX.Element {
                   <td>
                     <input
                       onChange={onCheckbox}
-                      checked={selections.find((e) => e.id === product.id.toString()) !== undefined}
+                      checked={
+                        selections.find(
+                          (e) => e.id === product.id.toString()
+                        ) !== undefined
+                      }
                       type='checkbox'
                       value={product.id}
                       name='selection'
@@ -195,17 +204,25 @@ function ProductDashboard(): JSX.Element {
             : miumau.map((product) => (
                 <tr key={product.id}>
                   <th scope='row' className='img-row'>
-                    <img src={require(`../../../../../assets/${product.image}`)} />
+                    <img
+                      src={require(`../../../../../assets/${product.image}`)}
+                    />
                   </th>
                   <td>{product.id}</td>
                   <td>{product.title}</td>
                   <td>${product.price}</td>
                   <td>{product.status}</td>
-                  <td id='cat-row'>{product.categories.map(({ cname }) => cname).join(', ')}</td>
+                  <td id='cat-row'>
+                    {product.categories.map(({ cname }) => cname).join(', ')}
+                  </td>
                   <td>
                     <input
                       onChange={onCheckbox}
-                      checked={selections.find((e) => e.id === product.id.toString()) !== undefined}
+                      checked={
+                        selections.find(
+                          (e) => e.id === product.id.toString()
+                        ) !== undefined
+                      }
                       type='checkbox'
                       value={product.id}
                       name='selection'

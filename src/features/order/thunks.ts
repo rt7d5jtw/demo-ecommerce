@@ -55,17 +55,20 @@ export const fetchItems = createAsyncThunk(
   }
 );
 
-export const remove = createAsyncThunk('order/remove', async (id: string, { rejectWithValue }) => {
-  try {
-    return removeOrder(id);
-  } catch (err) {
-    const error: AxiosError<ValidationErrors> = err;
-    if (!error.response) {
-      throw err;
+export const remove = createAsyncThunk(
+  'order/remove',
+  async (id: string, { rejectWithValue }) => {
+    try {
+      return removeOrder(id);
+    } catch (err) {
+      const error: AxiosError<ValidationErrors> = err;
+      if (!error.response) {
+        throw err;
+      }
+      return rejectWithValue(err.response.data);
     }
-    return rejectWithValue(err.response.data);
   }
-});
+);
 
 /* calls api to create a payment intent */
 export const createIntent = createAsyncThunk(

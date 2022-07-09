@@ -4,7 +4,11 @@ import { GiShoppingBag } from 'react-icons/gi';
 import { connect, useSelector } from 'react-redux';
 import { RootState } from '../../../app/store';
 import { cartToggle, clearCart, ICartItem } from '../../cart/cartSlice';
-import { selectOpen, selectCartItems, selectQuantity } from '../../cart/selectors';
+import {
+  selectOpen,
+  selectCartItems,
+  selectQuantity,
+} from '../../cart/selectors';
 import { clearCartDB } from '../../cart/thunks';
 import { useDispatch } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -59,7 +63,11 @@ const CartContainer = ({ isOpen, cartItems, quantity }: ICart) => {
       >
         <GiShoppingBag className='cart-container__cart-icon' />
         <span
-          style={quantity >= 100 ? { fontSize: '.8em', top: '1.8em', right: '1.2em' } : {}}
+          style={
+            quantity >= 100
+              ? { fontSize: '.8em', top: '1.8em', right: '1.2em' }
+              : {}
+          }
           className='cart-container__cart-quantity'
         >
           {quantity}
@@ -68,14 +76,21 @@ const CartContainer = ({ isOpen, cartItems, quantity }: ICart) => {
 
       <div
         className={isOpen ? 'cart-content' : 'cart-content--closed'}
-        style={cartItems.length > 3 ? { overflowY: 'scroll' } : { overflowY: 'hidden' }}
+        style={
+          cartItems.length > 3
+            ? { overflowY: 'scroll' }
+            : { overflowY: 'hidden' }
+        }
         ref={wrappedRef}
       >
         <div className='cart-content__checkout'>
           <Link to='/cart' onClick={() => dispatch(cartToggle(isOpen))}>
             View the shopping bag
           </Link>
-          <button onClick={() => cartClear()} title='Clears cart from all products'>
+          <button
+            onClick={() => cartClear()}
+            title='Clears cart from all products'
+          >
             Clear all products
           </button>
         </div>

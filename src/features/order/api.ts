@@ -1,7 +1,13 @@
 import axios, { AxiosError } from 'axios';
 import { ValidationErrors } from '../promotion/promotionSlice';
 import { authHeader, AuthorizationDTO } from '../user/api';
-import { IOrder, IOrderItem, OrderDTO, PaymentIntentDTO, UpdateOrderDto } from './orderSlice';
+import {
+  IOrder,
+  IOrderItem,
+  OrderDTO,
+  PaymentIntentDTO,
+  UpdateOrderDto,
+} from './orderSlice';
 
 export const ORDER_URL = 'http://localhost:3000/orders/';
 
@@ -111,7 +117,9 @@ export async function getInvoice(orderId: string): Promise<void> {
     )
     .then((res) => {
       /* creates a blob from the pdf stream, and then creates a url from the file */
-      const url = window.URL.createObjectURL(new Blob([res.data], { type: 'application/pdf' }));
+      const url = window.URL.createObjectURL(
+        new Blob([res.data], { type: 'application/pdf' })
+      );
       /* creates a link and sets the file url */
       const link = document.createElement('a');
       link.href = url;
@@ -129,7 +137,10 @@ export async function getInvoice(orderId: string): Promise<void> {
     });
 }
 
-export async function updateOrder(orderId: string, updateDto: UpdateOrderDto): Promise<IOrder> {
+export async function updateOrder(
+  orderId: string,
+  updateDto: UpdateOrderDto
+): Promise<IOrder> {
   return axios
     .patch(ORDER_URL + orderId, updateDto, { headers: authHeader() })
     .then((res) => res.data)

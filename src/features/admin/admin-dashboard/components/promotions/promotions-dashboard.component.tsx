@@ -32,8 +32,9 @@ function PromotionsDashboard(): JSX.Element {
     }
     const value = JSON.parse((e.target as HTMLInputElement).value);
     selections.length > 1
-      ? confirm(`Are you sure you wanna delete ${selections.length} promotions?`) &&
-        console.info('No implementation')
+      ? confirm(
+          `Are you sure you wanna delete ${selections.length} promotions?`
+        ) && console.info('No implementation')
       : selections.length <= 1
       ? confirm('Are you sure you want to delete this promotion?') &&
         dispatch(removePromotion(value))
@@ -102,7 +103,10 @@ function PromotionsDashboard(): JSX.Element {
           />
         </div>
         <div>
-          <Link id='new-promotion' to={`/admin-dashboard/promotions-dashboard/promotions-create`}>
+          <Link
+            id='new-promotion'
+            to={`/admin-dashboard/promotions-dashboard/promotions-create`}
+          >
             Create a new Promotion
           </Link>
         </div>
@@ -136,7 +140,9 @@ function PromotionsDashboard(): JSX.Element {
             ? rankedIndex.map((promotion) => (
                 <tr key={promotion.id}>
                   <th scope='row' className='img-row'>
-                    <img src={require(`../../../../../assets/${promotion.image}`)} />
+                    <img
+                      src={require(`../../../../../assets/${promotion.image}`)}
+                    />
                   </th>
                   <td>{promotion.id}</td>
                   <td>{promotion.title}</td>
@@ -144,7 +150,9 @@ function PromotionsDashboard(): JSX.Element {
                     <input
                       onChange={onCheckbox}
                       checked={
-                        selections.find((e) => e.id === promotion.id.toString()) !== undefined
+                        selections.find(
+                          (e) => e.id === promotion.id.toString()
+                        ) !== undefined
                       }
                       type='checkbox'
                       value={promotion.id}
@@ -174,7 +182,9 @@ function PromotionsDashboard(): JSX.Element {
             : miumau.map((promotion) => (
                 <tr key={promotion.id}>
                   <th scope='row' className='img-row'>
-                    <img src={require(`../../../../../assets/${promotion.image}`)} />
+                    <img
+                      src={require(`../../../../../assets/${promotion.image}`)}
+                    />
                   </th>
                   <td>{promotion.id}</td>
                   <td>{promotion.title}</td>
@@ -182,7 +192,9 @@ function PromotionsDashboard(): JSX.Element {
                     <input
                       onChange={onCheckbox}
                       checked={
-                        selections.find((e) => e.id === promotion.id.toString()) !== undefined
+                        selections.find(
+                          (e) => e.id === promotion.id.toString()
+                        ) !== undefined
                       }
                       type='checkbox'
                       value={promotion.id}

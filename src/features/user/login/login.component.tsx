@@ -13,7 +13,9 @@ const Login = (): JSX.Element => {
   const dispatch = useDispatch();
   function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    dispatch(handleSignIn(handleForm(event.currentTarget.elements) as IUserCredentials));
+    dispatch(
+      handleSignIn(handleForm(event.currentTarget.elements) as IUserCredentials)
+    );
   }
 
   React.useEffect(() => {
@@ -31,7 +33,9 @@ const Login = (): JSX.Element => {
                 inputx: {
                   type: 'email',
                   name: 'email',
-                  pattern: new RegExp(/^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/)
+                  pattern: new RegExp(
+                    /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/
+                  )
                     .toString()
                     .slice(1, -1),
                   required: true,
@@ -46,7 +50,9 @@ const Login = (): JSX.Element => {
                   name: 'password',
                   id: 'password',
                   placeholder: 'testing123',
-                  pattern: new RegExp(/(?=.*[A-Za-z])[A-Za-z\d!]{6,}/).toString().slice(1, -1),
+                  pattern: new RegExp(/(?=.*[A-Za-z])[A-Za-z\d!]{6,}/)
+                    .toString()
+                    .slice(1, -1),
                   required: true,
                   title: 'Provide a password with at least 6 characters',
                   minLength: 6,

@@ -38,7 +38,9 @@ export const authHeader = (): AuthorizationDTO | unknown => {
   }
 };
 
-export async function register(arg: IUserCredentials): Promise<IRegisterSuccess> {
+export async function register(
+  arg: IUserCredentials
+): Promise<IRegisterSuccess> {
   return axios
     .post(USERS_URL, arg, { headers: authHeader() })
     .then((res) => {

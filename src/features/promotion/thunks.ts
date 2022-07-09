@@ -1,6 +1,11 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
-import { createPromotion, fetchPromotions, removePromotion, updatePromotion } from './api';
+import {
+  createPromotion,
+  fetchPromotions,
+  removePromotion,
+  updatePromotion,
+} from './api';
 import {
   CreatePromotionDto,
   IPromotions,
@@ -27,18 +32,21 @@ export const create = createAsyncThunk(
   }
 );
 
-export const remove = createAsyncThunk('promotions/remove', async (promotion: IPromotions) => {
-  try {
-    removePromotion(promotion.id);
-    return promotion;
-  } catch (err) {
-    const error: AxiosError<ValidationErrors> = err;
-    if (!error.response) {
-      throw err;
+export const remove = createAsyncThunk(
+  'promotions/remove',
+  async (promotion: IPromotions) => {
+    try {
+      removePromotion(promotion.id);
+      return promotion;
+    } catch (err) {
+      const error: AxiosError<ValidationErrors> = err;
+      if (!error.response) {
+        throw err;
+      }
+      return Promise.reject(err);
     }
-    return Promise.reject(err);
   }
-});
+);
 
 export const update = createAsyncThunk(
   'promotions/update',

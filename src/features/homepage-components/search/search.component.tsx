@@ -4,7 +4,11 @@ import './search.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { search } from '../../product/thunks';
 import { useHistory } from 'react-router';
-import { selectItems, selectSearch, selectSearchItems } from '../../product/selectors';
+import {
+  selectItems,
+  selectSearch,
+  selectSearchItems,
+} from '../../product/selectors';
 import { BsSearch } from 'react-icons/bs';
 import { IProduct } from '../../product/productSlice';
 import { GiShoppingBag } from 'react-icons/gi';
@@ -35,7 +39,8 @@ export const Search = ({ scrollEvent }: ISearch): JSX.Element => {
     e.preventDefault();
     if (input.search) {
       dispatch(search(input.search));
-      if (searchItems !== null && searchKeyword !== null) return push('/search-result');
+      if (searchItems !== null && searchKeyword !== null)
+        return push('/search-result');
     }
   }
 
@@ -89,7 +94,9 @@ export const Search = ({ scrollEvent }: ISearch): JSX.Element => {
           <IoMdSearch id='searching-icon' />
           <input
             ref={ref2}
-            onClick={() => (data && input.search.length > 0 ? setOpen(true) : null)}
+            onClick={() =>
+              data && input.search.length > 0 ? setOpen(true) : null
+            }
             onFocus={() => setInput({ ...input, focused: true })}
             onBlur={() => setInput({ ...input, focused: false })}
             type='search'
@@ -105,7 +112,9 @@ export const Search = ({ scrollEvent }: ISearch): JSX.Element => {
         <div className='search__wrapper__right'>
           <button
             style={
-              input.search.length > 0 && input.focused === true ? { visibility: 'visible' } : {}
+              input.search.length > 0 && input.focused === true
+                ? { visibility: 'visible' }
+                : {}
             }
             aria-label='Search'
             name='submit_search'
@@ -130,23 +139,34 @@ export const Search = ({ scrollEvent }: ISearch): JSX.Element => {
                     <img
                       onClick={() =>
                         location.pathname === '/'
-                          ? push(`/products/${product.categories[0].cname}/${product.id}`)
-                          : replace(`/products/${product.categories[0].cname}/${product.id}`)
+                          ? push(
+                              `/products/${product.categories[0].cname}/${product.id}`
+                            )
+                          : replace(
+                              `/products/${product.categories[0].cname}/${product.id}`
+                            )
                       }
                       src={require(`../../../assets/${product.image}`)}
                     />
                     <div
                       onClick={() =>
                         location.pathname === '/'
-                          ? push(`/products/${product.categories[0].cname}/${product.id}`)
-                          : replace(`/products/${product.categories[0].cname}/${product.id}`)
+                          ? push(
+                              `/products/${product.categories[0].cname}/${product.id}`
+                            )
+                          : replace(
+                              `/products/${product.categories[0].cname}/${product.id}`
+                            )
                       }
                       className='search__suggestions__product-info'
                     >
                       <h2>{product.title}</h2>
                       <h2>${product.price}</h2>
                     </div>
-                    <button type='button' onClick={() => cartAddhandler(product)}>
+                    <button
+                      type='button'
+                      onClick={() => cartAddhandler(product)}
+                    >
                       <GiShoppingBag />
                     </button>
                   </li>

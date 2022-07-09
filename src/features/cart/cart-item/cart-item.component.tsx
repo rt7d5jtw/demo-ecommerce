@@ -31,8 +31,12 @@ const CartItem = (cartItem: ICartItem): JSX.Element => {
       </div>
       <div className='cart-item__left'>
         <span className='cart-item__left__title'>{cartItem.title}</span>
-        <span className='cart-item__left__price'>Price: ${cartItem.price * cartItem.quantity}</span>
-        <span className='cart-item__left__qty'>Quantity: {cartItem.quantity}</span>
+        <span className='cart-item__left__price'>
+          Price: ${cartItem.price * cartItem.quantity}
+        </span>
+        <span className='cart-item__left__qty'>
+          Quantity: {cartItem.quantity}
+        </span>
       </div>
       <button
         className='cart-item__remove-btn'

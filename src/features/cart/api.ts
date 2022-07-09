@@ -1,7 +1,12 @@
 import axios, { AxiosError } from 'axios';
 import { ValidationErrors } from '../promotion/promotionSlice';
 import { authHeader } from '../user/api';
-import { ICart, ICartItem, AddItemSuccess, InsertationResult } from './cartSlice';
+import {
+  ICart,
+  ICartItem,
+  AddItemSuccess,
+  InsertationResult,
+} from './cartSlice';
 
 export const CART_URL = 'http://localhost:3000/cart/';
 
@@ -54,7 +59,9 @@ export async function fetchCartItems(): Promise<ICartItem[]> {
 }
 
 /* doesnt mutate client state, only affects db */
-export async function addItemsToCartDB(list_of_ids: Array<number>): Promise<InsertationResult> {
+export async function addItemsToCartDB(
+  list_of_ids: Array<number>
+): Promise<InsertationResult> {
   return axios
     .post(CART_URL + 'batch', list_of_ids, { headers: authHeader() })
     .then((res) => {

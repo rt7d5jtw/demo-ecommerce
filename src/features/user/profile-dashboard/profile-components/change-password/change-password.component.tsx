@@ -11,7 +11,9 @@ const ChangePassword = (): JSX.Element => {
   const errors = useSelector(selectUserErrors);
   function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    dispatch(changePassword(handleForm(event.currentTarget.elements) as PasswordObj));
+    dispatch(
+      changePassword(handleForm(event.currentTarget.elements) as PasswordObj)
+    );
   }
   return (
     <div className='profile-changeform'>
@@ -22,7 +24,9 @@ const ChangePassword = (): JSX.Element => {
             inputy: {
               type: 'password',
               name: 'newPassword',
-              pattern: new RegExp(/(?=.*[A-Za-z])[A-Za-z\d!]{6,}/).toString().slice(1, -1),
+              pattern: new RegExp(/(?=.*[A-Za-z])[A-Za-z\d!]{6,}/)
+                .toString()
+                .slice(1, -1),
               required: true,
               title: 'Provide a password with at least 6 characters',
               minLength: 6,
@@ -35,7 +39,9 @@ const ChangePassword = (): JSX.Element => {
               name: 'currentPassword',
               id: 'currentPassword',
               placeholder: 'Current Password',
-              pattern: new RegExp(/(?=.*[A-Za-z])[A-Za-z\d!]{6,}/).toString().slice(1, -1),
+              pattern: new RegExp(/(?=.*[A-Za-z])[A-Za-z\d!]{6,}/)
+                .toString()
+                .slice(1, -1),
               required: true,
               title: 'Provide a password with at least 6 characters',
               minLength: 6,

@@ -14,7 +14,8 @@ export const handlers = [
       ctx.status(201),
       ctx.json({
         salt: '$2b$10$E29I6Vgu2vIwV8PVcWEfie',
-        password: '$2b$10$E29I6Vgu2vIwV8PVcWEfie/HnmB.pByNfpmonMAL99qb730VaxtO.',
+        password:
+          '$2b$10$E29I6Vgu2vIwV8PVcWEfie/HnmB.pByNfpmonMAL99qb730VaxtO.',
         email: 'test@testing.com',
         role: 'USER',
         id: '4ec9270a-0c72-4675-93be-ba850f2ea5fb',
@@ -43,7 +44,8 @@ export const handlers = [
       ctx.json({
         id: '872f17ee-45a2-409b-b74a-eea6753f38fb',
         email: 'test@testing.com',
-        password: '$2b$10$AGAshzYOtaaMrxTNdxVwyeC4iRp3JIXT/LMEGBi5RErDHCBH9lSu.',
+        password:
+          '$2b$10$AGAshzYOtaaMrxTNdxVwyeC4iRp3JIXT/LMEGBi5RErDHCBH9lSu.',
         role: 'USER',
         salt: '$2b$10$AGAshzYOtaaMrxTNdxVwye',
         createdAt: '2021-06-17',
@@ -63,7 +65,8 @@ export const handlers = [
         {
           id: '255c8982-4257-407d-b002-1e76dac3a075',
           email: 'meemau@gmail.com',
-          password: '$2b$10$9YsWW.gyD8Mz7zV8uUhrae7DfO9dWcvVYQaDWtvxBq5b29AVzKWHW',
+          password:
+            '$2b$10$9YsWW.gyD8Mz7zV8uUhrae7DfO9dWcvVYQaDWtvxBq5b29AVzKWHW',
           role: 'ADMIN',
           salt: '$2b$10$9YsWW.gyD8Mz7zV8uUhrae',
           createdAt: '2021-04-24',
@@ -71,7 +74,8 @@ export const handlers = [
         {
           id: '4ec9270a-0c72-4675-93be-ba850f2ea5fb',
           email: 'test@testing.com',
-          password: '$2b$10$E29I6Vgu2vIwV8PVcWEfie/HnmB.pByNfpmonMAL99qb730VaxtO.',
+          password:
+            '$2b$10$E29I6Vgu2vIwV8PVcWEfie/HnmB.pByNfpmonMAL99qb730VaxtO.',
           role: 'USER',
           salt: '$2b$10$E29I6Vgu2vIwV8PVcWEfie',
           createdAt: '2021-06-29',
@@ -79,7 +83,8 @@ export const handlers = [
         {
           id: '872f17ee-45a2-409b-b74a-eea6753f38fb',
           email: 'miumau@gmail.com',
-          password: '$2b$10$SyzY0wCknTEmvlvKqjP7x.uplLjt42YEXIYhpo0AClLfU0VqGgWh.',
+          password:
+            '$2b$10$SyzY0wCknTEmvlvKqjP7x.uplLjt42YEXIYhpo0AClLfU0VqGgWh.',
           role: 'USER',
           salt: '$2b$10$SyzY0wCknTEmvlvKqjP7x.',
           createdAt: '2021-06-17',
@@ -283,37 +288,46 @@ export const handlers = [
     );
   }),
 
-  rest.post(ORDER_URL + 'items/0302370c-6f80-4932-9dd6-6364d01bf936', (_req, res, ctx) => {
-    return res(
-      ctx.status(201),
-      ctx.json([
-        {
-          id: uuid(),
-          cartId: uuid(),
-          productId: 25,
-          quantity: 1,
-          price: 7,
-          CreatedAt: '2021-07-03',
-        },
-      ])
-    );
-  }),
+  rest.post(
+    ORDER_URL + 'items/0302370c-6f80-4932-9dd6-6364d01bf936',
+    (_req, res, ctx) => {
+      return res(
+        ctx.status(201),
+        ctx.json([
+          {
+            id: uuid(),
+            cartId: uuid(),
+            productId: 25,
+            quantity: 1,
+            price: 7,
+            CreatedAt: '2021-07-03',
+          },
+        ])
+      );
+    }
+  ),
 
-  rest.patch(ORDER_URL + '490f374c-b448-4a7b-ad2c-0bedb9fe2163', (_req, res, ctx) => {
-    return res(
-      ctx.status(200),
-      ctx.json({
-        id: '490f374c-b448-4a7b-ad2c-0bedb9fe2163',
-        userId: 'e6a23d5f-3a23-498f-9f61-ffb9ad34cb68',
-        status: 'PAID',
-        date: '2021-07-23',
-      })
-    );
-  }),
+  rest.patch(
+    ORDER_URL + '490f374c-b448-4a7b-ad2c-0bedb9fe2163',
+    (_req, res, ctx) => {
+      return res(
+        ctx.status(200),
+        ctx.json({
+          id: '490f374c-b448-4a7b-ad2c-0bedb9fe2163',
+          userId: 'e6a23d5f-3a23-498f-9f61-ffb9ad34cb68',
+          status: 'PAID',
+          date: '2021-07-23',
+        })
+      );
+    }
+  ),
 
-  rest.delete(ORDER_URL + '9f0bcbf5-c845-48ef-95dd-393da9ae64c1', (_req, res, ctx) => {
-    return res(ctx.status(200), ctx.json(undefined));
-  }),
+  rest.delete(
+    ORDER_URL + '9f0bcbf5-c845-48ef-95dd-393da9ae64c1',
+    (_req, res, ctx) => {
+      return res(ctx.status(200), ctx.json(undefined));
+    }
+  ),
 
   rest.get(CATEGORY_URL, (_req, res, ctx) => {
     return res(
@@ -345,19 +359,25 @@ export const handlers = [
     );
   }),
 
-  rest.delete(CATEGORY_URL + '4a9ad1cc-17b9-4193-8341-7d14194909ad', (_req, res, ctx) => {
-    return res(ctx.status(200), ctx.json(undefined));
-  }),
+  rest.delete(
+    CATEGORY_URL + '4a9ad1cc-17b9-4193-8341-7d14194909ad',
+    (_req, res, ctx) => {
+      return res(ctx.status(200), ctx.json(undefined));
+    }
+  ),
 
-  rest.patch(CATEGORY_URL + '419b12e1-b406-4cb5-8a2e-082bbab85802', (_req, res, ctx) => {
-    return res(
-      ctx.status(200),
-      ctx.json({
-        id: '419b12e1-b406-4cb5-8a2e-082bbab85802',
-        cname: 'newTest',
-      })
-    );
-  }),
+  rest.patch(
+    CATEGORY_URL + '419b12e1-b406-4cb5-8a2e-082bbab85802',
+    (_req, res, ctx) => {
+      return res(
+        ctx.status(200),
+        ctx.json({
+          id: '419b12e1-b406-4cb5-8a2e-082bbab85802',
+          cname: 'newTest',
+        })
+      );
+    }
+  ),
 
   rest.get(CART_URL, (_req, res, ctx) => {
     return res(

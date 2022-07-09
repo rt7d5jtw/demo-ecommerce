@@ -53,9 +53,15 @@ export const clearProducts = createAction('product/clearProducts');
 
 /* GUEST functions */
 
-export const addProductsGUEST = createAction<GUESTProduct>('product/addProductsGUEST');
-export const removeProductsGUEST = createAction<IProduct>('product/removeProductsGUEST');
-export const updateProductsGUEST = createAction<UpdateProductDto>('product/updateProductsGUEST');
+export const addProductsGUEST = createAction<GUESTProduct>(
+  'product/addProductsGUEST'
+);
+export const removeProductsGUEST = createAction<IProduct>(
+  'product/removeProductsGUEST'
+);
+export const updateProductsGUEST = createAction<UpdateProductDto>(
+  'product/updateProductsGUEST'
+);
 
 export const productSlice = createSlice({
   name: 'product',

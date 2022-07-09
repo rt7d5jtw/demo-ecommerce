@@ -25,7 +25,8 @@ const userPersistConfig = {
   blacklist: ['errors'],
 };
 
-const middlewares = [logger, thunk];
+const middlewares =
+  process.env.production == 'false' ? [logger, thunk] : [thunk];
 
 export const rootReducer = combineReducers({
   user: persistReducer(userPersistConfig, userReducer),

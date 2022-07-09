@@ -13,7 +13,10 @@ const PromotionCard = ({ image, url, title }: IPromotionCard): JSX.Element => {
   const { push } = useHistory();
   return (
     <div className='promotion-card' onClick={() => push(url)}>
-      <img className='promotion-card__img' src={require(`../../../assets/${image}`)} />
+      <img
+        className='promotion-card__img'
+        src={require(`../../../assets/${image}`)}
+      />
       <h2 className='promotion-card__h2'></h2>
       <p className='promotion-card__p'>{title}</p>
     </div>

@@ -1,7 +1,10 @@
 import * as React from 'react';
 import './category-edit.css';
 import { update as updateCategory } from '../../../../../features/category/thunks';
-import { ICategory, selectCategories } from '../../../../../features/category/categorySlice';
+import {
+  ICategory,
+  selectCategories,
+} from '../../../../../features/category/categorySlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { handleForm } from '../../../../forms/utils/utils';
 import { Loading } from '../../../../../pages/loading/loading.component';
@@ -16,7 +19,9 @@ const CategoryEdit = (): JSX.Element => {
   const role = useSelector(selectRole);
   const [warning, setWarning] = React.useState('');
   const { id } = useParams<{ id?: string }>();
-  const category = categories ? categories.find((cat: ICategory) => cat.id === id) : null;
+  const category = categories
+    ? categories.find((cat: ICategory) => cat.id === id)
+    : null;
   if (category === null || category === undefined) {
     return <Loading />;
   }
@@ -40,7 +45,10 @@ const CategoryEdit = (): JSX.Element => {
   return (
     <div className='admin-create'>
       <div className='admin-create__header'>
-        <Link to={`/admin-dashboard/categories-dashboard`} id='back-to-categories'>
+        <Link
+          to={`/admin-dashboard/categories-dashboard`}
+          id='back-to-categories'
+        >
           &larr; Back to Category Dashboard
         </Link>
       </div>

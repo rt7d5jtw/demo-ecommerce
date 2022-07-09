@@ -1,12 +1,19 @@
 import * as React from 'react';
 import './edit.css';
-import { ICategory, selectCategories } from '../../../../../features/category/categorySlice';
+import {
+  ICategory,
+  selectCategories,
+} from '../../../../../features/category/categorySlice';
 import { update as updateProduct } from '../../../../../features/product/thunks';
 import { useDispatch, useSelector } from 'react-redux';
 import { MultipleSelectState, TestForm } from '../../../../forms/testform';
 import { Link, useParams } from 'react-router-dom';
 import { selectItems } from '../../../../product/selectors';
-import { IProduct, UpdateProductDto, updateProductsGUEST } from '../../../../product/productSlice';
+import {
+  IProduct,
+  UpdateProductDto,
+  updateProductsGUEST,
+} from '../../../../product/productSlice';
 import { Loading } from '../../../../../pages/loading/loading.component';
 import {
   handleForm,
@@ -84,7 +91,10 @@ function Edit(): JSX.Element {
     });
   }
 
-  const product = products && products ? products.find((prod: IProduct) => prod.id === cId) : null;
+  const product =
+    products && products
+      ? products.find((prod: IProduct) => prod.id === cId)
+      : null;
   if (product === null || product === undefined) {
     return <Loading />;
   }
@@ -108,7 +118,9 @@ function Edit(): JSX.Element {
   function onSubmit(event: React.BaseSyntheticEvent) {
     event.preventDefault();
     const values = handleForm(event.currentTarget.elements);
-    const categoryIds = handleFormCategories(event.currentTarget.elements['categoryIds']);
+    const categoryIds = handleFormCategories(
+      event.currentTarget.elements['categoryIds']
+    );
     console.group('Here => ', event.currentTarget.elements);
     if (values.title.match(/^[^-\s][a-zA-Z0-9_\s-]+$/gi) !== null) {
       if (role === 'GUEST') {
@@ -136,7 +148,12 @@ function Edit(): JSX.Element {
 
       confirm('Are you sure you want to edit this product?') &&
         dispatch(
-          updateProduct({ id: cId, status: 'IN_STOCK', ...values, categoryIds } as UpdateProductDto)
+          updateProduct({
+            id: cId,
+            status: 'IN_STOCK',
+            ...values,
+            categoryIds,
+          } as UpdateProductDto)
         );
     } else {
       setWarning('Validation error, give proper inputs');
@@ -242,7 +259,10 @@ function Edit(): JSX.Element {
               minLength: 3,
               required: true,
               onChange: (e) =>
-                formDispatch({ type: 'title', payload: (e.target as HTMLInputElement).value }),
+                formDispatch({
+                  type: 'title',
+                  payload: (e.target as HTMLInputElement).value,
+                }),
             },
             {
               orderIdentifier: 4,

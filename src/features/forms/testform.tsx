@@ -94,7 +94,12 @@ interface IProfileForm {
   onSubmit: React.FormEventHandler<HTMLFormElement> | undefined;
 }
 
-export function TestForm({ fields, onSubmit, headlabel, submitlabel }: IProfileForm): JSX.Element {
+export function TestForm({
+  fields,
+  onSubmit,
+  headlabel,
+  submitlabel,
+}: IProfileForm): JSX.Element {
   const parsed = parseFormJSON(fields);
   return (
     <form id='badumts-form' className='badumts-form' onSubmit={onSubmit}>
@@ -217,7 +222,10 @@ type FormComponent =
   | FieldTextarea
   | IFormWarning;
 
-type FormComponentNewMember<T> = T & { component: string; orderIdentifier: number };
+type FormComponentNewMember<T> = T & {
+  component: string;
+  orderIdentifier: number;
+};
 
 function sortByOI<T extends { orderIdentifier: number }>(a: T, b: T): number {
   if (a.orderIdentifier > b.orderIdentifier) return 1;
@@ -231,7 +239,10 @@ export function parseFormJSON<Fields extends FieldTypeArrayJSON>(
   const storage: FormComponentNewMember<FormComponent>[] = [];
   for (const i in fields) {
     fields[i].forEach(function (com: FormComponent) {
-      storage.push({ ...com, component: i } as FormComponentNewMember<FormComponent>);
+      storage.push({
+        ...com,
+        component: i,
+      } as FormComponentNewMember<FormComponent>);
     });
   }
   return storage.sort(sortByOI);
@@ -278,9 +289,22 @@ function InputForm({
   );
 }
 
-function SelectForm({ form, name, id, multiple, options, onChange }: FieldSelect): JSX.Element {
+function SelectForm({
+  form,
+  name,
+  id,
+  multiple,
+  options,
+  onChange,
+}: FieldSelect): JSX.Element {
   return (
-    <select multiple={multiple} form={form} name={name} id={id} onChange={onChange}>
+    <select
+      multiple={multiple}
+      form={form}
+      name={name}
+      id={id}
+      onChange={onChange}
+    >
       {options.map(({ id, label, value }) => (
         <option value={value} key={id}>
           {label}
@@ -328,7 +352,10 @@ export function MultipleSelectForm({
     }
     return [...state, { ...item }];
   }
-  function formReducer(state: typeof initialState, action: FormAction): MultipleSelectState {
+  function formReducer(
+    state: typeof initialState,
+    action: FormAction
+  ): MultipleSelectState {
     switch (action.type) {
       case 'open': {
         return {
@@ -409,18 +436,28 @@ export function MultipleSelectForm({
     const matchArr = feedState.map(({ id }) => id);
     if (feedState.length >= 1 && kref.current) {
       Array.from(kref.current.options).forEach((e) => {
-        if (matchArr.includes(e.value) && e.dataset['id'] && e.dataset['name']) {
+        if (
+          matchArr.includes(e.value) &&
+          e.dataset['id'] &&
+          e.dataset['name']
+        ) {
           e.selected = !e.selected;
           formDispatch({
             type: 'values',
-            payload: { id: e.dataset['id'], index: e.index, name: e.dataset['name'] },
+            payload: {
+              id: e.dataset['id'],
+              index: e.index,
+              name: e.dataset['name'],
+            },
           });
         }
       });
     }
   }
 
-  function clickHandler(event: React.MouseEvent<HTMLDivElement | HTMLOptionElement>) {
+  function clickHandler(
+    event: React.MouseEvent<HTMLDivElement | HTMLOptionElement>
+  ) {
     if (!Array.from(event.currentTarget.classList).includes('item')) {
       formDispatch({ type: 'open', payload: !formState.open });
     }
@@ -439,7 +476,11 @@ export function MultipleSelectForm({
 
       if (refVal.name && refVal.id && oindex !== undefined) {
         onClickListener &&
-          onClickListener({ id: refVal['id'], index: oindex, name: refVal['name'] });
+          onClickListener({
+            id: refVal['id'],
+            index: oindex,
+            name: refVal['name'],
+          });
         formDispatch({
           type: 'values',
           payload: { id: refVal.id, index: oindex, name: refVal.name },
@@ -460,20 +501,34 @@ export function MultipleSelectForm({
       <div className='label' ref={uref} onClick={(e) => clickHandler(e)}>
         {label}
       </div>
-      <select required={required} multiple form={form} name={name} id={id} ref={kref}>
+      <select
+        required={required}
+        multiple
+        form={form}
+        name={name}
+        id={id}
+        ref={kref}
+      >
         {options.map(({ id, label, value }) => (
           <option value={value} key={id} data-id={id} data-name={label}>
             {label}
           </option>
         ))}
       </select>
-      <div ref={jref} className={formState.open ? 'multiple-ul--open' : 'multiple-ul--closed'}>
+      <div
+        ref={jref}
+        className={formState.open ? 'multiple-ul--open' : 'multiple-ul--closed'}
+      >
         {options.map(({ id, label }) => (
           <div
             key={id}
             onClick={(e) => clickHandler(e)}
             className={formState.open ? 'item li--open' : 'item li--closed'}
-            style={formState.values.find((e) => e.id === id) ? { background: '#d3d3d3' } : {}}
+            style={
+              formState.values.find((e) => e.id === id)
+                ? { background: '#d3d3d3' }
+                : {}
+            }
             data-name={label}
             data-id={id}
             data-cy={`option-${label}`}

@@ -4,7 +4,10 @@ import ProductCard from '../../features/product/product-card/product-card.compon
 import { createStructuredSelector } from 'reselect';
 import { RootState } from '../../app/store';
 import { IProduct } from '../../features/product/productSlice';
-import { selectSearch, selectSearchItems } from '../../features/product/selectors';
+import {
+  selectSearch,
+  selectSearchItems,
+} from '../../features/product/selectors';
 
 interface ISearchPage {
   searchItems: IProduct[];

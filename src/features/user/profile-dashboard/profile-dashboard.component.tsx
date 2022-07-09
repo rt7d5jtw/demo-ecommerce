@@ -2,7 +2,9 @@ import * as React from 'react';
 import './profile-dashboard.css';
 import { Link, Route, Switch, useRouteMatch } from 'react-router-dom';
 
-const MyOrders = React.lazy(() => import('./profile-components/my-orders/my-orders.component'));
+const MyOrders = React.lazy(
+  () => import('./profile-components/my-orders/my-orders.component')
+);
 const ChangeEmail = React.lazy(
   () => import('./profile-components/change-email/change-email.component')
 );
@@ -10,7 +12,8 @@ const ChangePassword = React.lazy(
   () => import('./profile-components/change-password/change-password.component')
 );
 const ProfileOverview = React.lazy(
-  () => import('./profile-components/profile-overview/profile-overview.component')
+  () =>
+    import('./profile-components/profile-overview/profile-overview.component')
 );
 
 function ProfileDashboard(): JSX.Element {
@@ -33,8 +36,16 @@ function ProfileDashboard(): JSX.Element {
           <Switch>
             <Route exact path={`${match.url}`} component={ProfileOverview} />
             <Route exact path={`${match.url}/my-orders`} component={MyOrders} />
-            <Route exact path={`${match.url}/change-password`} component={ChangePassword} />
-            <Route exact path={`${match.url}/change-email`} component={ChangeEmail} />
+            <Route
+              exact
+              path={`${match.url}/change-password`}
+              component={ChangePassword}
+            />
+            <Route
+              exact
+              path={`${match.url}/change-email`}
+              component={ChangeEmail}
+            />
           </Switch>
         </div>
       </div>

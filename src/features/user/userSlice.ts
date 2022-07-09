@@ -81,13 +81,16 @@ const initialState: UserState = {
 
 export const clearErrors = createAction('user/clearErrors');
 
-export const addShippingInformation = createAction<shippinfInfoDto>('user/addShippingInformation');
+export const addShippingInformation = createAction<shippinfInfoDto>(
+  'user/addShippingInformation'
+);
 
 export const clearShippingInfo = createAction('user/clearShippingInfo');
 
-export const setLoggedIn = createAction<{ loggedIn: boolean; accessToken: string }>(
-  'user/setLoggedIn'
-);
+export const setLoggedIn = createAction<{
+  loggedIn: boolean;
+  accessToken: string;
+}>('user/setLoggedIn');
 
 export const setRole = createAction<{ role: UserRole }>('user/setRole');
 
@@ -113,16 +116,16 @@ export const userSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-      builder.addCase(registerRequest.pending, (state) => {
-        state.loading = true;
-      }),
+    builder.addCase(registerRequest.pending, (state) => {
+      state.loading = true;
+    }),
       builder.addCase(registerRequest.fulfilled, (state) => {
         state.loading = false;
       });
-      builder.addCase(registerRequest.rejected, (state, action) => {
-        state.loading = false;
-        state.errors = action.payload;
-      }),
+    builder.addCase(registerRequest.rejected, (state, action) => {
+      state.loading = false;
+      state.errors = action.payload;
+    }),
       builder.addCase(loginRequest.pending, (state) => {
         state.loading = true;
       }),
@@ -183,9 +186,9 @@ export const userSlice = createSlice({
       builder.addCase(removeUser.pending, (state) => {
         state.loading = true;
       });
-      builder.addCase(removeUser.fulfilled, (state) => {
-        state.loading = false;
-      }),
+    builder.addCase(removeUser.fulfilled, (state) => {
+      state.loading = false;
+    }),
       builder.addCase(removeUser.rejected, (state, { payload }) => {
         state.loading = false;
         state.errors = payload;

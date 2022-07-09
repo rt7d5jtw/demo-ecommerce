@@ -7,9 +7,7 @@ const ELEMENTS_OPTIONS = {
   fonts: [{ cssSrc: 'https://fonts.googleapis.com/css?family=Montserrat' }],
 };
 
-const stripePromise = loadStripe(
-  process.env.STRIPE_PUBLISHABLE_KEY
-);
+const stripePromise = loadStripe(process.env.STRIPE_PUBLISHABLE_KEY);
 
 const StripeOrderWrapper = (): JSX.Element => {
   return (

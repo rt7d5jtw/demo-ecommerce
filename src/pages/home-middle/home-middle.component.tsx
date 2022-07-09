@@ -14,7 +14,10 @@ interface IHomemiddle {
 
 const Homemiddle = ({ promotions }: IHomemiddle): JSX.Element => {
   return (
-    <div className='homemiddle' style={{ backgroundImage: `url(${background})` }}>
+    <div
+      className='homemiddle'
+      style={{ backgroundImage: `url(${background})` }}
+    >
       <div className='homemiddle__text__wrapper'>
         <p id='homemiddle__text2'>Find what you like from our selections</p>
       </div>

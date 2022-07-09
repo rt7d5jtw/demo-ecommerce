@@ -9,7 +9,8 @@ export function handleForm(nodelist: HTMLFormControlsCollection): FormObject {
     .filter(
       (e) =>
         e.nodeName === 'INPUT' ||
-        (e.nodeName === 'SELECT' && (e as HTMLSelectElement).multiple === false) ||
+        (e.nodeName === 'SELECT' &&
+          (e as HTMLSelectElement).multiple === false) ||
         e.nodeName === 'TEXTAREA'
     )
     .map((e) => [
@@ -21,14 +22,18 @@ export function handleForm(nodelist: HTMLFormControlsCollection): FormObject {
   return Object.fromEntries(list);
 }
 
-export function handleFormCategories_GUEST(selectForm: HTMLSelectElement): ICategory[] {
+export function handleFormCategories_GUEST(
+  selectForm: HTMLSelectElement
+): ICategory[] {
   return Array.from(selectForm.selectedOptions).map((optionEl) => ({
     id: optionEl.value,
     cname: optionEl.text,
   }));
 }
 
-export function handleFormCategories(selectForm: HTMLSelectElement): CategoryDTO[] {
+export function handleFormCategories(
+  selectForm: HTMLSelectElement
+): CategoryDTO[] {
   return Array.from(selectForm.selectedOptions).map((optionEl) => ({
     id: optionEl.value,
   }));

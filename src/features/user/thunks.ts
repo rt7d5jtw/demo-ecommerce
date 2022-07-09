@@ -1,6 +1,11 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
-import { emailUpdated, passwordUpdated, userLogged, registered } from '../alert/alertSlice';
+import {
+  emailUpdated,
+  passwordUpdated,
+  userLogged,
+  registered,
+} from '../alert/alertSlice';
 import { fetchCart } from '../cart/thunks';
 import { ValidationErrors } from '../promotion/promotionSlice';
 import {

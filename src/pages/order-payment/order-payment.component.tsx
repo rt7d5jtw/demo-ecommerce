@@ -65,12 +65,24 @@ const OrderPayment = (): JSX.Element => {
 
   const handleMethod = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
-    if ((event.currentTarget.elements.namedItem('method') as HTMLInputElement).value === 'stripe') {
-      setPayment({ ...payment, payment_method: 'stripe', payment_method_submit: true });
-    } else if (
-      (event.currentTarget.elements.namedItem('method') as HTMLInputElement).value === 'paypal'
+    if (
+      (event.currentTarget.elements.namedItem('method') as HTMLInputElement)
+        .value === 'stripe'
     ) {
-      setPayment({ ...payment, payment_method: 'paypal', payment_method_submit: true });
+      setPayment({
+        ...payment,
+        payment_method: 'stripe',
+        payment_method_submit: true,
+      });
+    } else if (
+      (event.currentTarget.elements.namedItem('method') as HTMLInputElement)
+        .value === 'paypal'
+    ) {
+      setPayment({
+        ...payment,
+        payment_method: 'paypal',
+        payment_method_submit: true,
+      });
     }
   };
 
@@ -87,17 +99,26 @@ const OrderPayment = (): JSX.Element => {
     }
   };
 
-  const handlePayment: React.FormEventHandler<HTMLFormElement> = async (e): Promise<void> => {
+  const handlePayment: React.FormEventHandler<HTMLFormElement> = async (
+    e
+  ): Promise<void> => {
     e.preventDefault();
 
     if (payment.submitCount >= 4) {
       setError('Too many submits, please wait for response');
-      setTimeout(() => setPayment({ ...payment, submitCount: 0, submitted: false }), 2000);
+      setTimeout(
+        () => setPayment({ ...payment, submitCount: 0, submitted: false }),
+        2000
+      );
     }
     if (payment.submitCount >= 10) {
       setError('Do not spam the prompt!');
     }
-    setPayment({ ...payment, submitted: true, submitCount: payment.submitCount + 1 });
+    setPayment({
+      ...payment,
+      submitted: true,
+      submitCount: payment.submitCount + 1,
+    });
     if (!stripe || !elements) return;
     if (!e.currentTarget.reportValidity()) return;
     if (!payment.accepted) {
@@ -139,11 +160,14 @@ const OrderPayment = (): JSX.Element => {
 
     if (!cardElement) return;
     /* Confirm the payment on the client */
-    const { error, paymentIntent } = await stripe?.confirmCardPayment(res.data.client_secret, {
-      payment_method: {
-        card: cardElement,
-      },
-    });
+    const { error, paymentIntent } = await stripe?.confirmCardPayment(
+      res.data.client_secret,
+      {
+        payment_method: {
+          card: cardElement,
+        },
+      }
+    );
 
     if (error) {
       setPayment({ ...payment, status: 'error' });
@@ -163,7 +187,8 @@ const OrderPayment = (): JSX.Element => {
   return (
     <div className='order-payment'>
       <h3 id='stripe-notice'>
-        Use <i id='stripe-testnums'>4242 4242 4242 4242</i> for stripe to test the payment
+        Use <i id='stripe-testnums'>4242 4242 4242 4242</i> for stripe to test
+        the payment
       </h3>
       <div className='order-payment__wrapper'>
         {!payment.payment_method_submit ? (
@@ -175,13 +200,17 @@ const OrderPayment = (): JSX.Element => {
             </fieldset>
             <input type='submit' value='Submit' />
           </form>
-        ) : payment.payment_method_submit && payment.payment_method === 'stripe' ? (
+        ) : payment.payment_method_submit &&
+          payment.payment_method === 'stripe' ? (
           <div className='payment-stripe'>
             <form onSubmit={handlePayment}>
               <fieldset className='elements-style'>
                 <legend>Card details:</legend>
                 <div className='FormRow elements-style'>
-                  <CardElement options={CARD_OPTIONS} onChange={stripeElementChange} />
+                  <CardElement
+                    options={CARD_OPTIONS}
+                    onChange={stripeElementChange}
+                  />
                 </div>
                 <button
                   className='elements-style'

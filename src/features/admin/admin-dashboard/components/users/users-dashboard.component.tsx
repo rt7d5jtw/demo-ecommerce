@@ -35,7 +35,8 @@ function UserDashboard(): JSX.Element {
     }
     const value = (e.target as HTMLInputElement).value;
     selections.length <= 1
-      ? confirm('Are you sure you want to delete this user?') && dispatch(removeUser(value))
+      ? confirm('Are you sure you want to delete this user?') &&
+        dispatch(removeUser(value))
       : null;
   }
 
@@ -135,7 +136,10 @@ function UserDashboard(): JSX.Element {
                   <td>
                     <input
                       onChange={onCheckbox}
-                      checked={selections.find((e) => e.id === id.toString()) !== undefined}
+                      checked={
+                        selections.find((e) => e.id === id.toString()) !==
+                        undefined
+                      }
                       type='checkbox'
                       value={id}
                       name='selection'
@@ -163,7 +167,10 @@ function UserDashboard(): JSX.Element {
                   <td>
                     <input
                       onChange={onCheckbox}
-                      checked={selections.find((e) => e.id === id.toString()) !== undefined}
+                      checked={
+                        selections.find((e) => e.id === id.toString()) !==
+                        undefined
+                      }
                       type='checkbox'
                       value={id}
                       name='selection'

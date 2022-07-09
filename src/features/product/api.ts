@@ -46,9 +46,16 @@ export async function removeProduct(id: number): Promise<void> {
     });
 }
 
-export async function updateProduct({ id, ...updateProps }: UpdateProductDto): Promise<IProduct> {
+export async function updateProduct({
+  id,
+  ...updateProps
+}: UpdateProductDto): Promise<IProduct> {
   return axios
-    .patch(PRODUCT_URL + `/${id}`, { ...updateProps }, { headers: authHeader() })
+    .patch(
+      PRODUCT_URL + `/${id}`,
+      { ...updateProps },
+      { headers: authHeader() }
+    )
     .then((res) => res.data)
     .catch((err) => {
       const error: AxiosError<ValidationErrors> = err;

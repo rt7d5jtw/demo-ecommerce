@@ -5,15 +5,26 @@ import { connect, useDispatch } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { RootState } from '../../app/store';
 import { selectItems } from '../../features/product/selectors';
-import { selectCategories, ICategory } from '../../features/category/categorySlice';
-import { Route, Switch, useLocation, useParams, useRouteMatch } from 'react-router-dom';
+import {
+  selectCategories,
+  ICategory,
+} from '../../features/category/categorySlice';
+import {
+  Route,
+  Switch,
+  useLocation,
+  useParams,
+  useRouteMatch,
+} from 'react-router-dom';
 
 /* requests */
 import { fetch as fetchCategories } from '../../features/category/thunks';
 import { fetch as fetchProducts } from '../../features/product/thunks';
 
 /* components */
-const SingleProductPage = React.lazy(() => import('../single-product/single-product.component'));
+const SingleProductPage = React.lazy(
+  () => import('../single-product/single-product.component')
+);
 const ProductCard = React.lazy(
   () => import('../../features/product/product-card/product-card.component')
 );
@@ -81,7 +92,10 @@ function CategoryPage({ categories, products }: ICategoryPage): JSX.Element {
   return (
     <div className='category-page'>
       <Switch>
-        <Route path={`${match.path}/:productId`} component={SingleProductPage} />
+        <Route
+          path={`${match.path}/:productId`}
+          component={SingleProductPage}
+        />
       </Switch>
       <div>
         <h1 className='category-page__title'>
@@ -104,33 +118,51 @@ function CategoryPage({ categories, products }: ICategoryPage): JSX.Element {
                   }
                 }
               })
-              .map(({ title, price, id, image, categories, description }: IProduct) => (
-                <ProductCard
-                  key={id}
-                  id={id}
-                  title={title}
-                  description={description}
-                  price={price}
-                  image={image}
-                  quantity={1}
-                  categories={categories}
-                />
-              ))
+              .map(
+                ({
+                  title,
+                  price,
+                  id,
+                  image,
+                  categories,
+                  description,
+                }: IProduct) => (
+                  <ProductCard
+                    key={id}
+                    id={id}
+                    title={title}
+                    description={description}
+                    price={price}
+                    image={image}
+                    quantity={1}
+                    categories={categories}
+                  />
+                )
+              )
           : currentCategory && currentCategory.cname === 'shopall'
           ? products
               .filter((_value, idx) => idx < page)
-              .map(({ title, price, id, image, categories, description }: IProduct) => (
-                <ProductCard
-                  key={id}
-                  id={id}
-                  title={title}
-                  description={description}
-                  price={price}
-                  image={image}
-                  quantity={1}
-                  categories={categories}
-                />
-              ))
+              .map(
+                ({
+                  title,
+                  price,
+                  id,
+                  image,
+                  categories,
+                  description,
+                }: IProduct) => (
+                  <ProductCard
+                    key={id}
+                    id={id}
+                    title={title}
+                    description={description}
+                    price={price}
+                    image={image}
+                    quantity={1}
+                    categories={categories}
+                  />
+                )
+              )
           : 'Category ID could not be found!'}
         <div id='render-mark' ref={productsRef} />
       </div>

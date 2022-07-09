@@ -102,7 +102,10 @@ function CategoriesDashboard(): JSX.Element {
           />
         </div>
         <div>
-          <Link id='new-category' to={`/admin-dashboard/categories-dashboard/categories-create`}>
+          <Link
+            id='new-category'
+            to={`/admin-dashboard/categories-dashboard/categories-create`}
+          >
             Create a new Category
           </Link>
         </div>
@@ -139,7 +142,10 @@ function CategoriesDashboard(): JSX.Element {
                   <td>
                     <input
                       onChange={onCheckbox}
-                      checked={selections.find((e) => e.id === id.toString()) !== undefined}
+                      checked={
+                        selections.find((e) => e.id === id.toString()) !==
+                        undefined
+                      }
                       type='checkbox'
                       value={id}
                       name='selection'
@@ -172,7 +178,10 @@ function CategoriesDashboard(): JSX.Element {
                   <td>
                     <input
                       onChange={onCheckbox}
-                      checked={selections.find((e) => e.id === id.toString()) !== undefined}
+                      checked={
+                        selections.find((e) => e.id === id.toString()) !==
+                        undefined
+                      }
                       type='checkbox'
                       value={JSON.stringify({ id, cname })}
                       name='selection'

@@ -15,7 +15,11 @@ export const ProfileDropdown = (): JSX.Element => {
   const dispatch = useDispatch();
   return (
     <div className='profile-dropdown'>
-      <nav data-cy='profile-nav' onMouseEnter={handleChange} onMouseLeave={handleChange}>
+      <nav
+        data-cy='profile-nav'
+        onMouseEnter={handleChange}
+        onMouseLeave={handleChange}
+      >
         <i>
           <CgProfile />
         </i>

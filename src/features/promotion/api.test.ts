@@ -47,7 +47,11 @@ describe('Promotions API unit tests', () => {
   });
 
   describe('createPromotion', () => {
-    const arg = { title: 'capybara', url: '/no-url', image: 'https://i.imgur.com/b5Yb264.jpeg' };
+    const arg = {
+      title: 'capybara',
+      url: '/no-url',
+      image: 'https://i.imgur.com/b5Yb264.jpeg',
+    };
     it('returns the created promotion', async () => {
       const result = await createPromotion(arg);
       expect(result).toEqual({

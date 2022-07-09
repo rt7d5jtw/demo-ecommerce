@@ -4,10 +4,18 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectAccessToken, selectRole } from '../features/user/selectors';
 
-const Homepage = React.lazy(() => import('../pages/homepage/homepage.component'));
-const Register = React.lazy(() => import('../features/user/register/register.component'));
-const Login = React.lazy(() => import('../features/user/login/login.component'));
-const Checkout = React.lazy(() => import('../pages/checkout/checkout.component'));
+const Homepage = React.lazy(
+  () => import('../pages/homepage/homepage.component')
+);
+const Register = React.lazy(
+  () => import('../features/user/register/register.component')
+);
+const Login = React.lazy(
+  () => import('../features/user/login/login.component')
+);
+const Checkout = React.lazy(
+  () => import('../pages/checkout/checkout.component')
+);
 const AdminDashboard = React.lazy(
   () => import('../features/admin/admin-dashboard/admin-dashboard.component')
 );
@@ -41,16 +49,21 @@ const App = (): JSX.Element => {
             />
             <Route
               path='/register'
-              component={() => (accessToken ? <Redirect to='/' /> : <Register />)}
+              component={() =>
+                accessToken ? <Redirect to='/' /> : <Register />
+              }
             />
             <Route
               path='/profile'
-              render={() => (accessToken ? <ProfileDashboard /> : <Redirect to='/' />)}
+              render={() =>
+                accessToken ? <ProfileDashboard /> : <Redirect to='/' />
+              }
             />
             <Route
               path='/admin-dashboard'
               render={() =>
-                (accessToken && role === 'ADMIN') || (accessToken && role === 'GUEST') ? (
+                (accessToken && role === 'ADMIN') ||
+                (accessToken && role === 'GUEST') ? (
                   <AdminDashboard />
                 ) : (
                   <Redirect to='/' />
@@ -60,7 +73,9 @@ const App = (): JSX.Element => {
             <Route
               exact
               path='/payment'
-              render={() => (accessToken ? <StripeOrderWrapper /> : <Redirect to='/' />)}
+              render={() =>
+                accessToken ? <StripeOrderWrapper /> : <Redirect to='/' />
+              }
             />
             <Route
               path='/checkout'

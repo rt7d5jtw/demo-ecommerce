@@ -8,7 +8,10 @@ interface ILogo {
 
 export const Logo = ({ scrollEvent }: ILogo): JSX.Element => {
   return (
-    <div className='logo' style={scrollEvent ? { transform: 'translateY(-120%)' } : {}}>
+    <div
+      className='logo'
+      style={scrollEvent ? { transform: 'translateY(-120%)' } : {}}
+    >
       <Link className='logo-link' to='/'>
         <h1>Chocolatiste</h1>
       </Link>

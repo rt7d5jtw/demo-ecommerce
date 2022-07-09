@@ -16,7 +16,9 @@ export const CheckoutItem = (cartItem: ICartItem): JSX.Element => {
         <span className='checkout-item__left__price'>
           Price: ${cartItem.price * cartItem.quantity}
         </span>
-        <span className='checkout-item__left__qty'>Quantity: {cartItem.quantity}</span>
+        <span className='checkout-item__left__qty'>
+          Quantity: {cartItem.quantity}
+        </span>
       </div>
     </div>
   );

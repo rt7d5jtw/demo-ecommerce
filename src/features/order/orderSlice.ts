@@ -1,5 +1,12 @@
 import { createAction, createSlice } from '@reduxjs/toolkit';
-import { fetch, fetchAll, create, fetchItems, remove, createIntent } from './thunks';
+import {
+  fetch,
+  fetchAll,
+  create,
+  fetchItems,
+  remove,
+  createIntent,
+} from './thunks';
 
 export enum OrderStatus {
   UNPAID = 'UNPAID',

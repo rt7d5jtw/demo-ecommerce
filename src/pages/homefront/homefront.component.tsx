@@ -6,7 +6,10 @@ import { MdKeyboardArrowRight } from 'react-icons/md';
 
 const Homefront = (): JSX.Element => {
   return (
-    <div className='homefront' style={{ backgroundImage: `url(${background})` }}>
+    <div
+      className='homefront'
+      style={{ backgroundImage: `url(${background})` }}
+    >
       <div className='ellipse__container'>
         <div className='ellipse'>
           <div className='ellipse__stuff'>

@@ -24,7 +24,9 @@ export async function fetchPromotions(): Promise<IPromotions[]> {
     });
 }
 
-export async function createPromotion(data: CreatePromotionDto): Promise<IPromotions> {
+export async function createPromotion(
+  data: CreatePromotionDto
+): Promise<IPromotions> {
   return axios
     .post(PROMOTION_URL, data, { headers: authHeader() })
     .then((res) => {
@@ -57,7 +59,11 @@ export async function updatePromotion({
   ...updateProps
 }: UpdatePromotionDto): Promise<IPromotions> {
   return axios
-    .patch(PROMOTION_URL + `/${id}`, { ...updateProps }, { headers: authHeader() })
+    .patch(
+      PROMOTION_URL + `/${id}`,
+      { ...updateProps },
+      { headers: authHeader() }
+    )
     .then((res) => {
       return res.data;
     })
@@ -74,7 +80,9 @@ export async function fetchPicture(filename: string): Promise<void> {
   return axios
     .get(PROMOTION_URL + `/stream?filename=${filename}`)
     .then((res) => {
-      const url = window.URL.createObjectURL(new Blob([res.data], { type: 'image/jpeg' }));
+      const url = window.URL.createObjectURL(
+        new Blob([res.data], { type: 'image/jpeg' })
+      );
       const link = document.createElement('a');
       link.href = url;
       link.setAttribute('download', filename);

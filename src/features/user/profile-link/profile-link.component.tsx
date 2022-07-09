@@ -16,7 +16,11 @@ type ProfileLinkProp = {
 };
 
 const ProfileLink = ({ accessToken, loggedIn }: ProfileLinkProp) => {
-  return <div className='profile'>{accessToken && loggedIn ? <ProfileDropdown /> : <Login />}</div>;
+  return (
+    <div className='profile'>
+      {accessToken && loggedIn ? <ProfileDropdown /> : <Login />}
+    </div>
+  );
 };
 
 export const Login = (): JSX.Element => {

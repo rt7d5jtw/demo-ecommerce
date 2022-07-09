@@ -10,7 +10,10 @@ import Main from '../../features/homepage-components/main/main.component';
 import { selectPromotionItems } from '../../features/promotion/selectors';
 import { fetch as fetchPromotions } from '../../features/promotion/thunks';
 import { Route, Switch, useRouteMatch } from 'react-router';
-import { selectAccessToken, selectLoggedIn } from '../../features/user/selectors';
+import {
+  selectAccessToken,
+  selectLoggedIn,
+} from '../../features/user/selectors';
 import { logout } from '../../features/user/thunks';
 import { selectItems } from '../../features/product/selectors';
 import { selectCategories } from '../../features/category/categorySlice';
@@ -62,10 +65,21 @@ function Homepage(): JSX.Element {
             <Homemiddle />
             <Homebottom />
           </Route>
-          <Route exact path='/purchase-confirmed' component={PurchaseConfirmed} />
+          <Route
+            exact
+            path='/purchase-confirmed'
+            component={PurchaseConfirmed}
+          />
           <Route path='/cart' component={Cart} />
-          <Route exact path={`${match.path}products/:category`} component={CategoryPage} />
-          <Route path='/products/:category/:productId' component={SingleProductPage} />
+          <Route
+            exact
+            path={`${match.path}products/:category`}
+            component={CategoryPage}
+          />
+          <Route
+            path='/products/:category/:productId'
+            component={SingleProductPage}
+          />
           <Route path='/search-result' component={SearchPage} />
           <Route path='*' component={NotFound} />
         </Switch>

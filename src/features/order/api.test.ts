@@ -77,7 +77,12 @@ describe('Order API tests', () => {
           date: expect.any(String),
         },
       ]);
-      if (result[0].id && result[0].userId && result[1].id && result[1].userId != null) {
+      if (
+        result[0].id &&
+        result[0].userId &&
+        result[1].id &&
+        result[1].userId != null
+      ) {
         expect(uuidRegex.test(result[0].id)).toEqual(true);
         expect(uuidRegex.test(result[0].userId)).toEqual(true);
         expect(uuidRegex.test(result[1].id)).toEqual(true);
@@ -166,22 +171,29 @@ describe('Order API tests', () => {
 
   describe('removeOrder', () => {
     it('deletes an order and items in it and returns void', async () => {
-      await expect(removeOrder('9f0bcbf5-c845-48ef-95dd-393da9ae64c1')).resolves.toBe('');
+      await expect(
+        removeOrder('9f0bcbf5-c845-48ef-95dd-393da9ae64c1')
+      ).resolves.toBe('');
     });
 
     it('throws an error for providing existing id', async () => {
       server.use(
-        rest.delete(ORDER_URL + '8335aea-2064-49dd-9773-c57d41a301c2', (_req, res, ctx) => {
-          return res(
-            ctx.status(500),
-            ctx.json({
-              statusCode: 500,
-              message: 'Internal server error',
-            })
-          );
-        })
+        rest.delete(
+          ORDER_URL + '8335aea-2064-49dd-9773-c57d41a301c2',
+          (_req, res, ctx) => {
+            return res(
+              ctx.status(500),
+              ctx.json({
+                statusCode: 500,
+                message: 'Internal server error',
+              })
+            );
+          }
+        )
       );
-      expect(removeOrder('8335aea-2064-49dd-9773-c57d41a301c2')).rejects.toThrow('500');
+      expect(
+        removeOrder('8335aea-2064-49dd-9773-c57d41a301c2')
+      ).rejects.toThrow('500');
     });
   });
 });

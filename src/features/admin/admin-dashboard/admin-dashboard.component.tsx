@@ -43,9 +43,21 @@ function AdminDashboard(): JSX.Element {
       </nav>
       <div className='admin-controls__main'>
         <Switch>
-          <Route exact path={`${match.url}/orders-dashboard`} component={OrdersDashboard} />
-          <Route exact path={`${match.url}/users-dashboard`} component={UserDashboard} />
-          <Route exact path={`${match.url}/categories-dashboard`} component={CategoriesDashboard} />
+          <Route
+            exact
+            path={`${match.url}/orders-dashboard`}
+            component={OrdersDashboard}
+          />
+          <Route
+            exact
+            path={`${match.url}/users-dashboard`}
+            component={UserDashboard}
+          />
+          <Route
+            exact
+            path={`${match.url}/categories-dashboard`}
+            component={CategoriesDashboard}
+          />
           <Route
             exact
             path={`${match.url}/categories-dashboard/categories-create`}
@@ -56,7 +68,11 @@ function AdminDashboard(): JSX.Element {
             path={`${match.url}/categories-dashboard/categories-edit/:id`}
             component={CategoryEdit}
           />
-          <Route exact path={`${match.url}/promotions-dashboard`} component={PromotionsDashboard} />
+          <Route
+            exact
+            path={`${match.url}/promotions-dashboard`}
+            component={PromotionsDashboard}
+          />
           <Route
             exact
             path={`${match.url}/promotions-dashboard/promotions-edit/:id`}
@@ -67,9 +83,20 @@ function AdminDashboard(): JSX.Element {
             path={`${match.url}/promotions-dashboard/promotions-create`}
             component={PromotionsAdd}
           />
-          <Route exact path={`${match.url}/products-dashboard`} component={ProductDashboard} />
-          <Route path={`${match.url}/products-dashboard/edit/:id`} component={Edit} />
-          <Route exact path={`${match.url}/products-dashboard/create`} component={Create} />
+          <Route
+            exact
+            path={`${match.url}/products-dashboard`}
+            component={ProductDashboard}
+          />
+          <Route
+            path={`${match.url}/products-dashboard/edit/:id`}
+            component={Edit}
+          />
+          <Route
+            exact
+            path={`${match.url}/products-dashboard/create`}
+            component={Create}
+          />
           <Route path={`${match.url}`} component={ControlsOverview} />
         </Switch>
       </div>

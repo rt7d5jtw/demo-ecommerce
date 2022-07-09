@@ -2,17 +2,26 @@
 
 import { IProduct } from '../product/productSlice';
 
-export function updateState<T extends { id: number | string }>(newItem: T, state: T[]): T[] {
+export function updateState<T extends { id: number | string }>(
+  newItem: T,
+  state: T[]
+): T[] {
   const id = state.findIndex(({ id }) => id === newItem.id);
   state[id] = newItem;
   return state;
 }
 
-export function removeFromState<T extends { id: number | string }>(removable: T, state: T[]): T[] {
+export function removeFromState<T extends { id: number | string }>(
+  removable: T,
+  state: T[]
+): T[] {
   return (state = state.filter(({ id }) => id !== removable.id));
 }
 
-export function guestProductHandler(products: IProduct[], product: { id: number }): void {
+export function guestProductHandler(
+  products: IProduct[],
+  product: { id: number }
+): void {
   if (localStorage.getItem('products_added') === null) {
     localStorage.setItem(
       'products_added',
@@ -26,7 +35,10 @@ export function guestProductHandler(products: IProduct[], product: { id: number 
     const parsed = JSON.parse(stuff);
     console.group('parsed :: ', parsed);
     /* adds the new product to the array */
-    localStorage.setItem('products_added', JSON.stringify([...parsed, product]));
+    localStorage.setItem(
+      'products_added',
+      JSON.stringify([...parsed, product])
+    );
     return;
   }
 }

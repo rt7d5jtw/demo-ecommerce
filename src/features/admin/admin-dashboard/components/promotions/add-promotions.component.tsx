@@ -29,7 +29,10 @@ function PromotionsAdd(): JSX.Element {
   return (
     <div className='admin-create'>
       <div className='admin-create__header'>
-        <Link to={`/admin-dashboard/promotions-dashboard`} id='back-to-promotions'>
+        <Link
+          to={`/admin-dashboard/promotions-dashboard`}
+          id='back-to-promotions'
+        >
           &larr; Back to Promotions Dashboard
         </Link>
       </div>

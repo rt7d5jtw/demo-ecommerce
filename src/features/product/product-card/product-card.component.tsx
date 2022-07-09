@@ -33,7 +33,9 @@ const ProductCard = (product: IProductCard): JSX.Element => {
         src={require(`../../../assets/${product.image}`)}
         onClick={() =>
           push(
-            params && Object.keys(params).length === 0 && params.constructor === Object
+            params &&
+              Object.keys(params).length === 0 &&
+              params.constructor === Object
               ? `products/${product.categories[0].cname}/${product.id}`
               : `${params.category}/${product.id}`
           )
