@@ -15,8 +15,7 @@
     "types": "tsc --noEmit",
     "cypress:open": "cypress open",
     "analyze": "webpack --json > stats.json",
-    "clean": "rm -r dist/*",
-    "cleanall": "rm -rf dist node_modules"
+    "clean": "rm -r dist node_modules"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.5.1",
