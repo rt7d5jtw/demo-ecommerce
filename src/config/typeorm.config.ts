@@ -30,7 +30,7 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
     Product,
     Promotion
   ],
-  synchronize: process.env.DB_SYNC ? parseBool(process.env.DB_SYNC) : false
+  synchronize: false
 };
 
 // new typeorm configuration
@@ -51,7 +51,7 @@ export const AppDataSource = new DataSource({
     Product,
     Promotion
   ],
-  synchronize: process.env.DB_SYNC ? parseBool(process.env.DB_SYNC) : false,
+  synchronize: false,
   logging: true,
   subscribers: [],
   migrations: []
