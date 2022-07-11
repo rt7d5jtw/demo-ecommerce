@@ -121,7 +121,7 @@
 
 @media (max-width: 1072px) {
   .flat {
-    width: calc(100vw - 375px);
+    width: calc(100% - 35vw);
   }
   .sidebar__links__wrapper {
     font-size: .9rem;
