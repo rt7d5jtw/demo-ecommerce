@@ -8,6 +8,7 @@
     "dev": "webpack server --progress --config webpack.config.js",
     "build": "webpack --config webpack.config.js --env production --progress",
     "test": "jest",
+    "test:e2e": "cypress_mode=integration cypress run",
     "test:watch": "npm test --watch",
     "build:js": "babel src --out-dir dist --extensions \".ts,.tsx\" --source-maps inline",
     "lint": "eslint --fix \"./src/**/*.{js,jsx,ts,tsx,json}\"",
@@ -15,7 +16,7 @@
     "types": "tsc --noEmit",
     "cypress:open": "cypress open",
     "analyze": "webpack --json > stats.json",
-    "clean": "rm -r dist node_modules"
+    "clean": "rm -rvf dist node_modules"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.5.1",

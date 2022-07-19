@@ -25,7 +25,7 @@ describe('checkout flow', function () {
     });
   });
 
-  it('fills in checkout forms and order wtihout calling stripe api', function () {
+  it('fills in checkout forms and order without calling stripe api', function () {
     cy.visit('/');
     cy.location('pathname').should('eq', '/');
     cy.login('jauhopussi@gmail.com', 'miukumauku123')
