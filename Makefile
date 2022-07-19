@@ -12,11 +12,14 @@ cleandb:
 dump:
 	sudo -u postgres psql bookstore < res/init.sql
 
-dump:
-
 # Only deploys PostgreSQL 14.1
 database:
 	docker-compose -f docker-compose.yml up -d postgres
+	docker-compose logs -f
+
+# Only deploys the NestJS application
+nestjs:
+	docker-compose -f docker-compose.yml up -d application
 	docker-compose logs -f
 
 pull:

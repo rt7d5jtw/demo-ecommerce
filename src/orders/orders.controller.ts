@@ -101,6 +101,7 @@ export class OrdersController {
     return this.ordersService.create(createOrderDto, user);
   }
 
+  @UseGuards()
   @Patch(':id')
   @UsePipes(ValidationPipe)
   update(
