@@ -194,3 +194,85 @@
   margin-right: 0.35rem;
   color: yellow;
 }
+
+
+/* ----------------------------------- */
+/* PAYMENT PROCESSOR FREE PAYMENT FORM */
+/* ----------------------------------- */
+
+.card-payment-form {
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 15px 25px rgba(0,0,0,.6);
+	border-radius: 10px;
+	width: 600px;
+	padding: 40px;
+  color: red;
+  border: 1px solid gray;
+}
+
+.card-payment-form h1 {
+  margin: 0 0 30px;
+  padding: 0;
+  color: white;
+  text-align: center;
+}
+
+.card-payment-form .card-payment-form__inputbox {
+  position: relative;
+}
+
+.card-payment-form .card-payment-form__inputbox input {
+  width: 100%;
+  padding: 15px 0;
+  font-size: 16px;
+  color: #f1eee6;
+  margin-bottom: 30px;
+  border: none;
+  border-bottom: 1px solid #f1eee6;
+  outline: none; 
+  background: transparent;
+}
+
+.card-payment-form .card-payment-form__inputbox label {
+	position: absolute;
+	top: 0;
+	left: 0;
+	padding: 10px 0;
+	font-size: 16px;
+	color: #f1eee6;
+	pointer-events: none;
+	transition: .5s;
+}
+
+.card-payment-form .card-payment-form__inputbox input:focus ~ label, .card-payment-form .card-payment-form__inputbox input:valid ~ label {
+  top: -20px;
+  left: 0px;
+  color: #03e9f4;
+  font-size: 12px;
+}
+
+.card-payment-form__lastinputs {
+  display: flex;
+  justify-content: space-between;
+}
+
+.card-payment-form__btn input {
+	background: #152032;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.card-payment-form__btn input:hover {
+  background: #263c60;
+}
+
+#btn2 {
+  margin: 1.5em 0;
+}

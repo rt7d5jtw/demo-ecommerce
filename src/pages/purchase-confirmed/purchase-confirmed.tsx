@@ -13,9 +13,9 @@ import { Loading } from '../loading/loading.component';
 
 export const PurchaseConfirmed = (): JSX.Element => {
   const dispatch = useDispatch();
-  const order = useSelector(selectRecentOrder);
-  const orderItems = useSelector(selectRecentOrderItems);
-  const shippingInfo = useSelector(selectShippingInfo);
+  const order = useSelector(selectRecentOrder); // Last order
+  const orderItems = useSelector(selectRecentOrderItems); // Last order's Items
+  const shippingInfo = useSelector(selectShippingInfo); // Order information
 
   order && order.id && orderItems === null
     ? dispatch(fetchOrderItems(order.id))
@@ -24,6 +24,7 @@ export const PurchaseConfirmed = (): JSX.Element => {
     return <Loading />;
   }
 
+  // Update the order status to PAID after payment process.
   order && order.id
     ? updateOrder(order.id, { status: OrderStatus.PAID })
     : null;

@@ -1,10 +1,9 @@
 import * as React from 'react';
 import './order-payment.css';
+import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectCartTotal } from '../../features/cart/selectors';
 import { authHeader } from '../../features/user/api';
-import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
-import axios from 'axios';
 import { useState } from 'react';
 import { useHistory } from 'react-router';
 import { selectShippingInfo } from '../../features/user/selectors';
@@ -14,6 +13,9 @@ import { clearCartDB } from '../../features/cart/thunks';
 import { OrderStatus } from '../../features/order/orderSlice';
 import { create as createOrder } from '../../features/order/thunks';
 import { paymentSuccess } from '../../features/alert/alertSlice';
+
+// Stripe API
+import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import { StripeCardElementChangeEvent } from '@stripe/stripe-js';
 
 const OrderPayment = (): JSX.Element => {
@@ -76,11 +78,11 @@ const OrderPayment = (): JSX.Element => {
       });
     } else if (
       (event.currentTarget.elements.namedItem('method') as HTMLInputElement)
-        .value === 'paypal'
+        .value === 'card-payment'
     ) {
       setPayment({
         ...payment,
-        payment_method: 'paypal',
+        payment_method: 'card-payment',
         payment_method_submit: true,
       });
     }
@@ -99,6 +101,7 @@ const OrderPayment = (): JSX.Element => {
     }
   };
 
+  // This method works with both payment methods
   const handlePayment: React.FormEventHandler<HTMLFormElement> = async (
     e
   ): Promise<void> => {
@@ -111,23 +114,34 @@ const OrderPayment = (): JSX.Element => {
         2000
       );
     }
+
     if (payment.submitCount >= 10) {
       setError('Do not spam the prompt!');
     }
+
     setPayment({
       ...payment,
       submitted: true,
       submitCount: payment.submitCount + 1,
     });
+
+    // Stripe API specific
+    // Demands presence of the API
     if (!stripe || !elements) return;
+
     if (!e.currentTarget.reportValidity()) return;
+
     if (!payment.accepted) {
       setError('Finish payment information!');
       return;
     }
+
+    // Stripe API specific
+    // Demands presence of the API
     const cardElement = elements && elements.getElement(CardElement);
 
     if (shippingInfo && payment.accepted === true)
+      // Create's the actual order by calling POST /orders
       dispatch(
         createOrder({
           total_price: total,
@@ -139,6 +153,7 @@ const OrderPayment = (): JSX.Element => {
         })
       );
 
+    // Stripe API specific
     /* Create payment intent on the server */
     const res = await axios.post(
       ORDER_URL + 'create-payment-intent',
@@ -158,8 +173,11 @@ const OrderPayment = (): JSX.Element => {
       return;
     }
 
+    // Stripe API specific
     if (!cardElement) return;
+
     /* Confirm the payment on the client */
+    // Stripe API specific
     const { error, paymentIntent } = await stripe?.confirmCardPayment(
       res.data.client_secret,
       {
@@ -176,10 +194,14 @@ const OrderPayment = (): JSX.Element => {
       setPayment({ ...payment, paymentIntent: paymentIntent });
     }
 
+    // Stripe API specific
     if (paymentIntent && paymentIntent.status === 'succeeded') {
-      dispatch(paymentSuccess());
-      dispatch(clearCart());
-      dispatch(clearCartDB());
+      // Side efffects
+      dispatch(paymentSuccess()); // Payment success notification
+      dispatch(clearCart()); // Clears the User Cart
+      dispatch(clearCartDB()); // Clears the User Cart
+
+      // Push the user to a new page to show the invoice after 0.5 seconds
       setTimeout(() => push('/purchase-confirmed'), 500);
     }
   };
@@ -197,6 +219,15 @@ const OrderPayment = (): JSX.Element => {
             <fieldset>
               <input type='radio' id='stripe' name='method' value='stripe' />
               <label htmlFor='stripe'>Stripe</label>
+            </fieldset>
+            <fieldset>
+              <input
+                type='radio'
+                id='card-payment'
+                name='method'
+                value='card-payment'
+              />
+              <label htmlFor='card-payment'>Card Payment</label>
             </fieldset>
             <input type='submit' value='Submit' />
           </form>
@@ -226,6 +257,53 @@ const OrderPayment = (): JSX.Element => {
                   Pay ${total}
                 </button>
               </fieldset>
+            </form>
+          </div>
+        ) : payment.payment_method === 'card-payment' ? (
+          <div className='card-payment-form'>
+            <h1>Card Payment</h1>
+            <form>
+              <div className='card-payment-form__inputbox'>
+                <input
+                  type='text'
+                  name='username_signin'
+                  placeholder='Enter username'
+                />
+                <label htmlFor=''>Name</label>
+              </div>
+              <div className='card-payment-form__inputbox'>
+                <input
+                  type='password'
+                  name='password_signin'
+                  placeholder='Enter password'
+                />
+                <label htmlFor=''>Card Number</label>
+              </div>
+              <div className='card-payment-form__lastinputs'>
+                <div className='card-payment-form__inputbox'>
+                  <input
+                    type='password'
+                    name='password_signin'
+                    placeholder='Enter password'
+                  />
+                  <label htmlFor=''>Expiration</label>
+                </div>
+                <div className='card-payment-form__inputbox'>
+                  <input
+                    type='password'
+                    name='password_signin'
+                    placeholder='Enter password'
+                  />
+                  <label htmlFor=''>Security Code</label>
+                </div>
+              </div>
+              <div className='card-payment-form__btn'>
+                <input
+                  type='submit'
+                  name='submit_signin'
+                  value='Submit Payment'
+                />
+              </div>
             </form>
           </div>
         ) : null}
