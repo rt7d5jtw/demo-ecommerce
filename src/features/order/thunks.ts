@@ -70,6 +70,11 @@ export const remove = createAsyncThunk(
   }
 );
 
+// NOT IN USE!
+// Instead there is a simple http post request
+// to stripe's api  by calling the API of the application
+// in the order-payment.component.tsx page.
+//
 /* calls api to create a payment intent */
 export const createIntent = createAsyncThunk(
   'order/createIntent',
