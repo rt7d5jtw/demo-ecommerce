@@ -6,9 +6,8 @@ WORKDIR /app
 COPY . .
 COPY [ \
   "package*.json", "tsconfig*.json", \
-  "tools.js", ".editorconfig", \
-  ".prettierrc", ".eslintrc.js", \
-  ".env", "./" \
+  ".editorconfig", ".prettierrc", \
+  ".eslintrc.js", ".env", "./" \
   ]
 
 # install curl for testing the endpoints
