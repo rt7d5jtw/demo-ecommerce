@@ -50,14 +50,14 @@ describe('AppController (e2e)', () => {
       expect(result.body).not.toHaveLength(0);
       expect(result.body[0]).toMatchObject({
         categories: expect.any(Array),
-        createdAt: expect.any(String),
+        created_at: expect.any(String),
         description: expect.any(String),
         id: expect.any(Number),
         image: expect.any(String),
         price: expect.any(Number),
         status: expect.any(String),
         title: expect.any(String),
-        updatedAt: expect.any(String)
+        updated_at: expect.any(String)
       });
     });
 
@@ -73,14 +73,14 @@ describe('AppController (e2e)', () => {
           { cname: expect.any(String), id: expect.any(String) },
           { cname: expect.any(String), id: expect.any(String) }
         ],
-        createdAt: expect.any(String),
+        created_at: expect.any(String),
         description: expect.any(String),
         id: expect.any(Number),
         image: expect.any(String),
         price: expect.any(Number),
         status: expect.any(String),
         title: expect.any(String),
-        updatedAt: expect.any(String)
+        updated_at: expect.any(String)
       });
     });
 
@@ -110,8 +110,8 @@ describe('AppController (e2e)', () => {
         status: expect.any(String),
         categories: expect.any(Array),
         id: expect.any(Number),
-        createdAt: expect.any(String),
-        updatedAt: expect.any(String)
+        created_at: expect.any(String),
+        updated_at: expect.any(null)
       });
 
       // New Product ID
@@ -147,8 +147,8 @@ describe('AppController (e2e)', () => {
         status: expect.any(String),
         categories: expect.any(Array),
         id: expect.any(Number),
-        createdAt: expect.any(String),
-        updatedAt: expect.any(String)
+        created_at: expect.any(String),
+        updated_at: expect.any(String)
       });
     });
 
@@ -180,7 +180,7 @@ describe('AppController (e2e)', () => {
         password: expect.any(String),
         role: expect.any(String),
         salt: expect.any(String),
-        createdAt: expect.any(String)
+        created_at: expect.any(String)
       });
 
       cachedId = result.body[0]['id']; // Set the ID for the next operation
@@ -199,7 +199,7 @@ describe('AppController (e2e)', () => {
         password: expect.any(String),
         role: expect.any(String),
         salt: expect.any(String),
-        createdAt: expect.any(String),
+        created_at: expect.any(String),
         orders: expect.any(Array)
       });
     });
@@ -218,7 +218,7 @@ describe('AppController (e2e)', () => {
         password: expect.any(String),
         role: expect.any(String),
         salt: expect.any(String),
-        createdAt: expect.any(String)
+        registered_at: expect.any(String)
       });
 
       // State gets mutated -- mark the state change.
@@ -491,7 +491,7 @@ describe('AppController (e2e)', () => {
         city: expect.any(String),
         postalcode: expect.any(String),
         status: expect.any(String),
-        userId: expect.any(String),
+        user_id: expect.any(String),
         id: expect.any(String),
         date: expect.any(String)
       });
@@ -514,7 +514,7 @@ describe('AppController (e2e)', () => {
         city: expect.any(String),
         postalcode: expect.any(String),
         status: expect.any(String),
-        userId: expect.any(String),
+        user_id: expect.any(String),
         id: expect.any(String),
         date: expect.any(String)
       });
@@ -543,7 +543,7 @@ describe('AppController (e2e)', () => {
         city: 'Helsinki',
         postalcode: '0100',
         status: expect.any(String),
-        userId: expect.any(String),
+        user_id: expect.any(String),
         id: expect.any(String),
         date: expect.any(String)
       });
@@ -568,7 +568,7 @@ describe('AppController (e2e)', () => {
         city: expect.any(String),
         postalcode: expect.any(String),
         status: expect.any(String),
-        userId: expect.any(String),
+        user_id: expect.any(String),
         id: expect.any(String),
         date: expect.any(String)
       });
@@ -599,7 +599,7 @@ describe('AppController (e2e)', () => {
         city: 'Tampere',
         postalcode: '33250',
         status: 'PAID',
-        userId: expect.any(String),
+        user_id: expect.any(String),
         id: expect.any(String),
         date: expect.any(String)
       });
@@ -619,8 +619,8 @@ describe('AppController (e2e)', () => {
       expect(result.body).toBeDefined();
       expect(result.body).toMatchObject({
         id: expect.any(String),
-        userId: expect.any(String),
-        CreatedAt: expect.any(String)
+        user_id: expect.any(String),
+        created_at: expect.any(String)
       });
     });
 
@@ -647,9 +647,9 @@ describe('AppController (e2e)', () => {
       expect(result.statusCode).toEqual(201);
       expect(result.body).toBeDefined();
       expect(result.body).toMatchObject({
-        userId: expect.any(String),
+        user_id: expect.any(String),
         id: expect.any(String),
-        CreatedAt: expect.any(String)
+        created_at: expect.any(String)
       });
     });
 
@@ -679,12 +679,12 @@ describe('AppController (e2e)', () => {
         expect(result.statusCode).toEqual(201);
         expect(result.body).toBeDefined();
         expect(result.body).toMatchObject({
-          cartId: expect.any(String),
+          cart_id: expect.any(String),
           quantity: expect.any(Number),
           price: expect.any(Number),
-          productId: expect.any(Number),
+          product_id: expect.any(Number),
           id: expect.any(String),
-          CreatedAt: expect.any(String)
+          created_at: expect.any(String)
         });
       }
     });
@@ -716,7 +716,7 @@ describe('AppController (e2e)', () => {
       expect(result.statusCode).toEqual(200);
       expect(result.body).toBeDefined();
       expect(result.body[0]).toMatchObject({
-        productId: expect.any(Number),
+        product_id: expect.any(Number),
         title: expect.any(String),
         image: expect.any(String),
         price: expect.any(Number),
@@ -769,11 +769,11 @@ describe('AppController (e2e)', () => {
       });
       expect(result.body['generatedMaps'][0]).toMatchObject({
         id: expect.any(String),
-        CreatedAt: expect.any(String)
+        created_at: expect.any(String)
       });
       expect(result.body['raw'][0]).toMatchObject({
         id: expect.any(String),
-        CreatedAt: expect.any(String)
+        created_at: expect.any(String)
       });
     });
 

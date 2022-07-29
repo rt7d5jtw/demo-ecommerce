@@ -18,6 +18,7 @@ describe('UsersService', () => {
   const mockUserRepository = () => ({
     fetch: jest.fn(),
     findOne: jest.fn(),
+    find: jest.fn(() => []),
     delete: jest.fn(),
     createQueryBuilder: jest.fn().mockReturnValue({
       andWhere: jest.fn(),

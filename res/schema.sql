@@ -24,14 +24,14 @@ CREATE TABLE products (
     price DOUBLE PRECISION NOT NULL,
     description VARCHAR(255) NOT NULL,
     status VARCHAR(255) NOT NULL,
-    createdat timestamp NOT NULL,
-    updatedat timestamp NOT NULL
+    created_at timestamp NOT NULL,
+    updated_at timestamp
 );
 
 CREATE TABLE cart (
     id uuid DEFAULT uuid_generate_v4() NOT NULL PRIMARY KEY,
     user_id uuid REFERENCES users (id),
-    createdAt timestamp NOT NULL
+    created_at timestamp NOT NULL
 );
 
 -- Changed from "cart-item" to cart_item
@@ -41,7 +41,7 @@ CREATE TABLE cart_item (
     product_id SERIAL REFERENCES products (id),
     quantity INTEGER NOT NULL,
     price DOUBLE PRECISION NOT NULL,
-    createdAt timestamp NOT NULL
+    created_at timestamp NOT NULL
 );
 
 CREATE TABLE category (

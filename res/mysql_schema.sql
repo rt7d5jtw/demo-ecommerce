@@ -18,14 +18,14 @@ CREATE TABLE products (
     price DOUBLE NOT NULL,
     description VARCHAR(255) NOT NULL,
     status VARCHAR(255) NOT NULL,
-    createdAt timestamp NOT NULL,
-    updatedAt timestamp NOT NULL
+    created_at timestamp NOT NULL,
+    updated_at timestamp NOT NULL
 );
 
 CREATE TABLE cart (
     id BINARY(16) NOT NULL PRIMARY KEY,
     user_id BINARY(16) NOT NULL,
-    createdAt timestamp NOT NULL,
+    created_at timestamp NOT NULL,
     constraint fk_cart_user foreign key (user_id) references users (id)
 );
 
@@ -36,7 +36,7 @@ CREATE TABLE cart_item (
     product_id INTEGER NOT NULL,
     quantity INTEGER NOT NULL,
     price DOUBLE NOT NULL,
-    createdAt timestamp NOT NULL,
+    created_at timestamp NOT NULL,
     constraint fk_cartitem_cart foreign key (cart_id) references cart (id),
     constraint fk_cartitem_product foreign key (product_id) references products (id)
 );

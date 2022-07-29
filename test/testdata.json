@@ -52,8 +52,8 @@
       "price": 12,
       "description": "nice boek",
       "status": "IN_STOCK",
-      "createdAt": "2021-07-02",
-      "updatedAt": "2021-07-02"
+      "created_at": "2021-07-02",
+      "updated_at": "2021-07-02"
     },
     {
       "id": 18,
@@ -72,8 +72,8 @@
       "price": 9.5,
       "description": "i like ice cream",
       "status": "IN_STOCK",
-      "createdAt": "2021-07-02",
-      "updatedAt": "2021-07-02"
+      "created_at": "2021-07-02",
+      "updated_at": "2021-07-02"
     },
     {
       "id": 10,
@@ -92,8 +92,8 @@
       "price": 420,
       "description": "Fluffy bear",
       "status": "IN_STOCK",
-      "createdAt": "2021-07-02",
-      "updatedAt": "2021-07-02"
+      "created_at": "2021-07-02",
+      "updated_at": "2021-07-02"
     }
   ],
   "arrayOfCategories": [
@@ -121,25 +121,25 @@
   "arrayOfCartItems": [
     {
       "id": "97d6fb24-3c64-454c-bec0-113aa5e583a8",
-      "cartId": "98ae6c5e-b762-4921-b867-dbf297d6200d",
-      "productId": 28,
+      "cart_id": "98ae6c5e-b762-4921-b867-dbf297d6200d",
+      "product_id": 28,
       "quantity": 1,
       "price": 9.5,
-      "CreatedAt": "2021-07-15"
+      "created_at": "2021-07-15"
     },
     {
       "id": "49ff2d34-f2a1-4a0a-ae1c-0c2b5065c653",
-      "cartId": "98ae6c5e-b762-4921-b867-dbf297d6200d",
-      "productId": 25,
+      "cart_id": "98ae6c5e-b762-4921-b867-dbf297d6200d",
+      "product_id": 25,
       "quantity": 1,
       "price": 7,
-      "CreatedAt": "2021-07-15"
+      "created_at": "2021-07-15"
     }
   ],
   "arrayOfOrders": [
     {
       "id": "f29ca6ae-3aac-4794-b008-4d743901a226",
-      "userId": "e6a23d5f-3a23-498f-9f61-ffb9ad34cb68",
+      "user_id": "e6a23d5f-3a23-498f-9f61-ffb9ad34cb68",
       "total_price": 1.5,
       "address": "Teststreet 10b",
       "country": "Norway",
@@ -150,7 +150,7 @@
     },
     {
       "id": "e9989eb9-c0ec-46e5-8b81-13ecffca7c0b",
-      "userId": "e6a23d5f-3a23-498f-9f61-ffb9ad34cb68",
+      "user_id": "e6a23d5f-3a23-498f-9f61-ffb9ad34cb68",
       "total_price": 28,
       "address": "Teststreet 10b",
       "country": "Finland",
@@ -161,7 +161,7 @@
     },
     {
       "id": "bf8ffda1-c91f-4c75-9caf-8c8c5badd80d",
-      "userId": "e6a23d5f-3a23-498f-9f61-ffb9ad34cb68",
+      "user_id": "e6a23d5f-3a23-498f-9f61-ffb9ad34cb68",
       "total_price": 38.5,
       "address": "Teststreet 10b",
       "country": "Bulgaria",
@@ -173,34 +173,34 @@
   ],
   "arrayOfOrderItems": [
     {
-      "orderId": "96a94bbc-c18c-41a0-94c7-77320815c577",
+      "order_id": "96a94bbc-c18c-41a0-94c7-77320815c577",
       "price": 5.5,
       "quantity": 1,
-      "productId": 41,
+      "product_id": 41,
       "title": "Chocolate Chip Cookies",
       "image": "cookies.jpg"
     },
     {
-      "orderId": "96a94bbc-c18c-41a0-94c7-77320815c577",
+      "order_id": "96a94bbc-c18c-41a0-94c7-77320815c577",
       "price": 3.5,
       "quantity": 1,
-      "productId": 42,
+      "product_id": 42,
       "title": "Raspberry Chocolate",
       "image": "raspberry.jpg"
     },
     {
-      "orderId": "96a94bbc-c18c-41a0-94c7-77320815c577",
+      "order_id": "96a94bbc-c18c-41a0-94c7-77320815c577",
       "price": 7.5,
       "quantity": 1,
-      "productId": 46,
+      "product_id": 46,
       "title": "Chocolate Balls",
       "image": "round.jpg"
     },
     {
-      "orderId": "96a94bbc-c18c-41a0-94c7-77320815c577",
+      "order_id": "96a94bbc-c18c-41a0-94c7-77320815c577",
       "price": 3.75,
       "quantity": 1,
-      "productId": 48,
+      "product_id": 48,
       "title": "Wheat Cream Biscuits",
       "image": "cremebiscuits.jpg"
     }
@@ -223,37 +223,37 @@
     "generatedMaps": [
       {
         "id": "63091e5d-9051-4072-bc06-888c1127cad4",
-        "CreatedAt": "2022-07-07T21:00:00.000Z"
+        "created_at": "2022-07-07T21:00:00.000Z"
       },
       {
         "id": "dc468606-e4d6-4a25-93f0-a3ca4d0c0ec9",
-        "CreatedAt": "2022-07-07T21:00:00.000Z"
+        "created_at": "2022-07-07T21:00:00.000Z"
       },
       {
         "id": "4aa391ff-a69f-48a1-b464-082c9e7ba34f",
-        "CreatedAt": "2022-07-07T21:00:00.000Z"
+        "created_at": "2022-07-07T21:00:00.000Z"
       },
       {
         "id": "1a9be770-84fa-4cb9-9433-81f343e7de2c",
-        "CreatedAt": "2022-07-07T21:00:00.000Z"
+        "created_at": "2022-07-07T21:00:00.000Z"
       }
     ],
     "raw": [
       {
         "id": "63091e5d-9051-4072-bc06-888c1127cad4",
-        "CreatedAt": "2022-07-07T21:00:00.000Z"
+        "created_at": "2022-07-07T21:00:00.000Z"
       },
       {
         "id": "dc468606-e4d6-4a25-93f0-a3ca4d0c0ec9",
-        "CreatedAt": "2022-07-07T21:00:00.000Z"
+        "created_at": "2022-07-07T21:00:00.000Z"
       },
       {
         "id": "4aa391ff-a69f-48a1-b464-082c9e7ba34f",
-        "CreatedAt": "2022-07-07T21:00:00.000Z"
+        "created_at": "2022-07-07T21:00:00.000Z"
       },
       {
         "id": "1a9be770-84fa-4cb9-9433-81f343e7de2c",
-        "CreatedAt": "2022-07-07T21:00:00.000Z"
+        "created_at": "2022-07-07T21:00:00.000Z"
       }
     ]
   }

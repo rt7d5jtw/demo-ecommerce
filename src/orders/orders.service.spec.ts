@@ -309,6 +309,7 @@ describe('OrdersService', () => {
         total_price: 10,
         address: 'Yeetstreet',
         country: 'Bruma',
+        date: expect.any(Date),
         city: 'Yes',
         postalcode: '01000',
         status: expect.any(String)

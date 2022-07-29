@@ -24,14 +24,14 @@ CREATE TABLE products (
     price DOUBLE PRECISION NOT NULL,
     description VARCHAR(255) NOT NULL,
     status VARCHAR(255) NOT NULL,
-    createdat timestamp NOT NULL,
-    updatedat timestamp NOT NULL
+    created_at timestamp NOT NULL,
+    updated_at timestamp
 );
 
 CREATE TABLE cart (
     id uuid DEFAULT uuid_generate_v4() NOT NULL PRIMARY KEY,
     user_id uuid REFERENCES users (id),
-    createdAt timestamp NOT NULL
+    created_at timestamp NOT NULL
 );
 
 CREATE TABLE cart_item (
@@ -40,7 +40,7 @@ CREATE TABLE cart_item (
     product_id SERIAL REFERENCES products (id),
     quantity INTEGER NOT NULL,
     price DOUBLE PRECISION NOT NULL,
-    createdAt timestamp NOT NULL
+    created_at timestamp NOT NULL
 );
 
 CREATE TABLE category (
@@ -63,8 +63,8 @@ CREATE TABLE orders (
 CREATE TABLE order_item (
     id uuid DEFAULT uuid_generate_v4() NOT NULL PRIMARY KEY,
     order_id uuid REFERENCES orders (id),
+    product_id INTEGER,
     quantity INTEGER NOT NULL,
-    productId INTEGER,
     price DOUBLE PRECISION NOT NULL
 );
 
@@ -126,13 +126,13 @@ VALUES
 
 -- User Carts
 -- INDETERMINATE IDs
-INSERT INTO cart (id, user_id, createdAt)
+INSERT INTO cart (id, user_id, created_at)
 VALUES
   ('1833ad6d-b21e-4f7d-9345-d317a5290cf9',	'ad64e856-3e74-4ddf-ad84-ce404483a3a3',	'2021-10-03'),
   ('6322c84f-b246-4f6d-9f93-ad18c20edc21',	'700e9b50-9bb9-42e0-bf6d-83ae38267649',	'2021-10-03'),
   ('331d7bda-4e53-462b-930d-f5715241154c',	'1d78343f-82e1-4af7-bcea-77b9d87f3538',	'2022-02-06');
 
-INSERT INTO products (id, title, image, price, description, status, createdat, updatedat)
+INSERT INTO products (id, title, image, price, description, status, created_at, updated_at)
 VALUES
   (222,	'Chocolate frosted cookies',	'choccookies.jpg',	9.5,	'i like cookies',	'IN_STOCK',	'2021-10-06',	'2021-10-06'),
   (40,	'Handmade Brownies',	'brownies.jpg',	6.5,	'A pack of 6 brownies that are handmade with fine ingredients and freshly made on an order.',	'IN_STOCK',	'2021-07-23',	'2021-07-23'),
