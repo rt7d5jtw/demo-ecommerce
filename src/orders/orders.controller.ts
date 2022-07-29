@@ -55,10 +55,13 @@ export class OrdersController {
   async getInvoice(
     @GetUser()
     user: User,
-    @Body() orderId: string,
+    @Body() order_id: string,
     @Res() res: Response
   ): Promise<any> {
-    const order = await this.ordersService.fetchById(orderId['orderId'], user);
+    const order = await this.ordersService.fetchById(
+      order_id['order_id'],
+      user
+    );
     const buffer = await this.ordersService.createInvoice(user, order);
     const stream = await this.ordersService.getReadableStream(buffer);
 

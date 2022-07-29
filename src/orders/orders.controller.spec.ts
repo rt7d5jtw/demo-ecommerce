@@ -18,7 +18,7 @@ const mockOrdersService = () => ({
   create: jest.fn((dto, user) => {
     dto.id = uuid();
     dto.status = OrderStatus.PROCESSING;
-    dto.userId = user.id;
+    dto.user_id = user.id;
     dto.total_price = dto.total_price.toString();
     dto.date = new Date().toString();
     return Promise.resolve(dto);
@@ -70,7 +70,7 @@ describe('OrdersController', () => {
       await expect(ordersController.fetch(null, mockUser)).resolves.toEqual([
         {
           id: expect.any(String),
-          userId: expect.any(String),
+          user_id: expect.any(String),
           total_price: expect.any(Number),
           address: expect.any(String),
           country: expect.any(String),
@@ -81,7 +81,7 @@ describe('OrdersController', () => {
         },
         {
           id: expect.any(String),
-          userId: expect.any(String),
+          user_id: expect.any(String),
           total_price: expect.any(Number),
           address: expect.any(String),
           country: expect.any(String),
@@ -92,7 +92,7 @@ describe('OrdersController', () => {
         },
         {
           id: expect.any(String),
-          userId: expect.any(String),
+          user_id: expect.any(String),
           total_price: expect.any(Number),
           address: expect.any(String),
           country: expect.any(String),
@@ -124,7 +124,7 @@ describe('OrdersController', () => {
         )
       ).resolves.toEqual({
         id: 'f29ca6ae-3aac-4794-b008-4d743901a226',
-        userId: expect.any(String),
+        user_id: expect.any(String),
         total_price: expect.any(Number),
         address: expect.any(String),
         country: expect.any(String),
@@ -146,7 +146,7 @@ describe('OrdersController', () => {
         ordersController.fetchOrderItems('f29ca6ae-3aac-4794-b008-4d743901a226')
       ).resolves.toEqual({
         id: 'f29ca6ae-3aac-4794-b008-4d743901a226',
-        userId: expect.any(String),
+        user_id: expect.any(String),
         total_price: expect.any(Number),
         address: expect.any(String),
         country: expect.any(String),
@@ -171,19 +171,19 @@ describe('OrdersController', () => {
       ).toEqual([
         {
           id: expect.any(String),
-          cartId: expect.any(String),
-          productId: expect.any(Number),
+          cart_id: expect.any(String),
+          product_id: expect.any(Number),
           quantity: expect.any(Number),
           price: expect.any(Number),
-          CreatedAt: expect.any(String)
+          created_at: expect.any(String)
         },
         {
           id: expect.any(String),
-          cartId: expect.any(String),
-          productId: expect.any(Number),
+          cart_id: expect.any(String),
+          product_id: expect.any(Number),
           quantity: expect.any(Number),
           price: expect.any(Number),
-          CreatedAt: expect.any(String)
+          created_at: expect.any(String)
         }
       ]);
       expect(ordersService.addOrderItems).toHaveBeenCalledWith(
@@ -209,7 +209,7 @@ describe('OrdersController', () => {
         city: 'Yes',
         postalcode: '01000',
         status: 'PROCESSING',
-        userId: '5712e711-9c52-436f-854e-0d63691547c8',
+        user_id: '5712e711-9c52-436f-854e-0d63691547c8',
         id: expect.any(String),
         date: expect.any(String)
       });
@@ -221,7 +221,7 @@ describe('OrdersController', () => {
     it('updates the order by calling ordersService', async () => {
       ordersService.update.mockResolvedValue({
         id: '725b3c5a-4f40-468e-aa9e-9057600d55af',
-        userId: 'e6a23d5f-3a23-498f-9f61-ffb9ad34cb68',
+        user_id: 'e6a23d5f-3a23-498f-9f61-ffb9ad34cb68',
         total_price: '10',
         address: 'Yeetstreet',
         country: 'Bruma',
@@ -241,7 +241,7 @@ describe('OrdersController', () => {
       const id = '725b3c5a-4f40-468e-aa9e-9057600d55af';
       expect(ordersController.update(id, dto)).resolves.toEqual({
         id: '725b3c5a-4f40-468e-aa9e-9057600d55af',
-        userId: 'e6a23d5f-3a23-498f-9f61-ffb9ad34cb68',
+        user_id: 'e6a23d5f-3a23-498f-9f61-ffb9ad34cb68',
         total_price: '10',
         address: 'Yeetstreet',
         country: 'Bruma',

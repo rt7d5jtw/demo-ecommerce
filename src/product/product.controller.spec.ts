@@ -22,8 +22,8 @@ const mockProductService = () => ({
     price: 420,
     description: 'Fluffy bear',
     status: 'IN_STOCK',
-    createdAt: '2021-07-02',
-    updatedAt: '2021-07-02'
+    created_at: '2021-07-02',
+    updated_at: '2021-07-02'
   }),
   create: jest.fn().mockResolvedValue({
     title: 'ice cream',
@@ -42,8 +42,8 @@ const mockProductService = () => ({
       }
     ],
     id: 33,
-    createdAt: '2021-07-10',
-    updatedAt: '2021-07-10'
+    created_at: '2021-07-10',
+    updated_at: '2021-07-10'
   }),
   update: jest.fn((id, dto) => {
     const obj = {
@@ -63,8 +63,8 @@ const mockProductService = () => ({
       price: 420,
       description: 'Fluffy bear',
       status: 'IN_STOCK',
-      createdAt: '2021-07-02',
-      updatedAt: '2021-07-02'
+      created_at: '2021-07-02',
+      updated_at: '2021-07-02'
     };
     const result = {
       ...obj,
@@ -105,8 +105,8 @@ describe('ProductController', () => {
           price: expect.any(Number),
           description: expect.any(String),
           status: expect.any(String),
-          createdAt: expect.any(String),
-          updatedAt: expect.any(String)
+          created_at: expect.any(String),
+          updated_at: expect.any(String)
         },
         {
           id: expect.any(Number),
@@ -116,8 +116,8 @@ describe('ProductController', () => {
           price: expect.any(Number),
           description: expect.any(String),
           status: expect.any(String),
-          createdAt: expect.any(String),
-          updatedAt: expect.any(String)
+          created_at: expect.any(String),
+          updated_at: expect.any(String)
         },
         {
           id: expect.any(Number),
@@ -127,8 +127,8 @@ describe('ProductController', () => {
           price: expect.any(Number),
           description: expect.any(String),
           status: expect.any(String),
-          createdAt: expect.any(String),
-          updatedAt: expect.any(String)
+          created_at: expect.any(String),
+          updated_at: expect.any(String)
         }
       ]);
       expect(productService.fetch).toHaveBeenCalled();
@@ -146,8 +146,8 @@ describe('ProductController', () => {
         price: expect.any(Number),
         description: expect.any(String),
         status: expect.any(String),
-        createdAt: expect.any(String),
-        updatedAt: expect.any(String)
+        created_at: expect.any(String),
+        updated_at: expect.any(String)
       });
       expect(productService.fetchById).toHaveBeenCalledWith(10);
     });
@@ -177,8 +177,8 @@ describe('ProductController', () => {
         price: expect.any(Number),
         description: expect.any(String),
         status: expect.any(String),
-        createdAt: expect.any(String),
-        updatedAt: expect.any(String)
+        created_at: expect.any(String),
+        updated_at: expect.any(String)
       });
       expect(productService.create).toHaveBeenCalledWith(dto);
     });
@@ -194,8 +194,8 @@ describe('ProductController', () => {
         price: 1.25,
         description: expect.any(String),
         status: expect.any(String),
-        createdAt: expect.any(String),
-        updatedAt: expect.any(String)
+        created_at: expect.any(String),
+        updated_at: expect.any(String)
       });
     });
   });

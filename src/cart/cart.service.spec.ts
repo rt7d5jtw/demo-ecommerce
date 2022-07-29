@@ -16,12 +16,12 @@ beforeEach(() => {
 });
 
 const cartItem = {
-  cartId: '2828bfce-29a0-4953-b539-f6d61a400321',
+  cart_id: '2828bfce-29a0-4953-b539-f6d61a400321',
   quantity: 1,
   price: 9.5,
-  productId: 28,
+  product_id: 28,
   id: '3c7df1c9-35dd-47f7-a511-cf88dc8f14a6',
-  CreatedAt: '2021-07-14'
+  created_at: '2021-07-14'
 };
 
 const product = {
@@ -35,8 +35,8 @@ const product = {
   price: 12,
   description: 'nice boek',
   status: 'IN_STOCK',
-  createdAt: '2021-07-02',
-  updatedAt: '2021-07-02'
+  created_at: '2021-07-02',
+  updated_at: '2021-07-02'
 } as unknown as Product;
 
 const mockProductRepository = () => ({
@@ -54,8 +54,8 @@ const mockCartItemRepository = () => ({
     getMany: jest.fn().mockReturnValue(cartItem),
     getOne: jest.fn().mockImplementation(() => {
       const data = Testdata.arrayOfCartItems[0];
-      // Setting to align with mockUser's cartId
-      data.cartId = '2828bfce-29a0-4953-b539-f6d61a400321';
+      // Setting to align with mockUser's cart_id
+      data.cart_id = '2828bfce-29a0-4953-b539-f6d61a400321';
       return data;
     }),
     delete: jest.fn().mockReturnThis(),
@@ -72,14 +72,14 @@ const mockCartItemRepository = () => ({
 const mockCartRepository = () => ({
   findOne: jest.fn().mockResolvedValue({
     id: '2828bfce-29a0-4953-b539-f6d61a400321',
-    userId: 'e6a23d5f-3a23-498f-9f61-ffb9ad34cb68',
-    CreatedAt: '2021-07-13'
+    user_id: 'e6a23d5f-3a23-498f-9f61-ffb9ad34cb68',
+    created_at: '2021-07-13'
   }),
   createQueryBuilder: jest.fn(),
   createCart: jest.fn().mockResolvedValue({
-    userId: 'e6a23d5f-3a23-498f-9f61-ffb9ad34cb68',
+    user_id: 'e6a23d5f-3a23-498f-9f61-ffb9ad34cb68',
     id: '2828bfce-29a0-4953-b539-f6d61a400321',
-    CreatedAt: '2021-07-14'
+    created_at: '2021-07-14'
   }),
   save: jest.fn().mockResolvedValue('yeet'),
   fetchCartItems: jest.fn()
@@ -131,8 +131,8 @@ describe('CartService', () => {
 
   const userCart = {
     id: '2828bfce-29a0-4953-b539-f6d61a400321',
-    userId: 'e6a23d5f-3a23-498f-9f61-ffb9ad34cb68',
-    CreatedAt: '2021-07-13'
+    user_id: 'e6a23d5f-3a23-498f-9f61-ffb9ad34cb68',
+    created_at: '2021-07-13'
   } as unknown as Cart;
 
   afterEach(() => {
@@ -144,11 +144,11 @@ describe('CartService', () => {
       jest.spyOn(cartRepository, 'findOne').mockResolvedValue(userCart);
       expect(await cartService.fetchCart(mockUser)).toEqual({
         id: expect.any(String),
-        userId: mockUser.id,
-        CreatedAt: expect.any(String)
+        user_id: mockUser.id,
+        created_at: expect.any(String)
       });
       expect(cartRepository.findOne).toHaveBeenCalledWith({
-        where: { userId: mockUser.id }
+        where: { user_id: mockUser.id }
       });
     });
   });
@@ -164,24 +164,24 @@ describe('CartService', () => {
       jest.spyOn(cartRepository, 'findOne').mockResolvedValue(userCart);
       expect(await cartService.fetchItems(mockUser)).toEqual({
         id: expect.any(String),
-        cartId: expect.any(String),
+        cart_id: expect.any(String),
         price: expect.any(Number),
-        productId: expect.any(Number),
+        product_id: expect.any(Number),
         quantity: expect.any(Number),
-        CreatedAt: expect.any(String)
+        created_at: expect.any(String)
       });
       // Tests each called function in the method scope
       expect(cartRepository.findOne).toHaveBeenCalled();
       expect(cartItemRepository.createQueryBuilder).toHaveBeenCalledWith(
-        'cartItem'
+        'cart_item'
       );
       expect(
         cartItemRepository.createQueryBuilder().select
-      ).toHaveBeenCalledWith('cartItem');
+      ).toHaveBeenCalledWith('cart_item');
       expect(
         cartItemRepository.createQueryBuilder().where
-      ).toHaveBeenCalledWith('cartItem.cartId = :cartId', {
-        cartId: userCart.id
+      ).toHaveBeenCalledWith('cart_item.cart_id = :cart_id', {
+        cart_id: userCart.id
       });
       expect(
         cartItemRepository.createQueryBuilder().getMany
@@ -190,7 +190,7 @@ describe('CartService', () => {
   });
 
   describe('fetchProductPrice', () => {
-    it('calls productRepository.findOne with the relevant productId', async () => {
+    it('calls productRepository.findOne with the relevant product_id', async () => {
       /* Calls productRepository.findOne with product id and
        * returns the product price from the product object. */
       jest.spyOn(productRepository, 'findOne').mockResolvedValue(product);
@@ -210,7 +210,7 @@ describe('CartService', () => {
       );
 
       expect(cartRepository.findOne).toHaveBeenCalledWith({
-        where: { userId: mockUser.id }
+        where: { user_id: mockUser.id }
       });
       expect(cartItemRepository.query).toHaveBeenCalled();
     });
@@ -234,7 +234,7 @@ describe('CartService', () => {
         affected: 1
       });
       expect(cartRepository.findOne).toHaveBeenCalledWith({
-        where: { userId: mockUser['id'] }
+        where: { user_id: mockUser['id'] }
       });
       expect(cartItemRepository.createQueryBuilder).toHaveBeenCalled();
       expect(cartItemRepository.createQueryBuilder().where).toHaveBeenCalled();
@@ -247,7 +247,7 @@ describe('CartService', () => {
   });
 
   describe('createCart', () => {
-    it('creates a Cart for the User by calling the constructor of the Cart class and setting the userId to the id of the user, calls and returns cartRepository.save', async () => {
+    it('creates a Cart for the User by calling the constructor of the Cart class and setting the user_id to the id of the user, calls and returns cartRepository.save', async () => {
       jest.spyOn(cartRepository, 'findOne').mockResolvedValue(null); // User has to have no cart.
       jest.spyOn(cartRepository, 'save').mockResolvedValue(userCart);
       expect(await cartService.createCart(mockUser)).toEqual(userCart);
@@ -275,18 +275,18 @@ describe('CartService', () => {
       });
       expect(result['generatedMaps'][0]).toMatchObject({
         id: expect.any(String),
-        CreatedAt: expect.any(String)
+        created_at: expect.any(String)
       });
       expect(result['raw'][0]).toMatchObject({
         id: expect.any(String),
-        CreatedAt: expect.any(String)
+        created_at: expect.any(String)
       });
 
       expect(cartRepository.findOne).toHaveBeenCalledWith({
-        where: { userId: mockUser.id }
+        where: { user_id: mockUser.id }
       });
       expect(cartRepository.findOne).toHaveBeenCalledWith({
-        where: { userId: mockUser.id }
+        where: { user_id: mockUser.id }
       });
       expect(productRepository.findOne).toHaveBeenCalled();
       expect(cartItemRepository.insert).toHaveBeenCalled();
@@ -298,7 +298,7 @@ describe('CartService', () => {
       const result = await cartService.clearCart(mockUser);
       expect(result).toEqual({ raw: [], affected: 1 });
       expect(cartRepository.findOne).toHaveBeenCalledWith({
-        where: { userId: mockUser['id'] }
+        where: { user_id: mockUser['id'] }
       });
 
       expect(cartItemRepository.createQueryBuilder).toHaveBeenCalled();

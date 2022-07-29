@@ -128,7 +128,7 @@ describe('UsersService', () => {
         jest.spyOn(userRepository, 'create').mockImplementation(() => {
           const user = new User();
           user.id = uuid();
-          user.createdAt = new Date();
+          user.registered_at = new Date();
           return user;
         });
 
@@ -138,7 +138,7 @@ describe('UsersService', () => {
           email: expect.any(String),
           role: expect.any(String),
           id: expect.any(String),
-          createdAt: expect.any(Date)
+          registered_at: expect.any(Date)
         });
         expect(userRepository.create).toHaveBeenCalled();
         expect(bcrypt.genSalt).toHaveBeenCalled();

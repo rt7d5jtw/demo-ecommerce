@@ -9,16 +9,16 @@ export interface CreateOrderDto {
 }
 
 export interface OrderItemDto {
-  orderId: string;
+  order_id: string;
   price: number;
   quantity: number;
-  productId: number;
+  product_id: number;
 }
 
 interface IOrder extends CreateOrderDto {
   status: OrderStatus;
 }
 
-export type OrderIdDto = Pick<OrderItemDto, 'orderId'>;
+export type OrderIdDto = Pick<OrderItemDto, 'order_id'>;
 
 export type UpdateOrderDto = Partial<IOrder>;

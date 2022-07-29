@@ -14,23 +14,42 @@ import { User } from '../users/user.entity';
 @Entity('cart')
 export class Cart extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
+  @Column({
+    unique: true,
+    name: 'id',
+    primary: true,
+    nullable: false,
+    type: 'uuid'
+  })
   id: string;
 
-  @Column({ type: 'uuid' })
-  userId: string | null;
+  @Column({
+    name: 'user_id',
+    type: 'uuid'
+  })
+  user_id: string;
 
-  @CreateDateColumn({ type: 'date' })
-  CreatedAt: Date;
+  @CreateDateColumn({
+    name: 'created_at',
+    nullable: false,
+    type: 'date'
+  })
+  created_at: Date;
 
-  @OneToMany(() => CartItem, (cartItem) => cartItem.cart, {
+  @OneToMany(() => CartItem, (cart_item) => cart_item.cart, {
     onDelete: 'CASCADE'
   })
-  cartItems: CartItem[];
+  cart_item: CartItem[];
 
-  @OneToOne(() => User, (user) => user.cart, {
+  @OneToOne(() => User, {
     onDelete: 'CASCADE',
     cascade: true
   })
-  @JoinColumn([{ name: 'userId', referencedColumnName: 'id' }])
+  @JoinColumn([
+    {
+      name: 'user_id',
+      referencedColumnName: 'id'
+    }
+  ])
   user: User;
 }

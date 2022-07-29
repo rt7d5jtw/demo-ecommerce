@@ -85,7 +85,7 @@ function generateInvoiceTable(doc: PDFKit.PDFDocument, invoice: any) {
       doc,
       position,
       item.quantity,
-      item.productId,
+      item.product_id,
       formatCurrency(item.amount * item.quantity),
       item.item,
       formatCurrency(item.amount)
@@ -150,7 +150,7 @@ function generateTable(
   doc: PDFKit.PDFDocument,
   y: number,
   item: string,
-  productId: string,
+  product_id: string,
   price: string,
   quantity: string,
   amount: string
@@ -158,7 +158,7 @@ function generateTable(
   doc
     .fontSize(9)
     .text(quantity, 80, y, { width: 90, align: 'center' })
-    .text(productId, 160, y, { width: 90, align: 'center' })
+    .text(product_id, 160, y, { width: 90, align: 'center' })
     .text(price, 240, y, { width: 90, align: 'center' })
     .text(item, 320, y, { width: 90, align: 'center' })
     .text(amount, 400, y, { width: 90, align: 'center' });

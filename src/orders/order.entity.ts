@@ -5,7 +5,8 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   ManyToOne,
-  OneToMany
+  OneToMany,
+  JoinColumn
 } from 'typeorm';
 import { User } from '../users/user.entity';
 import { OrderItem } from './order-item.entity';
@@ -18,37 +19,87 @@ export enum OrderStatus {
 @Entity('orders')
 export class Order extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
+  @Column({
+    unique: true,
+    name: 'id',
+    primary: true,
+    nullable: false,
+    type: 'uuid'
+  })
   id: string;
 
-  @Column({ type: 'uuid' })
-  userId: string;
+  @Column({
+    name: 'user_id',
+    unique: true,
+    nullable: false,
+    type: 'uuid'
+  })
+  user_id: string;
 
-  @Column({ type: 'float' })
+  @Column({
+    name: 'total_price',
+    nullable: false,
+    type: 'double precision'
+  })
   total_price: number;
 
-  @Column()
+  @Column({
+    name: 'address',
+    nullable: false,
+    length: 255,
+    type: 'varchar'
+  })
   address: string;
 
-  @Column()
+  @Column({
+    name: 'country',
+    nullable: false,
+    length: 255,
+    type: 'varchar'
+  })
   country: string;
 
-  @Column()
+  @Column({
+    name: 'city',
+    nullable: false,
+    length: 255,
+    type: 'varchar'
+  })
   city: string;
 
-  @Column()
+  @Column({
+    name: 'postalcode',
+    nullable: false,
+    length: 255,
+    type: 'varchar'
+  })
   postalcode: string;
 
-  @Column()
+  @Column({
+    name: 'status',
+    nullable: false,
+    length: 255,
+    type: 'varchar'
+  })
   status: OrderStatus;
 
-  @CreateDateColumn({ type: 'date' })
+  @CreateDateColumn({
+    name: 'date',
+    nullable: false,
+    type: 'date'
+  })
   date: Date;
 
   @ManyToOne(() => User, (user) => user.orders, {
     eager: false
   })
+  @JoinColumn({
+    name: 'user_id',
+    referencedColumnName: 'id'
+  })
   user: User;
 
-  @OneToMany(() => OrderItem, (orderitem) => orderitem.order)
-  orderitems: OrderItem[];
+  // OrderItem references the Class itself (OrderItem)
+  @OneToMany(() => OrderItem, (order_item) => order_item.order)
+  order_item: OrderItem[];
 }

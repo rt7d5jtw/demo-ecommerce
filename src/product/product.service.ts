@@ -89,6 +89,7 @@ export class ProductService {
     product.description = description;
     product.status = ProductStatus.IN_STOCK;
     product.categories = categories;
+    product.created_at = new Date();
 
     try {
       await this.productRepository.save(product);
@@ -141,6 +142,7 @@ export class ProductService {
     product.description = description ?? product.description;
     product.status = status ?? product.status;
     product.categories = categories ?? product.categories;
+    product.updated_at = new Date();
 
     try {
       await this.productRepository.save(product);

@@ -10,10 +10,22 @@ import {
 @Entity('category')
 export class Category extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
+  @Column({
+    unique: true,
+    name: 'id',
+    primary: true,
+    nullable: false,
+    type: 'uuid'
+  })
   id: string;
 
   /* category name */
-  @Column()
+  @Column({
+    name: 'cname',
+    nullable: false,
+    length: 255,
+    type: 'varchar'
+  })
   cname: string;
 
   @ManyToMany(() => Product, (product) => product.categories)

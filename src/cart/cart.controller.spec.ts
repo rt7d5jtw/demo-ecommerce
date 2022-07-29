@@ -40,13 +40,13 @@ describe('CartController', () => {
     it("returns user's cart by calling cartService.fetchCart", async () => {
       cartService.fetchCart.mockResolvedValue({
         id: '7e83883a-8e90-41d0-8426-5da7096e730b',
-        userId: 'e6a23d5f-3a23-498f-9f61-ffb9ad34cb68',
-        CreatedAt: '2021-07-03'
+        user_id: 'e6a23d5f-3a23-498f-9f61-ffb9ad34cb68',
+        created_at: '2021-07-03'
       });
       expect(await cartController.fetchCart(mockUser)).toEqual({
         id: expect.any(String),
-        userId: 'e6a23d5f-3a23-498f-9f61-ffb9ad34cb68',
-        CreatedAt: expect.any(String)
+        user_id: 'e6a23d5f-3a23-498f-9f61-ffb9ad34cb68',
+        created_at: expect.any(String)
       });
       expect(await cartService.fetchCart).toHaveBeenCalled();
     });
@@ -57,21 +57,21 @@ describe('CartController', () => {
       cartService.fetchCartItems.mockResolvedValue([
         {
           id: '82208734-1ac7-4b7e-b436-363996d5661d',
-          cartId: '7e83883a-8e90-41d0-8426-5da7096e730b',
-          productId: 28,
+          cart_id: '7e83883a-8e90-41d0-8426-5da7096e730b',
+          product_id: 28,
           quantity: 1,
           price: 9.5,
-          CreatedAt: '2021-07-12'
+          created_at: '2021-07-12'
         }
       ]);
       expect(await cartController.fetchCartItems(mockUser)).toEqual([
         {
           id: expect.any(String),
-          cartId: expect.any(String),
-          productId: expect.any(Number),
+          cart_id: expect.any(String),
+          product_id: expect.any(Number),
           quantity: expect.any(Number),
           price: expect.any(Number),
-          CreatedAt: expect.any(String)
+          created_at: expect.any(String)
         }
       ]);
       expect(await cartService.fetchCartItems).toHaveBeenCalledWith(mockUser);
@@ -82,7 +82,7 @@ describe('CartController', () => {
     it('fetches cart items with title and image for the user by calling cartService.fetchCartItems', async () => {
       cartService.fetchCartItems.mockResolvedValue([
         {
-          productId: 28,
+          product_id: 28,
           title: 'chocolate',
           image: 'https://i.imgur.com/Hiw0N.jpg',
           price: 9.5,
@@ -91,7 +91,7 @@ describe('CartController', () => {
       ]);
       expect(await cartController.fetchCartItems(mockUser)).toEqual([
         {
-          productId: expect.any(Number),
+          product_id: expect.any(Number),
           title: expect.any(String),
           image: expect.any(String),
           price: expect.any(Number),
@@ -103,7 +103,7 @@ describe('CartController', () => {
   });
 
   describe('fetchProductPrice', () => {
-    it('fetches price of a cart item based on productId', async () => {
+    it('fetches price of a cart item based on product_id', async () => {
       cartService.fetchProductPrice.mockResolvedValue(9.5);
       expect(await cartController.fetchProductPrice(28)).toEqual(9.5);
       expect(await cartService.fetchProductPrice).toHaveBeenCalledWith(28);
@@ -113,14 +113,14 @@ describe('CartController', () => {
   describe('createCart', () => {
     it("creates cart for the user if it doesn't already exist", async () => {
       cartService.createCart.mockResolvedValue({
-        userId: 'e6a23d5f-3a23-498f-9f61-ffb9ad34cb68',
+        user_id: 'e6a23d5f-3a23-498f-9f61-ffb9ad34cb68',
         id: '59bfe367-672f-48e7-87ab-4512be621d4c',
-        CreatedAt: '2021-07-13'
+        created_at: '2021-07-13'
       });
       expect(await cartController.createCart(mockUser)).toEqual({
-        userId: 'e6a23d5f-3a23-498f-9f61-ffb9ad34cb68',
+        user_id: 'e6a23d5f-3a23-498f-9f61-ffb9ad34cb68',
         id: expect.any(String),
-        CreatedAt: expect.any(String)
+        created_at: expect.any(String)
       });
       expect(await cartService.createCart).toHaveBeenCalledWith(mockUser);
     });
@@ -130,21 +130,21 @@ describe('CartController', () => {
     it('adds a product to the cart of a user by calling cartService.addToCart', async () => {
       cartService.addToCart.mockResolvedValue({
         id: 'a6edad94-222f-4d18-b020-967a3aa027e4',
-        cartId: '59bfe367-672f-48e7-87ab-4512be621d4c',
-        productId: 28,
+        cart_id: '59bfe367-672f-48e7-87ab-4512be621d4c',
+        product_id: 28,
         quantity: 1,
         price: 9.5,
-        CreatedAt: '2021-07-13'
+        created_at: '2021-07-13'
       });
       expect(
         await cartController.addToCart(28, mockUser, { quantity: 1 })
       ).toEqual({
-        cartId: expect.any(String),
+        cart_id: expect.any(String),
         quantity: 1,
         price: expect.any(Number),
-        productId: 28,
+        product_id: 28,
         id: expect.any(String),
-        CreatedAt: expect.any(String)
+        created_at: expect.any(String)
       });
       expect(await cartService.addToCart).toHaveBeenCalledWith(28, mockUser, {
         quantity: 1
@@ -153,7 +153,7 @@ describe('CartController', () => {
   });
 
   describe('removeCartItem', () => {
-    it('removes cart item by productId by calling cartService.removeCartItem', async () => {
+    it('removes cart item by product_id by calling cartService.removeCartItem', async () => {
       cartService.removeCartItem.mockResolvedValue(undefined);
       expect(await cartController.removeCartItem(28, mockUser)).toBeUndefined();
       expect(await cartService.removeCartItem).toHaveBeenCalledWith(

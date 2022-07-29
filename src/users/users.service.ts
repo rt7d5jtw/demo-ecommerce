@@ -15,6 +15,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, TypeORMError } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { LoginDto } from '../auth/dto/auth.dto';
+import * as util from 'node:util';
 
 @Injectable()
 export class UsersService {
@@ -71,6 +72,7 @@ export class UsersService {
     user.password = await this.hashPassword(password, user.salt); // Hash
     user.email = email;
     user.role = UserRole.USER;
+    user.registered_at = new Date();
 
     try {
       await this.userRepository.save(user);
@@ -139,7 +141,13 @@ export class UsersService {
       throw new ConflictException(`Email is already in use`);
 
     // Check that email is not already in use
-    //this.userRepository.find({ where: { email: changeEmailDto['newEmail'] } });
+    // Returns an empty array if there is no results.
+    const possibleCollision = await this.userRepository.find({
+      where: { email: changeEmailDto['newEmail'] }
+    });
+
+    if (Object.keys(possibleCollision).length !== 0)
+      throw new ConflictException('Email is already in use');
 
     if (user.email === changeEmailDto.currentEmail) {
       user.email = changeEmailDto.newEmail;

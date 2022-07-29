@@ -33,7 +33,7 @@ export class CartService {
    */
   async fetchCart(user: User): Promise<Cart> {
     return this.cartRepository.findOne({
-      where: { userId: user['id'] }
+      where: { user_id: user['id'] }
     });
   }
 
@@ -44,12 +44,12 @@ export class CartService {
    */
   async fetchItems(user: User): Promise<CartItem[]> {
     const cart = await this.cartRepository.findOne({
-      where: { userId: user['id'] }
+      where: { user_id: user['id'] }
     });
     const cartItems = await this.cartItemRepository
-      .createQueryBuilder('cartItem')
-      .select('cartItem')
-      .where('cartItem.cartId = :cartId', { cartId: cart.id })
+      .createQueryBuilder('cart_item')
+      .select('cart_item')
+      .where('cart_item.cart_id = :cart_id', { cart_id: cart.id })
       .getMany();
 
     return cartItems;
@@ -78,19 +78,19 @@ export class CartService {
   async fetchCartItems(user: User): Promise<CartItemInfo> {
     // Get Cart of the User to query for the CartItem's.
     const cart = await this.cartRepository.findOne({
-      where: { userId: user['id'] }
+      where: { user_id: user['id'] }
     });
 
     if (!cart) throw new NotFoundException('User has no cart');
 
     try {
-      // Gets cart items with matching productId.
+      // Gets cart items with matching product_id.
       const cartItems = await this.cartItemRepository.query(`
-      SELECT ct."productId", prods."title", 
-      prods."image", prods."price", ct."quantity" FROM "cart-item" as ct
+      SELECT ct."product_id", prods."title", 
+      prods."image", prods."price", ct."quantity" FROM "cart_item" as ct
       JOIN "products" as prods
-        ON prods."id" = ct."productId"
-      WHERE ct."cartId" = '${cart['id']}';
+        ON prods."id" = ct."product_id"
+      WHERE ct."cart_id" = '${cart['id']}';
       `);
       return cartItems;
     } catch (err) {
@@ -109,14 +109,15 @@ export class CartService {
    */
   async createCart(user: User): Promise<Cart> {
     const userCart = await this.cartRepository.findOne({
-      where: { userId: user['id'] }
+      where: { user_id: user['id'] }
     });
 
     if (userCart != null)
       throw new PreconditionFailedException(`User already has a Cart!`);
 
     const cart = new Cart();
-    cart.userId = user.id;
+    cart.user_id = user.id;
+    cart.created_at = new Date();
     return this.cartRepository.save(cart); // Easier to test if we use this instead the BaseEntity.
   }
 
@@ -144,26 +145,30 @@ export class CartService {
     // Sets the new CartItem to align with the inputs
     const cartItem = new CartItem();
 
-    cartItem.cartId = cart.id;
-    cartItem.quantity = qty.quantity;
-    cartItem.price = price * qty.quantity;
-    cartItem.productId = id;
+    cartItem.cart_id = cart.id;
+    cartItem.quantity = parseFloat(qty.quantity as unknown as string); // qty.quantity arrives as a string
+    cartItem.price = price * parseFloat(qty.quantity as unknown as string);
+    cartItem.product_id = id;
+    cartItem.created_at = new Date();
 
-    /* Checks if Cart Items with same productId and cartId exists
+    this.logger.log('qty.quantity -> ' + typeof qty.quantity);
+    this.logger.log('cartItem.quantity -> ' + typeof cartItem.quantity);
+    /* Checks if Cart Items with same product_id and cart_id exists
      * in the Cart Item table, if so it sums quantity and price of the
      * two objects and removes the redundant copy 'cart_copy'.
      */
     const cartItems = await this.fetchItems(user);
     for (let i = 0; i < cartItems.length; i++) {
       if (
-        cartItems[i].cartId === cartItem.cartId &&
-        cartItems[i].productId === cartItem.productId
+        cartItems[i].cart_id === cartItem.cart_id &&
+        cartItems[i].product_id === cartItem.product_id
       ) {
-        const productId = cartItems[i].productId;
+        this.logger.log('cartItems 2 -> ' + typeof cartItem.quantity);
+        const product_id = cartItems[i].product_id;
         cartItem.quantity = cartItems[i].quantity + cartItem.quantity;
         cartItem.price = cartItems[i].price + cartItem.price;
 
-        await this.removeCartItem(productId, user);
+        await this.removeCartItem(product_id, user);
       }
     }
 
@@ -213,10 +218,11 @@ export class CartService {
       const price = await this.fetchProductPrice(id);
       if (!price) throw new NotFoundException('Price could not be found');
 
-      cartItem.cartId = cart.id;
+      cartItem.cart_id = cart.id;
       cartItem.quantity = qty;
       cartItem.price = price * qty;
-      cartItem.productId = id;
+      cartItem.product_id = id;
+      cartItem.created_at = new Date();
 
       cartItemBatch.push(cartItem); // Add the cartItem to the list.
     }
@@ -237,6 +243,7 @@ export class CartService {
    * 1. Calls cartRepository.findOne with the input User.id,
    * 2. Calls cartItemRepository.createQueryBuilder to get the User CartItem.
    * 3. If User CartItem was found, it is deleted.
+   * ! NOTE: This always reports affected as '1', because it describes rows affected.
    * @param {number} productId
    * @param {User} user
    * @returns {Promise<DeleteResult>}
@@ -244,19 +251,19 @@ export class CartService {
   async removeCartItem(productId: number, user: User): Promise<DeleteResult> {
     // Get User's Cart ID.
     const cart = await this.cartRepository.findOne({
-      where: { userId: user['id'] }
+      where: { user_id: user['id'] }
     });
 
     const cartItem = await this.cartItemRepository
-      .createQueryBuilder('cartItem')
-      .where('cartItem.cartId = :cartId', { cartId: cart['id'] })
-      .andWhere('cartItem.productId = :productId', { productId: productId })
+      .createQueryBuilder('cart_item')
+      .where('cart_item.cart_id = :cart_id', { cart_id: cart['id'] })
+      .andWhere('cart_item.product_id = :product_id', { product_id: productId })
       .getOne();
 
     if (!cartItem) throw new NotFoundException(`Cart Item was not found`);
 
-    if (cart['id'] === cartItem.cartId) {
-      const result = await this.cartItemRepository.delete(await cartItem.id);
+    if (cart['id'] === cartItem.cart_id) {
+      const result = await this.cartItemRepository.delete(cartItem.id);
       if (result.affected === 0)
         throw new NotFoundException(
           "Item is not in user's cart or item does not exist"
@@ -278,7 +285,7 @@ export class CartService {
   async clearCart(user: User): Promise<DeleteResult> {
     // Returns user's cart id.
     const { id } = await this.cartRepository.findOne({
-      where: { userId: user['id'] }
+      where: { user_id: user['id'] }
     });
 
     if (!id) throw new NotFoundException('No cart was found');
@@ -286,12 +293,12 @@ export class CartService {
     this.logger.debug(
       '[cart.repository.ts] :: clearCart :: value returned -> ' + id
     );
-    // Deletes all the CartItem's by the provided cartId.
+    // Deletes all the CartItem's by the provided cart_id.
     return this.cartItemRepository
       .createQueryBuilder()
       .delete()
-      .from(CartItem, 'cartItem')
-      .where('cart.id = :cartId', { cartId: id })
+      .from(CartItem, 'cart_item')
+      .where('cart.id = :cart_id', { cart_id: id })
       .execute();
   }
 
@@ -303,7 +310,7 @@ export class CartService {
   async removeCart(user: User): Promise<DeleteResult> {
     // Returns user's cart id.
     const cart = await this.cartRepository.findOne({
-      where: { userId: user['id'] }
+      where: { user_id: user['id'] }
     });
 
     if (!cart) throw new NotFoundException('No cart was found');
@@ -313,7 +320,7 @@ export class CartService {
       .createQueryBuilder()
       .delete()
       .from(Cart, 'cart')
-      .where('user.id = :userId', { userId: user['id'] })
+      .where('user.id = :user_id', { user_id: user['id'] })
       .execute();
   }
 }

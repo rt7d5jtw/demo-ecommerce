@@ -38,7 +38,7 @@ export class OrdersService {
   async fetch(searchOrdersDto: SearchOrdersDto, user: User): Promise<Order[]> {
     const query = this.ordersRepository.createQueryBuilder('order');
 
-    query.where('order.userId = :userId', { userId: user.id });
+    query.where('order.user_id = :user_id', { user_id: user.id });
 
     if (searchOrdersDto) {
       if (searchOrdersDto.status)
@@ -48,8 +48,8 @@ export class OrdersService {
 
       if (searchOrdersDto.search)
         query.andWhere(
-          `order.userId LIKE :search 
-          OR order.totalprice LIKE :search 
+          `order.user_id LIKE :search 
+          OR order.total_price LIKE :search 
           OR order.address LIKE :search
           `,
           { search: `%${searchOrdersDto.search}%` }
@@ -69,7 +69,7 @@ export class OrdersService {
    */
   async fetchById(id: string, user: User): Promise<Order> {
     const result = await this.ordersRepository.findOne({
-      where: { id, userId: user.id }
+      where: { id, user_id: user.id }
     });
 
     if (!result) throw new NotFoundException(`Order with ID "${id}" not found`);
@@ -83,7 +83,7 @@ export class OrdersService {
    */
   async fetchAll(): Promise<Order[]> {
     return this.ordersRepository.query(
-      'SELECT id, "userId", address, status, "date", country, city, total_price, postalcode FROM orders;'
+      'SELECT id, user_id, address, status, "date", country, city, total_price, postalcode FROM orders;'
     );
   }
 
@@ -97,16 +97,16 @@ export class OrdersService {
     /* Gets order items with product information for the invoice. */
     const orderItems = await this.ordersRepository.query(`
     SELECT "products"."title" AS "item", 
-           "products"."id" as "productId", 
-           "order-item"."quantity", 
+           "products"."id" as "product_id", 
+           "order_item"."quantity", 
            "products"."price" AS "amount"
     FROM "orders"
-    INNER JOIN "order-item" 
-      ON "order-item"."orderId" = "orders"."id"
+    INNER JOIN "order_item" 
+      ON "order_item"."order_id" = "orders"."id"
     INNER JOIN "products"
-      ON "products"."id" = "order-item"."productId"
-      WHERE "order-item"."orderId" = '${order.id}'
-      AND "orders"."userId" = '${user['id']}'
+      ON "products"."id" = "order_item"."product_id"
+      WHERE "order_item"."order_id" = '${order.id}'
+      AND "orders"."user_id" = '${user['id']}'
       `);
 
     const invoice = {
@@ -164,7 +164,8 @@ export class OrdersService {
     order.city = city ?? city;
     order.postalcode = postalcode.toString() ?? order.postalcode;
     order.status = OrderStatus.PROCESSING ?? order.status;
-    order.userId = user.id ?? user.id;
+    order.user_id = user.id ?? user.id;
+    order.date = new Date();
 
     for (const key in order) {
       if (order[key] === '' || order[key] === null || order[key] === undefined)
@@ -252,7 +253,7 @@ export class OrdersService {
    * Queries for the OrderItem's of the Order and returns them to the User.
    * The OrderItem's relevant to the Order are returned with more information
    * than the OrderItem itself provides by inner joining the Product table and
-   * using the productId as the join predicate, so that title and image can be
+   * using the product_id as the join predicate, so that title and image can be
    * added to the OrderItem's properties that are returned.
    * @param {string} id
    * @returns {Promise<(OrderItem & Pick<Product, "title" | "image">)[]>}
@@ -261,28 +262,28 @@ export class OrdersService {
     id: string
   ): Promise<(OrderItem & Pick<Product, 'title' | 'image'>)[]> {
     const orderItems = await this.orderItemRepository
-      .createQueryBuilder('orderItem')
-      .innerJoin(Product, 'product', 'product.id = orderItem.productId')
+      .createQueryBuilder('order_item')
+      .innerJoin(Product, 'product', 'product.id = order_item.product_id')
       .select([
         'product.id',
-        'orderItem.orderId',
-        'orderItem.quantity',
-        'orderItem.price',
+        'order_item.order_id',
+        'order_item.quantity',
+        'order_item.price',
         'product.title',
         'product.image'
       ])
-      .where('orderItem.orderId = :orderId', { orderId: id })
+      .where('order_item.order_id = :order_id', { order_id: id })
       .getRawMany();
 
     /* Formats the array key names */
     for (let i = 0; i < orderItems.length; i++) {
       for (const key in orderItems[i]) {
-        RegExp('(orderItem_)').test(key)
+        RegExp('(order_item_)').test(key)
           ? delete Object.assign(orderItems[i], {
-              [`${key.replace(/orderItem_/, '')}`]: orderItems[i][key]
+              [`${key.replace(/order_item_/, '')}`]: orderItems[i][key]
             })[key]
           : key === 'product_id'
-          ? ((orderItems[i]['productId'] = orderItems[i][key]),
+          ? ((orderItems[i]['product_id'] = orderItems[i][key]),
             delete orderItems[i][key])
           : RegExp('(product_)(?!id)').test(key)
           ? delete Object.assign(orderItems[i], {
@@ -298,7 +299,7 @@ export class OrdersService {
   /**
    * Belongs to the execution of the creation of the Order, this method adds
    * the CartItem's from the User's Cart to the Order. This is done by querying
-   * the CartItem's by inner joining Cart and CartItem tables, using cartId as the
+   * the CartItem's by inner joining Cart and CartItem tables, using cart_id as the
    * join predicate and looking only for rows where CartId is equal to the relevant
    * User ID. This way we end up with the relevant CartItem's to add to the OrderItem table.
    * @param {string} id - ID of the Order.
@@ -315,21 +316,21 @@ export class OrdersService {
      *   id: 0fab7f2f-ddca-44fe-86fc-730e30cc8ac6
      *   price: 6.5
      *   quantity: 1
-     *   productId: 40
+     *   product_id: 40
      * }
      */
     const cartItems = await this.ordersRepository.query(`
-    SELECT ct."id", ct."price", ct."quantity", ct."productId" FROM "cart"
-    INNER JOIN "cart-item" as ct
-      ON "cart"."id" = ct."cartId"
-      WHERE "cart"."userId" = '${user['id']}'
+    SELECT ct."id", ct."price", ct."quantity", ct."product_id" FROM "cart"
+    INNER JOIN "cart_item" as ct
+      ON "cart"."id" = ct."cart_id"
+      WHERE "cart"."user_id" = '${user['id']}'
       `);
 
     // Templates the CartItem's into OrderItem's for
     const orders = [];
     for (let i = 0; i < cartItems.length; i++) {
       const order = {
-        orderId: null,
+        order_id: null,
         price: null,
         quantity: null,
         product: null
@@ -339,10 +340,10 @@ export class OrdersService {
         `During execution of OrdersService.addOrderItems, orders -> ${orders}`
       );
 
-      order.orderId = id;
+      order.order_id = id;
       order.price = cartItems[i].price;
       order.quantity = cartItems[i].quantity;
-      order.product = cartItems[i].productId;
+      order.product = cartItems[i].product_id;
       orders.push(order);
     }
 
@@ -366,7 +367,7 @@ export class OrdersService {
       where: { id: id }
     });
 
-    this.orderItemRepository.delete({ orderId: order.id });
+    this.orderItemRepository.delete({ order_id: order.id });
 
     const result = await this.ordersRepository.delete(id);
     if (result.affected === 0)

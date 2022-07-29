@@ -1,18 +1,18 @@
 export class CartDto {
   id: string;
-  userId: string;
-  CartItemId: string;
+  user_id: string;
+  cart_item_id: string;
 }
 
 export interface CartItemDto {
   title: string;
-  productId: number;
+  product_id: number;
   quantity: number;
   price: number;
 }
 
 export interface CartItemInfo extends CartItemDto {
-  cartId: string;
+  cart_id: string;
   id: string;
   title: string;
   image: string;

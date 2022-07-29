@@ -6,9 +6,6 @@ import { DeleteResult, Repository } from 'typeorm';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { OrderItem } from './order-item.entity';
 import * as Testdata from '../../test/testdata.json';
-import * as PDFDocument from 'pdfkit';
-import * as sinon from 'sinon';
-import { generateInvoiceTable, generateInvoiceInformation } from './invoice';
 
 jest.mock('pdfkit');
 
@@ -88,7 +85,7 @@ describe('OrdersService', () => {
       expect(await ordersService.fetch(null, mockUser)).toEqual([
         {
           id: expect.any(String),
-          userId: expect.any(String),
+          user_id: expect.any(String),
           total_price: expect.any(Number),
           address: expect.any(String),
           country: expect.any(String),
@@ -99,7 +96,7 @@ describe('OrdersService', () => {
         },
         {
           id: expect.any(String),
-          userId: expect.any(String),
+          user_id: expect.any(String),
           total_price: expect.any(Number),
           address: expect.any(String),
           country: expect.any(String),
@@ -110,7 +107,7 @@ describe('OrdersService', () => {
         },
         {
           id: expect.any(String),
-          userId: expect.any(String),
+          user_id: expect.any(String),
           total_price: expect.any(Number),
           address: expect.any(String),
           country: expect.any(String),
@@ -139,7 +136,7 @@ describe('OrdersService', () => {
         )
       ).toEqual({
         id: 'e6a23d5f-3a23-498f-9f61-ffb9ad34cb68',
-        userId: expect.any(String),
+        user_id: expect.any(String),
         total_price: expect.any(Number),
         address: expect.any(String),
         country: expect.any(String),
@@ -151,7 +148,7 @@ describe('OrdersService', () => {
       expect(ordersRepository.findOne).toHaveBeenCalledWith({
         where: {
           id: 'e6a23d5f-3a23-498f-9f61-ffb9ad34cb68',
-          userId: mockUser.id
+          user_id: mockUser.id
         }
       });
     });
@@ -166,7 +163,7 @@ describe('OrdersService', () => {
       expect(await ordersService.fetchAll()).toEqual([
         {
           id: expect.any(String),
-          userId: expect.any(String),
+          user_id: expect.any(String),
           total_price: expect.any(Number),
           address: expect.any(String),
           country: expect.any(String),
@@ -177,7 +174,7 @@ describe('OrdersService', () => {
         },
         {
           id: expect.any(String),
-          userId: expect.any(String),
+          user_id: expect.any(String),
           total_price: expect.any(Number),
           address: expect.any(String),
           country: expect.any(String),
@@ -188,7 +185,7 @@ describe('OrdersService', () => {
         },
         {
           id: expect.any(String),
-          userId: expect.any(String),
+          user_id: expect.any(String),
           total_price: expect.any(Number),
           address: expect.any(String),
           country: expect.any(String),
@@ -250,41 +247,37 @@ describe('OrdersService', () => {
         )
       ).toEqual([
         {
-          orderId: expect.any(String),
+          order_id: expect.any(String),
           price: expect.any(Number),
           quantity: expect.any(Number),
-          productId: expect.any(Number),
           title: expect.any(String),
           image: expect.any(String)
         },
         {
-          orderId: expect.any(String),
+          order_id: expect.any(String),
           price: expect.any(Number),
           quantity: expect.any(Number),
-          productId: expect.any(Number),
           title: expect.any(String),
           image: expect.any(String)
         },
         {
-          orderId: expect.any(String),
+          order_id: expect.any(String),
           price: expect.any(Number),
           quantity: expect.any(Number),
-          productId: expect.any(Number),
           title: expect.any(String),
           image: expect.any(String)
         },
         {
-          orderId: expect.any(String),
+          order_id: expect.any(String),
           price: expect.any(Number),
           quantity: expect.any(Number),
-          productId: expect.any(Number),
           title: expect.any(String),
           image: expect.any(String)
         }
       ]);
 
       expect(orderItemRepository.createQueryBuilder).toHaveBeenCalledWith(
-        'orderItem'
+        'order_item'
       );
       expect(
         orderItemRepository.createQueryBuilder().innerJoin
@@ -312,7 +305,7 @@ describe('OrdersService', () => {
       };
 
       expect(await ordersService.create(dto, mockUser)).toEqual({
-        userId: mockUser.id,
+        user_id: mockUser.id,
         total_price: 10,
         address: 'Yeetstreet',
         country: 'Bruma',
@@ -333,7 +326,7 @@ describe('OrdersService', () => {
     it('calls ordersRepository.findOne and modifies user properties and saves the instance by calling ordersRepository.save', async () => {
       jest.spyOn(ordersRepository, 'findOne').mockResolvedValue({
         id: '725b3c5a-4f40-468e-aa9e-9057600d55af',
-        userId: 'e6a23d5f-3a23-498f-9f61-ffb9ad34cb68',
+        user_id: 'e6a23d5f-3a23-498f-9f61-ffb9ad34cb68',
         total_price: 3,
         address: 'Yeetstreet',
         country: 'Bruma',
@@ -353,7 +346,7 @@ describe('OrdersService', () => {
 
       expect(await ordersService.update(dto, id)).toEqual({
         id: expect.any(String),
-        userId: 'e6a23d5f-3a23-498f-9f61-ffb9ad34cb68',
+        user_id: 'e6a23d5f-3a23-498f-9f61-ffb9ad34cb68',
         address: 'Yeetstreet',
         country: 'Bruma',
         city: 'Yes',
@@ -385,7 +378,7 @@ describe('OrdersService', () => {
         where: { id: commonOrder['id'] }
       });
       expect(orderItemRepository.delete).toHaveBeenCalledWith({
-        orderId: commonOrder['id']
+        order_id: commonOrder['id']
       });
       expect(ordersRepository.delete).toHaveBeenCalledWith(commonOrder['id']);
     });
