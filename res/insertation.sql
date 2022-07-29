@@ -23,8 +23,6 @@ VALUES
   (20,	'Milk Chocolate',	'/products/Milk Chocolate',	'milk-choc.jpg'),
   (25,	'Dark Chocolate',	'/products/Dark Chocolate',	'dark-choc.jpg');
 
--- User Carts
--- INDETERMINATE IDs
 INSERT INTO cart (id, user_id, created_at)
 VALUES
   ('1833ad6d-b21e-4f7d-9345-d317a5290cf9',	'ad64e856-3e74-4ddf-ad84-ce404483a3a3',	'2021-10-03'),
@@ -62,7 +60,6 @@ VALUES
   (62,	'More Delicious White Chocolate',	'white3.jpg',	4.5,	'Delicious white chocolate made from fine ingredients',	'IN_STOCK',	'2021-07-23',	'2021-07-23');
 
 
--- Indeterminate IDs
 INSERT INTO product_categories (product_id, category_id)
 VALUES
   (36,	'8bc81050-a6d8-417a-b348-50e68941d36b'),
