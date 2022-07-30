@@ -94,7 +94,7 @@ describe('AppController (e2e)', () => {
           description: 'i like chocolate',
           categoryIds: [
             {
-              id: '4b625d6c-2a13-4616-870e-9fbb235af59d'
+              id: '8bc81050-a6d8-417a-b348-50e68941d36b'
             }
           ]
         })
@@ -102,6 +102,7 @@ describe('AppController (e2e)', () => {
         .set('Authorization', `Bearer ${jwt['accessToken']}`);
 
       expect(result.statusCode).toEqual(201);
+      expect(result.body).toBeInstanceOf(Object);
       expect(result.body).toMatchObject({
         title: expect.any(String),
         image: expect.any(String),
@@ -111,7 +112,7 @@ describe('AppController (e2e)', () => {
         categories: expect.any(Array),
         id: expect.any(Number),
         created_at: expect.any(String),
-        updated_at: expect.any(null)
+        updated_at: null
       });
 
       // New Product ID
@@ -148,7 +149,7 @@ describe('AppController (e2e)', () => {
         categories: expect.any(Array),
         id: expect.any(Number),
         created_at: expect.any(String),
-        updated_at: expect.any(String)
+        updated_at: expect.any(String) // String that contains a date
       });
     });
 
@@ -180,7 +181,7 @@ describe('AppController (e2e)', () => {
         password: expect.any(String),
         role: expect.any(String),
         salt: expect.any(String),
-        created_at: expect.any(String)
+        registered_at: expect.any(String)
       });
 
       cachedId = result.body[0]['id']; // Set the ID for the next operation
@@ -199,7 +200,7 @@ describe('AppController (e2e)', () => {
         password: expect.any(String),
         role: expect.any(String),
         salt: expect.any(String),
-        created_at: expect.any(String),
+        registered_at: expect.any(String),
         orders: expect.any(Array)
       });
     });

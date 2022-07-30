@@ -37,7 +37,7 @@ CREATE TABLE cart (
 -- Changed from "cart-item" to cart_item
 CREATE TABLE cart_item (
     id uuid DEFAULT uuid_generate_v4() NOT NULL PRIMARY KEY,
-    cart_id uuid REFERENCES cart (id),
+    cart_id uuid REFERENCES cart (id) on delete cascade,
     product_id SERIAL REFERENCES products (id),
     quantity INTEGER NOT NULL,
     price DOUBLE PRECISION NOT NULL,
@@ -71,7 +71,7 @@ CREATE TABLE order_item (
 );
 
 CREATE TABLE product_categories (
-    product_id INTEGER REFERENCES products (id),
+    product_id INTEGER REFERENCES products (id) ON delete cascade,
     category_id uuid REFERENCES category (id)
 );
 
