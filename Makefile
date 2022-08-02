@@ -4,13 +4,19 @@ TAG := 1.0
 DB_ID := $(shell docker ps -f "ancestor=postgres:14.1" -q)
 APP_ID := $(shell docker ps -f "ancestor=chocoapp:1.0" -q)
 
+# Change to your user
+DB_OWNER := postgres
+
 all: net vol local
+
+createdb:
+	sudo -u postgres psql -c 'create database bookstore owner $(DB_OWNER)'
 
 cleandb:
 	sudo -u postgres psql -d bookstore -c 'drop schema cascade; create schema public;'
 
 dump:
-	sudo -u postgres psql bookstore < res/init.sql
+	sudo -u postgres psql bookstore < res/data.sql
 
 # Only deploys PostgreSQL 14.1
 database:
