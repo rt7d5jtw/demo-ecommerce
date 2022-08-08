@@ -40,7 +40,7 @@ Website also has rudamentary notifications implemented through redux that are us
 
 ## Client preview
 
-[![Demo of the client in action](https://i.imgur.com/UmRF6yq.png)](https://vimeo.com/manage/videos/737619090)
+![Demo of the client in action](https://s4.gifyu.com/images/chocolatestore.gif)
   
   
 *Images are from [unsplash](https://unsplash.com/) and [pexels](https://www.pexels.com/)*
