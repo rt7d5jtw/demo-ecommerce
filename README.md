@@ -109,6 +109,8 @@ Form submissions are standardized using the **`handleForm`** utility function:
 
 **NOTE:** The `AuthOverlay` component provides the visual overlay wrapper for the forms used on the authentication pages.
 
+*Images are from [unsplash](https://unsplash.com/) and [pexels](https://www.pexels.com/)*
+
 ## Client preview
 
 ![Demo of the client in action](https://imgur.com/grs6Edk)
