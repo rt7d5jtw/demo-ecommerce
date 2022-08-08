@@ -40,8 +40,8 @@ Website also has rudamentary notifications implemented through redux that are us
 
 ## Client preview
 
-![Demo of the client in action](./preview_firsthalf)
-![Demo of the client in action](./preview_secondhalf)
+![Demo of the client in action](./preview_firsthalf.gif)
+![Demo of the client in action](./preview_secondhalf.gif)
   
   
 *Images are from [unsplash](https://unsplash.com/) and [pexels](https://www.pexels.com/)*
