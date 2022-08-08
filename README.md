@@ -40,9 +40,8 @@ Website also has rudamentary notifications implemented through redux that are us
 
 ## Client preview
 
-![Demo of the client in action](https://imgur.com/grs6Edk)
-<blockquote class="imgur-embed-pub" lang="en" data-id="a/grs6Edk" data-context="false" ><a href="//imgur.com/a/grs6Edk"></a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
-
+![Demo of the client in action](http://178.79.129.58:6868/chocolatestore.gif)
+  
   
 *Images are from [unsplash](https://unsplash.com/) and [pexels](https://www.pexels.com/)*
 
