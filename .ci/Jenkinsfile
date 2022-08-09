@@ -4,13 +4,13 @@ pipeline {
         HOST = 'localhost'
         PORT = 3000
         DB_PORT = 5432
-        DB_HOST = postgres
-        DB_USER = postgres
-        DB_PASS = postgres
-        DATABASE = bookstore
-        MODE = production
-        DB_SYNC = true
-        DB_LOGGING = true
+        DB_HOST = 'postgres'
+        DB_USER = 'postgres'
+        DB_PASS = 'postgres'
+        DATABASE = 'bookstore'
+        MODE = 'production'
+        DB_SYNC = 'true'
+        DB_LOGGING = 'true'
     }
     tools { 
         nodejs "node"
