@@ -113,4 +113,4 @@ Form submissions are standardized using the **`handleForm`** utility function:
 
 ## Client preview
 
-![Demo of the client in action](https://imgur.com/grs6Edk)
+![Demo of the client in action](./src/assets/preview.gif)
