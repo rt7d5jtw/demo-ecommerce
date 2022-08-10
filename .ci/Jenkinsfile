@@ -29,7 +29,7 @@ pipeline {
                 sh 'npm run build'
                 sh 'npm run test'
                 // Remove client build from Dockerfile
-                sh 'sed -i '/RUN npm --prefix .\/client.*/d' Dockerfile'
+                sh "sed -i '/RUN npm --prefix \.\/client.*/d' Dockerfile"
                 sh 'make build'
                 sh 'docker-compose -f docker-compose.yml up -d postgres'
                 sleep 3
