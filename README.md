@@ -42,7 +42,4 @@ Website also has rudamentary notifications implemented through redux that are us
 
 ## Client preview
 
-![Demo of the client in action](./preview_firsthalf.gif)
-![Demo of the client in action](./preview_secondhalf.gif)
-  
-
+![Demo of the client in action](./src/assets/preview.gif)
