@@ -9,9 +9,11 @@ import * as fs from 'fs';
 async function bootstrap() {
   const logger = new Logger('boostrap');
 
-  await ConfigModule.envVariablesLoaded.then(() => {
-    logger.log('Configuration files loaded');
-  });
+  await ConfigModule.envVariablesLoaded
+    .then(() => {
+      logger.log('Configuration files loaded');
+    })
+    .catch((err) => err);
 
   const httpsOptions = {
     key: fs.readFileSync(`${process.env.PRIVKEY}`),
@@ -49,6 +51,7 @@ async function bootstrap() {
     // Provides a status code to use for successful OPTIONS requests.
     optionsSuccessStatus: 204
   });
+
   await app.listen(process.env.PORT, process.env.HOST);
 }
 bootstrap();
