@@ -1,5 +1,6 @@
 import axios, { AxiosError } from 'axios';
 import { ValidationErrors } from '../promotion/promotionSlice';
+import clientApi from '../shared/api';
 import { authHeader } from '../user/api';
 import {
   ICart,
@@ -8,9 +9,9 @@ import {
   InsertationResult,
 } from './cartSlice';
 
-export const CART_URL = 'http://localhost:3000/cart/';
+const CART_URL = clientApi + '/cart/';
 
-export async function apifetchCart(): Promise<ICart> {
+async function apifetchCart(): Promise<ICart> {
   return axios
     .get(CART_URL, { headers: authHeader() })
     .then((res) => {
@@ -28,7 +29,7 @@ export async function apifetchCart(): Promise<ICart> {
     });
 }
 
-export async function createCart(): Promise<ICart> {
+async function createCart(): Promise<ICart> {
   return axios
     .post(CART_URL, {}, { headers: authHeader() })
     .then((res) => {
@@ -43,7 +44,7 @@ export async function createCart(): Promise<ICart> {
     });
 }
 
-export async function fetchCartItems(): Promise<ICartItem[]> {
+async function fetchCartItems(): Promise<ICartItem[]> {
   return axios
     .get(CART_URL + 'items', { headers: authHeader() })
     .then((res) => {
@@ -59,7 +60,7 @@ export async function fetchCartItems(): Promise<ICartItem[]> {
 }
 
 /* doesnt mutate client state, only affects db */
-export async function addItemsToCartDB(
+async function addItemsToCartDB(
   list_of_ids: Array<number>
 ): Promise<InsertationResult> {
   return axios
@@ -78,7 +79,7 @@ export async function addItemsToCartDB(
 }
 
 /* doesnt mutate client state, only affects db */
-export async function addItemToCartDB(id: number): Promise<AddItemSuccess> {
+async function addItemToCartDB(id: number): Promise<AddItemSuccess> {
   return axios
     .post(CART_URL + id, { quantity: 1 }, { headers: authHeader() })
     .then((res) => {
@@ -94,7 +95,7 @@ export async function addItemToCartDB(id: number): Promise<AddItemSuccess> {
 }
 
 /* doesnt mutate client state, only affects db */
-export async function removeItemFromCartDB(productId: number): Promise<void> {
+async function removeItemFromCartDB(productId: number): Promise<void> {
   return axios
     .delete(CART_URL + productId, { headers: authHeader() })
     .then((res) => res.data)
@@ -107,7 +108,7 @@ export async function removeItemFromCartDB(productId: number): Promise<void> {
     });
 }
 
-export async function clearCartItems(): Promise<void> {
+async function clearCartItems(): Promise<void> {
   return axios
     .delete(CART_URL, { headers: authHeader() })
     .then((res) => res.data)
@@ -119,3 +120,14 @@ export async function clearCartItems(): Promise<void> {
       return Promise.reject(err);
     });
 }
+
+export {
+  clearCartItems,
+  removeItemFromCartDB,
+  addItemToCartDB,
+  addItemsToCartDB,
+  fetchCartItems,
+  createCart,
+  apifetchCart,
+  CART_URL,
+};

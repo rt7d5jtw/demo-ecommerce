@@ -1,11 +1,12 @@
 import axios, { AxiosError } from 'axios';
 import { ValidationErrors } from '../promotion/promotionSlice';
+import clientApi from '../shared/api';
 import { authHeader } from '../user/api';
 import { IProduct, ProductDto, UpdateProductDto } from './productSlice';
 
-export const PRODUCT_URL = 'http://localhost:3000/product';
+const PRODUCT_URL = clientApi + '/product';
 
-export async function fetchProducts(): Promise<IProduct[]> {
+async function fetchProducts(): Promise<IProduct[]> {
   return axios
     .get(PRODUCT_URL)
     .then((res) => {
@@ -20,7 +21,7 @@ export async function fetchProducts(): Promise<IProduct[]> {
     });
 }
 
-export async function createProduct(data: ProductDto): Promise<IProduct> {
+async function createProduct(data: ProductDto): Promise<IProduct> {
   return axios
     .post(PRODUCT_URL, data, { headers: authHeader() })
     .then((res) => res.data)
@@ -33,7 +34,7 @@ export async function createProduct(data: ProductDto): Promise<IProduct> {
     });
 }
 
-export async function removeProduct(id: number): Promise<void> {
+async function removeProduct(id: number): Promise<void> {
   return axios
     .delete(PRODUCT_URL + `/${id}`, { headers: authHeader() })
     .then((res) => res.data)
@@ -46,7 +47,7 @@ export async function removeProduct(id: number): Promise<void> {
     });
 }
 
-export async function updateProduct({
+async function updateProduct({
   id,
   ...updateProps
 }: UpdateProductDto): Promise<IProduct> {
@@ -66,7 +67,7 @@ export async function updateProduct({
     });
 }
 
-export async function searchProducts(
+async function searchProducts(
   search: string
 ): Promise<{ search: string; data: IProduct[] }> {
   return axios
@@ -82,3 +83,12 @@ export async function searchProducts(
       return Promise.reject(err);
     });
 }
+
+export {
+  searchProducts,
+  updateProduct,
+  removeProduct,
+  createProduct,
+  fetchProducts,
+  PRODUCT_URL,
+};

@@ -1,5 +1,6 @@
 import axios, { AxiosError } from 'axios';
 import { ValidationErrors } from '../promotion/promotionSlice';
+import clientApi from '../shared/api';
 import { authHeader, AuthorizationDTO } from '../user/api';
 import {
   IOrder,
@@ -9,9 +10,9 @@ import {
   UpdateOrderDto,
 } from './orderSlice';
 
-export const ORDER_URL = 'http://localhost:3000/orders/';
+const ORDER_URL = clientApi + '/orders/';
 
-export async function fetchOrders(): Promise<IOrder[]> {
+async function fetchOrders(): Promise<IOrder[]> {
   return axios
     .get(ORDER_URL, { headers: authHeader() })
     .then((res) => {
@@ -26,7 +27,7 @@ export async function fetchOrders(): Promise<IOrder[]> {
     });
 }
 
-export async function fetchAllOrders(): Promise<IOrder[]> {
+async function fetchAllOrders(): Promise<IOrder[]> {
   return axios
     .get(ORDER_URL + 'all', { headers: authHeader() })
     .then((res) => {
@@ -41,7 +42,7 @@ export async function fetchAllOrders(): Promise<IOrder[]> {
     });
 }
 
-export async function createOrder(data: OrderDTO): Promise<IOrder> {
+async function createOrder(data: OrderDTO): Promise<IOrder> {
   return axios
     .post(ORDER_URL, data, { headers: authHeader() })
     .then((res) => {
@@ -56,7 +57,7 @@ export async function createOrder(data: OrderDTO): Promise<IOrder> {
     });
 }
 
-export async function fetchOrderItems(id: string): Promise<IOrderItem[]> {
+async function fetchOrderItems(id: string): Promise<IOrderItem[]> {
   return axios
     .get(ORDER_URL + `items/${id}`, { headers: authHeader() })
     .then((res) => {
@@ -71,7 +72,7 @@ export async function fetchOrderItems(id: string): Promise<IOrderItem[]> {
     });
 }
 
-export async function stripeCreateIntent(req: PaymentIntentDTO): Promise<void> {
+async function stripeCreateIntent(req: PaymentIntentDTO): Promise<void> {
   return axios
     .post(ORDER_URL + 'create-payment-intent', req, {
       headers: authHeader(),
@@ -86,7 +87,7 @@ export async function stripeCreateIntent(req: PaymentIntentDTO): Promise<void> {
     });
 }
 
-export async function removeOrder(id: string): Promise<void> {
+async function removeOrder(id: string): Promise<void> {
   return axios
     .delete(ORDER_URL + id, { headers: authHeader() })
     .then((res) => res.data)
@@ -99,7 +100,7 @@ export async function removeOrder(id: string): Promise<void> {
     });
 }
 
-export async function getInvoice(orderId: string): Promise<void> {
+async function getInvoice(orderId: string): Promise<void> {
   const auth = authHeader();
   return axios
     .post(
@@ -137,7 +138,7 @@ export async function getInvoice(orderId: string): Promise<void> {
     });
 }
 
-export async function updateOrder(
+async function updateOrder(
   orderId: string,
   updateDto: UpdateOrderDto
 ): Promise<IOrder> {
@@ -152,3 +153,15 @@ export async function updateOrder(
       return Promise.reject(err);
     });
 }
+
+export {
+  updateOrder,
+  getInvoice,
+  removeOrder,
+  stripeCreateIntent,
+  fetchOrderItems,
+  createOrder,
+  fetchAllOrders,
+  fetchOrders,
+  ORDER_URL,
+};

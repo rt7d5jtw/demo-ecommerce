@@ -1,0 +1,35 @@
+pipeline {
+    agent any
+    environment {
+        HOST = 'localhost'
+        PORT = 8000
+        SCHEME = 'http'
+        production = 'true'
+    }
+    tools { 
+        nodejs "node"
+    }
+    stages {
+        stage('Checkout') {
+            steps {
+                git url: 'https://github.com/<USER>/<REPO_URL>', branch: 'master'
+            }
+        }
+        stage('Install and build application') {
+            steps {
+                sh 'node --version'
+                sh 'npm --version'
+                sh '''cat <<EOF > .env
+                HOST=localhost
+                PORT=8000
+                SCHEME=http
+                production=true
+                '''
+                sh 'npm install'
+                sh 'npm run build'
+                sh 'npm run test'
+            }
+        }
+    }
+}
+

@@ -2,10 +2,11 @@ import axios, { AxiosError } from 'axios';
 import { ValidationErrors } from '../promotion/promotionSlice';
 import { authHeader } from '../user/api';
 import { ICategory } from './categorySlice';
+import clientApi from '../shared/api';
 
-export const CATEGORY_URL = 'http://localhost:3000/category/';
+const CATEGORY_URL = clientApi + '/category/';
 
-export async function fetchCategories(): Promise<ICategory[]> {
+async function fetchCategories(): Promise<ICategory[]> {
   return axios
     .get(CATEGORY_URL)
     .then((res) => {
@@ -20,7 +21,7 @@ export async function fetchCategories(): Promise<ICategory[]> {
     });
 }
 
-export async function createCategory(cname: string): Promise<ICategory> {
+async function createCategory(cname: string): Promise<ICategory> {
   return axios
     .post(CATEGORY_URL, { cname: cname }, { headers: authHeader() })
     .then((res) => {
@@ -35,7 +36,7 @@ export async function createCategory(cname: string): Promise<ICategory> {
     });
 }
 
-export async function removeCategory(id: string): Promise<void> {
+async function removeCategory(id: string): Promise<void> {
   return axios
     .delete(CATEGORY_URL + id, { headers: authHeader() })
     .then((res) => {
@@ -50,7 +51,7 @@ export async function removeCategory(id: string): Promise<void> {
     });
 }
 
-export async function updateCategory(data: ICategory): Promise<ICategory> {
+async function updateCategory(data: ICategory): Promise<ICategory> {
   const { id, cname } = data;
   return axios
     .patch(CATEGORY_URL + id, { cname: cname }, { headers: authHeader() })
@@ -65,3 +66,11 @@ export async function updateCategory(data: ICategory): Promise<ICategory> {
       return Promise.reject(err);
     });
 }
+
+export {
+  updateCategory,
+  removeCategory,
+  createCategory,
+  fetchCategories,
+  CATEGORY_URL,
+};

@@ -1,4 +1,5 @@
 import axios, { AxiosError } from 'axios';
+import clientApi from '../shared/api';
 import { authHeader } from '../user/api';
 import {
   ValidationErrors,
@@ -7,9 +8,9 @@ import {
   UpdatePromotionDto,
 } from './promotionSlice';
 
-export const PROMOTION_URL = 'http://localhost:3000/promotions';
+const PROMOTION_URL = clientApi + '/promotions';
 
-export async function fetchPromotions(): Promise<IPromotions[]> {
+async function fetchPromotions(): Promise<IPromotions[]> {
   return axios
     .get(PROMOTION_URL)
     .then((res) => {
@@ -24,9 +25,7 @@ export async function fetchPromotions(): Promise<IPromotions[]> {
     });
 }
 
-export async function createPromotion(
-  data: CreatePromotionDto
-): Promise<IPromotions> {
+async function createPromotion(data: CreatePromotionDto): Promise<IPromotions> {
   return axios
     .post(PROMOTION_URL, data, { headers: authHeader() })
     .then((res) => {
@@ -41,7 +40,7 @@ export async function createPromotion(
     });
 }
 
-export async function removePromotion(id: number): Promise<void> {
+async function removePromotion(id: number): Promise<void> {
   return axios
     .delete(PROMOTION_URL + `/${id}`, { headers: authHeader() })
     .then((res) => res.data)
@@ -54,7 +53,7 @@ export async function removePromotion(id: number): Promise<void> {
     });
 }
 
-export async function updatePromotion({
+async function updatePromotion({
   id,
   ...updateProps
 }: UpdatePromotionDto): Promise<IPromotions> {
@@ -76,7 +75,7 @@ export async function updatePromotion({
     });
 }
 
-export async function fetchPicture(filename: string): Promise<void> {
+async function fetchPicture(filename: string): Promise<void> {
   return axios
     .get(PROMOTION_URL + `/stream?filename=${filename}`)
     .then((res) => {
@@ -98,3 +97,12 @@ export async function fetchPicture(filename: string): Promise<void> {
       return Promise.reject(err);
     });
 }
+
+export {
+  fetchPicture,
+  updatePromotion,
+  removePromotion,
+  createPromotion,
+  fetchPromotions,
+  PROMOTION_URL,
+};

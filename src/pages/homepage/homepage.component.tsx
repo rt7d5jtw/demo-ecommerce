@@ -31,6 +31,7 @@ import { GiShoppingBag } from 'react-icons/gi';
 import { BiLogIn } from 'react-icons/bi';
 import { AiOutlineShop } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
+import { homeGuestNotification } from '../../features/alert/alertSlice';
 
 function Homepage(): JSX.Element {
   const match = useRouteMatch();
@@ -42,6 +43,13 @@ function Homepage(): JSX.Element {
   const categories = useSelector(selectCategories);
   const products = useSelector(selectItems);
   const promotions = useSelector(selectPromotionItems);
+
+  React.useEffect(() => {
+    if (localStorage.getItem('notif-home') !== 'visited') {
+      dispatch(homeGuestNotification({ timeout: 10000 }));
+      setTimeout(() => localStorage.setItem('notif-home', 'visited'), 1000 * 3);
+    }
+  }, [dispatch]);
 
   categories.length === 0
     ? dispatch(fetchCategories())
