@@ -30,7 +30,7 @@ pipeline {
                 sh 'npm run start:prod &'
                 sh 'echo $! > pid'
                 sleep 5
-                //sh 'pgrep -g $(cat pid)'
+                sh 'pgrep -g $(cat pid)'
                 //sh 'kill -15 $(pgrep -g $(cat pid))'
                 //sh 'docker-compose -f docker-compose.yml up -d postgres'
             }
