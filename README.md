@@ -43,6 +43,6 @@ Website also has rudamentary notifications implemented through redux that are us
 ## Client preview
 
 ![Demo of the client in action](http://178.79.129.58:6868/preview_firsthalf.gif)
-![Demo of the client in action](./preview_secondhalf.gif)
+![Demo of the client in action](http://178.79.129.58:6868/preview_secondhalf.gif)
   
 
