@@ -56,12 +56,14 @@ test-client:
 logs:
 	docker logs -f $(APP_ID)
 
+rmimg:
+	docker rmi $(IMAGE_NAME):$(TAG)
+
 clean:
 	sh res/clean.sh
-	docker rmi $(IMAGE_NAME):$(TAG)
 	docker image prune -f
 	sleep 2
 	docker volume prune -f
 	docker network prune -f
 
-.PHONY: database pull build net vol local test e2e clean logs
+.PHONY: database pull build net vol local test e2e clean rmimg logs
