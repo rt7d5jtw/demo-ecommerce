@@ -29,10 +29,9 @@ pipeline {
                 sh 'npm run build'
                 sh 'npm run start'
                 sh 'npm run test'
-                sh 'cat package.json'
-                sh 'cat .env'
-                //sh 'kill -15 $(pgrep -g $(cat pid))'
-                //sh 'docker-compose -f docker-compose.yml up -d postgres'
+                sh 'docker-compose -f docker-compose.yml up -d postgres'
+                sleep 5
+                sh 'docker ps -a'
             }
         }
     }
