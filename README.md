@@ -42,4 +42,4 @@ Website also has rudamentary notifications implemented through redux that are us
 
 ## Client preview
 
-![Alt Text](https://potatofield.xyz:6868/preview_secondhalf.gif)
+![Alt Text](https://media0.giphy.com/media/WRtuUUFkLTyM8k6gOg/giphy.gif?cid=790b7611d45deacf0b88937ef0b0e73bb3fee61fc85693c9&rid=giphy.gif&ct=g)
