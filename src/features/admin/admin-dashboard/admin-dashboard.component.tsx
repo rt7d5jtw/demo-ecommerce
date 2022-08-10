@@ -22,13 +22,17 @@ import { selectRole } from '../../user/selectors';
 import { adminGuestNotification } from '../../alert/alertSlice';
 
 function AdminDashboard(): JSX.Element {
+  const dispatch = useDispatch();
   const match = useRouteMatch();
   const role = useSelector(selectRole);
-  const dispatch = useDispatch();
-  if (role === 'GUEST' && localStorage.getItem('notif') !== 'visited') {
-    dispatch(adminGuestNotification({ timeout: 6000 }));
-    setTimeout(() => localStorage.setItem('notif', 'visited'), 1000 * 3);
-  }
+
+  React.useEffect(() => {
+    if (role === 'GUEST' && localStorage.getItem('notif-admin') !== 'visited') {
+      dispatch(adminGuestNotification({ timeout: 6000 }));
+      setTimeout(() => localStorage.setItem('notif-admin', 'visited'), 1000 * 3);
+    }
+  }, [dispatch]);
+
   return (
     <div className='admin-controls'>
       <div className='admin-controls__header'>

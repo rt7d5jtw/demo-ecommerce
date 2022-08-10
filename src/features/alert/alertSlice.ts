@@ -24,6 +24,10 @@ export const adminGuestNotification = createAction<{ timeout?: number }>(
   'alert/adminGuestNotification'
 );
 
+export const homeGuestNotification = createAction<{ timeout?: number }>(
+  'alert/homeGuestNotification'
+);
+
 export const readymadeAcc = createAction<{ timeout?: number }>(
   'alert/readymadeAcc'
 );
@@ -94,6 +98,11 @@ export const alertSlice = createSlice({
     },
     adminGuestNotification: (state, { payload }) => {
       state.message = 'You can try admin functions in the product dashboard';
+      state.atype = alert_type.success;
+      state.timeout = payload.timeout;
+    },
+    homeGuestNotification: (state, { payload }) => {
+      state.message = 'This is a demonstration of a web store, the purchases do not represent \'real\' financial transactions.';
       state.atype = alert_type.success;
       state.timeout = payload.timeout;
     },

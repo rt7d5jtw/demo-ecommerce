@@ -109,6 +109,8 @@ Form submissions are standardized using the **`handleForm`** utility function:
 
 **NOTE:** The `AuthOverlay` component provides the visual overlay wrapper for the forms used on the authentication pages.
 
+For the environmental variables ('.env') file, define `PORT`, `HOST`, `SCHEME`, `production` and `STRIPE_PUBLISHABLE_KEY` to use Stripe's api.
+
 *Images are from [unsplash](https://unsplash.com/) and [pexels](https://www.pexels.com/)*
 
 ## Client preview

@@ -8,9 +8,10 @@ import {
 } from './userSlice';
 import axios, { AxiosError } from 'axios';
 import { ValidationErrors } from '../promotion/promotionSlice';
+import clientApi from '../shared/api';
 
-export const USERS_URL = 'http://localhost:3000/users/';
-export const AUTH_URL = 'http://localhost:3000/auth/signin';
+const USERS_URL = clientApi + '/users/';
+const AUTH_URL = clientApi + '/signin';
 
 export interface AccessTokenDTO {
   accessToken: string;
@@ -29,7 +30,7 @@ function parseStorage(location: string, target: string) {
   return null;
 }
 
-export const authHeader = (): AuthorizationDTO | unknown => {
+const authHeader = (): AuthorizationDTO | unknown => {
   const token = parseStorage('persist:user', 'accessToken');
   if (token !== null) {
     return { Authorization: `Bearer ${token}` };
@@ -38,9 +39,7 @@ export const authHeader = (): AuthorizationDTO | unknown => {
   }
 };
 
-export async function register(
-  arg: IUserCredentials
-): Promise<IRegisterSuccess> {
+async function register(arg: IUserCredentials): Promise<IRegisterSuccess> {
   return axios
     .post(USERS_URL, arg, { headers: authHeader() })
     .then((res) => {
@@ -56,7 +55,7 @@ export async function register(
     });
 }
 
-export async function login(arg: IUserCredentials): Promise<AccessTokenDTO> {
+async function login(arg: IUserCredentials): Promise<AccessTokenDTO> {
   return axios
     .post(AUTH_URL, arg)
     .then((res) => {
@@ -71,7 +70,7 @@ export async function login(arg: IUserCredentials): Promise<AccessTokenDTO> {
     });
 }
 
-export async function fetchRole(): Promise<UserRole> {
+async function fetchRole(): Promise<UserRole> {
   return axios
     .get(USERS_URL + 'role', { headers: authHeader() })
     .then((res) => {
@@ -86,7 +85,7 @@ export async function fetchRole(): Promise<UserRole> {
     });
 }
 
-export async function updatePassword(passwords: PasswordObj): Promise<string> {
+async function updatePassword(passwords: PasswordObj): Promise<string> {
   return axios
     .patch(USERS_URL + 'changepw', passwords, { headers: authHeader() })
     .then((res) => {
@@ -101,7 +100,7 @@ export async function updatePassword(passwords: PasswordObj): Promise<string> {
     });
 }
 
-export async function updateEmail(emails: EmailObj): Promise<string> {
+async function updateEmail(emails: EmailObj): Promise<string> {
   return axios
     .patch(USERS_URL + 'email', emails, { headers: authHeader() })
     .then((res) => {
@@ -116,7 +115,7 @@ export async function updateEmail(emails: EmailObj): Promise<string> {
     });
 }
 
-export async function fetchAllUsers(): Promise<IUser[]> {
+async function fetchAllUsers(): Promise<IUser[]> {
   return axios
     .get(USERS_URL, { headers: authHeader() })
     .then((res) => {
@@ -131,7 +130,7 @@ export async function fetchAllUsers(): Promise<IUser[]> {
     });
 }
 
-export async function deleteUser(id: string): Promise<void> {
+async function deleteUser(id: string): Promise<void> {
   return axios
     .delete(USERS_URL + id, { headers: authHeader() })
     .then((res) => {
@@ -145,3 +144,16 @@ export async function deleteUser(id: string): Promise<void> {
       return Promise.reject(err);
     });
 }
+
+export {
+  deleteUser,
+  fetchAllUsers,
+  updateEmail,
+  updatePassword,
+  fetchRole,
+  login,
+  register,
+  authHeader,
+  AUTH_URL,
+  USERS_URL,
+};
