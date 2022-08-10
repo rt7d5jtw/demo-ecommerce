@@ -37,7 +37,7 @@ pipeline {
                 sh 'docker-compose -f docker-compose.yml up -d application'
                 sleep 2
                 sh 'make test'
-                sh 'make test:e2e'
+                sh 'make e2e'
             }
         }
     }
