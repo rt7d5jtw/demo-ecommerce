@@ -42,4 +42,8 @@ Website also has rudamentary notifications implemented through redux that are us
 
 ## Client preview
 
+<<<<<<< HEAD
 ![Demo of the client in action](./src/assets/preview.gif)
+=======
+![Alt Text](https://media0.giphy.com/media/WRtuUUFkLTyM8k6gOg/giphy.gif?cid=790b7611d45deacf0b88937ef0b0e73bb3fee61fc85693c9&rid=giphy.gif&ct=g)
+>>>>>>> 1e5587872062412aecba3e9f9b272a5e2f3ee67c
