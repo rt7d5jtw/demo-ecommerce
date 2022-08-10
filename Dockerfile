@@ -1,6 +1,9 @@
 # docker build -t chocoapp:1.0 .
 FROM node:16.15.1-alpine3.15
 
+# Optional argument for PORT to bind to
+ARG OPT_PORT
+
 WORKDIR /app
 
 COPY . .
@@ -22,6 +25,8 @@ RUN npm run build
 RUN npm --prefix ./client install
 RUN npm --prefix ./client run build
 
+# Default port
 ENV PORT 3000
-EXPOSE $PORT 8080
+EXPOSE $PORT ${OPT_PORT}
+
 ENTRYPOINT ["npm", "run", "start:prod"]
