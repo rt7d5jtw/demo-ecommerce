@@ -42,4 +42,4 @@ Website also has rudamentary notifications implemented through redux that are us
 
 ## Client preview
 
-<img src="https://potatofield.xyz:6868/preview_firsthalf.gif" />
+<img src="https://potatofield.xyz:6868/preview_secondhalf.gif" />
