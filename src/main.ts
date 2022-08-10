@@ -4,7 +4,9 @@ import { Logger } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppDataSource } from './config/typeorm.config';
 import { ConfigModule } from '@nestjs/config';
-import * as fs from 'fs';
+
+// For HTTPS
+// import * as fs from 'fs';
 
 async function bootstrap() {
   const logger = new Logger('boostrap');
@@ -15,10 +17,10 @@ async function bootstrap() {
     })
     .catch((err) => err);
 
-  const httpsOptions = {
-    key: fs.readFileSync(`${process.env.PRIVKEY}`),
-    cert: fs.readFileSync(`${process.env.CERT}`)
-  };
+  //const httpsOptions = {
+  //  key: fs.readFileSync(`${process.env.PRIVKEY}`),
+  //  cert: fs.readFileSync(`${process.env.CERT}`)
+  //};
 
   AppDataSource.initialize().catch((err) => console.error(err));
   const app = await NestFactory.create(AppModule, {
