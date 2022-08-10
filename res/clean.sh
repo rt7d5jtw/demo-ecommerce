@@ -12,5 +12,5 @@ docker stop $(docker ps -a -q) \
   && echo "Containers stopped and removed succesfully" \
   && docker ps -a
 
-docker volume prune -f && docker network prune -f
+docker volume prune -f && docker network prune -f && docker image prune -f
 
