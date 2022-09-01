@@ -17,7 +17,7 @@
 
 .sidebar {
   position: fixed;
-  width: calc(100% - 65vw);
+  width: calc(100% - 64.15vw);
   height: 100%;
   display: grid;
   place-items: start center;
@@ -150,3 +150,12 @@
     left: calc(2vw + 1%);
   }
 }
+
+/* For Gecko based browsers like Firefox, Waterfox and GNU IceCat. */
+/* This should align the sidebar width calculation properly for FF-based browsers. */
+@-moz-document url-prefix() {
+  .sidebar {
+    width: calc(100% - 65vw);
+  }
+}
+
