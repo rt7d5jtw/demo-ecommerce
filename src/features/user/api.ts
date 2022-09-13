@@ -10,8 +10,8 @@ import axios, { AxiosError } from 'axios';
 import { ValidationErrors } from '../promotion/promotionSlice';
 import clientApi from '../shared/api';
 
-const USERS_URL = clientApi + '/users/';
-const AUTH_URL = clientApi + '/signin';
+const USERS_URL = clientApi + '/auth/users/';
+const AUTH_URL = clientApi + '/auth/signin';
 
 export interface AccessTokenDTO {
   accessToken: string;
