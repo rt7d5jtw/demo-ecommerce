@@ -64,7 +64,7 @@ rmimg:
 
 # Terminates all the current running nodejs runtime processes
 term:
-	kill -15 $(shell pgrep -g node | xargs)
+	kill -15 $(shell pgrep -g node)
 
 clean:
 	sh res/clean.sh
