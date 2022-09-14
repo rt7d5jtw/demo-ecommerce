@@ -1,8 +1,6 @@
 IMAGE_NAME := chocoapp
 BASE_IMAGE := node:16.15.1-alpine3.15
 
-DOCKER := $(shell systemctl show --property ActivateState docker | grep -Poh "(?<=\=(.*)"))
-
 TAG := 1.0
 DB_ID := $(shell docker ps -f "ancestor=postgres:14.1" -q)
 APP_ID := $(shell docker ps -f "ancestor=chocoapp:1.0" -q)
