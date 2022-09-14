@@ -2,8 +2,11 @@ IMAGE_NAME := chocoapp
 BASE_IMAGE := node:16.15.1-alpine3.15
 
 TAG := 1.0
-DB_ID := $(shell docker ps -f "ancestor=postgres:14.1" -q)
-APP_ID := $(shell docker ps -f "ancestor=chocoapp:1.0" -q)
+
+ifeq (, $(shell which docker))
+	DB_ID := $(shell docker ps -f "ancestor=postgres:14.1" -q)
+	APP_ID := $(shell docker ps -f "ancestor=chocoapp:1.0" -q)
+endif
 
 # Change to your database owner
 DB_OWNER := postgres
@@ -62,7 +65,8 @@ rmimg:
 
 # Terminates all the current running nodejs runtime processes
 term:
-	kill -15 $(shell pgrep -g node)
+	$(eval NODE_PID := $(shell pgrep node))
+	kill -15 $(NODE_PID)
 
 clean:
 	sh res/clean.sh
