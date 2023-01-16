@@ -65,7 +65,6 @@ $ npm run cypress:open
 
 *The cypress test has to be run with `$ npm run dev` because cypress wont find paths otherwise with visit() function.*
 
-<<<<<<< HEAD
 ---
 
 ## About the Client
