@@ -6,6 +6,8 @@ TAG        := 1.0
 BASE_IMAGE := node:16.15.1-alpine3.15
 DB_OWNER   := postgres # Database owner for local psql commands
 
+all: local logs
+
 # ------------------------------------------------------------------------------
 # DOCKER SETUP
 # ------------------------------------------------------------------------------
