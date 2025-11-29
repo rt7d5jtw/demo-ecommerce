@@ -1,32 +1,40 @@
-# docker build -t ecommerce-demo:1.0 .
-FROM node:16.15.1-alpine3.15
+FROM node:18-alpine AS builder
+WORKDIR /app
 
-# Optional argument for PORT to bind to
-ARG OPT_PORT
+COPY package*.json ./
+COPY tsconfig*.json ./
+COPY .env ./
+
+RUN npm install
+COPY . .
+
+# support for legacy OpenSSL algorithms (NECESSARY FOR NodeJS +18)
+ENV NODE_OPTIONS=--openssl-legacy-provider
+
+# build the api
+RUN npm run build
+
+# build the client
+RUN set -x && \
+    npm --prefix ./client install && \
+    npm --prefix ./client run build && pwd
+
+RUN ls -la
+
+FROM node:18-alpine
+RUN adduser -D appuser
+USER appuser
 
 WORKDIR /app
 
-COPY . .
-COPY [ \
-  "package*.json", "tsconfig*.json", \
-  ".editorconfig", ".prettierrc", \
-  ".eslintrc.js", ".env", "./" \
-  ]
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/client/dist ./client/dist
+COPY --from=builder /app/.env ./.env
+COPY --from=builder /app/res ./res
+COPY package.json ./
 
-# install curl for testing the endpoints
-# sed is for extracing jwt token from a file
-RUN apk update && apk add curl && apk add sed
-
-# builds the api
-RUN npm install
-RUN npm run build
-
-# builds the client
-RUN npm --prefix ./client install
-RUN npm --prefix ./client run build
-
-# Default port
 ENV PORT 3000
-EXPOSE $PORT ${OPT_PORT}
+EXPOSE ${PORT}
 
 ENTRYPOINT ["npm", "run", "start:prod"]

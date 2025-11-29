@@ -1,74 +1,87 @@
+# ------------------------------------------------------------------------------
+# PROJECT CONFIGURATION
+# ------------------------------------------------------------------------------
 IMAGE_NAME := ecommerce-demo
+TAG        := 1.0
 BASE_IMAGE := node:16.15.1-alpine3.15
+DB_OWNER   := postgres # Database owner for local psql commands
 
-TAG := 1.0
+# ------------------------------------------------------------------------------
+# DOCKER SETUP
+# ------------------------------------------------------------------------------
+.PHONY: build pull local api database logs rmimg
 
-ifeq (, $(shell which docker))
-	DB_ID  := $(shell docker ps -f "ancestor=postgres:14.1" -q)
-	APP_ID := $(shell docker ps -f "ancestor=chocoapp:1.0" -q)
-endif
+# Builds the Docker image locally
+build:
+	docker build --progress=plain -t $(IMAGE_NAME):$(TAG) .
 
-# Change to your database owner
-DB_OWNER := postgres
-
-all: vol local logs
-
-createdb:
-	sudo -u postgres psql -c 'create database bookstore owner $(DB_OWNER)'
-
-cleandb:
-	sudo -u postgres psql -d bookstore -c 'drop schema cascade; create schema public;'
-
-dump:
-	sudo -u postgres psql bookstore < res/data.sql
-
-# Only deploys PostgreSQL 14.1
-database:
-	docker-compose -f docker-compose.yml up -d postgres
-	docker-compose logs -f
-
-# Only deploys the NestJS server
-nestjs:
-	docker-compose -f docker-compose.yml up -d application
-	docker-compose logs -f
-
+# Pulls the specified base image
 pull:
 	docker pull $(BASE_IMAGE)
 
-build:
-	docker build -t $(IMAGE_NAME):$(TAG) .
-
-vol:
-	docker volume create mariadb_data
-
+# Starts all services from docker-compose.yml (DB and API)
 local:
-	docker-compose -f docker-compose.yml up -d
+	docker-compose up -d
 
-test:
-	docker exec -t $(APP_ID) npm run test
+# Deploys only the NestJS server
+api:
+	docker-compose up -d api
+	docker-compose logs -f api
 
-e2e:
-	docker exec -t $(APP_ID) npm run test:e2e
+# Deploys only the PostgreSQL database
+database:
+	docker-compose up -d postgres
+	docker-compose logs -f postgres
 
-test-client:
-	docker exec -t $(APP_ID) npm --prefix ./client run test
-
+# Streams logs from the API container
 logs:
-	docker logs -f $(APP_ID)
+	docker-compose logs -f api
 
+# Removes the local Docker image
 rmimg:
 	docker rmi $(IMAGE_NAME):$(TAG)
 
-# Terminates all the current running nodejs runtime processes
+# ------------------------------------------------------------------------------
+# DATABASE (LOCAL PSQL/HELPER COMMANDS)
+# ------------------------------------------------------------------------------
+.PHONY: createdb cleandb dump
+
+# Creates the 'bookstore' database locally via psql
+createdb:
+	sudo -u postgres psql -c 'create database bookstore owner $(DB_OWNER)'
+
+# Drops and recreates the public schema in 'bookstore'
+cleandb:
+	sudo -u postgres psql -d bookstore -c 'drop schema public cascade; create schema public;'
+
+# Imports initial data from res/data.sql into the 'bookstore' database
+dump:
+	sudo -u postgres psql bookstore < res/data.sql
+
+# ------------------------------------------------------------------------------
+# TESTING & UTILITIES
+# ------------------------------------------------------------------------------
+.PHONY: test e2e test-client term clean
+
+# Executes API unit/integration tests inside the running container
+test:
+	docker-compose exec api npm run test
+
+# Executes API end-to-end tests inside the running container
+e2e:
+	docker-compose exec api npm run test:e2e
+
+# Executes client tests inside the running container
+test-client:
+	docker-compose exec api npm --prefix ./client run test
+
+# Terminates all currently running node.js runtime processes on the host
 term:
 	$(eval NODE_PID := $(shell pgrep node))
-	kill -15 $(NODE_PID)
+	@if [ -z "$(NODE_PID)" ]; then echo "No node processes running."; else kill -15 $(NODE_PID); fi
 
+# Cleans up unused Docker resources and custom shell cleanup
 clean:
 	sh res/clean.sh
-	docker image prune -f
-	sleep 2
-	docker volume prune -f
-	docker network prune -f
-
-.PHONY: database pull build net vol local test e2e clean rmimg logs
+	docker-compose down -v --rmi local # Stops containers, removes volumes, and local images
+	docker system prune -f
