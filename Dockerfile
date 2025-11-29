@@ -17,9 +17,7 @@ RUN npm run build
 # build the client
 RUN set -x && \
     npm --prefix ./client install && \
-    npm --prefix ./client run build && pwd
-
-RUN ls -la
+    npm --prefix ./client run build
 
 FROM node:18-alpine
 RUN adduser -D appuser
