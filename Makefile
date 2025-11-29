@@ -1,17 +1,17 @@
-IMAGE_NAME := chocoapp
+IMAGE_NAME := ecommerce-demo
 BASE_IMAGE := node:16.15.1-alpine3.15
 
 TAG := 1.0
 
 ifeq (, $(shell which docker))
-	DB_ID := $(shell docker ps -f "ancestor=postgres:14.1" -q)
+	DB_ID  := $(shell docker ps -f "ancestor=postgres:14.1" -q)
 	APP_ID := $(shell docker ps -f "ancestor=chocoapp:1.0" -q)
 endif
 
 # Change to your database owner
 DB_OWNER := postgres
 
-all: net vol local
+all: vol local logs
 
 createdb:
 	sudo -u postgres psql -c 'create database bookstore owner $(DB_OWNER)'
@@ -27,7 +27,7 @@ database:
 	docker-compose -f docker-compose.yml up -d postgres
 	docker-compose logs -f
 
-# Only deploys the NestJS application
+# Only deploys the NestJS server
 nestjs:
 	docker-compose -f docker-compose.yml up -d application
 	docker-compose logs -f
@@ -37,10 +37,6 @@ pull:
 
 build:
 	docker build -t $(IMAGE_NAME):$(TAG) .
-
-net:
-	docker network create -d overlay --attachable perunanetti \
-		--opt encrypted=true
 
 vol:
 	docker volume create mariadb_data

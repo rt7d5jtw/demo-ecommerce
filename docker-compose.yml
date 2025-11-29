@@ -1,14 +1,9 @@
-version: '3.9'
-
-networks:
-  perunanetti:
+version: '3'
 
 services:
-  # Database for the application
+  # Database for the api
   postgres:
     image: postgres:14.1
-    networks:
-      - perunanetti
     volumes:
       - ./res/docker_mounts/:/var/lib/postgres/data
       - ./res/data.sql/:/docker-entrypoint-initdb.d/init.sql
@@ -22,16 +17,19 @@ services:
       timeout: 5s
       retries: 5
 
-  # The application, includes the API and Client
-  application:
-    image: chocoapp:1.0
+  # The api, includes the API and Client
+  api:
+    image: ecommerce-demo:1.0
     #build:
     #  context: .
     #  dockerfile: Dockerfile
     env_file: .env
+    environment:
+        DB_HOST: postgres
+        DB_PORT: 5432
+        DB_PASS: postgres
+        DATABASE: bookstore
     ports:
       - "3000:3000"
-    networks:
-      - perunanetti
     depends_on:
       - postgres

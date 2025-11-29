@@ -1,4 +1,4 @@
-# docker build -t chocoapp:1.0 .
+# docker build -t ecommerce-demo:1.0 .
 FROM node:16.15.1-alpine3.15
 
 # Optional argument for PORT to bind to

@@ -40,7 +40,7 @@ async function bootstrap() {
   // More at: https://github.com/expressjs/cors#configuration-options
   app.enableCors({
     // Configures the `Access-Control-Allow-Origins` CORS header
-    origin: 'http://localhost:3000',
+    origin: '*', // 'http://localhost:3000',
     // Configures the Access-Control-Allow-Methods CORS header.
     methods: 'GET, PUT, POST, DELETE, PATCH, OPTIONS',
     // Configures the Access-Control-Allow-Headers CORS header.
