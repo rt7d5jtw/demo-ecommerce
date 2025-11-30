@@ -15,7 +15,10 @@ all: local logs
 
 # Builds the Docker image locally
 build:
-	docker build --progress=plain -t $(IMAGE_NAME):$(TAG) .
+	docker build --progress=plain -t $(IMAGE_NAME):$(TAG) --target prod .
+
+build-dev:
+	docker build --progress=plain -t $(IMAGE_NAME):$(TAG) --target dev .
 
 # Pulls the specified base image
 pull:
