@@ -130,7 +130,7 @@ For the environmental variables ('.env') file, define `PORT`, `HOST`, `SCHEME`, 
 ![Demo of the client in action](./src/assets/preview.gif)
 ---
 
-#### About the Client
+## About the Client
 
 This is a mobile-responsive e-commerce client application built using **ReactJS** with no additional UI libraries. It features simple user access control and manages application state via **Redux**.
 
