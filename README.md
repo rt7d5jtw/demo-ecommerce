@@ -14,6 +14,8 @@ To run the client on development mode:
 $ npm run dev
 ```
 
+---
+
 ## ⚠️  Node.js Version Warning
 
 This project was developed with older dependencies (React 17, Redux Toolkit 1.x, Webpack 5.x) which were current around **2021-2022**.
@@ -32,6 +34,8 @@ To run MSW API and jest tests:
 $ npm run test
 ```
 
+---
+
 ### End-to-end tests
 
 *Make sure client is on and connected to the database!*
@@ -42,6 +46,8 @@ $ npm run cypress:open
 ```
 
 *The cypress test has to be run with `$ npm run dev` because cypress wont find paths otherwise with visit() function.*
+
+---
 
 #### About the Client
 
@@ -70,6 +76,8 @@ This is a mobile-responsive e-commerce client application built using **ReactJS*
     * **Cypress:** Used for end-to-end (e2e) and integration testing.
 
 *Images are sourced from [unsplash](https://unsplash.com/) and [pexels](https://www.pexels.com/)*
+
+---
 
 ## Forms: Form Components and Handling Form Authentication
 
