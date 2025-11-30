@@ -2,7 +2,11 @@
   <img src="https://i.imgur.com/SWs77TE.png" width="625" alt="front page" />
 </p>
 
-## Ecommerce demo client with React 17.0.2 and Redux 4.1.0
+## 🍫 Ecommerce Demo Client (React 17, Redux 4)
+
+---
+
+## Quick start
 
 To build the client for production:
 ```console
@@ -27,6 +31,8 @@ While the project may still install with newer versions (v18, v20, etc.), you ma
 * **Installation/Build Errors:** Conflicts with native modules or deprecations in newer Node.js APIs.
 * **Dependency Mismatches:** Unexpected runtime issues or warnings due to older peer dependency requirements.
 
+## Testing
+
 ### Integration tests
 
 To run MSW API and jest tests:
@@ -49,7 +55,7 @@ $ npm run cypress:open
 
 ---
 
-#### About the Client
+## About the Client
 
 This is a mobile-responsive e-commerce client application built using **ReactJS** with no additional UI libraries. It features simple user access control and manages application state via **Redux**.
 
