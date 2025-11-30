@@ -1,9 +1,12 @@
 {
-  "name": "chocolatestore",
+  "name": "ecommerce-demo",
   "private": true,
   "license": "UNLICENSED",
   "version": "1.0",
-  "description": "Ecommerce store made in typescript with react, redux",
+  "description": "Ecommerce store made in TypeScript with ReactJS, Redux",
+  "engines": {
+    "node": ">=16.0.0 <17.0.0"
+  },
   "scripts": {
     "dev": "webpack server --progress --config webpack.config.js",
     "build": "webpack --config webpack.config.js --env production --progress",
