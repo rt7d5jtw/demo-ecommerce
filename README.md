@@ -128,6 +128,7 @@ For the environmental variables ('.env') file, define `PORT`, `HOST`, `SCHEME`, 
 ## Client preview
 
 ![Demo of the client in action](./src/assets/preview.gif)
+---
 
 #### About the Client
 
@@ -156,6 +157,8 @@ This is a mobile-responsive e-commerce client application built using **ReactJS*
     * **Cypress:** Used for end-to-end (e2e) and integration testing.
 
 *Images are sourced from [unsplash](https://unsplash.com/) and [pexels](https://www.pexels.com/)*
+
+---
 
 ## Forms: Form Components and Handling Form Authentication
 
