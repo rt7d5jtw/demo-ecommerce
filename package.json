@@ -8,13 +8,11 @@
     "dev": "webpack server --progress --config webpack.config.js",
     "build": "webpack --config webpack.config.js --env production --progress",
     "test": "jest",
-    "test:e2e": "cypress_mode=integration cypress run",
     "test:watch": "npm test --watch",
     "build:js": "babel src --out-dir dist --extensions \".ts,.tsx\" --source-maps inline",
     "lint": "eslint --fix \"./src/**/*.{js,jsx,ts,tsx,json}\"",
     "format": "prettier --write \"./src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
     "types": "tsc --noEmit",
-    "cypress:open": "cypress open",
     "analyze": "webpack --json > stats.json",
     "clean": "rm -rvf dist node_modules"
   },
@@ -59,7 +57,6 @@
     "babel-loader": "^8.2.2",
     "css-loader": "^5.2.4",
     "css-minimizer-webpack-plugin": "^3.1.1",
-    "cypress": "^8.3.1",
     "dotenv": "^10.0.0",
     "dotenv-webpack": "^7.1.1",
     "eslint": "^7.25.0",
@@ -69,7 +66,6 @@
     "html-webpack-plugin": "^5.3.1",
     "jest": "^27.0.4",
     "mini-css-extract-plugin": "^2.4.1",
-    "msw": "^0.35.0",
     "prettier": "^2.2.1",
     "source-map": "^0.7.3",
     "style-loader": "^2.0.0",
@@ -79,8 +75,5 @@
     "webpack-cli": "^4.8.0",
     "webpack-dev-server": "^4.3.0",
     "webpack-merge": "^5.8.0"
-  },
-  "msw": {
-    "workerDirectory": "public"
   }
 }
