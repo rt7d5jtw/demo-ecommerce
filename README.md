@@ -43,6 +43,11 @@ While the project may still install with newer versions (v18, v20, etc.), you ma
 * **Installation/Build Errors:** Conflicts with native modules or deprecations in newer Node.js APIs.
 * **Dependency Mismatches:** Unexpected runtime issues or warnings due to older peer dependency requirements.
 
+## Client preview
+
+![Demo of the client in action](./src/assets/preview.gif)
+---
+
 ## Testing
 
 ### Integration tests
@@ -124,11 +129,6 @@ Form submissions are standardized using the **`handleForm`** utility function:
 For the environmental variables ('.env') file, define `PORT`, `HOST`, `SCHEME`, `production` and `STRIPE_PUBLISHABLE_KEY` to use Stripe's api.
 
 *Images are from [unsplash](https://unsplash.com/) and [pexels](https://www.pexels.com/)*
-
-## Client preview
-
-![Demo of the client in action](./src/assets/preview.gif)
----
 
 ## About the Client
 
