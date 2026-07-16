@@ -84,7 +84,6 @@ To resolve this locally, you must run build commands with the following compatib
 
 ```bash
 # Set this environment variable when running 'npm run build' locally
-
 export NODE_OPTIONS=--openssl-legacy-provider
 ```
 
