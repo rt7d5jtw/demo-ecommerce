@@ -83,10 +83,10 @@ For **Node.js versions 17 and higher (v18, v20, etc.)**, you may encounter build
 To resolve this locally, you must run build commands with the following compatibility flag:
 
 ```bash
-
 # Set this environment variable when running 'npm run build' locally
 
 export NODE_OPTIONS=--openssl-legacy-provider
+```
 
 #### Quick Start for local deployment
 
