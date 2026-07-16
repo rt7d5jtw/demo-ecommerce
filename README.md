@@ -91,80 +91,42 @@ export NODE_OPTIONS=--openssl-legacy-provider
 #### Quick Start for local deployment
 
 ```console
-
 $ npm install
-
 $ npm run build
-
 $ npm --prefix ./client install
-
 $ npm --prefix ./client run build
-
 $ npm run start:prod
-
 ```
-
-
 
 ### Integration tests
 
-
-
 ```console
-
 $ npm run test
-
 ```
-
-
 
 ### End-to-end tests
 
-
-
 ```console
-
 $ npm run test:e2e
-
 ```
-
-
 
 #### Quickstart for deployment with frontend
 
-
-
 To deploy this application, install the packages first for the api with `npm install` and then for the client, `npm --prefix ./client run install` which install packages for the client, pointing to the `client/` directory (client is assumed to be in the directory). To build the api and the client you follow similar steps with `npm run build` to build the api and `npm --prefix ./client run build` to build the client. Run `npm run start:prod` to run the application in production, this serves the client from `client/dist/` and runs the api from `dist/`. Directory includes `.env` file template with predefined values that you can change on your own.
-
-
 
 Note for windows users: you might have to use `npm run --prefix <directory> --cwd <your path> <command>`
 
-
-
 #### Resources
-
-
 
 The `res/` directory has the schema for database and also data for testing and running the application.
 
-
-
 #### About
-
-
 
 Tested to work on Node v17.3.0 and v12.22.5 in Debian 11, 5.10.0-10-amd64 release of linux kernel.
 
-
-
 #### What is the client/ directory?
 
-
-
 It is directory for the client, you're meant to place the client there
-
-
 
 ### Docker deployment
 
