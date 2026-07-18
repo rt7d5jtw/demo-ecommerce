@@ -1,0 +1,17 @@
+{
+  "short_name": "chocstore",
+  "name": "Chocolate Store",
+  "icons": [
+    {
+      "src": "src/assets/chocolate-bar.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff",
+  "manifest_version": 2,
+  "version": "0.1"
+}

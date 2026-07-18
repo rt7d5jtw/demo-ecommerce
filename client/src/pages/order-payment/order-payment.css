@@ -1,0 +1,278 @@
+.order-payment {
+  display: grid;
+  justify-content: center;
+  height: 100vh;
+  background: #38242c;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.order-payment__wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 50vw;
+  align-items: center;
+  padding: 45px 25px;
+}
+
+.order-payment__wrapper form {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid black;
+  padding: 20px;
+  background-color: #fffffe;
+}
+
+.order-payment__wrapper form input {
+  padding: 10px;
+  margin: 1em 0.4em 1em 2em;
+}
+
+.order-payment__wrapper form input[type=radio] {
+  padding: 5px;
+  cursor: pointer;
+}
+
+.order-payment__wrapper form label {
+  font-size: 1.4em;
+  font-weight: bold;
+  cursor: pointer;
+  color: #5f6c7b;
+}
+
+.order-payment__wrapper input[type=submit] {
+  font-size: 1.2em;
+  padding: 1em;
+  margin: 1em;
+  width: 15em;
+  background: #3da9fc;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 500ms ease-in;
+}
+
+.order-payment__wrapper input[type=submit]:hover {
+  background: orange;
+}
+
+.order-payment__wrapper form legend {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.6em;
+  font-weight: 500;
+  padding: 1em;
+  color: #5f6c7b;
+}
+
+.order-payment__error-prompt p {
+  font-size: 1.3em;
+  padding: 1.5em;
+  color: #ef4565;
+}
+
+/* -- Stripe Wrapper -- */
+
+.payment-stripe {
+  position: relative;
+  border: 3px solid #6772e5;
+  background-color: white;
+  width: 70%;
+}
+
+.payment-stripe form {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 2rem;
+}
+
+.payment-stripe legend {
+  font-size: 1em;
+  font-weight: 600;
+}
+
+/* -- Stripe Elements Styling -- */
+
+.elements-style {
+  padding: .5em;
+  color: #6772e5;
+  border: 1px solid #6772e5;
+  width: inherit;
+}
+
+.FormRow {
+  border: 1px solid #6772e5;
+  padding: 10px;
+  border-radius: 6px;
+  width: inherit;
+}
+
+.payment-stripe button {
+  display: block;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.2em;
+  margin-top: 1em;
+  padding: .5em;
+  width: 100%;
+  color: white;
+  background-color: #6772e5;
+  cursor: pointer;
+}
+
+@media (max-width: 1350px) {
+  .payment-stripe {
+    width: 85%;
+  }
+}
+
+@media (max-width: 1280px) {
+  .payment-stripe {
+    width: 90%;
+  }
+}
+
+@media (max-width: 1205px) {
+  .payment-stripe {
+    width: 100%;
+  }
+}
+
+@media (max-width: 1100px) {
+  .order-payment__wrapper {
+    width: 65vw;
+    border: 1px solid white;
+  }
+  .payment-stripe {
+    width: 90%;
+  }
+}
+
+@media (max-width: 940px) {
+  .order-payment__wrapper {
+    width: 85vw;
+    border: 1px solid white;
+  }
+}
+
+@media (max-width: 720px) {
+  .order-payment__wrapper {
+    width: 95vw;
+    border: 1px solid white;
+  }
+  .payment-stripe {
+    width: 100%;
+  }
+}
+
+@media (max-width: 580px) {
+  .order-payment__wrapper {
+    width: 100vw;
+    border: 1px solid white;
+  }
+  .payment-stripe {
+    width: 100vw;
+  }
+}
+
+#stripe-notice {
+  position: absolute;
+  top: 3.5rem;
+  left: 50%;
+  transform: translate(-50%, 0);
+  color: white;
+}
+
+#stripe-testnums {
+  font-size: 1.2rem;
+  font-style: italic;
+  margin-left: 0.35rem;
+  margin-right: 0.35rem;
+  color: yellow;
+}
+
+
+/* ----------------------------------- */
+/* PAYMENT PROCESSOR FREE PAYMENT FORM */
+/* ----------------------------------- */
+
+.card-payment-form {
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 15px 25px rgba(0,0,0,.6);
+	border-radius: 10px;
+	width: 600px;
+	padding: 40px;
+  color: red;
+  border: 1px solid gray;
+}
+
+.card-payment-form h1 {
+  margin: 0 0 30px;
+  padding: 0;
+  color: white;
+  text-align: center;
+}
+
+.card-payment-form .card-payment-form__inputbox {
+  position: relative;
+}
+
+.card-payment-form .card-payment-form__inputbox input {
+  width: 100%;
+  padding: 15px 0;
+  font-size: 16px;
+  color: #f1eee6;
+  margin-bottom: 30px;
+  border: none;
+  border-bottom: 1px solid #f1eee6;
+  outline: none; 
+  background: transparent;
+}
+
+.card-payment-form .card-payment-form__inputbox label {
+	position: absolute;
+	top: 0;
+	left: 0;
+	padding: 10px 0;
+	font-size: 16px;
+	color: #f1eee6;
+	pointer-events: none;
+	transition: .5s;
+}
+
+.card-payment-form .card-payment-form__inputbox input:focus ~ label, .card-payment-form .card-payment-form__inputbox input:valid ~ label {
+  top: -20px;
+  left: 0px;
+  color: #03e9f4;
+  font-size: 12px;
+}
+
+.card-payment-form__lastinputs {
+  display: flex;
+  justify-content: space-between;
+}
+
+.card-payment-form__btn input {
+	background: #152032;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.card-payment-form__btn input:hover {
+  background: #263c60;
+}
+
+#btn2 {
+  margin: 1.5em 0;
+}

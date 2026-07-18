@@ -1,0 +1,26 @@
+.login {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #38242c;
+}
+
+.login a { text-decoration: none; }
+
+.register-link {
+  position: absolute;
+  top: 1em;
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.2em;
+  padding: .5rem;
+  color: beige;
+  margin: 1em 0em 0em 0em;
+  cursor: pointer;
+  transition: all .5s
+}
+
+.register-link:hover {
+  color: beige;
+}

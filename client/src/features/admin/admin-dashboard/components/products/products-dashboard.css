@@ -1,0 +1,129 @@
+.admin-products {
+  display: flex;
+  flex-direction: column;
+  font-family: 'Montserrat', sans-serif;
+  position: relative;
+  overflow-y: scroll;
+  background: #eaddcf;
+}
+
+.admin-products__options {
+  position: relative;
+  display: flex;
+  font-size: 1.2rem;
+}
+
+.admin-products__options >* {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.admin-products__options >*:nth-child(2) label {
+  margin-left: .5rem;
+}
+
+.admin-products__options >*:nth-child(3) input {
+  padding: .5rem 1rem;
+  border: none;
+  border-radius: 6px;
+  margin: 0;
+}
+
+.admin-products__options >*:nth-last-child(2) a {
+  padding: .5rem;
+}
+
+.admin-products table {
+    border-collapse: collapse;
+    border: 2px solid #8c7851;
+    letter-spacing: 1px;
+    font-family: sans-serif;
+    font-size: .8rem;
+    width: 100%;
+}
+
+.admin-products thead,
+.admin-products tfoot {
+    background-color: #8c7851;
+    color: #fff;
+}
+
+.admin-products tbody {
+    background-color: #faeee7;
+}
+
+.admin-products td,
+.admin-products th {
+    border: 1px solid #020826;
+    padding: 5px 10px;
+}
+
+.admin-products td {
+  font-size: 1.2em;
+  font-weight: 400;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.admin-products th img {
+  height: 150px;
+  width: 150px;
+}
+
+.admin-products #cat-row {
+  font-size: .8rem;
+  width: 25px;
+}
+
+.admin-products #delete-row {
+  padding: .5rem;
+  color: #131313;
+  background: transparent;
+  cursor: pointer;
+  border: none;
+  transition: all .5s;
+}
+
+.admin-products #delete-row:hover {
+  color: red;
+} 
+
+.admin-products #new-product {
+  border: 1px solid #131313;
+  border-radius: 4px;
+  color: #131313;
+}
+
+.admin-products #products-selected {
+  font-size: 1em;
+  position: absolute;
+  top: .1em;
+  right: 17.5em;
+  color: #fffffe;
+  background: #131313;
+  padding: 1rem 1.2rem;
+}
+
+.admin-products #change-page {
+  display: flex;
+  justify-content: center;
+  padding: .5rem;
+  font-size: 1.2em;
+  position: absolute;
+  top: .5em;
+  right: 2em;
+  border: 1px solid black;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all .5s;
+}
+
+.admin-products #change-page:hover {
+  background: #676767;
+}
+
+.admin-products .new-product:hover {
+  background: white;
+}

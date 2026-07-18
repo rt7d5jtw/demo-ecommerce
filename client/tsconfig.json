@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "es2020",
+    "moduleResolution": "node",
+    "lib": ["dom","dom.iterable","es2020","scripthost"],
+    "jsx": "react",
+    "allowJs": true,
+    "sourceMap": true,
+    "removeComments": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "allowSyntheticDefaultImports": true,
+    "declaration": true,
+    "noEmit": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "rootDir": "src",
+    "outDir": "./dist",
+    "types": ["cypress"],
+    "typeRoots": ["src/"]
+  },
+  "include": ["./src/**/*"],
+  "exclude": ["node_modules", "**/*.test.ts", "**/*.spec.ts"]
+}

@@ -1,0 +1,28 @@
+.creator-overview {
+  display: grid;
+  height: 100%;
+  width: 100%;
+}
+
+.info-box {
+  display: flex;
+  background-size: cover;
+  background-position: center;
+  height: 100%;
+  width: 100%;
+  justify-content: center;
+}
+
+#creator-welcome {
+  position: absolute;
+  top: 5em;
+  font-size: 2.9em;
+  color: #fef6e4;
+}
+
+#creator-text {
+  position: absolute;
+  color: #fef6e4;
+  top: 10.5em;
+  font-size: 2em;
+}

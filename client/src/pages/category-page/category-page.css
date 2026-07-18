@@ -1,0 +1,44 @@
+.category-page {
+  background: #38242c;
+  min-height: 100vh;
+  padding-top: 50px;
+  padding-top: 80px;
+}
+
+.category-page >*:first-child {
+  height: 50px;
+  padding-top: .5rem;
+  padding-left: 5.5rem;
+  background: transparent;
+}
+
+.category-page__products {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.category-page__title {
+  font-size: 2em;
+  font-weight: 400;
+  font-family: 'Rubik', sans-serif;
+  display: flex;
+  color: white;
+}
+
+.category-page p:first-letter {
+  text-transform: capitalize;
+}
+
+/* If you're wondering why there is a p tag inside h1 tags its because css wont let me capitalize the first letter if its just a bare p element for some reason and also h1 offers nice preset for category title */
+
+#render-mark {
+  border-top: 1px solid transparent;
+  width: 85%;
+}
+
+@media (max-width: 500px) {
+  .category-page__title {
+    font-size: 1.5em;
+  }
+}

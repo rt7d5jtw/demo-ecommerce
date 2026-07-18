@@ -1,0 +1,12 @@
+node_modules/
+.npm
+npm-debug.log*
+.env.*
+.env.test
+.env*.local
+dist/
+dist
+build
+build/
+.env
+src/assets/*

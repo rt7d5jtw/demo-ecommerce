@@ -1,0 +1,51 @@
+.admin-create__categories {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.admin-create__header #back-to-products {
+  position: absolute;
+  left: 4.5em;
+  top: .5em;
+  font-family: 'Montserrat';
+  font-size: 1.4em;
+  color: #131313;
+  cursor: pointer;
+  transition: all .5s;
+}
+
+.admin-create__categories #category__header {
+  font-family: 'Montserrat';
+  position: absolute;
+  font-size: 1.8em;
+  top: .5em;
+  left: 22em;
+}
+
+.admin-create__categories form {
+  font-size: 1.1em;
+  background: transparent;
+  overflow: hidden;
+}
+
+.admin-create__categories form label {
+  font-size: 1.1em;
+  font-weight: 400;
+  color: #131313;
+}
+
+.admin-create__categories form button[type=submit] {
+  background: gray;
+  color: white;
+  width: 79%;
+}
+
+.admin-create__categories form button[type=submit]:hover {
+  background: skyblue;
+}
+
+.admin-create__categories form input[type=text] {
+  width: 79%;
+}

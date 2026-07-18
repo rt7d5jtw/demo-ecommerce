@@ -1,0 +1,26 @@
+.logo {
+  position: relative;
+  display: grid;
+  cursor: pointer;
+  height: 100%;
+  transition: 1s;
+}
+
+.logo:hover {
+  filter: brightness(1.2);
+}
+
+.logo h1 {
+  font-family: 'MonteCarlo', cursive;
+  display: grid;
+  font-size: 4em;
+  color: #c3b091;
+}
+
+.logo a { text-decoration: none;; }
+
+@media (max-width: 380px) {
+  .logo h1 {
+    font-size: 3rem;
+  }
+}

@@ -1,0 +1,36 @@
+.promotions-preview {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 65vh;
+  width: 100%;
+  z-index: 2;
+  background: transparent;
+}
+
+.promotions-preview__main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 85%;
+  width: 85%;
+}
+
+@media (max-width: 1150px) {
+  .promotions-preview__main {
+    width: 95%;
+  }
+}
+
+@media (max-width: 670px) {
+  .promotions-preview {
+    overflow-y: scroll;
+  }
+  .promotions-preview__main {
+    height: 95%;
+    width: 100%;
+    justify-content: unset;
+    align-items: normal;
+    flex-direction: column;
+  }
+}
