@@ -54,6 +54,10 @@ async function bootstrap() {
     optionsSuccessStatus: 204
   });
 
-  await app.listen(process.env.PORT, process.env.HOST);
+  // Provide fallbacks to ensure it binds correctly for Docker
+  const port = process.env.PORT || 3000;
+  const host = process.env.HOST || '127.0.0.1';
+  await app.listen(port, host);
+  logger.log(`Application is actively listening on http://${host}:${port}`);
 }
 bootstrap();

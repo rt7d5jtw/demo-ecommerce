@@ -3,7 +3,7 @@
 # ------------------------------------------------------------------------------
 IMAGE_NAME := ecommerce-demo
 TAG        := 1.0
-BASE_IMAGE := node:16.15.1-alpine3.15
+BASE_IMAGE := node:18-alpine
 DB_OWNER   := postgres # Database owner for local psql commands
 
 all: local logs
@@ -55,11 +55,16 @@ rmimg:
 # ------------------------------------------------------------------------------
 # DATABASE (LOCAL PSQL/HELPER COMMANDS)
 # ------------------------------------------------------------------------------
-.PHONY: createdb cleandb dump
+.PHONY: setup-local cleandb dump
 
-# Creates the 'bookstore' database locally via psql
-createdb:
-	sudo -u postgres psql -c 'create database bookstore owner $(DB_OWNER)'
+# Configures the local database for the first time (run this once!)
+setup-local:
+	@echo "Ensuring postgres user has the correct password..."
+	sudo -u postgres psql -c "ALTER USER postgres WITH PASSWORD 'postgres';"
+	@echo "Creating bookstore database..."
+	-sudo -u postgres psql -c 'create database bookstore owner $(DB_OWNER)'
+	@echo "Importing initial data..."
+	sudo -u postgres psql bookstore < server/res/data.sql
 
 # Drops and recreates the public schema in 'bookstore'
 cleandb:
@@ -67,12 +72,16 @@ cleandb:
 
 # Imports initial data from res/data.sql into the 'bookstore' database
 dump:
-	sudo -u postgres psql bookstore < res/data.sql
-
+	sudo -u postgres psql bookstore < server/res/data.sql
 # ------------------------------------------------------------------------------
 # TESTING & UTILITIES
 # ------------------------------------------------------------------------------
 .PHONY: test e2e test-client term clean
+
+# # Starts both frontend and backend dev servers
+run-local:
+	@echo "Starting local development servers..."
+	@npm --prefix server run start:dev & npm --prefix client run dev
 
 # Executes API unit/integration tests inside the running container
 test:
@@ -82,10 +91,6 @@ test:
 e2e:
 	docker-compose exec api npm run test:e2e
 
-# Executes client tests inside the running container
-test-client:
-	docker-compose exec api npm --prefix ./client run test
-
 # Terminates all currently running node.js runtime processes on the host
 term:
 	$(eval NODE_PID := $(shell pgrep node))
@@ -93,6 +98,6 @@ term:
 
 # Cleans up unused Docker resources and custom shell cleanup
 clean:
-	sh res/clean.sh
+	sh server/res/clean.sh
 	docker-compose down -v --rmi local # Stops containers, removes volumes, and local images
 	docker system prune -f

@@ -19,15 +19,16 @@ While the project may still install with newer versions (v18, v20, etc.), you ma
 
 ## Quick Start
 
-To build the client for production:
+Setup the program using Docker:
 ```console
-$ git clone git@github.com:rt7d5jtw/demo-ecommerce.git
-$ nvm use
+$ git clone git@github.com:rt7d5jtw/demo-ecommerce.git && cd demo-ecommerce
+$ docker compose up --build
 ```
 
-To run the client on development mode:
+Setup the program locally:
 ```console
-$ npm run dev
+$ git clone git@github.com:rt7d5jtw/demo-ecommerce.git && cd demo-ecommerce
+$ make database
 ```
 
 ## Client Preview

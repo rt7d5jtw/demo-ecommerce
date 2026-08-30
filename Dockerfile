@@ -23,7 +23,7 @@ WORKDIR /build/server
 
 COPY server/package*.json ./
 COPY server/tsconfig*.json ./
-COPY server/.env ./
+COPY .env* ./
 
 RUN npm install
 
@@ -41,7 +41,7 @@ WORKDIR /app
 # Copy server files into the container's root working directory
 COPY --from=server_builder /build/server/dist ./dist
 COPY --from=server_builder /build/server/node_modules ./node_modules
-COPY --from=server_builder /build/server/.env ./.env
+COPY --from=server_builder /build/server/.env* ./
 COPY --from=server_builder /build/server/res ./res
 COPY --from=server_builder /build/server/tsconfig*.json ./
 COPY --from=server_builder /build/server/src ./src
@@ -62,7 +62,7 @@ WORKDIR /app
 # Copy server artifacts
 COPY --from=server_builder /build/server/dist ./dist
 COPY --from=server_builder /build/server/node_modules ./node_modules
-COPY --from=server_builder /build/server/.env ./.env
+COPY --from=server_builder /build/server/.env* ./
 COPY --from=server_builder /build/server/res ./res
 COPY --from=server_builder /build/server/package.json ./
 

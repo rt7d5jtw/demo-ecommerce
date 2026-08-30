@@ -32,11 +32,11 @@ import { Cart } from './cart/cart.entity';
       imports: [ConfigModule.forRoot({ isGlobal: true, envFilePath: '/.env' })],
       useFactory: (configService: ConfigService) => ({
         type: 'postgres',
-        host: configService.getOrThrow('DB_HOST'),
-        port: configService.getOrThrow('DB_PORT'),
-        username: configService.getOrThrow('DB_USER'),
-        password: configService.getOrThrow('DB_PASS'),
-        database: configService.getOrThrow('DATABASE'),
+        host: configService.get<string>('DB_HOST', '127.0.0.1'),
+        port: configService.get<number>('DB_PORT', 5432),
+        username: configService.get<string>('DB_USER', 'postgres'),
+        password: configService.get<string>('DB_PASS', 'postgres'),
+        database: configService.get<string>('DATABASE', 'postgres'),
         entities: [
           User,
           Cart,
@@ -47,7 +47,7 @@ import { Cart } from './cart/cart.entity';
           Product,
           Promotion
         ],
-        synchronize: false
+        synchronize: true
       }),
       inject: [ConfigService]
     }),
