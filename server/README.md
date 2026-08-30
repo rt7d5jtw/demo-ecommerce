@@ -6,6 +6,21 @@ REST API built with NestJS 8.4.1 and TypeScript 4.7.4 for the [ecommerce-demo](h
 
 ---
 
+### ⚠️ Node.js Compatibility Note
+
+This project was developed and tested primarily on **Node.js v17.3.0**.
+
+For **Node.js versions 17 and higher (v18, v20, etc.)**, you may encounter build errors (`ERR_OSSL_EVP_UNSUPPORTED`) due to the adoption of OpenSSL 3.0, which deprecates older cryptographic algorithms used by some dependencies (like Webpack).
+
+To resolve this locally, you must run build commands with the following compatibility flag:
+
+```bash
+# Set this environment variable when running 'npm run build' locally
+export NODE_OPTIONS=--openssl-legacy-provider
+```
+
+---
+
 ## Easiest Way to Run: Docker Deployment
 
 The recommended and simplest way to run this application, including the API, client, and the necessary PostgreSQL database, is using docker compose.
@@ -42,28 +57,6 @@ After successfully building the images, you can start the full environment:
 ```console
 $ docker-compose up -d
 ```
-
-## 🐳 Docker Build Targets & Client Dependency (IMPORTANT)
-
-This repository uses a **multi-stage Dockerfile** (`Dockerfile`) with two distinct build targets to manage the server (API) and the client (React) application:
-
-| Target | Command | Purpose | Client Code Required? |
-| :--- | :--- | :--- | :--- |
-| **`dev`** | `docker build --target dev .` | **API-Only Build.** Ideal for development and debugging. | **NO.** Skips client build entirely. |
-| **`prod`** | `docker build --target prod .` | **Full Monolith Build.** Includes compiled API and client files. | **YES.** Requires a local client directory. |
-
-### ⚠️ Client Dependency Warning
-
-The `prod` build target requires the React client source code to be present in a local directory named `./client/`.
-If you are using this repository for production deployment, you must first clone the client repository (or ensure it is available as a submodule/local directory) at the path `./client/` relative to the root of this repository:
-
-```bash
-# Clone the client repository into the expected 'client' directory
-git clone https://github.com/rt7d5jtw/demo-ecommerce.git client
-```
-
----
-
 #### Built With
 
 * Tested on node 17.3.0 and npm 8.4.1
@@ -73,19 +66,6 @@ git clone https://github.com/rt7d5jtw/demo-ecommerce.git client
 * [PostgreSQL](https://github.com/postgres/postgres) v14.0
 
 ---
-
-### ⚠️ Node.js Compatibility Note
-
-This project was developed and tested primarily on **Node.js v17.3.0**.
-
-For **Node.js versions 17 and higher (v18, v20, etc.)**, you may encounter build errors (`ERR_OSSL_EVP_UNSUPPORTED`) due to the adoption of OpenSSL 3.0, which deprecates older cryptographic algorithms used by some dependencies (like Webpack).
-
-To resolve this locally, you must run build commands with the following compatibility flag:
-
-```bash
-# Set this environment variable when running 'npm run build' locally
-export NODE_OPTIONS=--openssl-legacy-provider
-```
 
 #### Quick Start for local deployment
 
