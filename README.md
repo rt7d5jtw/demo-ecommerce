@@ -25,7 +25,7 @@ $ git clone git@github.com:rt7d5jtw/demo-ecommerce.git && cd demo-ecommerce
 $ docker compose up --build
 ```
 
-Setup the program locally:
+Setup the program locally (NOT RECOMMENDED!):
 ```console
 $ git clone git@github.com:rt7d5jtw/demo-ecommerce.git && cd demo-ecommerce
 $ sudo systemctl start postgres
