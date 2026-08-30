@@ -2,7 +2,7 @@
   <img src="https://i.imgur.com/SWs77TE.png" width="625" alt="front page" />
 </p>
 
-## Ecommerce Demo Client (React 17, Redux 4)
+## Ecommerce Demo (React 17, Redux 4 and NestJS)
 
 ## ⚠️  Node.js Version Warning
 
