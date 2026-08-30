@@ -31,6 +31,6 @@ $ npm run dev
 
 ## Client Preview
 
-![Demo of the client in action](./src/assets/preview.gif)
+![Demo of the client in action](./client/src/assets/preview.gif)
 
 ---
