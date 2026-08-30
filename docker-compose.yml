@@ -1,12 +1,11 @@
-version: '3'
-
 services:
-  # Database for the api
+  # Database for the API
   postgres:
     image: postgres:14.1
+    # Note: Volume paths updated to point inside the server/ subdirectory
     volumes:
-      - ./res/docker_mounts/:/var/lib/postgres/data
-      - ./res/data.sql/:/docker-entrypoint-initdb.d/init.sql
+      - ./server/res/docker_mounts/:/var/lib/postgres/data
+      - ./server/res/data.sql/:/docker-entrypoint-initdb.d/init.sql
     ports:
       - "5432:5432"
     env_file:
@@ -17,13 +16,15 @@ services:
       timeout: 5s
       retries: 5
 
-  # The api, includes the API and Client
+  # The main application (Includes API and Client served via NestJS)
   api:
     image: ecommerce-demo:1.0
-    #build:
-    #  context: .
-    #  dockerfile: Dockerfile
-    env_file: .env
+    # Context updated to root (.) so it can access both client/ and server/
+    build:
+      context: .
+      target: dev # Switch to 'prod' for the production build stage
+    env_file:
+      - .env
     environment:
         DB_HOST: postgres
         DB_PORT: 5432
@@ -32,4 +33,6 @@ services:
     ports:
       - "3000:3000"
     depends_on:
-      - postgres
+      postgres:
+        # Delays API startup until Postgres is fully ready to accept connections
+        condition: service_healthy

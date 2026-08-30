@@ -13,6 +13,12 @@ all: local logs
 # ------------------------------------------------------------------------------
 .PHONY: build pull local api database logs rmimg
 
+install:
+	@echo "Installing server dependencies locally..."
+	npm install --prefix server
+	@echo "Installing client dependencies locally..."
+	npm install --prefix client
+
 # Builds the Docker image locally
 build:
 	docker build --progress=plain -t $(IMAGE_NAME):$(TAG) --target prod .
