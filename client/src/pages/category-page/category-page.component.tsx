@@ -46,18 +46,14 @@ function CategoryPage({ categories, products }: ICategoryPage): JSX.Element {
       ? { cname: 'shopall', id: '' }
       : categories.find(({ cname }: ICategory) => cname === category);
 
+  // Data fetching
   React.useEffect(() => {
-    categories.length === 0
-      ? dispatch(fetchCategories())
-      : products.length === 0
-      ? dispatch(fetchProducts())
-      : null;
-  }, [dispatch]);
+    if (categories.length === 0) { dispatch(fetchCategories()); }
+    if (products.length === 0)   { dispatch(fetchProducts());   }
+  }, [dispatch, categories.length, products.length]);
 
   if (products.length === 0 || categories.length === 0) {
-    dispatch(fetchCategories());
-    dispatch(fetchProducts());
-    return <p>Loading...</p>;
+    return <p className="loading-spinner">Loading...</p>;
   }
 
   const productsRef = React.useRef<HTMLDivElement>(null);

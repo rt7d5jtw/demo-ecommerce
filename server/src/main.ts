@@ -22,7 +22,7 @@ async function bootstrap() {
   //  cert: fs.readFileSync(`${process.env.CERT}`)
   //};
 
-  AppDataSource.initialize().catch((err) => console.error(err));
+  AppDataSource.initialize().catch((err) => console.error("Error initializing AppDataSource", err));
   const app = await NestFactory.create(AppModule, {
     //httpsOptions
   });

@@ -39,11 +39,12 @@ function Homepage(): JSX.Element {
 
   /* selectors */
   const accessToken = useSelector(selectAccessToken);
-  const loggedIn = useSelector(selectLoggedIn);
-  const categories = useSelector(selectCategories);
-  const products = useSelector(selectItems);
-  const promotions = useSelector(selectPromotionItems);
+  const loggedIn    = useSelector(selectLoggedIn);
+  const categories  = useSelector(selectCategories);
+  const products    = useSelector(selectItems);
+  const promotions  = useSelector(selectPromotionItems);
 
+  // Notification
   React.useEffect(() => {
     if (localStorage.getItem('notif-home') !== 'visited') {
       dispatch(homeGuestNotification({ timeout: 10000 }));
@@ -51,17 +52,19 @@ function Homepage(): JSX.Element {
     }
   }, [dispatch]);
 
-  categories.length === 0
-    ? dispatch(fetchCategories())
-    : products.length === 0
-    ? dispatch(fetchProducts())
-    : promotions.length === 0
-    ? dispatch(fetchPromotions())
-    : null;
+  // Data fetching
+  React.useEffect(() => {
+    if (categories.length === 0) { dispatch(fetchCategories()) }
+    if (products.length === 0)   { dispatch(fetchProducts()) }
+    if (promotions.length === 0) { dispatch(fetchPromotions()) }
+  }, [dispatch, categories.length, products.length, promotions.length]);
 
-  if (accessToken === null && loggedIn === true) {
-    dispatch(logout());
-  }
+  React.useEffect(() => {
+    if (accessToken === null && loggedIn === true) {
+      dispatch(logout());
+    }
+  }, [accessToken, loggedIn, dispatch]);
+
   return (
     <div className='homepage'>
       <Navbar />

@@ -62,7 +62,7 @@ setup-local:
 	@echo "Ensuring postgres user has the correct password..."
 	sudo -u postgres psql -c "ALTER USER postgres WITH PASSWORD 'postgres';"
 	@echo "Creating bookstore database..."
-	-sudo -u postgres psql -c 'create database bookstore owner $(DB_OWNER)'
+	sudo -u postgres psql -c 'create database bookstore owner $(DB_OWNER)'
 	@echo "Importing initial data..."
 	sudo -u postgres psql bookstore < server/res/data.sql
 
@@ -73,6 +73,10 @@ cleandb:
 # Imports initial data from res/data.sql into the 'bookstore' database
 dump:
 	sudo -u postgres psql bookstore < server/res/data.sql
+
+test-db:
+	PGPASSWORD='postgres' psql -h 127.0.0.1 -p 5432 -U postgres -d bookstore -c "SELECT 'Connection successful!' AS status;"
+
 # ------------------------------------------------------------------------------
 # TESTING & UTILITIES
 # ------------------------------------------------------------------------------
