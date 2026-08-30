@@ -21,7 +21,8 @@ While the project may still install with newer versions (v18, v20, etc.), you ma
 
 To build the client for production:
 ```console
-$ npm run build
+$ git clone git@github.com:rt7d5jtw/demo-ecommerce.git
+$ nvm use
 ```
 
 To run the client on development mode:
